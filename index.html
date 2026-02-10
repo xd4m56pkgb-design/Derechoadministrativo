@@ -189,7 +189,11 @@
       margin-top: 10px;
     }
     @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 640px){ .toolbar{ grid-template-columns: 1fr; } .chips{ justify-content:flex-start; } .grid{ grid-template-columns: 1fr; } }
+    @media (max-width: 640px){
+      .toolbar{ grid-template-columns: 1fr; }
+      .chips{ justify-content:flex-start; }
+      .grid{ grid-template-columns: 1fr; }
+    }
 
     .card{
       background: var(--panel);
@@ -208,7 +212,6 @@
       width: 160px;
       height: 160px;
       background: radial-gradient(circle at 30% 30%, rgba(96,165,250,.35), transparent 60%);
-      filter: blur(0px);
       pointer-events:none;
     }
 
@@ -379,12 +382,12 @@
 
   <script>
     // =========================
-    // Config rápida
+    // Config
     // =========================
     const DATA_URL = "./temas.json"; // mismo directorio
     const LS_KEY = "da_temas_progress_v1";
 
-    // Progreso por tema: { [idTema]: { done: number, total: number, last: string } }
+    // Progreso por tema: { [idTema]: { done: number, total: number, last: string, lastTs:number } }
     function loadProgress(){
       try { return JSON.parse(localStorage.getItem(LS_KEY) || "{}"); }
       catch { return {}; }
@@ -413,11 +416,15 @@
     }
 
     function norm(s){
-      return (s || "").toString().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"");
+      return (s || "")
+        .toString()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu,"");
     }
 
     // =========================
-    // UI
+    // UI refs
     // =========================
     const grid = document.getElementById("grid");
     const empty = document.getElementById("empty");
@@ -454,6 +461,15 @@
       });
     }
 
+    function escapeHTML(str){
+      return (str ?? "").toString()
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
     function cardHTML(t){
       const p = PROG[t.id] || {};
       const total = Number(p.total ?? t.totalPreguntas ?? 0);
@@ -466,7 +482,6 @@
       const tags = (t.tags || []).slice(0, 4).map(x => `<span class="tag">${escapeHTML(x)}</span>`).join("");
       const file = t.file;
 
-      // Botón "Continuar": si guardaste last, abre con #last (para que el tema lo use si quiere)
       const last = (p.last || "").trim();
       const contHref = last ? `${file}#${encodeURIComponent(last)}` : file;
 
@@ -489,7 +504,7 @@
           </div>
           <div class="barLine">
             <span>${label}</span>
-            <span>${t.file}</span>
+            <span>${escapeHTML(file)}</span>
           </div>
 
           <div class="actions">
@@ -500,24 +515,12 @@
       `;
     }
 
-    function escapeHTML(str){
-      return (str ?? "").toString()
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
     function render(){
       const query = norm(q.value);
       const filtered = TEMAS.filter(t => {
         const tagOk = (ACTIVE_TAG === "Todos") || (t.tags || []).includes(ACTIVE_TAG);
-
         if (!tagOk) return false;
-
         if (!query) return true;
-
         const hay = norm(`${t.id} ${t.titulo} ${(t.tags || []).join(" ")} ${t.bloque || ""} ${t.file || ""}`);
         return hay.includes(query);
       });
@@ -525,10 +528,8 @@
       grid.innerHTML = filtered.map(cardHTML).join("");
       empty.style.display = filtered.length ? "none" : "block";
 
-      // progreso global
       globalProgressEl.textContent = computeGlobal(TEMAS, PROG) + "%";
 
-      // Continuar global: abre el último tema que tenga "last"
       const last = findLastVisited(TEMAS, PROG);
       openLastBtn.disabled = !last;
       openLastBtn.style.opacity = last ? "1" : ".55";
@@ -536,7 +537,6 @@
     }
 
     function findLastVisited(temas, prog){
-      // Buscamos el tema con un "lastTs" más reciente. Si no existe, null.
       let best = null;
       for (const t of temas){
         const p = prog[t.id];
@@ -548,9 +548,6 @@
       return best;
     }
 
-    // =========================
-    // Acciones globales
-    // =========================
     openLastBtn.addEventListener("click", () => {
       const last = findLastVisited(TEMAS, PROG);
       if (!last) return;
@@ -568,7 +565,7 @@
     q.addEventListener("input", () => render());
 
     // =========================
-    // Carga datos
+    // Carga temas.json
     // =========================
     (async function init(){
       try{
@@ -576,11 +573,11 @@
         if (!res.ok) throw new Error("No se pudo cargar temas.json");
         const data = await res.json();
 
-        // Normalizamos: exige {id, titulo, file, tags?, bloque?, totalPreguntas?}
+        // Acepta: {id, titulo, archivo} o {id, titulo, file}
         TEMAS = (Array.isArray(data) ? data : []).map(x => ({
           id: String(x.id),
           titulo: String(x.titulo || x.title || `Tema ${x.id}`),
-          file: String(x.file || ""),
+          file: String(x.file || x.archivo || ""),   // 👈 clave: soporta "archivo"
           tags: Array.isArray(x.tags) ? x.tags.map(String) : [],
           bloque: x.bloque ? String(x.bloque) : "",
           totalPreguntas: Number(x.totalPreguntas ?? 0)
