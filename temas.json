@@ -1,0 +1,27 @@
+// temas.json
+[
+  {
+    "id": "1",
+    "titulo": "Concepto (Introducción + concepción estatutaria + criterios materiales/funcionales + parte general)",
+    "file": "Tema1.html",
+    "bloque": "Tema 1",
+    "tags": ["Concepto", "Administración", "Criterios", "Parte general"],
+    "totalPreguntas": 120
+  },
+  {
+    "id": "2",
+    "titulo": "Bases (Constitución + UE + europeización)",
+    "file": "Tema2.html",
+    "bloque": "Tema 2",
+    "tags": ["Constitución", "UE", "Primacía", "Efecto directo"],
+    "totalPreguntas": 140
+  },
+  {
+    "id": "3",
+    "titulo": "Derecho privado y Administración (dualidad, elección de régimen y límites)",
+    "file": "Tema3.html",
+    "bloque": "Tema 3",
+    "tags": ["Derecho privado", "Huida", "Potestades", "Límites"],
+    "totalPreguntas": 110
+  }
+]
