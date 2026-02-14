@@ -1,0 +1,2660 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:hidden;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:flex-start;   /* 🔧 no space-between */
+}
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1 1 auto;                /* 🔧 ocupa el ancho */
+}
+.sumTitle{
+  min-width:0;
+  white-space:normal;           /* 🔧 permite saltos */
+  overflow:visible;             /* 🔧 no recorta */
+  text-overflow:clip;           /* 🔧 no pone … */
+  word-break:break-word;
+  line-height:1.25;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{ margin:0 0 10px; line-height:1.6; white-space:pre-wrap }
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 4 – Derecho Administrativo</h1>
+  <div class="small"> LAS OTRAS NORMAS CON VALOR REGLAMENTARIO, by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+1. LAS OTRAS NORMAS CON VALOR REGLAMENTARIO.
+1.1. Introducción.
+La doctrina del Derecho administrativo se construyó sobre categorías elaboradas en los siglos
+XVIII y XIX, especialmente en torno a la ley y al principio de legalidad, tomando como modelo las
+Administraciones estatales. Ello provocó que otras formas de poder y administración quedaran
+teóricamente subordinadas a esquemas pensados para el Estado, obligándolas a adaptarse a
+conceptos ajenos o, incluso, siendo ignoradas cuando no encajaban en ese modelo. Esta
+insuficiencia se manifiesta con claridad en la teoría general del reglamento, concebida desde la
+relación ley-reglamento propia del binomio Parlamento-Gobierno.
+La creación de las Comunidades Autónomas permitió proyectar con relativa facilidad ese
+esquema, pues también reproducen la dialéctica entre potestad legislativa y potestad
+reglamentaria, atribuida al Gobierno conforme al art. 97 CE y a los estatutos de autonomía. Sin
+embargo, el ordenamiento jurídico no se agota en ese binomio. Existen otras entidades públicas
+que dictan normas sin rango legal y, por tanto, con valor reglamentario, pero que no se ajustan
+plenamente al esquema clásico.
+Estas normas comparten con el reglamento el rango normativo, el régimen de invalidez y las
+modalidades de control, aunque difieren en su procedimiento de elaboración, en su función y en
+su relación con la ley. Así, la norma local puede dictarse “de acuerdo con la ley” o “sin oponerse a
+la ley”, mientras que la norma foral puede dictarse “de acuerdo con la ley” e incluso “en lugar de
+la ley”, con sujeción directa a la Constitución y al estatuto de autonomía, lo que implica un
+régimen de control distinto.
+La distinción clásica entre potestad legislativa y reglamentaria responde a la división de poderes
+en un mismo ordenamiento, mientras que la autonomía local, foral o universitaria y la
+independencia funcional de ciertos entes obedecen a la distribución territorial del poder, a la
+autoadministración o a la descentralización instrumental, generando ordenamientos propios
+integrados en la unidad del ordenamiento jurídico. Por ello, categorías como reglamento ejecutivo
+o independiente no resultan necesariamente determinantes fuera del ámbito estatal.
+Ante las insuficiencias del esquema tradicional, se propone utilizar la expresión “norma con valor
+reglamentario” como categoría genérica que englobe todas aquellas normas carentes de rango
+legal. Dentro de ella se distinguen diversas modalidades: reglamentos y disposiciones
+administrativas, ordenanzas locales, normas forales, estatutos de corporaciones de derecho
+público y normas de autoridades administrativas independientes, atendiendo tanto a la potestad
+normativa ejercida como a su relación con la ley.
+2. LAS ORDENANZAS LOCALES.
+2.1. La potestad normativa local: fundamento y ejercicio.
+La potestad normativa local encuentra su fundamento en la autonomía local reconocida por los
+arts. 137, 140 y 141 CE a municipios, provincias e islas para la gestión de sus respectivos
+intereses. La LBRL confirma esta potestad en el ámbito de sus competencias. Otras entidades
+locales pueden ejercer potestad normativa si así lo prevén los estatutos de autonomía, pues su
+autonomía no está constitucionalmente garantizada, sino que depende del legislador autonómico.
+Las mancomunidades también pueden tener potestad reglamentaria cuando sea necesaria para
+el cumplimiento de sus fines.
+La autonomía implica capacidad para dictar normas y configurar un ordenamiento propio. La
+cuestión no es si existe potestad normativa, sino sobre qué materias se proyecta y cuál es su
+alcance. La Constitución garantiza la autonomía local, pero corresponde al legislador estatal y
+autonómico concretar su contenido, respetando esa garantía. La autonomía exige un ámbito
+propio de decisión y gestión, no mera ejecución de decisiones ajenas.
+La potestad normativa corresponde al pleno municipal o al pleno de la diputación provincial.
+Según su objeto, las normas reciben distintas denominaciones: reglamentos orgánicos,
+ordenanzas, planes urbanísticos y presupuestos. Los bandos de los alcaldes, mayoritariamente
+considerados no normativos, han reabierto el debate sobre su naturaleza jurídica tras su uso
+durante la pandemia.
+El procedimiento de elaboración de las ordenanzas comprende tres fases: 1) aprobación inicial
+por el pleno 2) información pública y audiencia durante un mínimo de treinta días 3) resolución de
+reclamaciones y aprobación definitiva. Si no se presentan reclamaciones, el acuerdo provisional
+queda definitivamente adoptado.
+Las ordenanzas y el articulado de los planes urbanísticos deben publicarse íntegramente en el
+Boletín Oficial de la Provincia y comunicarse a la Administración competente. Entran en vigor a
+los quince días hábiles desde la recepción de la comunicación. En cambio, presupuestos y
+ordenanzas fiscales entran en vigor inmediatamente tras su publicación íntegra conforme a la
+LHL. Además, las entidades locales deben facilitar copia del planeamiento vigente a quienes lo
+soliciten.
+2.2. La relación con la ley.
+2.2.1. La garantía constitucional de la autonomía local constituye un límite para el legislador.
+El constituyente no predeterminó el contenido concreto de la autonomía local, lo que otorga al
+legislador estatal y autonómico amplia libertad de configuración mediante la legislación de
+régimen local y la sectorial. Sin embargo, esa libertad tiene un límite: el respeto a la garantía
+constitucional de la autonomía local. A diferencia de los derechos fundamentales, cuyo contenido
+está parcialmente definido por la Constitución, la autonomía local carece de un contenido
+constitucional detallado, más allá de la exigencia de un ámbito propio de decisión.
+La intervención legislativa es imprescindible para concretar la autonomía local, pero una ley que
+la vulnere sería inconstitucional y podría ser anulada por el Tribunal Constitucional, ya sea
+mediante recurso de inconstitucionalidad o a través del conflicto en defensa de la autonomía
+local.
+2.2.2. La ley constituye un límite para la norma local.
+La ley delimita el contenido posible de la norma local y esta no puede contener preceptos
+contrarios a ella. El art. 55 TRRL establece que las ordenanzas no podrán contener disposiciones
+opuestas a las leyes, expresión que ha generado interpretaciones diversas. Algunos han
+entendido que consagra una “vinculación negativa”, según la cual la ley actúa como límite pero
+no como marco cerrado, dejando margen de configuración en lo no regulado.
+Sin embargo, esta noción resulta confusa. Las entidades locales nunca actúan en un vacío legal,
+sino dentro de un espacio delimitado por el conjunto del ordenamiento jurídico, que impone
+límites competenciales, procedimentales, organizativos, presupuestarios y derivados de los
+derechos fundamentales. La subordinación a la ley se deriva del principio de jerarquía normativa y
+del sometimiento pleno a la ley y al Derecho. Los conceptos de vinculación positiva y negativa,
+más que aclarar, tienden a oscurecer la relación real entre ley y norma local.
+2.2.3. La norma local no está vinculada positivamente a la ley.
+La ley constituye el límite de la norma local, pero no su fundamento. El fundamento de la
+potestad normativa local es la autonomía reconocida por la Constitución, y en su caso el poder
+tributario local del art. 133.2 CE. La ley configura el contenido de esa autonomía y delimita su
+espacio de actuación, pero la norma local no tiene como función ejecutar la ley ni
+complementarla, sino expresar una capacidad propia de ordenación e intervención dentro del
+ámbito de los intereses locales.
+Esta potestad no es ilimitada, pues está circunscrita a la gestión de los propios intereses, pero
+tampoco es una potestad de mera ejecución normativa. La norma local no es el último eslabón
+de una cadena que comienza en la ley y continúa con el reglamento estatal o autonómico. Si la
+ley regulase de forma exhaustiva el contenido de la norma local sin justificación razonable, podría
+vulnerarse la autonomía local.
+La norma local tampoco puede calificarse como reglamento independiente en el sentido propio
+del Gobierno. La distinción reglamento ejecutivo/independiente solo resulta adecuada respecto
+de los reglamentos gubernamentales. La jurisprudencia ha admitido que, en ausencia de
+prohibición legal, la ordenanza puede configurar políticas propias dentro del ámbito competencial
+local.
+2.2.4. La norma local y la legislación sectorial.
+El art. 25 LBRL reconoce competencias propias de los entes locales, pero su delimitación
+concreta se realiza a través de la legislación sectorial estatal o autonómica. Esta legislación debe
+asegurar la intervención local en los asuntos que afecten directamente a su círculo de intereses,
+garantizando la efectividad de la autonomía constitucionalmente reconocida.
+La ausencia de regulación sectorial específica o la falta de precisión en la misma no impide al
+ente local ejercer su potestad normativa en el ámbito de sus competencias. Sin embargo, si
+posteriormente el legislador sectorial concreta o redefine ese ámbito competencial, la norma local
+deberá adaptarse a la nueva regulación.
+2.2.5. La norma local y las restricciones de la libertad general.
+Parte de la doctrina sostiene que toda restricción de la libertad personal requiere autorización
+legal, no solo en el ámbito de los derechos fundamentales del art. 53.1 CE, sino también en virtud
+del principio general de libertad derivado del art. 10.1 CE y del reconocimiento de la libertad
+como valor superior del art. 1.1 CE. Esta exigencia pretende garantizar aquellas manifestaciones
+de libertad no cubiertas por derechos fundamentales específicos.
+Aunque el art. 84.1 LBRL reconoce diversos instrumentos de intervención local —ordenanzas,
+licencias, comunicaciones previas, controles posteriores—, ello no legitima cualquier restricción
+de la libertad sin cobertura legal. La intervención local debe ajustarse a los principios de igualdad,
+necesidad y proporcionalidad. En consecuencia, puede deducirse que la norma local necesita
+una autorización legal para imponer restricciones a la libertad de los individuos.
+2.3. La vinculación a la reserva de ley.
+2.3.1. El quid de la cuestión: las potestades sancionadora y tributaria.
+Los estudios sobre la reserva de ley han analizado tradicionalmente la relación entre ley y
+reglamento, sin atender suficientemente a las peculiaridades de las normas locales. El problema
+se manifiesta especialmente en dos materias en las que los entes locales sí ejercen potestad
+normativa: la potestad sancionadora y la potestad tributaria. En estos ámbitos, la interpretación
+más o menos estricta de la reserva de ley incide directamente en el alcance de la autonomía
+local.
+Desde 1992 se abrió un debate sobre si, en materias reservadas a ley, la ordenanza local debía
+situarse en la misma posición que el reglamento ejecutivo o si, por el contrario, debía
+reconocérsele una posición distinta. El Tribunal Constitucional afirmó que el art. 25.1 CE
+establece una reserva de ley en materia sancionadora, pero no la entendió en sentido absoluto,
+permitiendo el desarrollo reglamentario cuando la ley lo autoriza. El Gobierno puede completar la
+ley mediante regulación subordinada, no autónoma.
+La controversia se intensificó con el art. 129 LRJPAC, que evidenció la limitada capacidad
+sancionadora local. Parte de la doctrina propuso flexibilizar la reserva de ley respecto de las
+ordenanzas locales. El Real Decreto 1398/1993 reconoció que las ordenanzas podían tipificar
+sanciones para completar y adaptar la ley, lo que generó críticas doctrinales y abrió una reflexión
+sobre cómo conciliar autonomía local y reserva de ley.
+2.3.2. La interpretación tradicional y su crítica.
+La interpretación tradicional ha equiparado la ordenanza local al reglamento ejecutivo,
+entendiendo que la reserva de ley opera con igual intensidad respecto de ambas. Según esta
+posición, la ordenanza solo puede desarrollar una regulación legal previa, sin poder tipificar
+infracciones ni establecer sanciones no previstas en la ley.
+Las consecuencias de esta interpretación son relevantes: si no existe ley que establezca el
+régimen sancionador, el ente local no puede atribuirse potestad sancionadora ni imponer
+sanciones por infracciones de sus propias normas. Ello puede conducir a regulaciones locales
+ineficaces.
+Esta situación genera una tensión entre dos mandatos constitucionales: la garantía de la
+autonomía local y la reserva de ley. Para evitar que uno anule al otro, parte de la doctrina propone
+una interpretación sistemática que module el alcance de la reserva de ley en materias que son
+competencia indiscutible de los entes locales, buscando la concordancia práctica entre ambas
+instituciones.
+2.3.3. Los argumentos a favor de la modulación.
+La tesis de la modulación de la reserva de ley respecto de las ordenanzas locales se ha
+fundamentado en diversos argumentos, aunque los más sólidos son el institucional y el
+representativo.
+El argumento histórico se apoya en la tradición preconstitucional, recordando que antiguas leyes
+penales admitían que las ordenanzas municipales establecieran sanciones administrativas. Sin
+embargo, este argumento no resulta concluyente, pues el marco constitucional actual incorpora
+reservas de ley y garantías de derechos fundamentales que no existían en esos periodos
+históricos.
+El argumento pragmático sostiene que, sin potestad sancionadora propia, la actuación local
+podría quedar ineficaz. También se ha invocado la teoría de los poderes implícitos, según la cual
+los entes locales necesitarían potestad sancionadora para ejercer sus competencias. No
+obstante, esta teoría no encaja plenamente en el contexto de un Estado de Derecho.
+El argumento de subsidiariedad destaca que ciertas materias, por su carácter estrictamente local,
+deben poder regularse adecuadamente en ese ámbito. Aunque relevante, este argumento se
+integra en el institucional.
+El argumento representativo o democrático subraya que la norma local es aprobada por un
+órgano con legitimidad democrática, el pleno de la entidad local, lo que le otorga un valor
+superior al reglamento dictado por un órgano ejecutivo. El Tribunal Constitucional ha reconocido
+este plus democrático, aunque sin equiparar la ordenanza a la ley ni permitir que desplace la
+reserva de ley. La equiparación plena erosionaría el concepto de ley y produciría una
+fragmentación incompatible con el principio democrático.
+El argumento institucional es el más sólido. La autonomía local, garantizada constitucionalmente,
+reconoce a los entes locales un espacio propio de gobierno y gestión. Dentro de ese espacio, la
+norma local no actúa como simple instrumento auxiliar de la ley, sino como expresión de una
+capacidad propia de ordenación. Dado que tanto la reserva de ley como la autonomía local son
+mandatos constitucionales, su coexistencia exige modular el alcance ordinario de la reserva de
+ley para respetar ambas instituciones simultáneamente.
+2.3.4. Las SSTC 233/1999 y 132/2001.
+Durante las primeras décadas de jurisprudencia constitucional se aplicó una concepción uniforme
+de la reserva de ley. Sin embargo, la STC 233/1999 introdujo una interpretación flexible en
+materia de tasas y precios públicos locales, reconociendo a las ordenanzas municipales un
+margen de regulación mayor que el del reglamento estatal ordinario.
+La STC 132/2001 confirmó esta doctrina y la extendió a la potestad sancionadora local, aunque
+subrayó que la reserva de ley sancionadora del art. 25.1 CE es más estricta que la tributaria. La
+diferencia se fundamenta en que la reserva tributaria protege la autodisposición en el
+establecimiento de deberes fiscales y la igualdad de los contribuyentes, mientras que la reserva
+sancionadora garantiza la posición jurídica del ciudadano frente al poder punitivo del Estado.
+Además, en el ámbito tributario existe un elemento sinalagmático —la contraprestación por un
+servicio— que no concurre en las sanciones.
+El Tribunal afirmó que la exigencia de ley debe ser flexible en materias donde exista interés local y
+la regulación sea aprobada por el pleno municipal. No obstante, no suprimió la reserva de ley en
+materia sancionadora: la mera atribución competencial a los municipios no les permite tipificar
+libremente infracciones y sanciones. La ley no necesita definir cada ilícito, pero sí debe establecer
+criterios mínimos de antijuridicidad que orienten la tipificación municipal y determinar las clases
+de sanciones que pueden imponerse.
+En síntesis, la reserva de ley se modula en favor de la ordenanza municipal en materias tributarias
+con componente sinalagmático y en materia sancionadora, ampliando el espacio normativo local
+respecto del reglamento ordinario, sin eliminar la intervención mínima del legislador.
+2.3.5. La adecuación posterior de la legislación estatal de régimen local.
+Como consecuencia de la STC 132/2001, en 2003 se incorporó a la LBRL un nuevo título XI que
+regula la tipificación de infracciones y sanciones por los entes locales. Estas disposiciones
+permiten a los municipios, en ausencia de normativa sectorial específica, tipificar infracciones y
+establecer sanciones en materias vinculadas a la convivencia y al uso de servicios,
+equipamientos e infraestructuras públicas.
+La regulación exige respetar los criterios establecidos en la ley y fija límites económicos,
+estableciendo una cuantía máxima para las infracciones muy graves. Con ello se reconoce un
+espacio normativo local en ámbitos sensibles para la convivencia que suelen quedar fuera de la
+legislación sectorial, conciliando la autonomía local con las exigencias derivadas de la reserva de
+ley.
+3. LAS NORMAS FORALES.
+Las normas forales reflejan la singularidad del ordenamiento de los Territorios Históricos y tienen
+su fundamento en la autonomía de los órganos que las aprueban. Para comprender su naturaleza
+es necesario partir de los fundamentos constitucionales y estatutarios de la potestad normativa
+foral, así como de su especial régimen de control.
+3.1. La potestad normativa foral: fundamento y ejercicio.
+Los Territorios Históricos de Araba/Álava, Bizkaia y Gipuzkoa no son simples entidades locales
+provinciales, sino entidades con doble naturaleza: local y política, integradas en la Comunidad
+Autónoma del País Vasco. Esta singularidad se refleja en la legislación estatal, que reconoce
+peculiaridades en su organización y en su régimen competencial.
+Sus competencias tienen doble origen: proceden tanto de su condición de entidades locales,
+conforme a la legislación básica estatal, como de su condición de entidades políticas según el
+Estatuto de Autonomía y la Ley de Territorios Históricos, que distribuye competencias entre las
+instituciones comunes vascas y los Territorios Históricos. En determinadas materias cuentan con
+competencia exclusiva, especialmente en la regulación del régimen tributario y en la
+autoorganización de sus órganos.
+La Constitución ampara los derechos históricos de los territorios forales y permite su
+actualización dentro del marco constitucional y estatutario. En el ámbito de sus competencias
+exclusivas, los Territorios Históricos ejercen potestad normativa, reglamentaria, administrativa y
+revisora, distinguiéndose claramente entre potestad normativa —cuyas normas se aplican con
+preferencia— y potestad reglamentaria.
+El sistema institucional reproduce un esquema similar al parlamentario: las Juntas Generales
+ejercen la potestad normativa y el control político, mientras que la Diputación Foral asume la
+función ejecutiva, la potestad reglamentaria y la iniciativa normativa.
+En el sistema de fuentes foral se distinguen los siguientes instrumentos normativos:
+1) 2) 3) 4) 5) Las normas forales, que ocupan el nivel superior del ordenamiento foral y expresan la
+potestad normativa de las Juntas Generales.
+Los decretos forales normativos, dictados por delegación y con el mismo rango que las
+normas forales.
+Los decretos forales normativos en materia tributaria o por urgencia, que permiten adaptar o
+establecer normas tributarias con control posterior.
+Los decretos forales, que ejercen la potestad reglamentaria de la Diputación Foral.
+Los decretos forales del Diputado General, cuya posición jerárquica varía según el Territorio
+Histórico.
+6) Las órdenes forales, dictadas por los titulares de los departamentos forales.
+3.2. La naturaleza de las normas forales.
+Inicialmente, todas las disposiciones forales de carácter general fueron asimiladas al reglamento
+ordinario. Con el tiempo, se reconocieron sus peculiaridades y se adaptó su régimen jurídico a su
+especial naturaleza.
+Desde un punto de vista formal, las disposiciones forales carecen de rango legal, pues la
+potestad legislativa en la Comunidad Autónoma del País Vasco corresponde exclusivamente al
+Parlamento Vasco. Por ello, en principio, su control corresponde a la jurisdicción contencioso-
+administrativa. Sin embargo, no pueden equipararse plenamente a los reglamentos estatales o
+autonómicos.
+Las normas forales emanan de las Juntas Generales, órgano de representación popular elegido
+directamente, y en materias de competencia exclusiva no se subordinan a una ley específica, sino
+que se relacionan directamente con la Constitución y el Estatuto de Autonomía. En tales materias
+se aplican “con preferencia a cualesquiera otras”, lo que revela una posición singular dentro del
+sistema de fuentes.
+Un sector doctrinal las ha calificado como reglamentos autónomos, en la medida en que regulan
+materias atribuidas a una disposición reglamentaria sin subordinación jerárquica a ley alguna y
+con exclusión de la primacía legislativa ordinaria. No obstante, el Tribunal Constitucional ha
+rechazado que las normas forales fiscales sean reglamentos ejecutivos o autónomos,
+calificándolas como un tipo singular de normas reglamentarias.
+En materia tributaria, aunque el Tribunal afirma su subordinación a la legislación estatal, la
+regulación foral no se configura como un simple desarrollo jerárquico, sino como una potestad
+normativa propia, modulada por los límites establecidos en el Estatuto de Autonomía y en la Ley
+del Concierto Económico. La relación con la ley estatal no es de subordinación estricta, sino de
+coordinación y armonización.
+Fuera de las materias exclusivas, las normas forales pierden los rasgos que permitirían calificarlas
+como reglamentos autónomos y se aproximan al régimen reglamentario ordinario.
+Finalmente, la conexión directa con la Constitución tiene consecuencias en materia de reserva de
+ley. En el ámbito tributario, la garantía constitucional de los derechos históricos y su
+reconocimiento estatutario modulan el alcance de la reserva de ley del art. 133.1 CE. Del mismo
+modo, en ciertos supuestos pueden cumplir la reserva de ley en materia penal cuando el Código
+Penal remite a disposiciones tributarias de rango legal.
+3.3. El control de las normas forales.
+Las normas forales dictadas en materias de competencia exclusiva poseen legitimidad
+democrática directa, respaldo constitucional y una función cuasilegislativa, pues en su territorio
+sustituyen a leyes estatales o autonómicas. Esta posición singular resulta difícilmente conciliable
+con su formal rango reglamentario.
+El problema principal residía en su régimen de impugnación. Al tener rango reglamentario, podían
+ser recurridas ante la jurisdicción contencioso-administrativa por cualquier persona, lo que
+generaba inestabilidad en sistemas tributarios que requieren certeza. En cambio, las leyes
+tributarias estatales o navarras no eran impugnables directamente por particulares.
+Para solucionar esta disfunción cabían dos vías: reconocerles rango legal o atribuir su control al
+Tribunal Constitucional. En 2010 se optó por la segunda solución mediante la reforma de la LOPJ
+y la LOTC por la Ley Orgánica 1/2010. Se excluyó de la jurisdicción contencioso-administrativa el
+control de las normas forales fiscales y se atribuyó en exclusiva al Tribunal Constitucional.
+Se introdujeron dos nuevos procedimientos: el recurso contra normas forales fiscales y la
+cuestión prejudicial de validez sobre normas forales fiscales, configurados de modo similar al
+recurso y cuestión de inconstitucionalidad. Asimismo, se creó un conflicto en defensa de la
+autonomía foral frente a leyes estatales, legitimando a las Juntas Generales y Diputaciones
+Forales.
+Este régimen especial se limita a las normas forales fiscales, no a todas las normas forales
+dictadas en materias exclusivas. El parámetro de control es el bloque de constitucionalidad.
+El Tribunal Constitucional confirmó en la STC 118/2016 la constitucionalidad de la reforma,
+justificándola en la singularidad del régimen foral y en la función equivalente a la ley que cumplen
+estas normas en materia tributaria. No obstante, mantuvo para la jurisdicción contencioso-
+administrativa el control de legalidad ordinaria respecto de parámetros no integrados en el bloque
+de constitucionalidad, como tratados internacionales, Derecho de la Unión Europea o leyes del
+Parlamento Vasco.
+Posteriormente, en el ATC 150/2017, el Tribunal excluyó también de su control las normas forales
+generales tributarias, introduciendo una nueva excepción que fue objeto de discrepancia interna
+reflejada en voto particular.
+4. LAS NORMAS CORPORATIVAS Y UNIVERSITARIAS.
+Las universidades públicas, los colegios profesionales y las comunidades de regantes son
+entidades o corporaciones de derecho público configuradas sobre una base personal. En los
+colegios profesionales y comunidades de regantes la pertenencia es obligatoria para ejercer la
+actividad correspondiente.
+Estas entidades elaboran sus propios estatutos para regular su organización interna y
+determinadas funciones de interés general. Sus normas presentan dos singularidades: requieren
+aprobación o control de legalidad por la Administración que las supervisa y su vigencia es
+personal, no territorial, pues se aplican únicamente a quienes integran la corporación.
+4.1. Los estatutos de los colegios profesionales.
+Los colegios profesionales, amparados por el art. 36 CE, tienen personalidad jurídica y se rigen
+por la Ley 2/1974 y por sus estatutos y reglamentos de régimen interior. Los Consejos Generales
+elaboran estatutos generales, que deben ser aprobados por el Gobierno, mientras que los
+colegios elaboran estatutos particulares, que requieren aprobación del Consejo General.
+Los estatutos regulan materias esenciales como la condición de colegiado, derechos y deberes,
+órganos de gobierno, régimen económico, disciplina y régimen jurídico de sus actos. La
+tipificación de infracciones disciplinarias por los propios colegios plantea problemas en relación
+con la reserva de ley sancionadora. Los colegios ejercen además funciones de control y
+cumplimiento de la normativa aplicable a sus miembros.
+4.2. Los estatutos universitarios.
+Las universidades públicas actúan en régimen de autonomía constitucionalmente garantizada.
+Entre sus manifestaciones se encuentra la potestad de elaborar y aprobar sus estatutos y normas
+internas, conforme a la Ley Orgánica 2/2023 del sistema universitario.
+Los estatutos son elaborados por el claustro y sometidos a control de legalidad y aprobación por
+la comunidad autónoma, con publicación posterior en el diario oficial correspondiente y en el
+BOE. En el caso de la UNED, la aprobación corresponde al Consejo de Ministros.
+Los estatutos universitarios regulan un amplio conjunto de materias, incluyendo órganos de
+gobierno, régimen electoral, derechos y deberes de estudiantes, régimen del personal,
+organización académica, estructura financiera y funcionamiento de colegios mayores y
+residencias.
+4.3. Los estatutos de las comunidades de regantes.
+Las comunidades de regantes se regulan en el texto refundido de la Ley de aguas. Los usuarios
+de una misma toma o concesión de agua deben constituirse en comunidad de usuarios y, cuando
+el destino principal sea el riego, reciben la denominación de comunidades de regantes.
+Sus estatutos u ordenanzas son redactados y aprobados por los propios usuarios, pero requieren
+aprobación administrativa del organismo de cuenca o confederación hidrográfica
+correspondiente, que administra el dominio público hidráulico en el ámbito de la cuenca.
+Estos estatutos regulan la organización de la comunidad y la explotación autónoma de los bienes
+hidráulicos vinculados al aprovechamiento. El organismo de cuenca solo puede denegar su
+aprobación o introducir modificaciones previo dictamen del Consejo de Estado.
+5. LAS NORMAS DE LAS ADMINISTRACIONES INDEPENDIENTES.
+5.1. Planteamiento.
+La cuestión central es si organismos distintos del Gobierno, en particular las Administraciones
+independientes, o incluso sujetos privados, pueden dictar disposiciones generales con eficacia
+frente a terceros y en qué condiciones. La Constitución atribuye al Gobierno la potestad
+reglamentaria (art. 97 CE), pero ello no impide, según el Tribunal Constitucional, la
+desconcentración o delegación de esa potestad, bien mediante habilitación directa por ley, bien
+mediante delegación singular del titular originario.
+El auge de las Administraciones independientes, impulsado también por el Derecho de la Unión
+Europea, ha reforzado esta tendencia. Su justificación radica en la especialización técnica y en la
+garantía de independencia funcional respecto del poder político. El legislador puede atribuirles
+potestad normativa, siempre que no desfigure el modelo constitucional de potestad reglamentaria
+y respete los principios del Estado constitucional, especialmente la democracia, el Estado de
+Derecho y la rendición de cuentas.
+La legislación vigente reconoce a las autoridades administrativas independientes como entidades
+de derecho público con funciones de regulación o supervisión externa, cuya independencia debe
+establecerse por ley. Pueden ser habilitadas para dictar normas de desarrollo o aplicación cuando
+la materia lo exija, aunque no todas disponen necesariamente de potestad normativa.
+En algunos casos, la independencia deriva directamente del Derecho de la Unión Europea, que
+impide incluso al legislador nacional reducir las facultades discrecionales conferidas. Sin
+embargo, no todas estas autoridades dictan normas: algunas se limitan a emitir
+recomendaciones, informes u opiniones.
+5.2. Principales supuestos.
+5.2.1. El Banco de España.
+El Banco de España es una entidad de Derecho público con personalidad jurídica propia y
+autonomía respecto de la Administración General del Estado. Se rige por su ley de autonomía y
+por el resto del ordenamiento jurídico, actuando conforme al Derecho privado salvo cuando
+ejerce potestades administrativas, en cuyo caso se aplican la LPAC y la LRJSP.
+Puede dictar disposiciones normativas externas en forma de circulares monetarias, en materia
+monetaria, y de circulares para el desarrollo de normas que le habiliten expresamente. Estas
+disposiciones se publican en el Boletín Oficial del Estado y son impugnables ante la jurisdicción
+contencioso-administrativa. El Tribunal Constitucional admitió la atribución de potestad normativa
+por su especialización técnica, y posteriormente su autonomía quedó reforzada por el Derecho de
+la Unión Europea.
+Además, puede emitir soft law mediante guías técnicas dirigidas a entidades supervisadas,
+fijando criterios y prácticas cuya observancia puede exigirse bajo la técnica del “cumple o
+explica”. También puede dictar normas internas sin eficacia externa.
+5.2.2. La Comisión Nacional del Mercado de Valores.
+La CNMV es un ente de derecho público con autonomía orgánica y funcional, encargado de la
+supervisión e inspección de los mercados de valores y del ejercicio de la potestad sancionadora.
+Actúa con plena independencia y ninguna institución puede darle instrucciones en el ejercicio de
+sus funciones.
+Puede dictar circulares cuando exista habilitación expresa en la ley o en normas reglamentarias
+superiores. Estas circulares se publican en el Boletín Oficial del Estado, son recurribles en vía
+contencioso-administrativa y requieren consulta pública, audiencia a los interesados e informe del
+Consejo de Estado.
+Asimismo, puede emitir guías técnicas como instrumentos de soft law, fijando criterios de
+supervisión y aplicando la técnica del “cumple o explica”, e incluso adoptar y adaptar directrices
+de organismos internacionales.
+5.2.3. La Comisión Nacional de los Mercados y la Competencia.
+La CNMC es un ente de derecho público creado por la Ley 3/2013, que actúa con autonomía
+orgánica y funcional y plena independencia del Gobierno y de cualquier entidad pública o
+privada. Su finalidad es garantizar y promover la competencia efectiva y el correcto
+funcionamiento de los mercados en beneficio de consumidores y usuarios. Surgió de la fusión de
+varios organismos reguladores sectoriales, modelo cuya compatibilidad con el Derecho de la
+Unión fue confirmada por el Tribunal de Justicia.
+Ejerce funciones tanto nacionales como europeas, aplicando en España los artículos 101 y 102
+TFUE y cooperando con la Comisión Europea y otras autoridades nacionales de competencia.
+Puede dictar circulares cuando exista habilitación legal expresa para desarrollar leyes, reales
+decretos u órdenes ministeriales en los sectores bajo su supervisión. Estas circulares, vinculantes
+tras su publicación en el Boletín Oficial del Estado, responden al principio de atribución legal y,
+cuando tienen carácter ejecutivo, requieren intervención del Consejo de Estado.
+El Consejo de la CNMC, compuesto por diez miembros con mandato de seis años no renovable,
+es el órgano competente para aprobar las circulares. En su elaboración debe garantizarse la
+audiencia de los interesados y la participación pública. Además, la CNMC puede emitir circulares
+informativas y comunicaciones de carácter interpretativo como instrumentos de soft law. Destaca
+también su legitimación procesal para impugnar actos o disposiciones contrarios a la libertad de
+establecimiento o circulación en defensa de la unidad de mercado.
+5.2.4. La Agencia Española de Protección de Datos.
+La Agencia Española de Protección de Datos es una autoridad administrativa independiente,
+configurada conforme a la LRJSP y exigida por el Derecho de la Unión Europea. Se relaciona con
+el Gobierno a través del Ministerio de Justicia, pero actúa con autonomía funcional. La potestad
+normativa corresponde a su Presidencia, cuyo mandato es de cinco años, renovable una sola
+vez.
+La Presidencia puede dictar circulares que establezcan los criterios de actuación en la aplicación
+del Reglamento (UE) 2016/679 y de la LOPDGDD. Su elaboración exige informes técnicos y
+jurídicos y audiencia a los interesados, conforme al Estatuto de la Agencia. Una vez publicadas
+en el Boletín Oficial del Estado, son obligatorias. Además, puede dictar directrices generales o
+específicas dirigidas a responsables o encargados del tratamiento, también vinculantes. Las
+autoridades autonómicas de protección de datos pueden aprobar circulares en su ámbito
+competencial con igual alcance y efectos.
+5.2.5. La Administración electoral.
+La Administración electoral garantiza la transparencia, objetividad e igualdad en los procesos
+electorales. Se estructura en Juntas Electorales (Central, Provinciales, Autonómicas y de Zona) y
+en Mesas Electorales. La Junta Electoral Central, integrada por magistrados del Tribunal Supremo
+y catedráticos, dirige y supervisa el censo, informa proyectos normativos, dicta instrucciones
+obligatorias, resuelve consultas con carácter vinculante y unifica criterios interpretativos.
+Aunque las instrucciones y resoluciones vinculantes no tienen formalmente naturaleza
+reglamentaria, su función material las aproxima a disposiciones jurídicas infralegales, ya que no
+se limitan al ámbito interno, completan la normativa electoral y suelen publicarse. Así,
+desempeñan una función cuasinormativa en el sistema electoral, pese a no estar expresamente
+calificadas como normas reglamentarias.
+6. LAS NORMAS DE ORIGEN PRIVADO.
+El Estado moderno consolidó el monopolio estatal de la producción normativa, desplazando la
+capacidad reguladora de cuerpos intermedios como gremios o costumbres sectoriales. Sin
+embargo, ante la complejidad técnica de muchos ámbitos y los límites de conocimiento y
+capacidad de la Administración, se ha reabierto un espacio para la participación normativa de
+sujetos privados, siempre dentro del marco fijado por el legislador. Esta tendencia responde al
+desbordamiento funcional del Estado y a la necesidad de incorporar conocimiento experto para
+regular sectores complejos.
+6.1. Alcance y naturaleza.
+En determinados ámbitos técnicos o sectoriales, las entidades que agrupan a los operadores
+pueden fijar criterios comunes, estándares o pautas que ordenan el sector. La intensidad jurídica
+de esos criterios depende del grado de respaldo o incorporación por el poder público, que puede
+oscilar desde la mera referencia voluntaria hasta su integración en normas obligatorias.
+6.1.1. La normalización industrial.
+En el ámbito industrial, la Ley de Industria distingue entre “normas” y “reglamentos técnicos”. Las
+“normas” son especificaciones técnicas de aplicación repetitiva cuya observancia no es
+obligatoria, elaboradas por organismos de normalización privados con participación de las partes
+interesadas. No son disposiciones jurídicas, pero adquieren fuerza práctica por la lógica del
+mercado y la competitividad.
+En cambio, los “reglamentos técnicos” son especificaciones técnicas obligatorias establecidas
+mediante disposiciones administrativas para proteger intereses generales como la salud, la
+seguridad o el medio ambiente. Aunque puedan basarse en textos elaborados por entidades
+privadas, se aprueban por el procedimiento reglamentario correspondiente y se publican
+oficialmente, adquiriendo plena naturaleza normativa.
+6.1.2. Los códigos de conducta.
+Los códigos de conducta son instrumentos de autorregulación con carácter inicialmente
+voluntario, pero que pueden adquirir relevancia jurídica. En el ámbito audiovisual, las obligaciones
+asumidas voluntariamente por operadores mediante códigos deontológicos pueden integrarse en
+el contenido de las licencias administrativas, convirtiéndose en vinculantes.
+En materia de protección de datos, los códigos pueden ser promovidos por autoridades públicas
+o por asociaciones de responsables del tratamiento. Si se ajustan al Reglamento General de
+Protección de Datos y son aprobados por la autoridad competente o por la Comisión Europea,
+pueden adquirir efectos generales e integrarse en el sistema jurídico, reforzando su eficacia más
+allá del plano meramente voluntario.
+6.2. Remisión a la Comisión Europea.
+La elaboración de normas y reglamentos técnicos está sujeta a un control supranacional derivado
+del Derecho de la Unión Europea. La Directiva 98/34/CE impone la obligación de comunicar
+previamente a la Comisión Europea los proyectos nacionales de normas y reglamentos técnicos,
+con el fin de evitar obstáculos al mercado interior.
+En España, el Real Decreto 1337/1999 regula este procedimiento de notificación. Tanto los
+organismos de normalización como las Administraciones públicas deben informar sobre los
+nuevos proyectos normativos o sus modificaciones, salvo que se trate de una mera transposición
+idéntica de normas europeas o internacionales. La Comisión Europea y los demás Estados
+miembros pueden formular observaciones o dictámenes razonados, que la Administración autora
+debe valorar e informar sobre el tratamiento que les dará.
+El incumplimiento de esta obligación tiene consecuencias graves. Según la jurisprudencia del
+Tribunal de Justicia de la Unión Europea, la falta de notificación previa determina la inaplicabilidad
+frente a los particulares del reglamento técnico no comunicado. Ello afecta tanto a la vía
+administrativa y judicial como a litigios entre particulares, configurándose como un vicio
+sustancial del procedimiento normativo.
+6.3. Problemas jurídicos.
+Los reglamentos técnicos plantean diversos problemas jurídicos. El primero es el relativo a las
+remisiones dinámicas a normas técnicas privadas. Cuando un reglamento se remite de forma
+abierta a especificaciones técnicas que pueden ser modificadas por organismos privados, el
+contenido normativo queda indirectamente en manos de terceros, lo que equivale a una
+atribución permanente de potestad normativa sin cobertura expresa suficiente.
+El segundo problema es el de la publicidad. Muchas especificaciones técnicas a las que se
+remiten los reglamentos no se publican íntegramente en diarios oficiales, y en ocasiones su
+acceso exige el pago de derechos de propiedad intelectual. Esto genera dudas desde la
+perspectiva de la seguridad jurídica y del principio de publicidad normativa.
+El tercer problema es de legitimidad democrática. Los organismos de normalización, pese a no
+estar investidos de legitimidad representativa, influyen decisivamente en la regulación de sectores
+económicos estratégicos. Ello exige que la ley que habilite estos mecanismos garantice
+transparencia, participación y control, evitando que se desdibuje el principio democrático y el
+modelo constitucional de potestad normativa.
+7. LOS REGLAMENTOS DE LOS ÓRGANOS CONSTITUCIONALES.
+Los reglamentos del Congreso y del Senado se subordinan directamente a la Constitución y
+tienen rango de ley. Solo pueden ser controlados por el Tribunal Constitucional. Se diferencian del
+resto de las leyes porque regulan materias reservadas, provienen de una sola Cámara —salvo el
+Reglamento de las Cortes Generales— y su aprobación o reforma exige mayoría absoluta en
+votación final sobre el conjunto. Además, en determinados supuestos pueden actuar como
+normas interpuestas entre la Constitución y las leyes, convirtiéndose en parámetro de
+constitucionalidad cuando su infracción altera sustancialmente el proceso legislativo.
+El Estatuto del Personal de las Cortes Generales constituye otro supuesto singular. Está
+directamente vinculado a la Constitución y goza de fuerza de ley en su vertiente pasiva, pues
+ninguna otra norma puede regular las materias que le están reservadas. Su control corresponde
+igualmente al Tribunal Constitucional.
+Por el contrario, los reglamentos de otros órganos constitucionales, como el Tribunal
+Constitucional y el Consejo General del Poder Judicial, tienen rango reglamentario. Estos órganos
+ejercen potestad reglamentaria en materia de organización, funcionamiento y personal, pero sus
+reglamentos se subordinan a la ley orgánica correspondiente y son controlables por la jurisdicción
+contencioso-administrativa, concretamente por el Tribunal Supremo.
+El Reglamento de Organización y Funcionamiento del Defensor del Pueblo presenta una
+peculiaridad procedimental. Aunque es un reglamento ejecutivo de su ley orgánica, se aprueba
+por las Mesas del Congreso y del Senado a propuesta del propio Defensor del Pueblo, en
+coherencia con su condición de alto comisionado de las Cortes Generales que actúa con
+autonomía y responde únicamente ante ellas.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+  "1": "El esquema clásico ley–reglamento es insuficiente para explicar todas las normas sin rango legal existentes en el ordenamiento.",
+  "1.1": "La categoría “norma con valor reglamentario” engloba normas sin rango legal dictadas por entes distintos del Gobierno, con funciones y controles propios.",
+
+  "2": "Las ordenanzas son expresión normativa de la autonomía local constitucionalmente garantizada.",
+  "2.1": "La potestad normativa local nace de la autonomía constitucional y permite normas propias dentro del ámbito competencial local.",
+  "2.2": "La norma local está limitada por la ley, pero no funciona como mero reglamento ejecutivo: tiene espacio propio de ordenación local.",
+  "2.2.1": "El legislador configura la autonomía local, pero no puede vaciar su contenido esencial sin incurrir en inconstitucionalidad.",
+  "2.2.2": "La ordenanza no puede contradecir la ley, y su actuación siempre queda encuadrada por el ordenamiento (competencias, procedimientos y derechos).",
+  "2.2.3": "La ordenanza no ejecuta la ley: se apoya en la autonomía local como fundamento y ordena intereses locales dentro de límites legales.",
+  "2.2.4": "La legislación sectorial concreta competencias locales, pero debe garantizar intervención local efectiva en asuntos de interés propio.",
+  "2.2.5": "Las restricciones de libertad por ordenanza requieren cobertura legal y superar un juicio de igualdad, necesidad y proporcionalidad.",
+  "2.3": "La reserva de ley debe convivir con la autonomía local, modulándose en ciertos ámbitos para evitar que una anule a la otra.",
+  "2.3.1": "El conflicto autonomía–reserva de ley se concentra en potestad sancionadora y tributaria, donde la intensidad de la reserva condiciona el margen local.",
+  "2.3.2": "Equiparar ordenanza a reglamento ejecutivo estrecha el margen local y puede volver ineficaz la regulación municipal si falta ley previa detallada.",
+  "2.3.3": "La modulación se justifica sobre todo por la autonomía institucional y la legitimidad democrática del pleno local, sin convertir la ordenanza en ley.",
+  "2.3.4": "Las SSTC 233/1999 y 132/2001 flexibilizan la reserva de ley en favor de ordenanzas (más en tributos, con límites en sanciones) exigiendo mínimos legales.",
+  "2.3.5": "Tras la STC 132/2001, la LBRL (2003, título XI) habilita tipificación municipal en convivencia/uso de servicios, con criterios legales y límites cuantitativos.",
+
+  "3": "Las normas forales son un tipo singular de norma infralegal ligado a la autonomía histórico-estatutaria de los Territorios Históricos.",
+  "3.1": "Los Territorios Históricos ejercen potestad normativa propia (especialmente tributaria) por derechos históricos, con instituciones de perfil cuasiparlamentario.",
+  "3.2": "Aunque formalmente reglamentarias, las normas forales tienen posición singular por su conexión con Constitución/Estatuto y su función en materias exclusivas.",
+  "3.3": "Las normas forales fiscales tienen control especial del Tribunal Constitucional, por su función equivalente a la ley en el sistema tributario foral.",
+
+  "4": "Corporaciones de derecho público y universidades dictan estatutos con vigencia personal y sometidos a aprobación o control de legalidad administrativo.",
+  "4.1": "Los estatutos colegiales regulan organización, derechos/deberes y disciplina, con tensión posible con la reserva de ley sancionadora.",
+  "4.2": "Los estatutos universitarios concretan la autonomía universitaria y requieren control de legalidad y aprobación (CCAA; UNED por Consejo de Ministros).",
+  "4.3": "Los estatutos de comunidades de regantes se aprueban por usuarios pero requieren aprobación del organismo de cuenca, con límites (dictamen Consejo de Estado).",
+
+  "5": "Las autoridades administrativas independientes pueden dictar normas si la ley las habilita, por especialización e independencia, sin desfigurar el modelo constitucional.",
+  "5.1": "La Constitución atribuye la potestad reglamentaria al Gobierno, pero admite desconcentración/atribución legal a otros entes si se respeta democracia y control.",
+  "5.2": "La potestad normativa de autoridades independientes se articula por habilitación legal sectorial y suele adoptar formas como circulares o disposiciones equivalentes.",
+  "5.2.1": "El Banco de España puede dictar circulares (y circulares monetarias) por habilitación legal, publicadas en BOE, además de soft law técnico y normas internas.",
+  "5.2.2": "La CNMV dicta circulares con habilitación expresa y procedimientos reforzados (consulta/audiencia/informe Consejo de Estado) y produce guías técnicas (soft law).",
+  "5.2.3": "La CNMC dicta circulares vinculantes por atribución legal expresa en sectores supervisados, combina participación pública y puede emitir comunicaciones (soft law).",
+  "5.2.4": "La AEPD, por exigencias UE, puede dictar circulares y directrices vinculantes (por su Presidencia) para aplicar RGPD/LOPDGDD, tras publicación en BOE.",
+  "5.2.5": "Las Juntas Electorales dictan instrucciones y resoluciones con efecto externo y función cuasinormativa, aunque formalmente no se configuren como reglamentos.",
+
+  "6": "El ordenamiento reabre espacio a normas privadas por complejidad técnica, siempre encuadrado por el legislador y con posible integración jurídica.",
+  "6.1": "La eficacia de pautas privadas depende del grado de respaldo público: desde estándares voluntarios hasta incorporación a normas obligatorias.",
+  "6.1.1": "En industria, las “normas” técnicas privadas son voluntarias y de mercado, mientras los “reglamentos técnicos” son disposiciones administrativas obligatorias.",
+  "6.1.2": "Los códigos de conducta nacen voluntarios pero pueden volverse jurídicamente relevantes si se incorporan a licencias o se aprueban en marcos como el RGPD.",
+  "6.2": "Los proyectos de normas/reglamentos técnicos deben notificarse a la Comisión Europea; si no, el reglamento técnico puede resultar inaplicable frente a particulares.",
+  "6.3": "Los reglamentos técnicos plantean problemas por remisiones dinámicas a privados, publicidad incompleta (acceso de pago) y déficit de legitimidad democrática.",
+
+  "7": "Los reglamentos parlamentarios tienen rango de ley y control del TC; los de otros órganos constitucionales son reglamentarios y controlables por lo contencioso.",
+};
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    const BANCO_1 = `#ID=1
+
+// [1]
+Q: ¿En qué sentido la expresión “norma con valor reglamentario” pretende superar las insuficiencias del esquema clásico ley-reglamento?
+A) Porque equipara todas las normas infralegales a los reglamentos ejecutivos del Gobierno, unificando su régimen jurídico bajo el principio de jerarquía normativa.
+B) Porque permite englobar bajo una categoría común todas las disposiciones carentes de rango legal, aunque procedan de entes distintos del Gobierno y no encajen en la relación clásica Parlamento-Gobierno.
+C) Porque reconoce que toda norma sin rango legal debe considerarse reglamento independiente, incluso cuando emane de entidades territoriales con autonomía constitucional.
+OK: B
+EXP: La categoría “norma con valor reglamentario” amplía el enfoque tradicional para incluir disposiciones infralegales dictadas por entes diversos que no responden al binomio clásico ley-reglamento estatal.
+
+#ID=1.1
+
+// [2]
+Q: ¿Por qué la teoría tradicional del reglamento resulta insuficiente para explicar todas las formas actuales de potestad normativa?
+A) Porque parte exclusivamente de la relación jerárquica ley-reglamento dentro del Estado y no contempla la existencia de ordenamientos territoriales o institucionales con autonomía propia.
+B) Porque niega cualquier posibilidad de delegación normativa fuera del Gobierno central.
+C) Porque impide la aplicación del principio de legalidad a las Administraciones territoriales distintas del Estado.
+OK: A
+EXP: El modelo clásico se construyó sobre el esquema Parlamento-Gobierno estatal y no explica adecuadamente las potestades normativas derivadas de autonomías territoriales o institucionales.
+
+// [3]
+Q: ¿Qué diferencias fundamentales existen entre las normas locales y las normas forales en su relación con la ley?
+A) Las normas locales pueden dictarse sin oponerse a la ley, mientras que las forales, en materias exclusivas, pueden dictarse incluso en lugar de la ley, con sujeción directa a la Constitución y al Estatuto.
+B) Las normas locales tienen siempre rango superior a las forales cuando coinciden en materia tributaria.
+C) Las normas forales carecen de cualquier vinculación con la Constitución, a diferencia de las locales.
+OK: A
+EXP: Las normas forales, en materias exclusivas, pueden ocupar un espacio normativo propio con relación directa al bloque de constitucionalidad, mientras que las locales actúan dentro del marco delimitado por la ley.
+
+// [4]
+Q: ¿Por qué categorías como reglamento ejecutivo o independiente no son determinantes fuera del ámbito estatal?
+A) Porque dichas categorías solo se aplican cuando existe delegación legislativa formal mediante ley orgánica.
+B) Porque responden a la división de poderes en un mismo ordenamiento estatal y no a supuestos de autonomía territorial o institucional con ordenamientos propios.
+C) Porque han sido expresamente derogadas por la jurisprudencia constitucional.
+OK: B
+EXP: La distinción ejecutivo/independiente está pensada para el reglamento gubernamental dentro del Estado y no resulta adecuada para explicar potestades normativas derivadas de autonomía territorial o descentralización.
+
+#ID=2
+
+// [5]
+Q: ¿Qué rasgos diferencian a las ordenanzas locales del reglamento gubernamental clásico?
+A) Que son dictadas por órganos representativos con legitimidad democrática directa y se fundamentan en la autonomía local constitucionalmente garantizada.
+B) Que carecen de control jurisdiccional por su origen representativo.
+C) Que pueden regular cualquier materia sin limitación competencial siempre que no contradigan expresamente la ley.
+OK: A
+EXP: Las ordenanzas emanan del pleno municipal y se apoyan en la autonomía local, lo que les otorga un fundamento distinto al reglamento gubernamental clásico.
+
+
+#ID=2.1
+
+// [6]
+Q: ¿Cuál es el fundamento constitucional de la potestad normativa local?
+A) La delegación expresa del Gobierno prevista en el art. 97 CE.
+B) La autonomía local reconocida en los arts. 137, 140 y 141 CE para la gestión de sus propios intereses.
+C) La reserva reglamentaria implícita derivada del principio de descentralización administrativa.
+OK: B
+EXP: La potestad normativa local se fundamenta directamente en la autonomía constitucionalmente garantizada a municipios, provincias e islas.
+
+// [7]
+Q: ¿En qué consiste la autonomía local como capacidad normativa y no mera ejecución de decisiones ajenas?
+A) En la posibilidad de aplicar reglamentos estatales sin intervención del legislador autonómico.
+B) En la facultad de dictar normas propias dentro de un ámbito competencial propio, configurando un ordenamiento integrado pero no subordinado funcionalmente.
+C) En la sustitución plena del legislador sectorial en todas las materias de interés municipal.
+OK: B
+EXP: La autonomía implica capacidad de decisión y regulación dentro del ámbito competencial propio, no simple ejecución de decisiones superiores.
+
+// [8]
+Q: ¿Qué órganos ejercen la potestad normativa local y qué tipos de normas pueden aprobar?
+A) El alcalde y la junta de gobierno, exclusivamente mediante bandos y decretos.
+B) El pleno municipal o provincial, mediante reglamentos orgánicos, ordenanzas, planes y presupuestos.
+C) Las comunidades autónomas en nombre de las entidades locales, mediante leyes sectoriales.
+OK: B
+EXP: La potestad normativa corresponde al pleno, que aprueba distintas modalidades normativas según su objeto.
+
+// [9]
+Q: ¿Cuáles son las fases esenciales del procedimiento de elaboración de las ordenanzas?
+A) Aprobación inicial, información pública con audiencia mínima de treinta días y aprobación definitiva con resolución de reclamaciones.
+B) Elaboración técnica por la junta de gobierno y publicación directa en el Boletín Oficial del Estado.
+C) Aprobación provisional por el alcalde y ratificación posterior por la comunidad autónoma.
+OK: A
+EXP: El procedimiento incluye aprobación inicial, información pública y aprobación definitiva, con publicación posterior.
+
+#ID=2.2
+
+// [10]
+Q: ¿Cómo se articula en términos generales la relación entre norma local y ley dentro del principio de jerarquía normativa?
+A) La norma local puede desplazar la ley en materias de interés exclusivamente municipal.
+B) La norma local se subordina a la ley como límite material, aunque su fundamento derive de la autonomía constitucional.
+C) La ley solo actúa como referencia orientativa cuando la ordenanza regula materias no reservadas expresamente.
+OK: B
+EXP: La ordenanza encuentra su fundamento en la autonomía, pero se somete a la ley como límite conforme al principio de jerarquía normativa.
+
+#ID=2.2.1
+
+// [11]
+Q: ¿Por qué la libertad de configuración del legislador encuentra un límite en la garantía constitucional de la autonomía local?
+A) Porque la Constitución fija exhaustivamente el contenido material de todas las competencias locales.
+B) Porque, aunque el legislador concreta el alcance de la autonomía, no puede vaciarla hasta convertirla en mera ejecución subordinada.
+C) Porque la autonomía local prevalece siempre sobre cualquier legislación sectorial estatal o autonómica.
+OK: B
+EXP: La autonomía local es garantía institucional. El legislador puede configurarla, pero no desnaturalizarla ni reducirla a mera ejecución dependiente.
+
+// [12]
+Q: ¿Qué mecanismos existen para impugnar una ley que vulnere la autonomía local?
+A) Recurso de amparo promovido por cualquier ciudadano afectado.
+B) Recurso de inconstitucionalidad o conflicto en defensa de la autonomía local ante el Tribunal Constitucional.
+C) Recurso contencioso-administrativo ante el Tribunal Supremo.
+OK: B
+EXP: La defensa de la autonomía local se articula mediante los instrumentos específicos ante el Tribunal Constitucional previstos en la LOTC.
+
+#ID=2.2.2
+
+// [13]
+Q: ¿Qué significa que las ordenanzas no puedan contener disposiciones opuestas a las leyes?
+A) Que solo pueden reproducir literalmente el contenido legal.
+B) Que deben respetar el marco normativo superior y no contradecirlo conforme al principio de jerarquía normativa.
+C) Que pueden apartarse de la ley si actúan en materias de interés municipal.
+OK: B
+EXP: La ordenanza está sometida a la ley como límite material, sin que ello elimine su margen de configuración propio.
+
+// [14]
+Q: ¿Por qué resulta problemática la distinción entre vinculación positiva y negativa respecto de la norma local?
+A) Porque elimina el principio de jerarquía normativa.
+B) Porque sugiere que la entidad local podría actuar en vacío normativo, cuando siempre opera dentro del ordenamiento.
+C) Porque fue expresamente rechazada por el Tribunal Constitucional.
+OK: B
+EXP: La norma local nunca actúa fuera del sistema jurídico global; la distinción puede inducir a error sobre su posición real.
+
+// [15]
+Q: ¿Cómo se manifiestan los límites competenciales y materiales que el ordenamiento impone a la norma local?
+A) Únicamente mediante límites procedimentales.
+B) Mediante restricciones competenciales, organizativas, presupuestarias y derivadas de derechos fundamentales.
+C) Solo a través de la legislación básica estatal.
+OK: B
+EXP: La ordenanza se somete al sistema competencial y a los principios constitucionales, incluidos los derechos fundamentales.
+
+#ID=2.2.3
+
+// [16]
+Q: ¿Por qué la ley constituye límite pero no fundamento de la potestad normativa local?
+A) Porque la potestad normativa local deriva directamente de la Constitución y no de una habilitación legal específica.
+B) Porque las entidades locales pueden crear competencias no previstas por la ley.
+C) Porque la ley solo se aplica supletoriamente a los entes locales.
+OK: A
+EXP: El fundamento es la autonomía constitucional; la ley delimita su ejercicio, pero no origina la potestad.
+
+// [17]
+Q: ¿En qué sentido la norma local no actúa como mero desarrollo o ejecución de la ley?
+A) Porque puede ignorar la ley en materias municipales.
+B) Porque expresa una capacidad propia de ordenación dentro de su ámbito competencial.
+C) Porque sustituye automáticamente al reglamento estatal.
+OK: B
+EXP: La ordenanza no es simple desarrollo reglamentario, sino expresión de una potestad autónoma dentro de su competencia.
+
+// [18]
+Q: ¿Cuándo podría considerarse que una regulación legal vulnera la autonomía local por exceso de exhaustividad?
+A) Cuando la ley concreta los elementos esenciales de la materia.
+B) Cuando regula de forma tan cerrada que impide cualquier margen decisorio real a la entidad local.
+C) Cuando establece mecanismos de control judicial.
+OK: B
+EXP: Si la ley agota completamente la materia, vacía de contenido la garantía institucional de la autonomía.
+
+// [19]
+Q: ¿Por qué la ordenanza local no puede calificarse como reglamento independiente en sentido estricto?
+A) Porque requiere autorización previa del Gobierno.
+B) Porque la categoría de reglamento independiente pertenece al esquema ley-Gobierno estatal.
+C) Porque carece de eficacia general.
+OK: B
+EXP: La distinción ejecutivo/independiente responde al modelo estatal clásico y no explica la autonomía local.
+
+// [20]
+Q: ¿Qué ha admitido la jurisprudencia respecto a la capacidad de las ordenanzas para configurar políticas propias?
+A) Que solo pueden reproducir políticas definidas por la ley sectorial.
+B) Que pueden diseñar políticas propias dentro de su ámbito competencial en ausencia de prohibición legal.
+C) Que solo pueden actuar mediante actos administrativos individuales.
+OK: B
+EXP: La jurisprudencia reconoce margen de configuración normativa dentro del espacio competencial propio.
+
+#ID=2.2.4
+
+// [21]
+Q: ¿Cómo delimita la legislación sectorial el ámbito competencial de la norma local?
+A) Sustituyendo completamente la potestad normativa local.
+B) Concretando competencias propias y garantizando la intervención local en asuntos de su interés.
+C) Autorizando genéricamente cualquier actuación municipal.
+OK: B
+EXP: La legislación sectorial concreta el alcance competencial respetando la garantía de la autonomía.
+
+// [22]
+Q: ¿Qué ocurre con una ordenanza cuando la legislación sectorial redefine posteriormente el ámbito competencial local?
+A) Queda automáticamente anulada en su totalidad.
+B) Debe adaptarse en lo incompatible con la nueva delimitación legal.
+C) Prevalece siempre por conexión directa con la Constitución.
+OK: B
+EXP: La norma local debe acomodarse a la legislación sectorial vigente conforme al principio de jerarquía.
+
+#ID=2.2.5
+
+// [23]
+Q: ¿Por qué la restricción de la libertad individual por una ordenanza exige cobertura legal?
+A) Porque toda actuación administrativa requiere autorización gubernamental.
+B) Porque la limitación de la libertad exige habilitación legal conforme al principio de legalidad.
+C) Porque las ordenanzas carecen de fuerza normativa suficiente.
+OK: B
+EXP: La limitación de la libertad, incluso fuera de derechos fundamentales, requiere base legal.
+
+// [24]
+Q: ¿Qué principios deben respetar las intervenciones locales que limitan la libertad?
+A) Oportunidad política y eficacia administrativa.
+B) Igualdad, necesidad y proporcionalidad.
+C) Reserva de ley orgánica en todo caso.
+OK: B
+EXP: Toda restricción debe ser adecuada, necesaria y proporcionada, respetando además la igualdad.
+
+#ID=2.3
+
+// [25]
+Q: ¿Por qué la reserva de ley plantea un problema específico en relación con las ordenanzas locales?
+A) Porque las ordenanzas tienen rango de ley formal.
+B) Porque la teoría clásica de reserva se construyó sobre el esquema ley-reglamento estatal, ignorando la singularidad local.
+C) Porque las entidades locales carecen de potestad normativa en materias reservadas.
+OK: B
+EXP: La posición constitucional de la autonomía local obliga a reinterpretar la reserva de ley en clave sistemática.
+`;
+    const BANCO_2 = `#ID=2.3.1
+
+// [26]
+Q: ¿Por qué la reserva de ley incide especialmente en las potestades sancionadora y tributaria locales?
+A) Porque ambas materias están excluidas constitucionalmente del ámbito local.
+B) Porque la Constitución establece reservas de ley específicas que condicionan el margen normativo de la ordenanza.
+C) Porque son las únicas materias en las que pueden dictarse ordenanzas.
+OK: B
+EXP: Los arts. 25.1 y 133 CE imponen reservas de ley que afectan directamente al alcance de la potestad normativa local en materia sancionadora y tributaria.
+
+// [27]
+Q: ¿Qué posición adoptó el Tribunal Constitucional respecto de la reserva de ley en materia sancionadora?
+A) Que la ordenanza puede tipificar libremente infracciones sin intervención legal.
+B) Que existe reserva de ley, pero no absoluta, admitiendo desarrollo reglamentario cuando la ley fija criterios mínimos.
+C) Que la reserva de ley no opera en el ámbito local.
+OK: B
+EXP: El TC exige cobertura legal suficiente, pero admite tipificación reglamentaria cuando la ley establece parámetros básicos.
+
+// [28]
+Q: ¿Qué debate doctrinal surgió tras la aprobación del art. 129 LRJPAC?
+A) Si las ordenanzas podían ejercer potestad legislativa plena.
+B) Si debía flexibilizarse la reserva de ley para no vaciar la potestad sancionadora local.
+C) Si las entidades locales debían perder su potestad normativa.
+OK: B
+EXP: Se discutió si una interpretación estricta de la reserva de ley hacía inviable la eficacia sancionadora de las ordenanzas.
+
+// [29]
+Q: ¿Qué relevancia tuvo el Real Decreto 1398/1993 en la discusión sobre potestad sancionadora local?
+A) Prohibió toda tipificación municipal.
+B) Reconoció la posibilidad de tipificación municipal complementaria, intensificando el debate constitucional.
+C) Eliminó la reserva de ley sancionadora.
+OK: B
+EXP: El reglamento admitió desarrollo municipal, lo que generó controversia sobre su compatibilidad con el art. 25.1 CE.
+
+// [30]
+Q: ¿Qué tensión constitucional subyace entre reserva de ley y autonomía local?
+A) La incompatibilidad estructural entre descentralización y jerarquía normativa.
+B) La necesidad de armonizar dos mandatos constitucionales sin sacrificar ninguno.
+C) La subordinación automática de la autonomía local a la reserva de ley.
+OK: B
+EXP: Ambos principios tienen fundamento constitucional y deben interpretarse de forma sistemática y no excluyente.
+
+#ID=2.3.2
+
+// [31]
+Q: ¿En qué consiste la interpretación tradicional que equipara ordenanza y reglamento ejecutivo frente a la reserva de ley?
+A) En atribuir a la ordenanza el mismo rango que la ley.
+B) En entender que la ordenanza solo puede desarrollar una ley previa sin innovar en materias reservadas.
+C) En reconocer plena autonomía normativa municipal.
+OK: B
+EXP: La tesis clásica somete la ordenanza a la misma intensidad de reserva que el reglamento gubernamental.
+
+// [32]
+Q: ¿Por qué esta interpretación puede conducir a la ineficacia práctica de la regulación local?
+A) Porque exige aprobación parlamentaria de todas las ordenanzas.
+B) Porque sin ley previa que tipifique infracciones, la ordenanza carecería de eficacia coercitiva.
+C) Porque elimina la potestad tributaria municipal.
+OK: B
+EXP: Sin cobertura suficiente, la ordenanza no podría sancionar el incumplimiento de sus propias normas.
+
+#ID=2.3.3
+
+// [33]
+Q: ¿Cuál es el núcleo del argumento institucional para modular la reserva de ley respecto de las ordenanzas?
+A) Que la ordenanza tiene rango equiparable a la ley.
+B) Que la autonomía local, como garantía constitucional, exige reconocer un espacio normativo propio.
+C) Que la descentralización elimina la jerarquía normativa.
+OK: B
+EXP: La garantía institucional impide reducir la ordenanza al esquema clásico ley-reglamento estatal.
+
+// [34]
+Q: ¿Qué aporta el argumento representativo a favor de la modulación?
+A) Que el pleno municipal posee legitimidad democrática directa mediante sufragio universal.
+B) Que sustituye la legitimidad parlamentaria.
+C) Que convierte la ordenanza en ley formal.
+OK: A
+EXP: El origen democrático directo del órgano que aprueba la ordenanza refuerza su posición frente al reglamento gubernamental.
+
+// [35]
+Q: ¿Por qué el argumento histórico resulta insuficiente para fundamentar la modulación?
+A) Porque la Constitución prohíbe recurrir a precedentes históricos.
+B) Porque el marco constitucional actual impone reservas de ley y garantías inexistentes en etapas anteriores.
+C) Porque las ordenanzas históricas carecían de eficacia.
+OK: B
+EXP: El contexto constitucional vigente condiciona la interpretación actual de la reserva de ley.
+
+// [36]
+Q: ¿Cómo se integra el principio de subsidiariedad en la tesis de la modulación?
+A) Como criterio que permite desplazar cualquier reserva de ley.
+B) Como argumento que refuerza la necesidad de permitir regulación local en materias vinculadas a intereses propios.
+C) Como fundamento jerárquico superior a la ley estatal.
+OK: B
+EXP: La subsidiariedad apoya la autonomía decisoria local, pero no elimina la reserva legal.
+
+#ID=2.3.4
+
+// [37]
+Q: ¿Qué giro introdujo la STC 233/1999 en relación con la reserva de ley tributaria local?
+A) Declaró inconstitucional toda potestad tributaria municipal.
+B) Reconoció un margen normativo municipal más amplio que el del reglamento estatal ordinario.
+C) Equiparó formalmente la ordenanza a la ley tributaria.
+OK: B
+EXP: El TC flexibilizó la reserva tributaria en favor de la autonomía local, permitiendo mayor configuración municipal.
+
+// [38]
+Q: ¿Cómo extendió la STC 132/2001 esta doctrina al ámbito sancionador?
+A) Eliminando la reserva del art. 25.1 CE.
+B) Admitiendo tipificación municipal con ley que establezca criterios mínimos de antijuridicidad y clases de sanción.
+C) Permitiendo tipificación libre sin límites.
+OK: B
+EXP: La reserva se mantiene, pero su intensidad se modula para compatibilizarla con la autonomía local.
+
+// [39]
+Q: ¿Por qué la reserva de ley sancionadora se considera más estricta que la tributaria?
+A) Porque la tributaria no está constitucionalizada.
+B) Porque la sancionadora protege al ciudadano frente al poder punitivo del Estado.
+C) Porque la tributaria exige ley orgánica.
+OK: B
+EXP: La dimensión punitiva exige mayor garantía por afectar directamente a la libertad y seguridad jurídica.
+
+// [40]
+Q: ¿Qué contenido mínimo debe establecer la ley para permitir tipificación municipal de infracciones?
+A) Descripción exhaustiva de cada conducta.
+B) Criterios básicos de antijuridicidad y determinación de las clases de sanciones.
+C) Delegación sin límites materiales.
+OK: B
+EXP: La ley debe fijar parámetros suficientes que orienten y delimiten la tipificación reglamentaria.
+
+// [41]
+Q: ¿En qué consiste sistemáticamente la modulación de la reserva de ley en favor de la ordenanza?
+A) En eliminar la intervención del legislador.
+B) En interpretar la reserva permitiendo un espacio normativo municipal ampliado sin excluir la ley.
+C) En crear una jerarquía paralela entre ordenanza y ley.
+OK: B
+EXP: El TC flexibiliza la reserva para compatibilizarla con la autonomía local sin suprimir la exigencia legal.
+
+#ID=2.3.5
+
+// [42]
+Q: ¿Qué finalidad tuvo la incorporación del Título XI a la LBRL tras la STC 132/2001?
+A) Atribuir potestad sancionadora ilimitada.
+B) Proporcionar cobertura legal suficiente para la tipificación municipal en ámbitos vinculados a convivencia y servicios.
+C) Sustituir la legislación sectorial.
+OK: B
+EXP: El legislador reforzó la habilitación legal exigida por la reserva sancionadora.
+
+// [43]
+Q: ¿Cómo concilia el Título XI LBRL autonomía local y reserva de ley?
+A) Eliminando intervención legislativa.
+B) Permitiendo tipificación municipal dentro de criterios legales y límites cuantitativos predeterminados.
+C) Equiparando la ordenanza a ley orgánica.
+OK: B
+EXP: Se reconoce espacio normativo municipal condicionado por parámetros legales.
+
+// [44]
+Q: ¿Qué singularidad presentan las normas forales frente al reglamento ordinario?
+A) Tienen rango formal de ley en todo caso.
+B) Emanan de órgano representativo y, en materias exclusivas, se aplican con preferencia en su territorio.
+C) Carecen de control jurisdiccional.
+OK: B
+EXP: Su origen institucional y posición preferente revelan naturaleza singular.
+
+// [45]
+Q: ¿Por qué es necesario acudir al bloque de constitucionalidad para comprender las normas forales?
+A) Porque requieren ley orgánica estatal.
+B) Porque se fundamentan en la disposición adicional primera CE y en el Estatuto de Autonomía.
+C) Porque su control corresponde siempre al Tribunal Supremo.
+OK: B
+EXP: Su posición deriva del reconocimiento constitucional de los derechos históricos.
+
+// [46]
+Q: ¿Cómo influye la doble naturaleza institucional de los Territorios Históricos en su potestad normativa?
+A) Les otorga potestad legislativa plena.
+B) Les confiere competencias derivadas de su condición local y de su integración política autonómica.
+C) Les excluye del sistema competencial general.
+OK: B
+EXP: La singularidad institucional explica su potestad normativa propia en materias exclusivas.
+
+// [47]
+Q: ¿Qué diferencia conceptual existe entre potestad normativa y potestad reglamentaria foral?
+A) No existe diferencia sustancial.
+B) La potestad normativa expresa competencia propia con preferencia aplicativa; la reglamentaria actúa subordinadamente.
+C) La potestad normativa carece de efectos externos.
+OK: B
+EXP: En materias exclusivas, la norma foral no es simple desarrollo reglamentario.
+
+#ID=3.1
+
+// [48]
+Q: ¿Qué rasgo del sistema institucional foral refleja un paralelismo estructural con el modelo parlamentario?
+A) La elección directa del Diputado General por sufragio universal independiente de las Juntas Generales.
+B) La separación funcional entre Juntas Generales como órgano normativo representativo y Diputación Foral como órgano ejecutivo.
+C) La subordinación jerárquica absoluta de la Diputación Foral al Gobierno autonómico.
+OK: B
+EXP: El esquema foral reproduce una lógica de división funcional semejante al modelo parlamentario: órgano representativo con potestad normativa y órgano ejecutivo encargado de su aplicación.
+
+#ID=3.2
+
+// [49]
+Q: ¿Por qué las normas forales no pueden equipararse plenamente ni a leyes ni a reglamentos ordinarios?
+A) Porque formalmente no son leyes, pero en materias exclusivas no actúan como simples reglamentos subordinados.
+B) Porque tienen rango superior a las leyes autonómicas en todo caso.
+C) Porque carecen de eficacia general fuera del territorio histórico.
+OK: A
+EXP: Su posición es singular: no son leyes formales, pero tampoco reglamentos clásicos, ya que en materias exclusivas expresan competencia normativa propia con preferencia aplicativa.
+
+#ID=3.2
+
+// [50]
+Q: ¿Qué implica jurídicamente que, en materias exclusivas, las normas forales se apliquen “con preferencia a cualesquiera otras”?
+A) Que desplazan cualquier norma estatal, incluida la Constitución.
+B) Que prevalecen frente a normas estatales o autonómicas dentro del ámbito competencial atribuido por el bloque de constitucionalidad.
+C) Que quedan exentas de control jurisdiccional ordinario.
+OK: B
+EXP: La preferencia opera dentro del marco constitucional y estatutario, en materias de competencia exclusiva, sin afectar a la supremacía constitucional.
+
+`;
+    const BANCO_3 = `#ID=3.2
+
+// [51]
+Q: ¿Por qué el Tribunal Constitucional rechaza calificar las normas forales fiscales como reglamentos ejecutivos o autónomos en sentido clásico?
+A) Porque ejercen una potestad normativa propia derivada del bloque de constitucionalidad y no actúan como mero desarrollo subordinado de una ley estatal concreta.
+B) Porque poseen rango formal equivalente al de las leyes autonómicas ordinarias.
+C) Porque su aprobación requiere autorización previa del Gobierno del Estado.
+OK: A
+EXP: El TC sostiene que, aunque formalmente reglamentarias, las normas forales fiscales no encajan en las categorías clásicas de reglamento ejecutivo o independiente, pues ejercen una potestad normativa propia reconocida constitucionalmente.
+
+#ID=3.2
+
+// [52]
+Q: ¿Cómo se configura jurídicamente la relación entre norma foral tributaria y legislación estatal?
+A) Como una relación de subordinación jerárquica típica entre reglamento y ley estatal.
+B) Como una relación de coordinación y armonización dentro de los límites fijados por el Estatuto y el Concierto Económico.
+C) Como una independencia plena sin condicionamiento estatal alguno.
+OK: B
+EXP: No existe simple jerarquía reglamentaria, sino un sistema de coordinación competencial delimitado por el bloque de constitucionalidad y el Concierto Económico.
+
+#ID=3.2
+
+// [53]
+Q: ¿Qué efecto produce la conexión directa de determinadas normas forales con la Constitución en materia de reserva de ley tributaria?
+A) Permite excluir cualquier intervención del legislador estatal en materia tributaria.
+B) Modula la intensidad de la reserva de ley del art. 133.1 CE en atención al reconocimiento constitucional de los derechos históricos.
+C) Elimina la exigencia de ley en la tipificación de infracciones tributarias.
+OK: B
+EXP: El reconocimiento constitucional de los derechos históricos incide en la interpretación de la reserva de ley tributaria, ajustando su alcance en el ámbito foral.
+
+#ID=3.3
+
+// [54]
+Q: ¿Qué problema generaba el sometimiento de las normas forales fiscales al control contencioso-administrativo ordinario?
+A) Impedía cualquier control judicial sobre su validez.
+B) Permitía su impugnación directa ante la jurisdicción ordinaria, generando asimetría respecto del régimen de las leyes tributarias estatales.
+C) Las convertía formalmente en leyes autonómicas.
+OK: B
+EXP: La impugnación directa ante la jurisdicción contenciosa producía una situación distinta a la de las leyes tributarias estatales, afectando a la coherencia del sistema de fuentes.
+
+#ID=3.3
+
+// [55]
+Q: ¿Qué solución introdujo la Ley Orgánica 1/2010 respecto del control de las normas forales fiscales?
+A) Les atribuyó rango formal de ley autonómica.
+B) Trasladó su control al Tribunal Constitucional, excluyéndolas del control directo contencioso-administrativo.
+C) Eliminó cualquier posibilidad de control judicial.
+OK: B
+EXP: La reforma atribuyó su control al Tribunal Constitucional mediante procedimientos específicos, equiparándolas funcionalmente al régimen de las leyes en materia tributaria.
+
+#ID=3.3
+
+// [56]
+Q: ¿Qué instrumentos procesales específicos se establecieron para el control constitucional de las normas forales fiscales?
+A) Un recurso especial ante el Tribunal Supremo.
+B) Un recurso contra normas forales fiscales y una cuestión prejudicial de validez sobre normas forales fiscales.
+C) El recurso de amparo directo ante el Tribunal Constitucional.
+OK: B
+EXP: Se configuraron procedimientos específicos ante el Tribunal Constitucional, análogos al recurso y cuestión de inconstitucionalidad.
+
+#ID=3.3
+
+// [57]
+Q: ¿Cuál es el parámetro principal de control de las normas forales fiscales tras la reforma de 2010?
+A) El conjunto del ordenamiento jurídico ordinario.
+B) El bloque de constitucionalidad.
+C) Exclusivamente el Estatuto de Autonomía.
+OK: B
+EXP: El control constitucional se realiza conforme al bloque de constitucionalidad, como ocurre con las leyes.
+
+#ID=3.3
+
+// [58]
+Q: ¿Qué ámbito de control conserva la jurisdicción contencioso-administrativa respecto de las normas forales fiscales?
+A) El control abstracto de constitucionalidad.
+B) El control de legalidad ordinaria respecto de parámetros no integrados en el bloque de constitucionalidad.
+C) Ningún control.
+OK: B
+EXP: La jurisdicción ordinaria mantiene control respecto de Derecho de la Unión, tratados internacionales u otras normas no integradas en el bloque de constitucionalidad.
+
+#ID=4
+
+// [59]
+Q: ¿Qué característica distingue a las normas dictadas por corporaciones de derecho público respecto de las disposiciones reglamentarias territoriales?
+A) Su eficacia se proyecta territorialmente sobre toda la ciudadanía.
+B) Su eficacia se limita a quienes integran la corporación y requieren control o aprobación administrativa.
+C) Carecen de relevancia jurídica externa.
+OK: B
+EXP: Son normas de base personal, con eficacia limitada a los miembros y sometidas a control de legalidad por la Administración supervisora.
+
+#ID=4.1
+
+// [60]
+Q: ¿Qué diferencia procedimental existe entre estatutos generales y estatutos particulares de los colegios profesionales?
+A) Ambos se aprueban exclusivamente por el Ministerio competente.
+B) Los estatutos generales requieren aprobación gubernamental, mientras los particulares precisan aprobación del Consejo General correspondiente.
+C) Los estatutos particulares tienen rango legal.
+OK: B
+EXP: La Ley 2/1974 establece un sistema dual con intervención gubernamental en los estatutos generales y del Consejo General en los particulares.
+
+#ID=4.1
+
+// [61]
+Q: ¿Por qué la tipificación disciplinaria por los colegios profesionales plantea un problema respecto de la reserva de ley sancionadora?
+A) Porque carecen de potestad disciplinaria reconocida por ley.
+B) Porque la reserva de ley del art. 25.1 CE exige cobertura legal suficiente para tipificar infracciones y sanciones.
+C) Porque las sanciones colegiales son de naturaleza penal.
+OK: B
+EXP: La potestad disciplinaria debe apoyarse en habilitación legal suficiente que respete la reserva de ley en materia sancionadora.
+
+#ID=4.2
+
+// [62]
+Q: ¿Cómo se articula la autonomía universitaria en relación con la aprobación de sus estatutos?
+A) Se aprueban unilateralmente por la universidad sin control externo.
+B) Son elaborados por la universidad y requieren control de legalidad y aprobación por la Comunidad Autónoma.
+C) Se aprueban mediante ley autonómica.
+OK: B
+EXP: La autonomía universitaria se ejerce dentro del marco legal y con control externo de legalidad por la Comunidad Autónoma.
+
+#ID=4.2
+
+// [63]
+Q: ¿Qué materias suelen regular los estatutos universitarios?
+A) Exclusivamente planes de estudio.
+B) Organización, órganos de gobierno, régimen electoral, personal y estudiantes dentro del marco legal.
+C) Únicamente cuestiones presupuestarias.
+OK: B
+EXP: Los estatutos configuran integralmente la organización y funcionamiento universitario dentro de los límites legales.
+
+#ID=4.3
+
+// [64]
+Q: ¿Por qué los estatutos de las comunidades de regantes requieren aprobación del organismo de cuenca?
+A) Porque son reglamentos estatales delegados.
+B) Porque afectan al dominio público hidráulico cuya administración corresponde al organismo de cuenca.
+C) Porque tienen rango legal.
+OK: B
+EXP: La aprobación garantiza su conformidad con la gestión del dominio público hidráulico.
+
+#ID=4.3
+
+// [65]
+Q: ¿Qué límite condiciona la facultad del organismo de cuenca para modificar o denegar estatutos de comunidades de regantes?
+A) Puede hacerlo libremente por razones de oportunidad.
+B) Debe contar con dictamen previo del Consejo de Estado si pretende denegarlos o introducir variantes.
+C) Requiere autorización del Parlamento autonómico.
+OK: B
+EXP: El art. 81 TRLA exige dictamen previo del Consejo de Estado para denegación o modificación.
+
+#ID=5
+
+// [66]
+Q: ¿Qué cuestión constitucional suscita la atribución de potestad normativa a autoridades administrativas independientes?
+A) Si vulnera el monopolio absoluto del Gobierno sobre la potestad reglamentaria.
+B) Si la habilitación legal respeta el modelo constitucional, el principio democrático y la rendición de cuentas.
+C) Si elimina el control judicial.
+OK: B
+EXP: El art. 97 CE no impide habilitación legal, pero exige coherencia con los principios estructurales del sistema constitucional.
+
+#ID=5.1
+
+// [67]
+Q: ¿En qué condiciones puede el legislador atribuir potestad normativa a autoridades independientes?
+A) Siempre que exista habilitación legal expresa y no se desfigure el modelo constitucional.
+B) Sin necesidad de ley.
+C) Solo en materia tributaria.
+OK: A
+EXP: La atribución requiere cobertura legal expresa y respeto a los principios estructurales del Estado constitucional.
+
+#ID=5.1
+
+// [68]
+Q: ¿Qué límites constitucionales deben respetarse al desconcentrar potestad reglamentaria?
+A) Exclusivamente la jerarquía administrativa interna.
+B) Democracia, Estado de Derecho, control judicial y responsabilidad institucional.
+C) Solo la autonomía organizativa.
+OK: B
+EXP: La atribución normativa no puede erosionar los pilares del sistema constitucional.
+
+#ID=5.2
+
+// [69]
+Q: ¿Qué rasgos comunes presentan las principales autoridades administrativas independientes con potestad normativa?
+A) Dependencia jerárquica directa del Ministerio sectorial.
+B) Autonomía orgánica y funcional, especialización técnica y habilitación legal expresa.
+C) Capacidad para dictar normas con rango de ley.
+OK: B
+EXP: Su independencia funcional y especialización técnica justifican la atribución de potestad normativa reglamentaria.
+
+#ID=5.2.1
+
+// [70]
+Q: ¿Qué naturaleza tienen las circulares monetarias del Banco de España?
+A) Actos internos sin eficacia externa.
+B) Disposiciones normativas externas publicadas en el BOE e impugnables en vía contencioso-administrativa.
+C) Leyes delegadas.
+OK: B
+EXP: Las circulares con habilitación legal tienen carácter normativo externo y están sujetas a control judicial.
+
+#ID=5.2.1
+
+// [71]
+Q: ¿Qué función cumplen las guías técnicas del Banco de España?
+A) Son reglamentos ejecutivos obligatorios.
+B) Actúan como instrumentos de soft law bajo la lógica del “cumple o explica”.
+C) Son simples documentos internos sin relevancia.
+OK: B
+EXP: Las guías técnicas no son reglamentos formales, pero orientan la conducta supervisora mediante el principio “cumple o explica”.
+
+#ID=5.2.2
+
+// [72]
+Q: ¿En qué condición puede la CNMV dictar circulares vinculantes?
+A) Cuando lo estime oportuno.
+B) Cuando exista habilitación legal o reglamentaria superior expresa.
+C) Con autorización ministerial previa.
+OK: B
+EXP: La potestad normativa de la CNMV responde al principio de atribución legal expresa.
+
+#ID=5.2.2
+
+// [73]
+Q: ¿Qué diferencia estructural existe entre circulares y guías técnicas de la CNMV?
+A) Las circulares son vinculantes tras publicación oficial; las guías operan como soft law orientador.
+B) Son idénticas jurídicamente.
+C) Las guías tienen rango legal.
+OK: A
+EXP: Las circulares son disposiciones normativas; las guías técnicas carecen de carácter vinculante general.
+
+#ID=5.2.3
+
+// [74]
+Q: ¿Qué legitima la potestad normativa de la CNMC?
+A) Su dependencia gubernamental.
+B) Su configuración legal como autoridad independiente con habilitación normativa expresa.
+C) El art. 97 CE.
+OK: B
+EXP: La CNMC solo puede dictar normas cuando exista habilitación legal expresa en sectores regulados.
+
+#ID=5.2.3
+
+// [75]
+Q: ¿Qué requisito puede exigirse cuando las circulares de la CNMC desarrollan la ley con carácter ejecutivo?
+A) Ratificación parlamentaria.
+B) Dictamen preceptivo del Consejo de Estado.
+C) Referéndum sectorial.
+OK: B
+EXP: Cuando actúan como reglamentos ejecutivos requieren dictamen del Consejo de Estado conforme al sistema general.
+`;
+    const BANCO_4 = `#ID=5.2.3
+
+// [76]
+Q: ¿Qué función ejerce la CNMC en aplicación de los arts. 101 y 102 TFUE?
+A) Se limita a emitir informes no vinculantes a la Comisión Europea.
+B) Aplica directamente el Derecho de la Unión en materia de competencia y coopera en red con otras autoridades europeas.
+C) Solo interviene cuando la Comisión Europea le delega expresamente un caso concreto.
+OK: B
+EXP: La CNMC integra la Red Europea de Competencia y aplica directamente los arts. 101 y 102 TFUE dentro de su ámbito competencial.
+
+#ID=5.2.3
+
+// [77]
+Q: ¿Qué singularidad presenta la legitimación procesal de la CNMC en defensa de la unidad de mercado?
+A) Solo puede recurrir actos que afecten a su propio presupuesto.
+B) Puede impugnar disposiciones y actos contrarios a la libertad de establecimiento o circulación aunque no sea destinataria directa.
+C) Necesita autorización previa del Gobierno para recurrir.
+OK: B
+EXP: La CNMC tiene legitimación activa específica para impugnar normas o actos que vulneren la unidad de mercado.
+
+#ID=5.2.4
+
+// [78]
+Q: ¿A quién corresponde formalmente la potestad normativa en la Agencia Española de Protección de Datos?
+A) Al Consejo de Ministros mediante real decreto.
+B) A la Presidencia de la Agencia conforme a la habilitación legal.
+C) A la Comisión Europea en aplicación directa del RGPD.
+OK: B
+EXP: La LOPDGDD atribuye a la Presidencia de la AEPD la potestad de dictar circulares en el ámbito de sus competencias.
+
+#ID=5.2.4
+
+// [79]
+Q: ¿Qué efectos producen las circulares y directrices dictadas por la AEPD tras su publicación oficial?
+A) Son meras recomendaciones interpretativas.
+B) Son vinculantes para los sujetos comprendidos en su ámbito material.
+C) Solo obligan a las Administraciones públicas.
+OK: B
+EXP: Las circulares dictadas conforme a habilitación legal y publicadas oficialmente tienen carácter obligatorio dentro de su ámbito.
+
+#ID=5.2.5
+
+// [80]
+Q: ¿Qué función materialmente normativa desempeña la Junta Electoral Central?
+A) Dicta leyes orgánicas electorales.
+B) Emite instrucciones y resoluciones vinculantes que unifican criterios interpretativos con eficacia general.
+C) Solo organiza aspectos materiales de la jornada electoral.
+OK: B
+EXP: Sus instrucciones, aunque no sean reglamentos formales, tienen eficacia general y función cuasinormativa.
+
+#ID=5.2.5
+
+// [81]
+Q: ¿Por qué las instrucciones de la Administración electoral se aproximan materialmente a disposiciones infralegales?
+A) Porque sustituyen formalmente a la ley electoral.
+B) Porque completan la normativa electoral con eficacia general y se publican oficialmente.
+C) Porque carecen de control judicial.
+OK: B
+EXP: Aunque no tengan forma reglamentaria, cumplen función normativa complementaria con eficacia general.
+
+#ID=6
+
+// [82]
+Q: ¿Qué explica la reaparición de formas normativas de origen privado en el Estado contemporáneo?
+A) La renuncia del Estado a su monopolio normativo.
+B) La necesidad de incorporar conocimiento técnico especializado ante la complejidad creciente de ciertos sectores.
+C) La imposición constitucional de delegar potestad normativa en operadores económicos.
+OK: B
+EXP: La complejidad técnica y los límites funcionales del Estado justifican la incorporación de estándares privados dentro del marco legal.
+
+#ID=6.1
+
+// [83]
+Q: ¿De qué depende la intensidad jurídica de los estándares elaborados por entidades privadas?
+A) Exclusivamente de su aceptación voluntaria por los operadores.
+B) Del grado de incorporación o respaldo que les otorgue el ordenamiento mediante normas públicas.
+C) De su reconocimiento internacional.
+OK: B
+EXP: Su fuerza jurídica depende de si el legislador o el reglamento los asumen o incorporan por remisión.
+
+#ID=6.1.1
+
+// [84]
+Q: ¿Cuál es la diferencia esencial entre “normas” y “reglamentos técnicos” en la Ley de Industria?
+A) Las normas son obligatorias y los reglamentos técnicos voluntarios.
+B) Las normas son voluntarias y los reglamentos técnicos son obligatorios y adoptados mediante procedimiento reglamentario.
+C) Ambas son equivalentes jurídicamente.
+OK: B
+EXP: Las normas técnicas privadas son voluntarias; los reglamentos técnicos son obligatorios y se aprueban conforme al procedimiento administrativo.
+
+#ID=6.1.1
+
+// [85]
+Q: ¿Por qué las normas técnicas privadas, aun siendo voluntarias, adquieren eficacia práctica?
+A) Porque sustituyen automáticamente a la legislación.
+B) Porque la competitividad y el mercado incentivan su observancia como estándar de calidad.
+C) Porque su incumplimiento genera sanciones administrativas directas.
+OK: B
+EXP: Operan como estándares de referencia cuya observancia condiciona la posición competitiva en el mercado.
+
+#ID=6.1.1
+
+// [86]
+Q: ¿Cómo adquieren carácter obligatorio determinadas especificaciones técnicas privadas?
+A) Mediante su publicación en boletines oficiales sin más trámite.
+B) Cuando son incorporadas o asumidas por un reglamento técnico aprobado conforme al procedimiento legal.
+C) Cuando son aceptadas por mayoría de operadores del sector.
+OK: B
+EXP: La remisión en un reglamento técnico aprobado oficialmente les confiere fuerza obligatoria.
+
+#ID=6.1.2
+
+// [87]
+Q: ¿Cuándo puede un código de conducta voluntario adquirir eficacia vinculante?
+A) Cuando se publique en la web corporativa.
+B) Cuando se integre en una licencia administrativa o sea aprobado conforme al marco legal aplicable.
+C) Cuando lo suscriba la mayoría del sector.
+OK: B
+EXP: Su integración en un título habilitante o aprobación conforme a procedimiento legal le otorga fuerza obligatoria.
+
+#ID=6.1.2
+
+// [88]
+Q: ¿Qué efecto produce la incorporación de un código de conducta al contenido de una licencia administrativa?
+A) Se convierte en mera pauta interpretativa.
+B) Pasa a ser obligación jurídica exigible dentro de la actividad autorizada.
+C) Adquiere rango reglamentario general.
+OK: B
+EXP: Al formar parte de la licencia, sus compromisos se convierten en condiciones obligatorias de la actividad.
+
+#ID=6.1.2
+
+// [89]
+Q: ¿Qué procedimiento permite que un código de conducta en protección de datos despliegue eficacia general en la UE?
+A) Su aprobación exclusiva por la autoridad nacional.
+B) Su adecuación al RGPD y aprobación por la autoridad competente o por la Comisión Europea conforme al procedimiento previsto.
+C) Su registro ante asociaciones sectoriales.
+OK: B
+EXP: El RGPD prevé un sistema de aprobación que puede conferir eficacia general al código.
+
+#ID=6.2
+
+// [90]
+Q: ¿Qué finalidad tiene la notificación previa de reglamentos técnicos a la Comisión Europea?
+A) Garantizar la uniformidad política entre Estados.
+B) Evitar obstáculos técnicos al comercio en el mercado interior.
+C) Permitir a la Comisión sustituir la normativa nacional.
+OK: B
+EXP: La notificación preventiva busca evitar barreras al comercio y proteger la libre circulación.
+
+#ID=6.2
+
+// [91]
+Q: ¿Quiénes están obligados en España a comunicar proyectos de normas técnicas?
+A) Solo los ministerios competentes.
+B) Administraciones públicas y organismos de normalización cuando elaboren proyectos relevantes.
+C) Exclusivamente las Comunidades Autónomas.
+OK: B
+EXP: La obligación alcanza tanto a Administraciones como a organismos de normalización en los supuestos previstos.
+
+#ID=6.2
+
+// [92]
+Q: ¿Qué alcance tienen las observaciones o dictámenes razonados formulados por la Comisión Europea?
+A) Vinculan obligatoriamente el contenido final del reglamento.
+B) Suspenden automáticamente el procedimiento.
+C) Deben ser considerados y motivadamente respondidos por la autoridad nacional.
+OK: C
+EXP: No son vinculantes en sentido estricto, pero obligan a valorar y justificar su acogida o rechazo.
+
+#ID=6.2
+
+// [93]
+Q: ¿Qué consecuencia produce la falta de notificación previa de un reglamento técnico según el TJUE?
+A) Nulidad automática absoluta.
+B) Inaplicabilidad frente a particulares.
+C) Irregularidad formal sin efectos.
+OK: B
+EXP: La jurisprudencia del TJUE declara su inaplicabilidad frente a particulares como vicio sustancial.
+
+#ID=6.3
+
+// [94]
+Q: ¿Qué problema plantean las remisiones dinámicas a normas técnicas privadas?
+A) Dificultan la actualización normativa.
+B) Pueden implicar una atribución indirecta y permanente de potestad normativa a sujetos privados.
+C) Generan únicamente inseguridad económica.
+OK: B
+EXP: La remisión abierta puede equivaler a transferir potestad normativa sin cobertura suficiente.
+
+#ID=6.3
+
+// [95]
+Q: ¿Por qué la publicación incompleta de especificaciones técnicas plantea problemas constitucionales?
+A) Porque vulnera exclusivamente la propiedad intelectual.
+B) Porque compromete publicidad normativa y seguridad jurídica.
+C) Porque impide la actividad empresarial.
+OK: B
+EXP: La falta de acceso pleno al contenido normativo afecta a la publicidad y certeza del Derecho.
+
+#ID=6.3
+
+// [96]
+Q: ¿En qué consiste el problema de legitimidad democrática en la normalización técnica privada?
+A) En que sustituye al Parlamento en todas las materias.
+B) En que organismos sin legitimación representativa influyen decisivamente mediante estándares incorporados al ordenamiento.
+C) En que elimina el control judicial.
+OK: B
+EXP: La intervención decisiva de entes privados exige garantías de transparencia y control para no erosionar el principio democrático.
+
+#ID=7
+
+// [97]
+Q: ¿Qué posición ocupan los reglamentos del Congreso y del Senado en el sistema de fuentes?
+A) Son reglamentos administrativos ordinarios.
+B) Tienen rango de ley y su control corresponde al Tribunal Constitucional.
+C) Son normas internas sin relevancia constitucional.
+OK: B
+EXP: Se subordinan directamente a la Constitución y solo pueden ser controlados por el Tribunal Constitucional.
+
+#ID=7
+
+// [98]
+Q: ¿Cuándo pueden los reglamentos parlamentarios actuar como normas interpuestas entre Constitución y ley?
+A) Cuando regulan cuestiones administrativas internas.
+B) Cuando su infracción altera sustancialmente el proceso de formación de la voluntad legislativa.
+C) Cuando desarrollan leyes orgánicas.
+OK: B
+EXP: En tales casos se convierten en parámetro de constitucionalidad de la ley.
+
+#ID=7
+
+// [99]
+Q: ¿Qué singularidad presenta el Estatuto del Personal de las Cortes Generales?
+A) Tiene naturaleza reglamentaria ordinaria.
+B) Goza de fuerza de ley en su vertiente pasiva y reserva material constitucional.
+C) Puede ser modificado por el Gobierno.
+OK: B
+EXP: La Constitución establece reserva formal y material a su favor y su control corresponde al Tribunal Constitucional.
+
+#ID=7
+
+// [100]
+Q: ¿Cómo se diferencian los reglamentos del TC, CGPJ y Defensor del Pueblo respecto de los parlamentarios?
+A) Todos poseen idéntico rango legal.
+B) Tienen rango reglamentario subordinado a su ley orgánica y son controlables en vía contencioso-administrativa.
+C) Carecen de eficacia externa.
+OK: B
+EXP: A diferencia de los reglamentos parlamentarios, estos tienen naturaleza reglamentaria y se controlan judicialmente.
+`;
+    const BANCO_5 = `...Pega aquí tu BANCO_5 completo...`;
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const lines = String(t ?? "").replace(/\r/g,"").split("\n");
+
+  const isBullet = (s) => /^\s*(•|–|-)\s+/.test(s);
+  const isEpig   = (s) => /^\s*\d+(?:\.\d+)*\.\s+/.test(s);     // 1. / 1.1. / 1.1.1.
+  const isEnum   = (s) => /^\s*\d+\s*-\s+/.test(s);             // 1- ...
+  const newBlock = (s) => isBullet(s) || isEpig(s) || isEnum(s);
+
+  const paras = [];
+  let cur = "";
+
+  for(let i=0;i<lines.length;i++){
+    const raw = lines[i];
+    const line = raw.trim();
+
+    // ✅ línea vacía = FIN de párrafo (esto es lo que te faltaba)
+    if(!line){
+      if(cur) paras.push(cur.trim());
+      cur = "";
+      continue;
+    }
+
+    // ✅ listas/epígrafes/enumeraciones: cada uno en su propio párrafo
+    if(newBlock(line)){
+      if(cur) paras.push(cur.trim());
+      paras.push(line);
+      cur = "";
+      continue;
+    }
+
+    // empieza párrafo
+    if(!cur){
+      cur = line;
+      continue;
+    }
+
+    // ✅ une cortes típicos de PDF (sin cargarte párrafos)
+    const prevEndsSentence = /[.!?:]$/.test(cur.trim());
+    const nextStartsLower  = /^[a-záéíóúñ]/.test(line);
+
+    if(!prevEndsSentence && nextStartsLower){
+      cur += " " + line;
+    }else{
+      paras.push(cur.trim());
+      cur = line;
+    }
+  }
+
+  if(cur) paras.push(cur.trim());
+
+  return paras.map(p => `<p>${escapeHtml(p)}</p>`).join("");
+}
+    function normalizeKey(s){
+      return String(s || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g," ")
+        .slice(0,220);
+    }
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
