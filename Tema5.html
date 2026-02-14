@@ -1,0 +1,2619 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+}
+summary::-webkit-details-marker{ display:none }
+.inner{ padding:0 16px 16px }
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.sumTitle{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 5 – Derecho Administrativo</h1>
+  <div class="small">LAS RELACIONES ENTRE LAS FUENTES DEL DERECHO ADMINISTRATIVO, by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+1. INTRODUCCIÓN
+En el Derecho administrativo intervienen todas las fuentes del ordenamiento, no solo la ley. A
+diferencia del ámbito penal o civil, aquí tienen especial protagonismo el decreto-ley, el decreto
+legislativo, la ley autonómica y el reglamento.
+La regulación de un sector puede estar formada simultáneamente por normas europeas,
+estatales, autonómicas y locales, además de quedar condicionada por principios
+constitucionales, estatutarios y europeos. A ello se añade la jurisprudencia del Tribunal
+Supremo, Tribunal Constitucional, TJUE y TEDH. El resultado es un sistema multinivel y
+complejo.
+La dificultad del Derecho administrativo no está tanto en memorizar normas como en saber
+localizarlas, coordinarlas y aplicarlas cuando concurren varias a la vez, incluso con aparentes
+contradicciones.
+Las relaciones entre fuentes pueden ser:
+a) Concreción (una norma inferior desarrolla o precisa a otra superior).
+b) Compatibilidad o contradicción (cuando pueden o no coexistir).
+c) Integración (cuando una fuente suple lagunas de otra).
+El principio de jerarquía normativa es clave para resolver conflictos dentro de un mismo
+ordenamiento, pero no basta por sí solo. En conflictos entre normas del mismo rango o de
+distintos ordenamientos deben aplicarse otros principios previstos en la Constitución, en la ley y
+en el Derecho de la Unión Europea.
+2. PRINCIPIO DE JERARQUÍA NORMATIVA
+El principio de jerarquía normativa parte de que las normas del ordenamiento poseen un rango
+que permite clasificarlas y ordenarlas. Ese rango depende de la forma de aprobación, no del
+contenido. Su consecuencia básica es el deber de las normas inferiores de respetar a las
+superiores. El art. 9.3 CE garantiza este principio, pero no actúa como parámetro autónomo de
+constitucionalidad: lo decisivo es siempre la norma superior concreta que se considera infringida.
+La Constitución contiene múltiples manifestaciones concretas de la jerarquía: supremacía
+constitucional, subordinación del decreto legislativo a la ley de delegación, superioridad del
+estatuto en el ámbito autonómico, subordinación del reglamento a la ley, entre otras. En el
+ordenamiento interno existen tres grandes niveles normativos (Constitución, normas con rango de
+ley y normas reglamentarias), a los que pueden añadirse los tratados internacionales ratificados.
+Sin embargo, no todo tipo de norma tiene rango propio: diferentes tipos pueden compartir la
+misma fuerza de ley, aunque presenten diferencias materiales.
+En otros subsistemas la jerarquía se atenúa o se configura de forma distinta. En la Unión Europea
+existe una distinción entre Derecho primario y Derecho derivado; en el Derecho internacional no
+hay una ordenación jerárquica clara entre fuentes; en el ámbito local no hay escalones jerárquicos
+internos, mientras que en el ámbito foral sí existe una ordenación en varios niveles.
+Las consecuencias esenciales del principio son dos:
+a) Aplicación preferente de la norma superior en caso de conflicto.
+b) Existencia de procedimientos de fiscalización para garantizar el respeto al rango.
+El art. 6 LOPJ establece que jueces y tribunales no deben aplicar disposiciones contrarias a
+normas superiores. Además, el ordenamiento prevé la nulidad de pleno derecho de las normas
+inferiores que contradigan a las superiores (art. 39 LOTC; arts. 47.2 y 128.3 LPAC). La
+jurisprudencia añade el principio de interpretación conforme, que obliga a interpretar la norma
+inferior de manera compatible con la superior siempre que sea posible.
+La relación entre tratado internacional y ley ha generado debate doctrinal. Aunque no siempre
+exista nulidad automática, los jueces deben inaplicar la ley contraria a un tratado ratificado y
+publicado, lo que revela una eficacia propia de norma superior. En todo caso, no toda invalidez
+normativa deriva de jerarquía: también puede responder al principio de competencia.
+El principio de jerarquía opera entre distintos niveles normativos y dentro del grupo de
+disposiciones reglamentarias. No existe jerarquía entre normas con rango de ley entre sí. Cuando
+normas del mismo rango entran en conflicto, se aplican otros criterios:
+– Criterio cronológico (norma posterior deroga anterior).
+– Criterio de especialidad.
+– Criterio de función constitucional o competencia.
+En el ámbito reglamentario estatal, la jerarquía sitúa por encima los reales decretos del presidente
+o del Consejo de Ministros y, por debajo, las órdenes ministeriales. Reglamentos dictados por
+órganos inferiores quedan subordinados a estos.
+En suma, el principio de jerarquía normativa es un instrumento esencial para ordenar el sistema
+de fuentes y resolver conflictos, pero no es el único criterio operativo, ya que convive con los
+principios de competencia, especialidad y cronología.
+3. PRINCIPIO DE COMPETENCIA
+El principio de competencia comparte hoy protagonismo con el de jerarquía en la ordenación del
+sistema de fuentes. Mientras la jerarquía opera preferentemente entre normas de un mismo
+ordenamiento, la competencia actúa sobre todo en las relaciones entre distintos ordenamientos.
+Ambos principios no son antagónicos ni excluyentes: el de competencia se apoya en la
+superioridad de la Constitución, que distribuye el poder normativo entre distintos sujetos
+públicos, y convive con el de jerarquía en el interior del sistema.
+La esencia del principio de competencia consiste en la atribución separada de ámbitos de
+decisión a sujetos distintos, evitando solapamientos. La distribución competencial combina
+criterios materiales, funcionales y territoriales, lo que genera entrecruzamientos y conflictos. Así,
+una misma materia puede dividirse entre legislación básica y desarrollo, o entre competencias
+territoriales según el ámbito en que se proyecten los hechos regulados.
+3.1. El principio de competencia en las relaciones intraordinamentales
+Aunque en las relaciones internas rige por regla general la jerarquía, existen excepciones
+relevantes. La principal es la relación entre normas con rango de ley, que se rige por
+competencia y no por jerarquía.
+La relación entre ley orgánica y ley ordinaria no es jerárquica: la Constitución reserva
+determinadas materias a ley orgánica, pero ello no convierte a la ley ordinaria en norma inferior.
+En caso de conflicto, el Tribunal Constitucional ha admitido una prevalencia provisional de la ley
+orgánica, aunque ambas compartan rango formal.
+Del mismo modo, la ley de presupuestos no tiene rango superior ni inferior respecto de otras
+leyes ordinarias. Su posición responde a una distribución competencial de contenido específico,
+no a una jerarquía. Tampoco la imposibilidad general de modificar tributos le atribuye inferioridad
+frente a leyes tributarias sustantivas.
+En el ámbito autonómico ocurre algo similar: las leyes específicas o de mayoría reforzada
+previstas en los estatutos no son jerárquicamente superiores a las demás. El Tribunal
+Constitucional aplica aquí de forma clara el principio de competencia, rechazando la idea de
+“congelación” del contenido normativo por el hecho de existir una reserva estatutaria.
+La excepción más admitida es la del estatuto de autonomía, que, como norma institucional
+básica de la comunidad autónoma, ocupa la cúspide del ordenamiento autonómico.
+No debe confundirse la función de servir como parámetro de validez con la existencia de
+jerarquía. Que una norma delimite competencias o actúe como presupuesto de validez de otra no
+implica que tenga rango superior: esa función deriva de la Constitución, no de una superioridad
+intrínseca.
+Una segunda excepción a la jerarquía dentro del mismo ordenamiento se encuentra en
+determinadas disposiciones administrativas estatales: los reales decretos del presidente del
+Gobierno y los reales decretos del Consejo de Ministros no se rigen entre sí por jerarquía, sino
+por competencia, conforme al art. 24.2 LG.
+En definitiva, el principio de competencia ordena la distribución del poder normativo dentro y
+entre ordenamientos, explicando relaciones que no pueden entenderse mediante la mera
+jerarquía.
+3.2. El principio de competencia en las relaciones interordinamentales
+La relación entre el ordenamiento estatal y el autonómico no se rige por el principio de jerarquía,
+sino por el de competencia, como ha reiterado el Tribunal Constitucional. Ello supone que
+ninguno de los dos ordenamientos es superior al otro: cada uno actúa dentro del ámbito que le
+atribuye el bloque de constitucionalidad.
+La distribución de competencias resulta de la Constitución, de los estatutos de autonomía, de las
+normas del art. 150 CE y de las normas delimitadoras de competencias, especialmente las bases
+estatales. El principio de competencia opera tanto en materias exclusivas como compartidas.
+Así, puede prevalecer una norma básica estatal —incluso reglamentaria— frente a una ley
+autonómica de desarrollo, no por jerarquía, sino porque la Constitución atribuye al Estado la
+fijación de las bases. Si la norma autonómica contradice una norma estatal efectivamente básica
+(en sentido formal y material), incurre en inconstitucionalidad mediata: no vulnera directamente la
+Constitución, sino la norma que esta habilita para delimitar competencias.
+En estos conflictos no basta con aplicar automáticamente la norma “superior”, porque no existe
+superioridad jerárquica entre Estado y comunidad autónoma. La resolución del conflicto exige un
+procedimiento específico y, cuando la norma cuestionada tiene rango legal, corresponde al
+Tribunal Constitucional declarar su invalidez.
+Existe, no obstante, una situación singular en el ámbito local. Las normas locales son siempre
+reglamentarias y se mueven dentro de los límites fijados por la legislación estatal y autonómica.
+En su contenido confluyen el principio de competencia y el de jerarquía: deben respetar las
+previsiones legales superiores, pero, dentro de ese marco, se relacionan entre sí conforme al
+principio de competencia.
+4. PRINCIPIO DE SUPLETORIEDAD
+La supletoriedad puede referirse a normas, a fuentes o a ordenamientos.
+En sentido estricto, una norma es supletoria cuando se aplica en defecto de otra. También puede
+hablarse de supletoriedad entre fuentes (la costumbre en defecto de ley, los principios en defecto
+de ley y costumbre). Pero en Derecho público adquiere especial relevancia como técnica de
+integración entre ordenamientos: el art. 149.3 CE dispone que el Derecho estatal será, en todo
+caso, supletorio del Derecho de las Comunidades Autónomas.
+El presupuesto de la supletoriedad no es la simple ausencia de regulación, sino la existencia de
+una laguna real, apreciada por el aplicador del Derecho. No toda falta de regulación es laguna:
+puede ser una opción deliberada del legislador. Además, antes de acudir al Derecho estatal, debe
+intentarse la integración con los propios principios y reglas del ordenamiento autonómico.
+En cuanto al Derecho estatal que puede operar como supletorio, la jurisprudencia constitucional
+fue restringiendo progresivamente su alcance. Desde la STC 147/1991 se exigió que el Estado
+solo pudiera dictar normas supletorias cuando contara con un título competencial específico. Y la
+STC 61/1997 dio un paso decisivo: la supletoriedad no es un título competencial. El Estado no
+puede aprobar normas meramente supletorias si carece de competencia directa en la materia.
+Esta doctrina supuso que el Estado no puede legislar con la única finalidad de cubrir hipotéticas
+omisiones autonómicas. La consecuencia es que la función supletoria ya no legitima por sí sola la
+producción normativa estatal. La integración corresponde al aplicador del Derecho cuando
+detecta una laguna no colmable internamente.
+Con el tiempo, la práctica ha mostrado que el Estado dispone de otras vías para evitar vacíos
+normativos: la aprobación de legislación básica, el ejercicio de competencias residuales, la
+regulación de su propia organización o la normativa específica para territorios sin competencia
+legislativa.
+El principio de supletoriedad no permite al legislador autonómico derogar formalmente normas
+estatales, pero sí puede desplazar su eficacia mediante el ejercicio efectivo de su propia
+competencia material. Así, la supletoriedad ha pasado de cumplir una función transitoria en el
+desarrollo del Estado autonómico a operar como técnica puntual de integración, subordinada
+siempre al principio de competencia.
+4.2. EL PRINCIPIO DE SUPLETORIEDAD Y LA GARANTÍA DEL CUMPLIMIENTO DEL DERECHO
+DE LA UNIÓN EUROPEA
+El cumplimiento del Derecho de la Unión Europea plantea un problema específico en el Estado
+autonómico, ya que el incumplimiento puede derivar de actuaciones u omisiones de distintas
+Administraciones.
+La Ley Orgánica 2/2012 introdujo un mecanismo de responsabilidad: las Administraciones que
+provoquen el incumplimiento del Derecho de la Unión deben asumir, en la parte que les sea
+imputable, las consecuencias económicas derivadas. Este sistema fue desarrollado por el Real
+Decreto 515/2013. Aunque constituye un instrumento de presión relevante, no garantiza por sí
+mismo el cumplimiento efectivo del Derecho europeo.
+Tradicionalmente se ha considerado que el principio de supletoriedad podría servir para asegurar
+la correcta transposición de directivas cuando las comunidades autónomas no ejercieran sus
+competencias. La jurisprudencia constitucional no es concluyente al respecto, aunque parte de la
+doctrina sostiene que el Estado podría dictar normas supletorias apoyándose en su competencia
+en materia de relaciones internacionales (art. 149.1.3 CE) y en el mandato del art. 93 CE de
+garantizar el cumplimiento de los tratados.
+Sin embargo, esta solución solo cubriría un supuesto concreto: la falta de transposición de
+directivas. No resolvería otros incumplimientos más frecuentes o graves, como la transposición
+incorrecta o la deficiente aplicación del Derecho de la Unión.
+Además, una política estatal preventiva de aprobación sistemática de normas supletorias desde
+la publicación de las directivas sería difícilmente compatible con la lógica del Estado autonómico.
+La garantía del cumplimiento del Derecho de la Unión debe buscarse por vías distintas a una
+supletoriedad anticipada y generalizada, que podría erosionar el reparto constitucional de
+competencias.
+5. PRINCIPIO DE PREVALENCIA
+El principio de prevalencia es una regla constitucional de conflicto prevista en el art. 149.3 CE
+para los supuestos en que colisionan el ordenamiento estatal y el autonómico. Existe conflicto
+cuando ambos proporcionan soluciones incompatibles y excluyentes. La Constitución establece
+que las normas del Estado prevalecerán sobre las de las Comunidades Autónomas en todo lo
+que no esté atribuido a la competencia exclusiva de estas.
+De esta previsión se deducen dos reglas:
+– Una regla expresa de prevalencia a favor del Derecho estatal.
+– Una regla implícita a favor del Derecho autonómico en materias de competencia exclusiva
+autonómica cuando el conflicto se produzca con Derecho estatal preconstitucional o con
+Derecho estatal dictado para otra comunidad autónoma al amparo de la cláusula residual del art.
+149.3 CE.
+5.1. Las posiciones doctrinales y jurisprudenciales hasta 2016
+El principio de prevalencia, como el de supletoriedad, es una regla dirigida al operador jurídico
+(juez o Administración). Opera en el plano de la eficacia o aplicabilidad, no en el de la validez:
+determina qué norma debe aplicarse en caso de conflicto, pero no decide sobre su invalidez.
+Además, solo actúa fuera del ámbito de las competencias exclusivas autonómicas.
+Doctrinalmente se han defendido dos posiciones. Para unos, la prevalencia implica la aplicación
+incondicionada del Derecho estatal en caso de conflicto. Para otros, no puede desligarse
+completamente del principio de competencia, por lo que el aplicador debe realizar al menos un
+juicio positivo de validez de la ley estatal o comprobar la existencia de cobertura competencial
+suficiente antes de desplazar la norma autonómica.
+Durante décadas, sin embargo, el principio fue prácticamente inaplicado. En la práctica del
+Estado autonómico se optó por resolver los conflictos entre ley estatal y ley autonómica como
+conflictos competenciales, no como meros conflictos normativos. Es decir, antes de aplicar la
+prevalencia debía determinarse la validez constitucional de las normas en conflicto.
+La consecuencia fue clara: cuando el conflicto afectaba a normas con rango de ley, solo el
+Tribunal Constitucional podía resolverlo. Si el juez consideraba válida la ley estatal, debía plantear
+cuestión de inconstitucionalidad respecto de la ley autonómica; si dudaba de la validez de la ley
+estatal, debía cuestionar esta. El enfrentamiento entre ley estatal y ley autonómica se configuró
+así como un auténtico control de constitucionalidad (arts. 153 a) y 163 CE), reservado al Tribunal
+Constitucional (STC 163/1995).
+Además, el Tribunal Constitucional añadió un refuerzo iusfundamental: si un órgano judicial
+inaplicaba una ley autonómica por estimarla contraria a las bases estatales sin plantear cuestión
+de inconstitucionalidad, vulneraba el derecho a la tutela judicial efectiva (arts. 24.1 y 24.2 CE), por
+extralimitarse en su función jurisdiccional (art. 117.1 CE).
+Este modelo priorizaba el análisis del conflicto competencial sobre el conflicto normativo
+concreto. Sus ventajas eran claras: reforzaba el carácter centralizado de la justicia constitucional
+y otorgaba igual tratamiento a ley estatal y ley autonómica. Pero tenía una consecuencia práctica
+relevante: el principio de prevalencia quedaba prácticamente excluido en el ámbito de las
+competencias compartidas (bases estatales y desarrollo autonómico), precisamente donde se
+concentran la mayoría de los conflictos normativos.
+5.2. La jurisprudencia constitucional posterior a 2016
+Hasta 2016 el Tribunal Constitucional mantuvo una interpretación restrictiva del principio de
+prevalencia, rechazando las propuestas de los órganos judiciales para aplicarlo directamente. Sin
+embargo, a partir de ese año adoptó una concepción más “judicialista”, que permite a los jueces
+inaplicar normas autonómicas en determinados supuestos sin plantear cuestión de
+inconstitucionalidad. Esta nueva línea fue objeto de votos particulares críticos.
+Las sentencias clave son las SSTC 102/2016, 204/2016 y 1/2017.
+La STC 102/2016 abordó el caso de una ley autonómica que inicialmente era conforme con las
+bases estatales, pero que devino incompatible tras una modificación posterior de dichas bases,
+cuya constitucionalidad ya había sido confirmada por el Tribunal Constitucional. En este
+supuesto, el Tribunal permitió al juez aplicar directamente el principio de prevalencia e inaplicar la
+norma autonómica sin acudir nuevamente al control de constitucionalidad.
+La STC 204/2016 amplió esta doctrina. En este caso, la norma autonómica no reproducía bases
+estatales preexistentes y la nueva norma estatal no había sido previamente enjuiciada por el
+Tribunal Constitucional. Aun así, el Tribunal entendió que el órgano judicial podía aplicar la
+prevalencia e inaplicar la ley autonómica cuando la incompatibilidad fuera sobrevenida. Con ello,
+la doctrina inicial, nacida en un supuesto muy específico, se extendió a más situaciones.
+La STC 1/2017 introdujo una precisión relevante: el juez solo puede aplicar la prevalencia cuando
+la incompatibilidad sea sobrevenida, es decir, cuando derive de una modificación posterior de las
+bases estatales. Si la incompatibilidad es originaria, corresponde exclusivamente al Tribunal
+Constitucional resolver el conflicto mediante el control de constitucionalidad.
+Esta reorientación ha sido discutida. Aunque el principio de prevalencia está previsto en la
+Constitución, su recuperación introduce una vía adicional —y limitada— para resolver conflictos
+normativos que pueden encubrir conflictos competenciales. Además, puede afectar a la
+seguridad jurídica y a la uniformidad interpretativa, dado que la identificación y delimitación de las
+bases estatales no siempre es sencilla.
+Finalmente, la nueva doctrina debilita el privilegio jurisdiccional de la ley autonómica, pues
+permite su inaplicación por jueces ordinarios sin intervención del Tribunal Constitucional y sin que
+los órganos autonómicos tengan representación procesal en ese procedimiento, mientras que la
+ley estatal mantiene intacto su régimen reforzado de control.
+6. PRINCIPIO DE PRIMACÍA
+6.1. Significado
+6.1.1. Primacía del Derecho de la Unión Europea
+El principio de primacía es una construcción jurisprudencial del Tribunal de Justicia, formulada en
+el asunto Costa/ENEL (1964). Se fundamenta en la autonomía del Derecho de la Unión, en la
+cesión de competencias por los Estados miembros y en el carácter vinculante de los Tratados. A
+diferencia de los tratados internacionales ordinarios, el Tratado constitutivo creó un ordenamiento
+jurídico propio, integrado en los sistemas internos y vinculante para sus jueces.
+La consecuencia es clara: ninguna norma interna, anterior o posterior, puede oponerse al
+Derecho de la Unión sin poner en cuestión su propia naturaleza. La primacía no depende del
+Derecho interno, sino del propio Derecho de la Unión y de la interpretación exclusiva del Tribunal
+de Justicia.
+El Tribunal Constitucional español ha asumido esta lógica, pero distingue entre primacía y
+supremacía. La primacía es aplicativa, no jerárquica: implica desplazamiento en la aplicación, no
+invalidez. La supremacía constitucional se mantiene en el plano jerárquico, pero la Constitución, a
+través del art. 93 CE, ha permitido la cesión de competencias y, con ello, la aplicación preferente
+del Derecho de la Unión en su ámbito propio. Son planos distintos y compatibles.
+6.1.2. Primacía de los tratados internacionales ratificados
+Los tratados internacionales ratificados y publicados en el BOE también despliegan una primacía
+aplicativa frente a las normas internas. El propio legislador habla de “prevalencia”, salvo frente a
+la Constitución. En caso de conflicto, el juez ordinario puede desplazar la norma interna y aplicar
+preferentemente el tratado, sin expulsar aquella del ordenamiento, sino simplemente
+inaplicándola al caso concreto.
+Este control de convencionalidad corresponde a los órganos judiciales. Si el juez considera que el
+tratado vulnera la Constitución, puede plantear cuestión de inconstitucionalidad, pero la eventual
+declaración afectaría a la constitucionalidad interna, no a la validez internacional del tratado.
+A diferencia de los tratados, el Derecho derivado de la Unión no puede ser objeto de control de
+constitucionalidad interno. Dada su enorme relevancia cuantitativa y cualitativa en el
+ordenamiento, ello exige precisar cuidadosamente el alcance y los límites de su primacía
+aplicativa.
+6.2. Consecuencias de la primacía del Derecho de la Unión Europea
+6.2.1. Consecuencias sobre los operadores jurídicos
+La jurisprudencia Simmenthal establece que todo juez nacional debe inaplicar cualquier norma
+interna incompatible con el Derecho de la Unión, siempre que no sea posible una interpretación
+conforme. La inaplicación es la consecuencia directa de la primacía y garantiza la plena eficacia
+del Derecho europeo.
+El juez debe realizar esa inaplicación por iniciativa propia, sin esperar a que la norma interna sea
+derogada o anulada por otra vía. Además, puede plantear cuestión prejudicial ante el Tribunal de
+Justicia si tiene dudas sobre la interpretación o alcance del Derecho de la Unión (art. 267 TFUE).
+Este mecanismo refuerza el papel de los jueces nacionales como jueces europeos y les otorga
+una facultad de inaplicación que deriva directamente del Derecho de la Unión.
+Desde 2015, el art. 4 bis LOPJ reconoce que jueces y tribunales aplicarán el Derecho de la Unión
+conforme a la jurisprudencia del Tribunal de Justicia, consolidando así su posición.
+La primacía también vincula a las autoridades administrativas. Según la doctrina Costanzo, deben
+dejar sin aplicar disposiciones o actos nacionales incompatibles con el Derecho de la Unión, sin
+esperar una declaración previa del Tribunal de Justicia. Aunque esta “primacía administrativa” ha
+sido discutida doctrinalmente, el Tribunal de Justicia y el Tribunal Supremo español la han
+confirmado.
+6.2.2. Consecuencias sobre las normas y los actos incompatibles
+El efecto general de la primacía es la inaplicación o desplazamiento, no la invalidez.
+En el caso de normas con rango legal, el juez debe inaplicarlas si son incompatibles con el
+Derecho de la Unión. No se produce su expulsión del ordenamiento, sino la pérdida de
+aplicabilidad en el caso concreto. El Tribunal Constitucional no declara su nulidad por esa razón,
+pues el Derecho de la Unión no es canon autónomo de constitucionalidad.
+En cambio, respecto de normas reglamentarias, el Tribunal Supremo ha declarado su nulidad de
+pleno derecho cuando son incompatibles con el Derecho de la Unión. Esta solución se basa en
+categorías internas de jerarquía normativa y resulta discutida por su carácter asistemático.
+Los actos administrativos incompatibles también deben ser dejados sin efecto. La Administración
+está obligada a no aplicar actos dictados al amparo de normas internas contrarias al Derecho de
+la Unión, garantizando así la efectividad del principio de primacía.
+6.3. Límites de la primacía del Derecho de la Unión Europea
+La primacía no es absoluta ni incondicionada. Su alcance y modo de operar se ven modulados
+por otros principios y categorías que delimitan su ejercicio, especialmente en relación con la
+supremacía constitucional, la identidad constitucional y la articulación competencial dentro del
+Estado.
+6.3. Límites de la primacía del Derecho de la Unión Europea
+6.3.1. El principio de atribución
+La Unión Europea no tiene competencia universal. Sus competencias se rigen por el principio de
+atribución (art. 5.1 TUE): solo puede actuar en las materias que los Estados le han cedido
+expresamente en los Tratados. Las competencias no atribuidas permanecen en los Estados (art.
+4.1 TUE), y determinadas funciones esenciales —integridad territorial, orden público y seguridad
+nacional— siguen siendo responsabilidad exclusiva estatal (art. 4.2 TUE).
+El respeto al principio de atribución es condición para que opere la primacía. Solo las normas
+europeas dictadas dentro de competencias atribuidas pueden desplazar normas internas
+incompatibles. Así lo afirmó el Tribunal Constitucional en la Declaración 1/2004: la primacía es
+aplicativa y limitada al ámbito de las competencias cedidas, no es general ni jerárquica.
+Ahora bien, ni los Estados ni sus autoridades pueden inaplicar por sí mismos un acto vinculante
+de la Unión alegando falta de competencia. Si consideran que la Unión ha excedido sus
+competencias, deben acudir a los cauces previstos en el propio Derecho de la Unión: recurso de
+anulación ante el Tribunal de Justicia (art. 263 TFUE) o cuestión prejudicial de validez (art. 267
+TFUE).
+El ejercicio de las competencias europeas también está limitado por los principios de
+subsidiariedad y proporcionalidad (art. 5 TUE). La Unión solo debe intervenir cuando los objetivos
+no puedan alcanzarse suficientemente por los Estados y su actuación no puede exceder de lo
+necesario para lograr los fines de los Tratados.
+6.3.2. La identidad nacional
+El Derecho primario impone a la Unión el respeto de la identidad nacional de los Estados
+miembros, inherente a sus estructuras políticas y constitucionales fundamentales, incluida la
+autonomía local y regional (art. 4.2 TUE).
+La identidad nacional constituye la única limitación expresa en los Tratados a la primacía del
+Derecho de la Unión. No obstante, su interpretación corresponde en última instancia al Tribunal
+de Justicia. Los tribunales constitucionales nacionales no pueden unilateralmente dejar de aplicar
+una norma europea alegando vulneración de la identidad nacional tal como ellos la definan.
+La noción de identidad nacional se refiere a singularidades estructurales o valores
+constitucionales propios de cada Estado. Los valores comunes a todos los Estados miembros no
+requieren esta protección específica, pues forman parte del fundamento común de la Unión (art. 2
+TUE).
+En situaciones de conflicto sensible, el Tribunal de Justicia puede modular la primacía atendiendo
+a la identidad nacional, en un marco de cooperación con los órganos constitucionales estatales.
+Se trata de una válvula de equilibrio entre integración europea y preservación de las estructuras
+constitucionales básicas de cada Estado.
+6.3.3. La autonomía institucional y procedimental de los Estados miembros
+La Unión Europea responde a un modelo de “federalismo de ejecución”: las instituciones
+europeas elaboran las normas y supervisan su cumplimiento, pero la ejecución corresponde, con
+carácter general, a los Estados miembros. Son sus autoridades administrativas y judiciales
+quienes aplican el Derecho de la Unión, adoptando todas las medidas internas necesarias (art.
+291.1 TFUE). Solo excepcionalmente, cuando se requieran condiciones uniformes de ejecución,
+se atribuyen competencias ejecutivas a instituciones europeas (art. 291.2 TFUE).
+La regla general es, por tanto, la ejecución descentralizada, y la excepción la ejecución
+centralizada. Esta técnica permite conciliar la unidad del Derecho de la Unión con la diversidad
+organizativa de los Estados.
+En este contexto se habla del principio de autonomía institucional, procedimental y procesal: los
+Estados ejecutan el Derecho de la Unión conforme a su propio sistema organizativo, sus
+procedimientos y su distribución interna de competencias. No existe una competencia general de
+la Unión para regular la organización administrativa o las vías procesales nacionales.
+Sin embargo, esta “autonomía” no es un ámbito reservado frente a la Unión. Está limitada por los
+principios de atribución, subsidiariedad y proporcionalidad. Cuando la Unión tenga competencia
+—por ejemplo, en materias exclusivas como el régimen aduanero (art. 3.1 a) TFUE)— puede
+unificar tanto las normas materiales como las procedimentales. En las competencias
+compartidas, lo habitual es que la Unión establezca el marco material y deje la ejecución a los
+Estados.
+Además, incluso cuando la Unión no haya regulado el procedimiento, la autonomía estatal está
+condicionada por el principio de cooperación leal. Este se concreta en dos exigencias
+acumulativas:
+a) Principio de equivalencia: las normas nacionales aplicables al Derecho de la Unión no pueden
+ser menos favorables que las aplicables a situaciones puramente internas.
+b) Principio de efectividad: las normas nacionales no pueden hacer imposible o excesivamente
+difícil el ejercicio de los derechos conferidos por el Derecho de la Unión.
+Si se vulnera alguno de estos principios, la consecuencia es la inaplicación de la norma
+procedimental o procesal nacional incompatible, garantizando así la plena efectividad del
+Derecho de la Unión.
+7. PRINCIPIOS DE INTERPRETACIÓN CONFORME
+El ordenamiento jurídico español reconoce tres modalidades principales de interpretación
+conforme:
+a) Interpretación conforme a la Constitución (art. 5 LOPJ).
+b) Interpretación conforme a los tratados internacionales sobre derechos humanos (art. 10.2 CE).
+c) Interpretación conforme al Derecho de la Unión Europea.
+Su rasgo esencial es la imperatividad: no constituyen meras orientaciones doctrinales, sino
+mandatos jurídicos obligatorios para todos los aplicadores del Derecho. Son expresión de la
+interacción entre sistemas jurídicos derivada de tres procesos: constitucionalización del
+ordenamiento, vinculación al Derecho internacional de los derechos humanos y europeización del
+Derecho interno. Se trata de una técnica de coordinación normativa, incluso interordinamental.
+Puede ampliarse su alcance, por ejemplo, mediante la interpretación conforme a otros tratados
+internacionales ratificados por España. Así ocurre con la Carta Europea de la Autonomía Local,
+que el Tribunal Supremo ha considerado instrumento relevante para interpretar el principio
+constitucional de autonomía local.
+7.1. La interpretación conforme con la Constitución
+El Tribunal Constitucional fundamentó este principio en el carácter de la Constitución como ley
+superior y posterior, así como en la necesidad de evitar lagunas en el ordenamiento (STC 4/1981).
+La interpretación conforme permitió asegurar la continuidad del Derecho preconstitucional tras
+1978, evitando tanto su conservación intacta como su derogación masiva. Solo procede la
+derogación cuando la incompatibilidad con la Constitución sea insalvable.
+El juez ordinario fue encargado de aplicar esta técnica, garantizando la supremacía constitucional
+sin provocar vacíos normativos. La jurisdicción constitucional ha sido protagonista en la
+reinterpretación de numerosas instituciones del Derecho administrativo y penal conforme a los
+principios constitucionales, especialmente en materia sancionadora.
+La interpretación conforme no se limita a leyes preconstitucionales. La proliferación normativa
+actual exige su aplicación constante también respecto de leyes posconstitucionales, incluidas las
+relativas a la distribución competencial. En la jurisdicción constitucional, las interpretaciones
+conformes suelen incorporarse expresamente al fallo para reforzar la seguridad jurídica.
+Además, los jueces y tribunales están obligados a interpretar leyes y reglamentos conforme a la
+Constitución y a la doctrina del Tribunal Constitucional (art. 5.1 LOPJ). Solo pueden plantear
+cuestión de inconstitucionalidad cuando la interpretación conforme no sea posible, aunque esta
+exigencia no se aplica de forma rígida.
+7.2. La interpretación conforme con los tratados internacionales sobre derechos humanos
+El art. 10.2 CE establece que las normas relativas a los derechos fundamentales y libertades se
+interpretarán conforme a la Declaración Universal de Derechos Humanos y a los tratados
+internacionales ratificados por España. No se trata solo de integrar estos tratados en el
+ordenamiento interno (art. 96 CE), sino de utilizarlos como criterio de interpretación constitucional
+de los derechos fundamentales.
+Esto implica que la interpretación conforme opera en un plano superior: el constitucional. Un juez
+puede inaplicar una ley contraria a un tratado internacional; y, si la interpretación constitucional
+de un derecho fundamental coincide con el estándar internacional, el Tribunal Constitucional
+puede declarar la inconstitucionalidad y nulidad de la norma legal incompatible.
+El art. 10.2 CE cumple una doble función: actualizar permanentemente el contenido de los
+derechos fundamentales y coordinar el nivel interno de protección con el estándar internacional.
+Los derechos dejan así de ser solo límites internos al poder estatal para convertirse también en
+límites externos derivados del Derecho internacional de los derechos humanos.
+Desde el inicio, el Tribunal Constitucional destacó que la Constitución se inserta en un sistema
+universal de valores y principios en materia de derechos fundamentales. Inicialmente, esta técnica
+permitió dotar de contenido mínimo a preceptos constitucionales aún no desarrollados
+jurisprudencialmente; hoy su función es asegurar la adaptación continua del sistema interno a la
+evolución internacional.
+Entre los tratados relevantes destaca el Convenio Europeo de Derechos Humanos, cuya
+interpretación por el Tribunal Europeo de Derechos Humanos tiene especial peso por su carácter
+dinámico y vinculante para los Estados parte. La jurisprudencia constitucional y del Tribunal
+Supremo recurre de forma habitual a esta doctrina.
+La interpretación conforme no se limita a tratados interpretados por órganos jurisdiccionales.
+También debe atenderse a la interpretación realizada por órganos internacionales no judiciales
+competentes, como los comités de Naciones Unidas, cuyas resoluciones y observaciones
+pueden orientar la interpretación constitucional de los derechos fundamentales.
+7.3. La interpretación conforme con el Derecho de la Unión Europea
+7.3.1. Introducción
+Las relaciones entre el Derecho de la Unión Europea y el Derecho estatal no responden a la
+clásica lógica monista o dualista, sino a una doble lógica: la autonomía del Derecho de la Unión y
+su integración en el ordenamiento interno.
+Desde la perspectiva de la autonomía, el principio de interpretación conforme opera dentro del
+propio ordenamiento europeo: el Derecho secundario debe interpretarse conforme al Derecho
+primario, incluida la Carta de Derechos Fundamentales. Su fundamento es la supremacía del
+Derecho primario sobre el secundario.
+Desde la perspectiva de la integración, el principio actúa en los Estados miembros. Muchas
+normas internas encuentran su fundamento o sus condiciones de aplicación en normas europeas,
+por lo que deben interpretarse de manera coherente con ellas.
+Este principio se conecta con el mecanismo de cooperación jurisdiccional del art. 267 TFUE
+(cuestión prejudicial), que permite a los jueces nacionales plantear al Tribunal de Justicia dudas
+sobre validez e interpretación del Derecho de la Unión aplicable al litigio. La interpretación
+conforme refuerza así la coherencia y efectividad del sistema.
+7.3.2. Fundamento
+El Tribunal de Justicia ha fundamentado la obligación de interpretación conforme en varios
+argumentos.
+En primer lugar, el carácter obligatorio de los actos jurídicos europeos (art. 288 TFUE). Si las
+normas europeas son vinculantes y priman sobre las internas incompatibles, resulta lógico que
+las normas nacionales relacionadas con ellas deban interpretarse de conformidad con el Derecho
+de la Unión.
+En segundo lugar, el principio de cooperación leal (art. 4.3 TUE). Este obliga a las autoridades
+estatales —incluidos los jueces— a adoptar todas las medidas necesarias para garantizar el
+cumplimiento del Derecho de la Unión y a abstenerse de actuaciones que lo pongan en peligro.
+La interpretación conforme es uno de los instrumentos principales para cumplir esa obligación.
+En tercer lugar, el Tribunal de Justicia ha señalado que esta exigencia es inherente al sistema del
+Tratado, pues permite a los órganos jurisdiccionales nacionales asegurar la plena eficacia del
+Derecho de la Unión dentro de sus competencias.
+En definitiva, la interpretación conforme no solo preserva la primacía y unidad del ordenamiento
+europeo, sino que constituye un instrumento esencial para garantizar el cumplimiento efectivo de
+las obligaciones asumidas por los Estados miembros en un sistema descentralizado de
+ejecución.
+7.3.3. Objeto y alcance
+El principio de interpretación conforme al Derecho de la Unión se caracteriza por la amplitud del
+“bloque de interpretación”. Las normas internas que entren en el ámbito de aplicación del
+Derecho de la Unión deben interpretarse conforme al conjunto de este: Derecho primario,
+Derecho secundario y principios generales.
+El principal motor de la interpretación conforme es la directiva. Dado que requiere transposición
+interna, la norma nacional debe interpretarse siempre a la luz de la directiva correspondiente. El
+juez nacional debe interpretar el Derecho estatal, en la medida de lo posible, de forma coherente
+con el Derecho de la Unión y, si existen dudas sobre su alcance, plantear cuestión prejudicial ante
+el Tribunal de Justicia.
+La jurisprudencia europea formula esta obligación en términos amplios: el juez debe hacer “todo
+lo posible” para lograr una interpretación conforme. Esta fórmula impulsa la integración, pero
+respeta los límites del ordenamiento interno.
+La obligación de interpretación conforme tiene límites claros:
+a) Se ejerce por el juez nacional dentro de sus competencias. No altera la distribución interna
+entre legislador y juez.
+b) Requiere la existencia de una norma interna susceptible de interpretación conforme. No
+autoriza una interpretación contra legem. Si no es posible una interpretación conforme, el juez
+debe inaplicar la norma interna incompatible.
+c) Solo opera dentro del ámbito de aplicación del Derecho de la Unión. Determinar ese ámbito
+puede ser complejo, especialmente cuando la norma interna amplía el alcance de la directiva.
+d) Se refiere principalmente a normas vinculantes (en especial directivas), aunque el Tribunal de
+Justicia ha reconocido relevancia interpretativa a actos no vinculantes como recomendaciones.
+e) Está limitada por principios generales del Derecho de la Unión, como seguridad jurídica,
+irretroactividad y legalidad penal. No puede crearse o agravarse responsabilidad sancionadora
+por vía interpretativa.
+f) El plazo de transposición también influye. Antes de su vencimiento, la intensidad de la
+interpretación conforme es menor; una vez expirado, la exigencia es plena.
+En definitiva, la interpretación conforme obliga al juez a movilizar todos los recursos del
+ordenamiento interno —normas, métodos interpretativos y técnicas de resolución de conflictos—
+para evitar resultados contrarios al Derecho de la Unión y garantizar su efectividad.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+  "1": "El Derecho administrativo funciona con un sistema de fuentes multinivel (UE–Estado–CCAA–local) en el que lo decisivo es coordinar y aplicar normas concurrentes, no solo memorizarlas.",
+
+  "2": "La jerarquía normativa ordena el rango de las normas por su forma de aprobación y obliga a que las inferiores respeten a las superiores, pero no basta para resolver todos los conflictos.",
+  
+  "3": "El principio de competencia distribuye ámbitos normativos entre sujetos distintos y explica la ordenación del sistema cuando no hay superioridad jerárquica, sobre todo entre ordenamientos.",
+
+  "3.1": "Dentro del mismo ordenamiento, la competencia gobierna relaciones relevantes donde la jerarquía no opera (especialmente entre normas con rango de ley y en ciertas disposiciones gubernativas).",
+
+  "3.2": "Entre Estado y CCAA no hay jerarquía sino competencia: la solución exige verificar títulos competenciales y, si hay ley en juego, encauzar el control por la vía constitucional correspondiente.",
+
+  "4": "La supletoriedad es una técnica de integración que opera ante lagunas reales y no constituye un título competencial para que el Estado legisle sin cobertura material.",
+
+  "4.2": "La supletoriedad no asegura por sí sola el cumplimiento del Derecho de la Unión: la presión financiera por incumplimiento existe, pero la garantía efectiva exige otras vías compatibles con el reparto competencial.",
+
+  "5": "La prevalencia (art. 149.3 CE) es una regla de conflicto aplicativa entre Estado y CCAA fuera de la competencia exclusiva autonómica, que decide qué norma se aplica sin determinar por sí misma la validez.",
+
+  "5.1": "Hasta 2016 el TC trató el choque ley estatal–ley autonómica como conflicto competencial que obliga a canalizarlo por control de constitucionalidad, dejando la prevalencia casi sin recorrido práctico.",
+
+  "5.2": "Desde 2016 el TC reorienta la prevalencia en clave más judicialista: permite al juez inaplicar ley autonómica en supuestos tasados de incompatibilidad sobrevenida, pero mantiene el monopolio del TC en incompatibilidades originarias.",
+
+  "6": "La primacía implica la aplicación preferente del Derecho de la Unión desplazando el Derecho interno incompatible, como efecto aplicativa y no necesariamente jerárquico del sistema.",
+
+  "6.1": "El significado de la primacía se funda en la autonomía del ordenamiento de la Unión y en la cesión de competencias, con una primacía aplicativa compatible con la supremacía constitucional en su plano propio.",
+
+  "6.1.1": "El Derecho de la Unión, por su naturaleza autónoma, no admite oposición de normas internas anteriores o posteriores sin comprometer su eficacia y unidad.",
+
+  "6.1.2": "Los tratados internacionales ratificados despliegan prevalencia aplicativa frente a la ley, permitiendo al juez desplazar la norma interna en el caso concreto sin expulsarla del ordenamiento.",
+
+  "6.2": "La primacía se traduce en consecuencias operativas para jueces y Administraciones y en el desplazamiento de normas y actos internos incompatibles, con matices según su rango.",
+
+  "6.2.1": "Jueces y, en ciertos términos, autoridades administrativas deben dejar sin aplicar la norma interna incompatible con el Derecho de la Unión cuando no sea posible la interpretación conforme, con apoyo en la jurisprudencia del TJUE.",
+
+  "6.2.2": "La incompatibilidad con el Derecho de la Unión provoca normalmente inaplicación (no invalidez) de leyes, pero puede conducir a nulidad de reglamentos y a la ineficacia de actos administrativos contrarios.",
+
+  "6.3": "La primacía no es incondicionada: su alcance se modula por principios estructurales que delimitan competencias, preservan identidades y condicionan la ejecución en los Estados.",
+
+  "6.3.1": "El principio de atribución limita la primacía al ejercicio de competencias efectivamente cedidas, y los excesos deben impugnarse por los cauces del propio Derecho de la Unión (anulación o prejudicial).",
+
+  "6.3.2": "La identidad nacional actúa como válvula de seguridad prevista en los Tratados, pero su interpretación corresponde en última instancia al TJUE, no a un control unilateral estatal.",
+
+  "6.3.3": "La autonomía institucional y procedimental permite ejecutar el Derecho de la Unión conforme a reglas internas, pero queda limitada por la cooperación leal y por los principios de equivalencia y efectividad.",
+
+  "7": "La interpretación conforme es un mandato obligatorio de coordinación entre ordenamientos (Constitución, derechos humanos y Unión) para evitar incompatibilidades sin necesidad de expulsión normativa.",
+
+  "7.1": "La interpretación conforme a la Constitución preserva la supremacía constitucional evitando vacíos, imponiendo a jueces y tribunales acomodar la norma siempre que no sea imposible por su tenor.",
+
+  "7.2": "El art. 10.2 CE impone interpretar los derechos fundamentales conforme a los tratados de derechos humanos, coordinando el estándar constitucional con el internacional y permitiendo control de constitucionalidad si procede.",
+
+  "7.3": "La interpretación conforme al Derecho de la Unión articula la integración del Derecho europeo en el interno, apoyada en la cooperación leal y en el sistema prejudicial del art. 267 TFUE.",
+
+  "7.3.1": "La doble lógica autonomía–integración explica que la interpretación conforme opere tanto dentro del sistema de la Unión como en el Derecho interno cuando éste se conecta con normas europeas.",
+
+  "7.3.2": "El fundamento de la interpretación conforme descansa en el carácter vinculante del Derecho de la Unión, la cooperación leal y la exigencia de asegurar su plena eficacia en un sistema descentralizado.",
+
+  "7.3.3": "El alcance de la interpretación conforme es amplio pero no ilimitado: exige hacer “todo lo posible” sin contra legem y está acotado por competencias, ámbito UE, actos vinculantes y principios como seguridad jurídica e irretroactividad."
+};
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+   const BANCO_1 = `#ID=1
+
+// [1]
+Q: En el Derecho administrativo, a diferencia de otros sectores como el penal o civil:
+A) La ley es prácticamente la única fuente relevante del sistema.
+B) Intervienen múltiples fuentes con especial protagonismo del decreto-ley, decreto legislativo, ley autonómica y reglamento.
+C) Solo tienen relevancia las normas estatales con rango de ley.
+OK: B
+EXP: El Derecho administrativo se caracteriza por la pluralidad de fuentes normativas y por el peso específico de normas distintas de la ley formal.
+
+// [2]
+Q: La regulación de un sector administrativo puede estar integrada simultáneamente por:
+A) Normas estatales y autonómicas exclusivamente.
+B) Normas europeas, estatales, autonómicas y locales, además de principios y jurisprudencia.
+C) Únicamente normas reglamentarias y jurisprudencia constitucional.
+OK: B
+EXP: El sistema es multinivel: concurren normas de distintos ordenamientos y principios constitucionales y europeos, junto con la jurisprudencia.
+
+// [3]
+Q: La principal dificultad práctica del Derecho administrativo radica en:
+A) Memorizar el contenido literal de cada disposición legal.
+B) Determinar cuál es la norma más antigua aplicable al caso.
+C) Localizar, coordinar y aplicar correctamente normas concurrentes, incluso cuando parecen contradictorias.
+OK: C
+EXP: El problema no es la memorización, sino la correcta coordinación de normas que pueden provenir de distintos niveles normativos.
+
+// [4]
+Q: Cuando una norma inferior desarrolla o precisa el contenido de otra superior, se produce una relación de:
+A) Integración.
+B) Concreción.
+C) Compatibilidad.
+OK: B
+EXP: La concreción implica que la norma inferior especifica o desarrolla el contenido de la superior sin contradecirla.
+
+// [5]
+Q: La relación de integración entre fuentes implica que:
+A) Una norma inferior desplaza a la superior por especialidad.
+B) Una fuente cubre una laguna existente en otra.
+C) Dos normas del mismo rango se aplican simultáneamente.
+OK: B
+EXP: La integración opera cuando una fuente suple una laguna de otra, no cuando existe contradicción ni simple desarrollo.
+
+#ID=2
+
+// [6]
+Q: El rango de una norma dentro del ordenamiento jurídico depende fundamentalmente de:
+A) Su contenido material y su relevancia política.
+B) El órgano que la dicta y el procedimiento seguido para su aprobación.
+C) El ámbito territorial en el que despliega efectos.
+OK: B
+EXP: El rango se determina por la forma y el procedimiento de aprobación, no por el contenido ni por la materia regulada.
+
+// [7]
+Q: El art. 9.3 CE garantiza el principio de jerarquía normativa, lo que implica que:
+A) Puede declararse inconstitucional una norma únicamente por infringir el art. 9.3 CE.
+B) Toda norma inferior debe respetar la norma superior concreta aplicable.
+C) Las leyes orgánicas son siempre superiores a las leyes ordinarias.
+OK: B
+EXP: El art. 9.3 CE garantiza la jerarquía, pero el parámetro de control es la norma superior concreta infringida.
+
+// [8]
+Q: Dentro del ordenamiento interno, los grandes niveles normativos son:
+A) Constitución, leyes ordinarias y reglamentos ministeriales.
+B) Constitución, normas con rango de ley y normas reglamentarias.
+C) Constitución, Derecho internacional y Derecho autonómico.
+OK: B
+EXP: La estructura clásica distingue Constitución, normas con rango de ley y reglamentos, sin perjuicio de la relevancia de tratados ratificados.
+
+// [9]
+Q: Entre normas con rango de ley no existe relación de jerarquía, por lo que en caso de conflicto se aplican criterios como:
+A) Jerarquía formal y supremacía constitucional directa.
+B) Cronología, especialidad o competencia.
+C) Prevalencia automática de la ley estatal sobre la autonómica.
+OK: B
+EXP: Las normas con rango de ley comparten fuerza normativa; por ello, el conflicto se resuelve mediante criterios como el cronológico o de especialidad.
+
+// [10]
+Q: En el ámbito reglamentario estatal, la jerarquía sitúa:
+A) Las órdenes ministeriales por encima de los reales decretos.
+B) Los reales decretos del Presidente o del Consejo de Ministros por encima de las órdenes ministeriales.
+C) Todas las disposiciones reglamentarias en el mismo nivel jerárquico.
+OK: B
+EXP: Dentro del reglamento estatal existe jerarquía interna: los reales decretos se sitúan por encima de las órdenes ministeriales.
+
+// [11]
+Q: Cuando una disposición inferior contradice una norma superior dentro del mismo ordenamiento:
+A) Debe aplicarse la norma posterior, aunque sea inferior.
+B) La norma inferior puede declararse nula por vulneración del principio de jerarquía.
+C) Se aplican ambas normas mediante interpretación sistemática.
+OK: B
+EXP: La infracción del principio de jerarquía puede dar lugar a nulidad de pleno derecho de la norma inferior incompatible con la superior.
+
+// [12]
+Q: El art. 6 LOPJ establece que jueces y tribunales:
+A) Pueden inaplicar leyes si consideran que vulneran principios generales del Derecho.
+B) No deben aplicar disposiciones contrarias a normas superiores.
+C) Deben aplicar siempre la norma posterior, aunque contradiga una superior.
+OK: B
+EXP: El precepto impone el deber de no aplicar disposiciones contrarias a normas de rango superior.
+
+// [13]
+Q: La interpretación conforme dentro del principio de jerarquía implica que:
+A) La norma inferior debe ser anulada automáticamente si plantea dudas.
+B) Debe intentarse interpretar la norma inferior de forma compatible con la superior antes de declarar su invalidez.
+C) Solo el Tribunal Constitucional puede realizarla.
+OK: B
+EXP: Antes de declarar la nulidad, debe intentarse una interpretación que salve la compatibilidad con la norma superior.
+
+// [14]
+Q: En la relación entre tratado internacional ratificado y ley interna:
+A) La ley siempre prevalece por su origen democrático.
+B) El tratado desplaza aplicativamente a la ley incompatible, aunque no necesariamente la anule.
+C) Ambos tienen idéntica eficacia, debiendo aplicarse la norma posterior.
+OK: B
+EXP: El juez debe inaplicar la ley contraria al tratado ratificado y publicado, lo que revela una eficacia prevalente en el plano aplicativo.
+
+
+// [17]
+Q: La distribución competencial puede combinar criterios:
+A) Exclusivamente territoriales.
+B) Materiales, funcionales y territoriales.
+C) Jerárquicos y cronológicos.
+OK: B
+EXP: La distribución no es lineal; combina materia, función y territorio, generando posibles conflictos o solapamientos.
+`;
+    const BANCO_2 = `/* =========================================================
+   BLOQUE — EPÍGRAFE 3
+   Total preguntas: 22
+========================================================= */
+
+#ID=3
+
+// [18]
+Q: El principio de competencia comparte hoy protagonismo con la jerarquía porque:
+A) Ambos operan exclusivamente dentro del mismo ordenamiento.
+B) La competencia explica relaciones que la jerarquía no puede resolver.
+C) Sustituye completamente al principio de jerarquía.
+OK: B
+EXP: La competencia ordena relaciones entre distintos sujetos y ordenamientos, donde la jerarquía no resulta suficiente.
+
+// [19]
+Q: Mientras la jerarquía opera preferentemente:
+A) Entre distintos ordenamientos territoriales.
+B) Entre normas del mismo ordenamiento.
+C) En materias compartidas entre Estado y comunidad autónoma.
+OK: B
+EXP: La jerarquía ordena normas dentro de un mismo sistema; la competencia actúa sobre todo entre ordenamientos distintos.
+
+// [20]
+Q: El principio de competencia se apoya en:
+A) La supremacía del legislador estatal.
+B) La superioridad de la Constitución que distribuye poder normativo.
+C) La autonomía reglamentaria de la Administración.
+OK: B
+EXP: La Constitución es la que atribuye ámbitos de decisión separados a distintos sujetos públicos.
+
+// [21]
+Q: La esencia del principio de competencia consiste en:
+A) Establecer una subordinación formal entre normas.
+B) Atribuir separadamente ámbitos de decisión a sujetos distintos.
+C) Aplicar el criterio cronológico en caso de conflicto.
+OK: B
+EXP: La competencia distribuye ámbitos normativos evitando solapamientos.
+
+// [22]
+Q: La distribución competencial combina criterios:
+A) Exclusivamente territoriales.
+B) Materiales, funcionales y territoriales.
+C) Jerárquicos y cronológicos.
+OK: B
+EXP: La competencia no es lineal; combina distintos criterios que pueden entrecruzarse.
+
+// [23]
+Q: El hecho de que una materia se divida entre bases y desarrollo muestra que:
+A) Existe jerarquía entre Estado y comunidad autónoma.
+B) La competencia puede fragmentarse dentro de una misma materia.
+C) La norma básica tiene siempre rango superior.
+OK: B
+EXP: Una misma materia puede dividirse funcionalmente entre legislación básica y desarrollo autonómico.
+
+// [24]
+Q: Competencia y jerarquía son:
+A) Principios antagónicos.
+B) Excluyentes en todo caso.
+C) Compatibles y coexistentes.
+OK: C
+EXP: Ambos principios conviven; la competencia no elimina la jerarquía dentro del sistema.
+
+#ID=3.1
+
+// [25]
+Q: La relación entre normas con rango de ley se rige fundamentalmente por:
+A) Jerarquía formal.
+B) Competencia.
+C) Especialidad reglamentaria.
+OK: B
+EXP: Entre leyes no existe jerarquía; el conflicto se analiza desde la competencia.
+
+// [26]
+Q: La relación entre ley orgánica y ley ordinaria:
+A) Es jerárquica.
+B) Se basa en reserva material, no en jerarquía.
+C) Supone inferioridad formal de la ley ordinaria.
+OK: B
+EXP: La Constitución reserva materias a ley orgánica, pero ambas comparten rango formal.
+
+// [27]
+Q: La prevalencia provisional de la ley orgánica admitida por el TC implica:
+A) Superioridad jerárquica permanente.
+B) Aplicación prioritaria mientras se resuelve el conflicto.
+C) Derogación automática de la ley ordinaria.
+OK: B
+EXP: Se trata de una solución funcional provisional, no de jerarquía estructural.
+
+// [28]
+Q: La ley de presupuestos respecto de otras leyes ordinarias:
+A) Tiene rango superior.
+B) Tiene rango inferior.
+C) Responde a una delimitación material específica.
+OK: C
+EXP: Su posición deriva de su contenido propio, no de jerarquía.
+
+// [29]
+Q: Las leyes autonómicas de mayoría reforzada:
+A) Son jerárquicamente superiores.
+B) Congelan el contenido normativo.
+C) Se rigen por competencia, no jerarquía.
+OK: C
+EXP: El TC rechaza la congelación normativa y aplica el principio de competencia.
+
+// [30]
+Q: El estatuto de autonomía:
+A) Es una ley autonómica ordinaria.
+B) Ocupa la cúspide del ordenamiento autonómico.
+C) Es un reglamento institucional.
+OK: B
+EXP: Como norma institucional básica, se sitúa en la cima del sistema autonómico.
+
+// [31]
+Q: Que una norma actúe como parámetro de validez no significa que:
+A) Sea aplicable.
+B) Tenga jerarquía superior.
+C) Sea constitucional.
+OK: B
+EXP: Su función delimitadora deriva de la Constitución, no de superioridad formal.
+
+#ID=3.2
+
+// [32]
+Q: La relación entre ordenamiento estatal y autonómico se rige por:
+A) Jerarquía.
+B) Competencia.
+C) Cronología.
+OK: B
+EXP: Ningún ordenamiento es superior; cada uno actúa dentro de su ámbito competencial.
+
+// [33]
+Q: El bloque de constitucionalidad incluye:
+A) Solo la Constitución.
+B) Constitución, estatutos y normas delimitadoras de competencia.
+C) Únicamente bases estatales.
+OK: B
+EXP: Es el parámetro que distribuye competencias entre ordenamientos.
+
+// [34]
+Q: Una norma básica estatal puede prevalecer frente a una ley autonómica porque:
+A) Tiene mayor rango formal.
+B) La Constitución atribuye al Estado la fijación de bases.
+C) Es siempre posterior.
+OK: B
+EXP: La prevalencia responde a la competencia estatal para fijar bases.
+
+// [35]
+Q: La inconstitucionalidad mediata implica que:
+A) Se vulnera directamente la Constitución.
+B) Se infringe una norma delimitadora habilitada por la Constitución.
+C) Existe conflicto entre reglamentos.
+OK: B
+EXP: La infracción es indirecta respecto a la Constitución.
+
+// [36]
+Q: En conflictos entre ley estatal y autonómica:
+A) El juez aplica jerarquía.
+B) Corresponde al TC declarar invalidez si afecta a ley.
+C) Se aplica automáticamente la norma estatal.
+OK: B
+EXP: Cuando está en juego la validez de leyes, decide el Tribunal Constitucional.
+
+// [37]
+Q: La inexistencia de jerarquía entre Estado y comunidad autónoma significa que:
+A) La norma estatal nunca puede prevalecer.
+B) No puede resolverse el conflicto por simple superioridad formal.
+C) La norma autonómica es siempre preferente en su territorio.
+OK: B
+EXP: La solución exige analizar competencia, no aplicar jerarquía automática.
+
+// [38]
+Q: En el ámbito local:
+A) Las normas locales son leyes.
+B) Las normas locales son reglamentarias.
+C) Son autónomas frente a la ley.
+OK: B
+EXP: Las normas locales son siempre reglamentarias y deben respetar la legislación superior.
+
+// [39]
+Q: Dentro del ámbito local confluyen:
+A) Exclusivamente competencia.
+B) Exclusivamente jerarquía.
+C) Competencia y jerarquía simultáneamente.
+OK: C
+EXP: Las normas locales respetan jerarquía frente a la ley y se coordinan por competencia dentro de su ámbito.
+`;
+    const BANCO_3 = `/* =========================================================
+   BLOQUE — EPÍGRAFES 4 Y 5
+   Total preguntas: 24
+========================================================= */
+
+#ID=4
+
+// [40]
+Q: En Derecho público, la supletoriedad del art. 149.3 CE opera principalmente como:
+A) Una regla jerárquica que coloca el Derecho estatal por encima del autonómico.
+B) Una técnica de integración entre ordenamientos para colmar lagunas reales.
+C) Un criterio cronológico para preferir la norma posterior.
+OK: B
+EXP: En el Estado autonómico, la supletoriedad funciona como mecanismo integrador cuando hay una laguna real, no como jerarquía ni como simple posterioridad.
+
+// [41]
+Q: Para aplicar supletoriamente una norma, el presupuesto exigible es:
+A) La simple ausencia de regulación autonómica en una materia.
+B) La existencia de una laguna real apreciada por el aplicador del Derecho.
+C) Que el Estado declare expresamente la supletoriedad en la norma.
+OK: B
+EXP: No toda falta de regulación es laguna: la supletoriedad exige una laguna real, no una opción deliberada del legislador.
+
+// [42]
+Q: Antes de acudir al Derecho estatal como supletorio, el operador jurídico debe:
+A) Aplicarlo directamente para evitar vacíos.
+B) Intentar integrar el caso con los propios principios y reglas del ordenamiento autonómico.
+C) Plantear siempre cuestión de inconstitucionalidad.
+OK: B
+EXP: La supletoriedad es subsidiaria: primero se agota la integración interna del ordenamiento autonómico.
+
+// [43]
+Q: La doctrina constitucional consolidada desde STC 61/1997 implica que la supletoriedad:
+A) Es un título competencial autónomo para legislar donde el Estado no tiene competencia.
+B) Permite al Estado dictar normas supletorias sin necesidad de cobertura competencial.
+C) No legitima por sí sola la producción normativa estatal si falta título competencial.
+OK: C
+EXP: La supletoriedad no habilita a legislar “por si acaso”; si el Estado carece de competencia material, no puede dictar normas meramente supletorias.
+
+// [44]
+Q: Según la evolución jurisprudencial, tras STC 147/1991 el Estado solo puede dictar normas supletorias cuando:
+A) Lo solicite una Comunidad Autónoma.
+B) Cuente con un título competencial específico.
+C) Exista conflicto entre leyes estatales y autonómicas.
+OK: B
+EXP: La jurisprudencia fue restringiendo la supletoriedad: exige cobertura competencial, no basta invocar “integración” del sistema.
+
+// [45]
+Q: La consecuencia práctica de negar que la supletoriedad sea un título competencial es que:
+A) El Estado puede legislar para cubrir cualquier omisión autonómica.
+B) La integración ante lagunas pasa a depender del aplicador del Derecho, no del legislador estatal sin competencia.
+C) La norma autonómica queda siempre desplazada por la estatal.
+OK: B
+EXP: La integración se traslada al operador jurídico cuando detecta laguna real no colmable internamente, sin habilitar legislación estatal carente de competencia.
+
+// [46]
+Q: El legislador autonómico, frente a normas estatales con eficacia supletoria:
+A) Puede derogarlas formalmente.
+B) No puede derogarlas formalmente, pero puede desplazar su eficacia ejerciendo su competencia material.
+C) Debe aplicarlas siempre, aunque legisle después.
+OK: B
+EXP: La CA no “deroga” la norma estatal, pero puede neutralizar su aplicación mediante regulación propia dentro de su competencia.
+
+// [47]
+Q: La supletoriedad en el Estado autonómico ha pasado de ser:
+A) Una técnica transitoria de ajuste a un mecanismo puntual subordinado a la competencia.
+B) Un principio de supremacía estatal a un principio de supremacía autonómica.
+C) Un criterio de interpretación conforme a un control de constitucionalidad.
+OK: A
+EXP: Evoluciona desde función transitoria de integración hacia técnica puntual que opera solo cuando procede y siempre bajo el principio de competencia.
+
+#ID=4.2
+
+// [48]
+Q: El mecanismo de responsabilidad por incumplimiento del Derecho de la Unión, introducido por LO 2/2012 y desarrollado por RD 515/2013, pretende:
+A) Garantizar por sí mismo el cumplimiento efectivo del Derecho europeo.
+B) Repartir las consecuencias económicas del incumplimiento entre Administraciones según imputación.
+C) Sustituir el control jurisdiccional del TJUE.
+OK: B
+EXP: Establece un sistema de imputación económica a la Administración responsable, como instrumento de presión, sin asegurar automáticamente el cumplimiento.
+
+// [49]
+Q: Considerar la supletoriedad como vía para asegurar transposición de directivas cuando la CA no actúa plantea que:
+A) La supletoriedad permite siempre dictar normas estatales preventivas sin competencia.
+B) Solo cubriría el supuesto de falta de transposición, no otros incumplimientos como transposición incorrecta.
+C) Resolvería cualquier incumplimiento por aplicación automática del Derecho estatal.
+OK: B
+EXP: Aun admitiéndola para un caso puntual, no arregla problemas frecuentes (transposición defectuosa o mala aplicación).
+
+// [50]
+Q: Una política estatal sistemática de normas supletorias “desde la publicación de directivas” sería problemática porque:
+A) Está prohibida por el art. 149.3 CE en todo caso.
+B) Podría erosionar la lógica del Estado autonómico y el reparto de competencias.
+C) El TJUE no admite medidas estatales preventivas.
+OK: B
+EXP: Una supletoriedad anticipada y generalizada tensiona el sistema competencial, por eso la garantía debe buscarse por vías compatibles con el reparto constitucional.
+
+// [51]
+Q: En el marco del cumplimiento del Derecho de la Unión, la supletoriedad:
+A) Se configura como título competencial europeo directo.
+B) No constituye por sí sola garantía suficiente; exige mecanismos alternativos y coordinación competencial.
+C) Obliga a las CCAA a transponer siempre mediante ley.
+OK: B
+EXP: La presión financiera existe, pero el cumplimiento efectivo no se asegura solo con supletoriedad; el problema requiere soluciones institucionales y competenciales.
+
+#ID=5
+
+// [52]
+Q: El principio de prevalencia del art. 149.3 CE funciona como:
+A) Regla de validez que anula automáticamente la norma autonómica incompatible.
+B) Regla de conflicto aplicativa: determina qué norma se aplica sin decidir por sí misma la invalidez.
+C) Regla jerárquica general entre Estado y CCAA.
+OK: B
+EXP: La prevalencia opera sobre eficacia/aplicación, no sobre validez; no convierte al Estado en “superior” jerárquico en el plano competencial.
+
+// [53]
+Q: Para que opere la prevalencia es necesario que:
+A) La materia no esté atribuida a la competencia exclusiva autonómica.
+B) Exista siempre una base estatal previa en sentido formal.
+C) La norma estatal sea posterior a la autonómica.
+OK: A
+EXP: La Constitución limita la prevalencia: fuera de la competencia exclusiva autonómica puede desplazar aplicativamente la norma autonómica en caso de conflicto.
+
+// [54]
+Q: La noción constitucional de “conflicto” para activar la prevalencia exige:
+A) Simple diferencia de redacción entre normas.
+B) Soluciones incompatibles y excluyentes para el mismo supuesto.
+C) Dudas interpretativas del operador jurídico.
+OK: B
+EXP: No basta con matices; debe haber incompatibilidad real, de modo que no puedan coexistir ambas soluciones.
+
+// [55]
+Q: De la regulación del art. 149.3 CE se deduce, además de la regla expresa a favor del Derecho estatal, una regla implícita en favor del Derecho autonómico cuando:
+A) El conflicto se produce con Derecho estatal preconstitucional o dictado para otra CA al amparo de la cláusula residual, en materia exclusiva autonómica.
+B) El Estado invoca interés general.
+C) La norma autonómica es posterior.
+OK: A
+EXP: En ciertos supuestos vinculados a la cláusula residual y a Derecho estatal preconstitucional, en materia exclusiva autonómica, se refuerza la posición aplicativa del Derecho autonómico.
+
+#ID=5.1
+
+// [56]
+Q: La interpretación dominante hasta 2016 sobre choques entre ley estatal y ley autonómica fue:
+A) Aplicar directamente la prevalencia por el juez ordinario.
+B) Tratarlo como conflicto competencial y canalizarlo por control de constitucionalidad.
+C) Resolverlo por jerarquía a favor del Estado.
+OK: B
+EXP: Se priorizó el conflicto competencial: al afectar a leyes, la decisión se concentraba en el Tribunal Constitucional.
+
+// [57]
+Q: La consecuencia práctica de ese modelo fue que la prevalencia:
+A) Se aplicó de forma habitual en competencias compartidas.
+B) Quedó casi sin recorrido en el ámbito donde más conflictos existen (bases y desarrollo).
+C) Se convirtió en un criterio de interpretación conforme al Derecho de la Unión.
+OK: B
+EXP: Justo en las competencias compartidas, donde se concentra el conflicto normativo, la prevalencia quedó prácticamente excluida por la vía elegida.
+
+// [58]
+Q: Según la doctrina reforzada por el TC, si un juez inaplicaba una ley autonómica por estimarla contraria a bases estatales sin plantear cuestión de inconstitucionalidad:
+A) Actuaba correctamente por ser “prevalencia”.
+B) Podía vulnerar tutela judicial efectiva por extralimitarse.
+C) Estaba obligado a elevar recurso de casación.
+OK: B
+EXP: El TC entendió que el juez no podía “depurar” leyes autonómicas por sí mismo sin activar el cauce constitucional, so pena de invadir el control reservado.
+
+// [59]
+Q: El esquema clásico ante conflicto ley estatal–ley autonómica exigía que:
+A) El juez resolviera siempre por preferencia estatal.
+B) Si consideraba válida la ley estatal, planteara cuestión respecto de la autonómica; y si dudaba de la estatal, cuestionara esta.
+C) El juez suspendiera el proceso hasta derogación legislativa.
+OK: B
+EXP: El conflicto se configuró como control de constitucionalidad, obligando a activar cuestión de inconstitucionalidad según el juicio de validez que el juez hiciera.
+
+#ID=5.2
+
+// [60]
+Q: La reorientación “judicialista” desde 2016 permite al juez inaplicar ley autonómica sin cuestión de inconstitucionalidad cuando:
+A) La incompatibilidad es originaria.
+B) La incompatibilidad es sobrevenida por modificación posterior de las bases estatales.
+C) Existe cualquier contradicción formal.
+OK: B
+EXP: La clave es la incompatibilidad sobrevenida: el juez puede aplicar la prevalencia en supuestos tasados sin reabrir siempre el control constitucional.
+
+// [61]
+Q: La STC 1/2017 precisó que el juez solo puede aplicar prevalencia directamente si:
+A) La ley autonómica es anterior a la estatal.
+B) La incompatibilidad deriva de cambios posteriores en las bases estatales, no si es originaria.
+C) El conflicto es entre reglamentos.
+OK: B
+EXP: Si el choque es originario (desde el nacimiento), el monopolio del TC permanece; si es sobrevenido, se abre una vía aplicativa limitada.
+
+// [62]
+Q: La extensión operada por STC 204/2016 respecto de la doctrina inicial supuso que:
+A) Solo se permitía inaplicar cuando la base estatal ya había sido enjuiciada por el TC.
+B) Se aceptaba la inaplicación incluso cuando la nueva norma estatal no había sido previamente enjuiciada, si la incompatibilidad era sobrevenida.
+C) Se prohibía completamente aplicar prevalencia.
+OK: B
+EXP: El TC amplió el alcance: no exigió siempre un enjuiciamiento previo de la nueva base estatal para admitir la inaplicación en supuestos sobrevenidos.
+
+// [63]
+Q: Una crítica central a esta nueva vía de prevalencia aplicada por jueces ordinarios es que:
+A) Elimina el principio de competencia.
+B) Puede afectar a seguridad jurídica y uniformidad interpretativa, porque delimitar “bases” no siempre es sencillo.
+C) Obliga a derogar todas las leyes autonómicas previas.
+OK: B
+EXP: La identificación y alcance de las bases estatales es técnicamente compleja; permitir inaplicación judicial puede generar divergencias y tensión en la uniformidad.
+`;
+    const BANCO_4 = `/* =========================================================
+   BLOQUE — EPÍGRAFES 6 Y 7
+   Total preguntas: 30
+========================================================= */
+
+#ID=6
+
+// [64]
+Q: La primacía del Derecho de la Unión Europea implica, en términos generales:
+A) La invalidez automática de toda norma interna incompatible.
+B) La aplicación preferente del Derecho de la Unión, desplazando la norma interna incompatible.
+C) La superioridad jerárquica de la Unión sobre la Constitución.
+OK: B
+EXP: La primacía es una regla aplicativa: obliga a aplicar el Derecho de la Unión con preferencia, desplazando el Derecho interno incompatible sin necesidad de anularlo.
+
+// [65]
+Q: La construcción clásica de la primacía en la jurisprudencia del TJUE se formula emblemáticamente en:
+A) Simmenthal (1978).
+B) Costa/ENEL (1964).
+C) Francovich (1991).
+OK: B
+EXP: Costa/ENEL establece la idea de un ordenamiento europeo autónomo que no puede verse neutralizado por normas internas, anteriores o posteriores.
+
+// [66]
+Q: El fundamento estructural de la primacía del Derecho de la Unión se apoya, principalmente, en:
+A) La voluntad del legislador estatal de aceptar el Derecho de la Unión.
+B) La autonomía del ordenamiento de la Unión y la cesión de competencias por los Estados.
+C) La jerarquía formal interna de los reglamentos europeos.
+OK: B
+EXP: La primacía deriva del propio sistema de la Unión: un ordenamiento autónomo, vinculante, integrado y basado en competencias cedidas.
+
+// [67]
+Q: La distinción “primacía vs supremacía” en el enfoque del Tribunal Constitucional español significa que:
+A) La primacía es jerárquica y la supremacía es aplicativa.
+B) La primacía opera en la aplicación, mientras la supremacía constitucional se mantiene en el plano jerárquico interno.
+C) Ambas son equivalentes y producen nulidad.
+OK: B
+EXP: La primacía desplaza en la aplicación en el ámbito cedido; la supremacía constitucional se mantiene como idea jerárquica interna, compatible por la vía del art. 93 CE.
+
+// [68]
+Q: En caso de conflicto entre norma interna y Derecho de la Unión, la consecuencia típica de la primacía es:
+A) Derogación automática de la norma interna.
+B) Inaplicación o desplazamiento de la norma interna en el caso concreto.
+C) Suspensión de la norma interna hasta decisión del Tribunal Constitucional.
+OK: B
+EXP: La primacía opera como regla de aplicabilidad: se deja de aplicar la norma interna incompatible, sin expulsarla necesariamente del ordenamiento.
+
+// [69]
+Q: Respecto de los tratados internacionales ratificados y publicados, su primacía frente a normas internas se caracteriza por ser:
+A) Jerárquica, con nulidad de la ley interna incompatible.
+B) Aplicativa, permitiendo al juez desplazar la norma interna en el caso concreto.
+C) Inexistente, porque la ley siempre prevalece.
+OK: B
+EXP: Los tratados despliegan prevalencia/primacía aplicativa: el juez aplica el tratado y desplaza la norma interna incompatible sin expulsarla del sistema.
+
+// [70]
+Q: El control de convencionalidad en el conflicto ley–tratado corresponde principalmente a:
+A) Exclusivamente al Tribunal Constitucional.
+B) Los órganos judiciales ordinarios.
+C) Únicamente al Gobierno por vía reglamentaria.
+OK: B
+EXP: Son los jueces ordinarios quienes pueden desplazar la norma interna contraria al tratado ratificado, aplicando el tratado en el caso concreto.
+
+// [71]
+Q: Si un juez estima que un tratado vulnera la Constitución, el cauce indicado en el esquema descrito es:
+A) Inaplicarlo unilateralmente por primacía constitucional.
+B) Plantear cuestión de inconstitucionalidad.
+C) Solicitar dictamen al Tribunal Supremo.
+OK: B
+EXP: El conflicto con la Constitución se encauza por control de constitucionalidad interno; afectaría a la constitucionalidad interna, no a la validez internacional del tratado.
+
+// [72]
+Q: A diferencia de los tratados internacionales, el Derecho derivado de la Unión:
+A) Puede ser controlado por el Tribunal Constitucional como canon autónomo.
+B) No puede ser objeto de control de constitucionalidad interno en el mismo sentido.
+C) Solo vincula si se incorpora por ley estatal.
+OK: B
+EXP: En el esquema expuesto, el Derecho derivado no entra como canon autónomo de constitucionalidad interno, lo que obliga a perfilar cuidadosamente el alcance de su primacía.
+
+#ID=6.2
+
+// [73]
+Q: La doctrina Simmenthal establece, como regla operativa, que:
+A) El juez nacional debe esperar a que se derogue la norma interna incompatible.
+B) Todo juez nacional debe inaplicar la norma interna incompatible con el Derecho de la Unión, si no cabe interpretación conforme.
+C) Solo el TJUE puede inaplicar normas internas.
+OK: B
+EXP: Simmenthal impone la inaplicación inmediata por el juez nacional, sin necesidad de derogación o anulación previa, para asegurar eficacia del Derecho de la Unión.
+
+// [74]
+Q: La facultad del juez nacional de dejar sin aplicar una norma interna incompatible deriva:
+A) Del Derecho interno exclusivamente.
+B) Directamente del Derecho de la Unión y de su primacía.
+C) De una autorización expresa del Tribunal Constitucional.
+OK: B
+EXP: La inaplicación por el juez nacional es efecto directo del sistema de la Unión: garantiza la plena eficacia del Derecho europeo.
+
+// [75]
+Q: La cuestión prejudicial del art. 267 TFUE permite al juez nacional:
+A) Derogar normas europeas.
+B) Preguntar al TJUE sobre interpretación o validez del Derecho de la Unión relevante para el litigio.
+C) Sustituir al Tribunal Constitucional en el control de leyes.
+OK: B
+EXP: Es un mecanismo de cooperación jurisdiccional: el juez consulta al TJUE para asegurar interpretación uniforme y correcta del Derecho de la Unión.
+
+// [76]
+Q: El art. 4 bis LOPJ (desde 2015) consolida que jueces y tribunales:
+A) Aplicarán el Derecho de la Unión conforme a la jurisprudencia del TJUE.
+B) Aplicarán el Derecho de la Unión solo cuando el Gobierno lo ordene.
+C) Pueden ignorar la jurisprudencia europea si contradice el Derecho interno.
+OK: A
+EXP: Reconoce expresamente la obligación de aplicar el Derecho de la Unión conforme a la jurisprudencia del Tribunal de Justicia.
+
+// [77]
+Q: Según la doctrina Costanzo, las autoridades administrativas deben:
+A) Esperar siempre una sentencia del TJUE antes de actuar.
+B) Dejar sin aplicar disposiciones o actos nacionales incompatibles con el Derecho de la Unión.
+C) Plantear cuestión prejudicial como requisito previo.
+OK: B
+EXP: La “primacía administrativa” exige no aplicar lo incompatible, garantizando eficacia del Derecho de la Unión sin esperar declaración judicial previa.
+
+// [78]
+Q: En relación con normas con rango legal incompatibles con el Derecho de la Unión, el efecto típico es:
+A) Nulidad de pleno derecho declarada por el Tribunal Constitucional por vulneración de la Unión.
+B) Inaplicación en el caso concreto por el juez, sin expulsión del ordenamiento.
+C) Derogación inmediata por el Gobierno.
+OK: B
+EXP: La primacía desplaza aplicativamente la ley en el caso concreto; el TC no la anula por ser el Derecho de la Unión canon autónomo de constitucionalidad.
+
+// [79]
+Q: El tratamiento de los reglamentos incompatibles con el Derecho de la Unión se caracteriza, según el esquema descrito, porque:
+A) Nunca pueden ser anulados; solo se inaplican.
+B) El Tribunal Supremo ha declarado su nulidad de pleno derecho, con base en categorías internas, aunque sea discutido.
+C) Solo el TJUE puede anularlos.
+OK: B
+EXP: Frente a la inaplicación típica en leyes, en reglamentos el TS ha acudido a nulidad interna por jerarquía, solución discutida por su carácter asistemático.
+
+// [80]
+Q: Respecto de los actos administrativos incompatibles con el Derecho de la Unión:
+A) Deben mantenerse por presunción de validez del acto administrativo.
+B) Deben ser dejados sin efecto por la Administración, garantizando la efectividad de la primacía.
+C) Solo pueden anularse por el Tribunal Constitucional.
+OK: B
+EXP: La Administración está obligada a no sostener actos contrarios al Derecho de la Unión para asegurar efectividad del sistema.
+
+#ID=6.3
+
+// [81]
+Q: La primacía del Derecho de la Unión no es absoluta porque:
+A) Depende siempre de una ley estatal de recepción.
+B) Su alcance se modula por principios estructurales que delimitan competencias y articulan la ejecución.
+C) Solo opera en materia penal.
+OK: B
+EXP: La primacía es aplicativa, pero se ejerce dentro del marco de competencias atribuidas y con límites derivados de la estructura del sistema.
+
+// [82]
+Q: El principio de atribución significa que la Unión Europea:
+A) Tiene competencia universal en todas las materias.
+B) Solo puede actuar en materias expresamente cedidas por los Estados en los Tratados.
+C) Puede ampliar sus competencias por interpretación estatal.
+OK: B
+EXP: La Unión no tiene competencia general; actúa solo donde hay atribución expresa, quedando el resto en los Estados.
+
+// [83]
+Q: Si un Estado considera que un acto vinculante de la Unión excede competencias, el cauce correcto es:
+A) Inaplicarlo unilateralmente por su tribunal nacional.
+B) Acudir a los mecanismos del Derecho de la Unión (recurso de anulación o prejudicial de validez).
+C) Derogarlo por ley interna.
+OK: B
+EXP: No cabe inaplicación unilateral de actos vinculantes por falta de competencia: debe impugnarse en el sistema de la Unión (art. 263 TFUE o art. 267 TFUE).
+
+// [84]
+Q: La identidad nacional (art. 4.2 TUE) actúa como:
+A) Una excepción expresa en los Tratados que puede modular la primacía en casos sensibles.
+B) Un criterio cronológico de preferencia de la norma posterior.
+C) Un título competencial autonómico.
+OK: A
+EXP: Es la limitación expresa prevista: preserva estructuras fundamentales, modulable en cooperación, pero su interpretación última corresponde al TJUE.
+
+// [85]
+Q: El principio de autonomía institucional y procedimental en la ejecución del Derecho de la Unión significa que:
+A) La Unión no puede regular nunca procedimientos.
+B) La ejecución corresponde en general a los Estados conforme a su sistema organizativo y procedimental, salvo excepciones.
+C) La ejecución se centraliza siempre en instituciones europeas.
+OK: B
+EXP: Modelo de “federalismo de ejecución”: regla general de ejecución descentralizada (Estados), con excepciones cuando se requieren condiciones uniformes.
+
+// [86]
+Q: La autonomía procedimental de los Estados está limitada por la cooperación leal mediante:
+A) Principio de jerarquía y principio de competencia.
+B) Principios de equivalencia y efectividad.
+C) Principios de especialidad y cronología.
+OK: B
+EXP: La cooperación leal se concreta en equivalencia (no peor trato que lo interno) y efectividad (no hacer imposible o excesivamente difícil ejercer derechos UE).
+
+#ID=7
+
+// [87]
+Q: La interpretación conforme, en el sistema descrito, es:
+A) Una recomendación doctrinal sin fuerza obligatoria.
+B) Un mandato jurídico obligatorio para todos los aplicadores del Derecho.
+C) Una facultad exclusiva del Tribunal Supremo.
+OK: B
+EXP: Se presenta como imperativa: obliga a coordinar normas y evitar incompatibilidades, no como simple orientación.
+
+// [88]
+Q: La interpretación conforme cumple, esencialmente, la función de:
+A) Expulsar del ordenamiento las normas inferiores.
+B) Coordinar sistemas normativos evitando incompatibilidades sin necesidad de expulsión normativa.
+C) Sustituir el control de constitucionalidad.
+OK: B
+EXP: Busca salvar coherencias mediante interpretación compatible, sin convertir siempre el conflicto en invalidez o expulsión.
+
+// [89]
+Q: En España se reconocen tres modalidades principales de interpretación conforme:
+A) A la ley, al reglamento y a la costumbre.
+B) A la Constitución, a los tratados de derechos humanos y al Derecho de la Unión.
+C) Al Derecho penal, civil y administrativo.
+OK: B
+EXP: Son las tres grandes coordenadas de coordinación: Constitución, derechos humanos (art. 10.2 CE) y Derecho de la Unión.
+
+// [90]
+Q: La interpretación conforme a la Constitución se apoya en la idea de:
+A) Evitar lagunas y asegurar continuidad del Derecho preconstitucional, derogando solo lo insalvable.
+B) Aplicar siempre la norma posterior.
+C) Convertir toda incompatibilidad en nulidad automática.
+OK: A
+EXP: Permite compatibilizar continuidad normativa con supremacía constitucional: solo se deroga cuando la incompatibilidad no puede salvarse interpretativamente.
+
+// [91]
+Q: El deber de interpretar conforme a la Constitución y a la doctrina del Tribunal Constitucional se recoge expresamente en:
+A) Art. 5.1 LOPJ.
+B) Art. 93 CE.
+C) Art. 149.3 CE.
+OK: A
+EXP: El art. 5.1 LOPJ impone el deber de interpretación conforme a la Constitución y a la doctrina del TC en el ámbito jurisdiccional.
+
+// [92]
+Q: El art. 10.2 CE impone que los derechos fundamentales se interpreten conforme a:
+A) Los reglamentos administrativos.
+B) La Declaración Universal y los tratados internacionales ratificados sobre derechos humanos.
+C) La costumbre constitucional.
+OK: B
+EXP: No es solo incorporación (art. 96 CE), sino criterio interpretativo constitucional del contenido de los derechos fundamentales.
+
+// [93]
+Q: La interpretación conforme a los tratados de derechos humanos tiene como efecto estructural:
+A) Reducir el nivel de protección constitucional para ajustarlo a mínimos internacionales.
+B) Coordinar el estándar constitucional con la evolución internacional y servir de parámetro interpretativo.
+C) Sustituir a la jurisdicción ordinaria.
+OK: B
+EXP: Opera como técnica de actualización y coordinación del contenido de los derechos, alineando interpretación constitucional con estándares internacionales.
+
+// [94]
+Q: La interpretación conforme al Derecho de la Unión se conecta estrechamente con:
+A) El mecanismo de cuestión prejudicial del art. 267 TFUE.
+B) La cláusula residual del art. 149.3 CE.
+C) El principio de supletoriedad.
+OK: A
+EXP: La cooperación jurisdiccional permite asegurar interpretación uniforme; la interpretación conforme refuerza la efectividad del sistema europeo.
+
+#ID=7.3
+
+// [95]
+Q: La obligación de interpretación conforme al Derecho de la Unión se fundamenta, entre otros, en:
+A) La libertad de los Estados para decidir si cumplen directivas.
+B) El carácter vinculante de los actos de la Unión (art. 288 TFUE) y la cooperación leal (art. 4.3 TUE).
+C) La jerarquía interna de los reglamentos nacionales.
+OK: B
+EXP: Si los actos UE vinculan y priman aplicativamente, lo coherente es exigir interpretación nacional compatible, reforzada por la cooperación leal.
+
+// [96]
+Q: El “bloque de interpretación” en la interpretación conforme al Derecho de la Unión se caracteriza por:
+A) Ser muy limitado: solo el Derecho secundario.
+B) Ser amplio: Derecho primario, secundario y principios generales.
+C) Incluir solo recomendaciones no vinculantes.
+OK: B
+EXP: La interpretación conforme se proyecta sobre el conjunto del Derecho UE aplicable: primario, secundario y principios generales.
+
+// [97]
+Q: El motor principal de la interpretación conforme en la práctica es:
+A) La directiva, por requerir transposición y orientar la interpretación de la norma nacional.
+B) El reglamento, por requerir ley interna de ejecución.
+C) La costumbre europea.
+OK: A
+EXP: La directiva exige transposición; por eso la norma interna debe interpretarse “a la luz” de la directiva pertinente.
+
+// [98]
+Q: El límite esencial de la interpretación conforme es que:
+A) Permite siempre cualquier resultado interpretativo si favorece la Unión.
+B) No autoriza una interpretación contra legem; si no es posible, procede la inaplicación.
+C) Exige siempre plantear cuestión prejudicial.
+OK: B
+EXP: El juez debe hacer “todo lo posible”, pero sin forzar contra el tenor de la norma; si no cabe, se aplica primacía por inaplicación.
+
+`;
+    const BANCO_5 = `#ID=7.1
+
+// [100]
+Q: La interpretación conforme a la Constitución solo deja de operar cuando:
+A) El juez considera más adecuada una solución distinta.
+B) La incompatibilidad con la Constitución es insalvable.
+C) Existe una ley posterior que contradice la Constitución.
+OK: B
+EXP: La técnica exige salvar la norma siempre que sea posible; solo cuando la contradicción con la Constitución no puede resolverse interpretativamente procede la derogación o el control correspondiente.
+
+// [101]
+Q: El papel del juez ordinario en la interpretación conforme a la Constitución consiste en:
+A) Sustituir al Tribunal Constitucional en el control abstracto.
+B) Garantizar la supremacía constitucional mediante interpretación compatible antes de plantear cuestión de inconstitucionalidad.
+C) Aplicar preferentemente la ley posterior a la Constitución.
+OK: B
+EXP: El juez debe intentar una interpretación conforme y solo acudir a la cuestión de inconstitucionalidad cuando dicha interpretación resulte imposible.
+
+#ID=7.2
+
+// [102]
+Q: La interpretación conforme del art. 10.2 CE opera en un plano:
+A) Reglamentario.
+B) Constitucional.
+C) Meramente internacional sin efectos internos.
+OK: B
+EXP: No se limita a integrar tratados en el ordenamiento, sino que actúa como criterio de interpretación constitucional de los derechos fundamentales.
+
+// [103]
+Q: Entre los instrumentos internacionales con especial relevancia interpretativa en materia de derechos fundamentales destaca:
+A) El Convenio Europeo de Derechos Humanos y la jurisprudencia del TEDH.
+B) Las recomendaciones administrativas del Consejo de Europa.
+C) Las directivas de la Unión Europea.
+OK: A
+EXP: El Convenio Europeo y su interpretación por el TEDH tienen un peso singular como referencia para interpretar los derechos fundamentales conforme al art. 10.2 CE.`;
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0]+"; // espacios + NBSP
+
+  const lines = String(t ?? "")
+    .replace(/\r/g,"")
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const isLetterItem = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet     = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  // ✅ PARTIDO INFALIBLE: si una viñeta trae 2 frases pegadas, se corta en el primer punto
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+
+    // Busca ". " o ".NBSP" (también ! ?)
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1; // justo después del . ! ?
+
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+
+    // Si no hay resto, no partimos
+    if(!right) return null;
+
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    // línea vacía = fin de párrafo
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    // listas / epígrafes
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c) -> siempre independiente
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta -> si trae más de una frase, partir
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);     // la viñeta
+          current = sp.right;      // lo siguiente ya es párrafo normal
+        }else{
+          paras.push(line.trim()); // viñeta sola
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    // conector al inicio de línea tras cerrar frase
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    // unir línea
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  return paras.map(p => `<p>${escapeHtml(p)}</p>`).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
