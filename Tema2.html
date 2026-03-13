@@ -1,0 +1,3486 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+}
+summary::-webkit-details-marker{ display:none }
+.inner{ padding:0 16px 16px }
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.sumTitle{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 2, Las fuentes legales y supralegales del Derecho administrativo</h1>
+  <div class="small">by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+
+1. INTRODUCCIÓN
+El ordenamiento jurídico se caracteriza por su unidad, compatible con la existencia de una
+pluralidad de fuentes del Derecho, que permiten estructurar los distintos poderes, intereses y
+niveles de decisión. Las fuentes del Derecho son los cauces de creación y expresión de las
+normas jurídicas y constituyen la razón jurídica de su integración en el Derecho positivo.
+Las fuentes pueden analizarse desde una perspectiva formal o material.
+Desde la perspectiva formal, las fuentes son las formas mediante las que se crean y expresan
+las normas (ley, reglamento, tratado, decreto-ley, etc.), siendo posible separar forma y
+contenido. Con carácter general, las normas se expresan mediante textos jurídicos, aunque una
+misma forma puede utilizarse también para decisiones singulares, que no producen Derecho.
+Desde la perspectiva material, las fuentes se identifican por su capacidad de producir normas
+jurídicas. Esta perspectiva es decisiva para las fuentes reglamentarias, pero no para las
+fuentes legales o supralegales, ya que una ley o un decreto-ley mantienen su rango aunque
+contengan mandatos individualizados.
+Tradicionalmente se distinguía entre fuentes escritas y publicadas y fuentes no escritas o
+reflexivas. Con el tiempo, las primeras han ganado protagonismo y se han diversificado, dando
+lugar a categorías como normas con rango de ley y normas con rango reglamentario, que
+engloban múltiples modalidades.
+En el Derecho administrativo existe un predominio de las fuentes escritas, vinculado a los
+principios de legalidad y seguridad jurídica, ya que fuentes como la costumbre, los principios
+generales o la jurisprudencia no siempre permiten una adecuada producción normativa.
+Otra clasificación relevante distingue entre fuentes estatales y fuentes no estatales, integradas
+por el Derecho de la Unión Europea y el Derecho internacional. Aunque se originan en
+ordenamientos externos, una vez incorporadas al ordenamiento interno proporcionan normas
+aplicables con carácter preferente frente a las internas.
+Por razones sistemáticas, el manual distingue entre fuentes legales y supralegales y fuentes
+infralegales o reglamentarias. Estas últimas tienen un papel central en el Derecho
+administrativo, que se caracteriza además por la utilización simultánea de todas las fuentes
+del Derecho, lo que incrementa el riesgo de conflictos normativos.
+Este tema aborda de forma acotada las fuentes legales y supralegales desde una perspectiva
+jurídico-administrativa, dejando para los temas siguientes el estudio de las fuentes
+reglamentarias y de las técnicas de ordenación y resolución de conflictos entre fuentes.
+2. LA CONSTITUCIÓN
+La Constitución es la norma fundamental y suprema del ordenamiento jurídico. Como norma
+fundamental, crea y organiza los poderes del Estado (poderes constituidos), limita el ejercicio
+del poder mediante derechos fundamentales, libertades públicas y principios constitucionales, y
+fija los fines de la actividad pública. Como norma suprema, es norma de normas y define el
+sistema de fuentes, determinando la relevancia y validez de cada una.
+La supremacía constitucional se manifiesta en un plano formal y en un plano material.
+En el plano formal, la Constitución no puede ser modificada ni derogada por normas distintas
+del procedimiento de reforma constitucional. El poder constituyente reside en el pueblo, y
+solo mediante los procedimientos previstos puede alterarse la norma suprema, pudiendo incluso
+auto-limitarse mediante mayorías cualificadas o procedimientos agravados.
+En el plano material, la supremacía implica:
+– la obligación general de cumplimiento por ciudadanos y todos los poderes públicos;
+– la derogación inmediata de las normas preconstitucionales incompatibles, apreciable por
+cualquier juez;
+– la inconstitucionalidad de las normas posteriores incompatibles, cuya declaración
+corresponde al Tribunal Constitucional;
+– la determinación constitucional del sistema de fuentes, de modo que la validez y jerarquía
+de las normas deriva de la Constitución y no de normas legales como el Código Civil.
+El doble carácter formal y material de la supremacía se refleja en la sujeción de ciudadanos y
+poderes públicos a la Constitución, diferenciada de la sujeción al resto del ordenamiento. Esta
+supremacía, unida a la unidad del ordenamiento, impone la interpretación conforme a la
+Constitución de todas las normas jurídicas
+3. LA LEY
+3.1. Concepto
+Tras la Constitución, la ley es la norma suprema del ordenamiento jurídico, en cuanto expresa
+la voluntad popular a través de los órganos titulares de la potestad legislativa, las Cortes
+Generales. Por ello se sitúa por encima de las normas adoptadas por otros órganos y constituye
+el instrumento normativo central del sistema parlamentario.
+En el Estado constitucional de Derecho, la ley no es soberana: la voluntad popular está
+subordinada a la Constitución, que actúa como límite interno principal (bloque de la
+constitucionalidad). Junto a este límite interno, la ley se encuentra crecientemente condicionada
+por límites externos, derivados de la cooperación internacional y de la integración
+supranacional, que restringen el margen de decisión del legislador.
+Desde el punto de vista formal, es ley todo mandato aprobado por los órganos legislativos
+conforme a la Constitución y publicado como tal. Desde el punto de vista material, la ley
+contiene normas generales y abstractas. No obstante, la Constitución no exige que la ley sea
+general y abstracta: la ley singular o concreta es plenamente válida y goza de igual fuerza
+jurídica, siendo su control exclusivo del Tribunal Constitucional.
+La distinción entre ley formal y ley material carece de relevancia constitucional respecto a la ley:
+tiene solo un significado dogmático. Sirve para indicar que, mediante una ley formal, el
+legislador puede asumir decisiones concretas que, en ausencia de esa ley, corresponderían al
+poder ejecutivo y quedarían condicionadas por la normativa general vigente.
+La ley puede, por tanto, excepcionar o modular regulaciones legales generales para supuestos
+concretos, lo que exige necesariamente una norma con rango legal. Asimismo, cuando la ley se
+limita a habilitar al Gobierno para regular una materia, se habla de ley meramente formal en un
+sentido distinto: no por carecer de valor jurídico, sino porque renuncia a regular
+sustantivamente y autoriza el ejercicio de la potestad reglamentaria, fenómeno conocido como
+deslegalización, que no es admisible en todos los ámbitos.
+3.2. Ley orgánica y ley ordinaria
+La ley ordinaria se aprueba, como regla general, por mayoría simple en las Cortes Generales.
+La ley orgánica, en cambio, exige un acuerdo reforzado, pues requiere mayoría absoluta del
+Congreso en una votación final sobre el conjunto del proyecto. Esta exigencia responde a la
+voluntad constitucional de reservar determinadas materias a un consenso político más amplio.
+La Constitución delimita la reserva material de ley orgánica mediante dos técnicas.
+Primero, la enumeración de categorías generales, como el desarrollo de los derechos
+fundamentales y libertades públicas, los Estatutos de Autonomía, el régimen electoral general, la
+cesión de competencias a organizaciones internacionales y la transferencia o delegación de
+competencias estatales a las comunidades autónomas. Estas categorías deben interpretarse
+restrictivamente, al tratarse de una excepción al procedimiento legislativo ordinario.
+Segundo, la atribución expresa caso por caso de la forma de ley orgánica a materias
+concretas, principalmente relativas a órganos constitucionales o a cuestiones que requieren un
+mayor consenso político.
+En la práctica, la ley orgánica ha tenido un uso muy extendido, tanto por su percepción como
+norma de “mayor peso” como por su efecto de refuerzo de la competencia legislativa estatal,
+al excluir la intervención autonómica. Sin embargo, este uso intensivo no ha garantizado una
+mayor estabilidad ni consenso, ya que las leyes orgánicas se reforman con frecuencia,
+especialmente en materias sensibles.
+Desde la perspectiva del sistema de fuentes, se discute si ley orgánica y ley ordinaria son una
+misma categoría de ley o dos categorías distintas.
+La concepción formal, que atribuiría a la ley orgánica una posición jerárquicamente superior,
+debe rechazarse porque conduciría a una petrificación del ordenamiento y permitiría limitar
+indebidamente la alternancia democrática.
+La concepción procedimental, que reduce la diferencia a un mero requisito de aprobación,
+tampoco ha sido plenamente asumida.
+El Tribunal Constitucional ha desarrollado una concepción material: la “forma orgánica” es
+indisponible, de modo que una ley orgánica solo puede contener materias constitucionalmente
+reservadas a ella, salvo que se indique expresamente lo contrario. Mientras el Tribunal no declare
+que un precepto carece de carácter orgánico, la regulación contenida en una ley formalmente
+orgánica prevalece provisionalmente sobre la ley ordinaria, introduciendo una regla especial
+de resolución de conflictos dentro de la categoría legal.
+3.3. Otros tipos de leyes
+Dentro de la categoría de la ley existen diversas modalidades, tanto orgánicas como ordinarias,
+que se diferencian por su función constitucional, no por su rango.
+La ley orgánica de Estatuto de Autonomía es la modalidad más singular. Tiene una doble
+naturaleza: es una ley orgánica estatal por su forma y procedimiento, y al mismo tiempo la
+norma institucional básica del ordenamiento autonómico. Su procedimiento de elaboración
+originaria es específico, con participación de representantes del territorio afectado, y su reforma
+corresponde al parlamento autonómico, pudiendo requerir referéndum en determinados casos.
+Dentro de las leyes ordinarias pueden distinguirse varias modalidades funcionales. Existen leyes
+que delegan potestad legislativa al Gobierno (leyes de bases), leyes que establecen las bases
+de una materia compartida con las comunidades autónomas (leyes básicas), leyes que
+permiten a las comunidades dictar legislación en materias estatales (leyes marco), leyes que
+armonizan disposiciones autonómicas cuando lo exige el interés general (leyes de
+armonización) y la ley de presupuestos generales, que presenta rasgos propios.
+La ley de presupuestos generales del Estado es la modalidad ordinaria más relevante. Su
+elaboración corresponde exclusivamente al Gobierno, aunque su aprobación sigue siendo
+parlamentaria. Tiene vigencia anual, puede ser prorrogada automáticamente si no se aprueba
+a tiempo y no puede crear tributos, aunque sí modificarlos cuando una ley sustantiva lo
+autorice. El Tribunal Constitucional ha impuesto límites estrictos a su contenido, para evitar que
+se utilice para regular materias ajenas a lo presupuestario.
+Como consecuencia de esos límites surge la ley de acompañamiento, una ley ordinaria que se
+aprueba junto a la ley de presupuestos y que contiene las medidas fiscales, administrativas y
+sociales necesarias para el ejercicio siguiente, pero que no pueden incluirse en aquella por
+razones constitucionales.
+Finalmente, la potestad legislativa se reparte entre el Estado y las comunidades autónomas
+conforme al sistema constitucional de distribución de competencias. Las leyes autonómicas son
+auténticas leyes, sometidas al principio de legalidad y a las reservas constitucionales y
+estatutarias, y su control corresponde exclusivamente al Tribunal Constitucional.
+4. LAS DISPOSICIONES DEL GOBIERNO CON RANGO DE LEY
+Aunque la potestad legislativa corresponde principalmente a las Cortes Generales y a los
+parlamentos autonómicos, la Constitución permite que el Gobierno dicte disposiciones con
+rango de ley en supuestos tasados.
+Estos supuestos son tres:
+1- delegación previa de las Cortes Generales (legislación delegada),
+2- extraordinaria y urgente necesidad (decreto-ley),
+3- declaración del estado de alarma (legislación de excepción).
+En todos los casos es necesaria la intervención del poder legislativo, ya sea previa
+(delegación) o posterior (convalidación o prórroga).
+La legislación delegada y la legislación de urgencia existen tanto en el ámbito estatal como en el
+autonómico, aplicándose en este último, en esencia, los mismos requisitos.
+4.1. El Decreto-Legislativo
+Las Cortes Generales pueden delegar en el Gobierno la potestad de dictar normas con rango
+de ley sobre materias determinadas (art. 82.1 CE). Se trata de una delegación auténtica de la
+potestad legislativa, cuyo resultado tiene rango legal.
+La delegación legislativa está sometida a requisitos constitucionales estrictos:
+• el único delegatario posible es el Gobierno (no cabe subdelegación),
+• debe otorgarse mediante ley,
+• ha de ser expresa, para materias concretas y por plazo determinado,
+• no puede recaer sobre materias reservadas a ley orgánica.
+La delegación caduca si no se ejerce en plazo y se consume con su ejercicio, sin que
+pueda reutilizarse. Mientras esté vigente, las Cortes pueden derogarla, y el Gobierno
+puede oponerse a iniciativas contrarias a ella (art. 84 CE).
+La norma resultante se denomina decreto-legislativo (art. 85 CE), por su origen
+gubernamental y su rango legal.
+La Constitución prevé dos modalidades:
+1- Texto articulado, cuando la delegación se confiere mediante una ley de
+bases.
+El Gobierno debe desarrollar las bases, principios y criterios fijados por el legislador (art.
+82.4 CE).
+Las bases no son directamente aplicables y la ley de bases no puede autorizar
+retroactividad ni su propia modificación (art. 83 CE).
+2- Texto refundido, cuando la delegación tiene por objeto refundar y unificar
+textos legales dispersos mediante una ley ordinaria.
+El Gobierno puede limitarse a la refundición o también regularizar, aclarar y armonizar
+los textos (art. 82.5 CE). Su finalidad es reforzar la seguridad jurídica, no innovar el
+ordenamiento.
+El decreto-legislativo se tramita conforme al procedimiento de elaboración normativa,
+con dictamen preceptivo del Consejo de Estado.
+En cuanto al control, el Tribunal Constitucional es competente para controlar su
+constitucionalidad, incluidos los límites de la delegación. Además, conforme al art. 82.6
+CE y al art. 1 LJCA, la jurisdicción contencioso-administrativa puede controlar los
+decretos-legislativos cuando excedan los límites de la delegación (doctrina del ultra
+vires), aunque su encaje en el modelo constitucional sigue siendo discutido.
+La derogación de un decreto-legislativo requiere siempre otra norma con rango de ley.
+4.2. El Decreto-Ley
+El decreto-ley es una disposición legislativa provisional que el Gobierno puede dictar en
+situaciones de extraordinaria y urgente necesidad (art. 86.1 CE). Es una potestad legislativa
+propia, reconocida directamente por la Constitución, sin delegación previa de las Cortes
+Generales.
+Su eficacia es inicialmente provisional y está sometida a límites estrictos, para evitar que
+sustituya a la potestad legislativa parlamentaria y vulnere el principio democrático.
+Presupuesto habilitante
+Solo puede utilizarse cuando concurra una situación de extraordinaria y urgente necesidad.
+No se exige gravedad absoluta ni imprevisibilidad, pero sí que la situación requiera una
+respuesta normativa inmediata que no pueda esperar al procedimiento legislativo ordinario.
+Debe existir una conexión de sentido entre la situación alegada y las medidas adoptadas.
+El Gobierno y el Congreso disponen de un amplio margen de apreciación, pero el Tribunal
+Constitucional controla que el uso del decreto-ley no sea arbitrario o abusivo.
+Límites materiales
+El decreto-ley no puede afectar a:
+• el ordenamiento de las instituciones básicas del Estado,
+• los derechos, deberes y libertades del Título I,
+• el régimen de las Comunidades Autónomas,
+• el Derecho electoral general (art. 86.1 CE).
+Además, quedan excluidas otras materias por mandato constitucional, como la reforma
+constitucional, los presupuestos generales del Estado, el Fondo de Compensación
+Interterritorial o la autorización de tratados internacionales.
+Convalidación parlamentaria
+Tras su publicación, el decreto-ley despliega efectos inmediatos pero provisionales.
+El Congreso de los Diputados debe convalidarlo o derogarlo en un plazo máximo de treinta
+días, mediante una votación de totalidad (art. 86.2 CE).
+Si no hay pronunciamiento, el decreto-ley caduca.
+La convalidación transforma su eficacia en indefinida, pero no lo convierte en ley: sigue
+siendo un decreto-ley convalidado, fruto de un acto mixto del Gobierno y del Congreso.
+El Congreso puede, además, acordar su tramitación como proyecto de ley por el
+procedimiento de urgencia (art. 86.3 CE).
+Relevancia práctica
+El decreto-ley es uno de los instrumentos normativos más utilizados por el Gobierno y
+representa una parte muy significativa de la producción normativa con rango de ley.
+Los estatutos de autonomía reformados permiten también el uso del decreto-ley autonómico,
+con los límites del art. 86 CE y los adicionales que establezca cada estatuto, posibilidad avalada
+por el Tribunal Constitucional.
+4.3. El Decreto de declaración del estado de alarma
+El estado de alarma se declara mediante real decreto del Consejo de Ministros, conforme al
+art. 116 CE y a la Ley Orgánica 4/1981 (LOEAES). Se ha utilizado en España en 2010 (huelga de
+controladores aéreos) y en 2020 (pandemia de COVID-19).
+La jurisprudencia constitucional ha reconocido a este real decreto valor de ley, lo que implica
+que su control corresponde exclusivamente al Tribunal Constitucional. Este reconocimiento
+se justifica por el contenido y los efectos de las medidas que puede incluir.
+El decreto de declaración puede limitar derechos y desplazar temporalmente la legalidad
+ordinaria, adoptando medidas como la limitación de la circulación, requisas temporales,
+prestaciones personales obligatorias o la intervención u ocupación transitoria de
+actividades, con exclusión de los domicilios privados. Por ello, debe fijar ámbito territorial,
+duración y efectos, y su vigencia no puede exceder de quince días, salvo prórroga
+autorizada expresamente por el Congreso, que puede establecer sus condiciones.
+Esta calificación como norma con valor de ley ha sido criticada doctrinalmente, pues la
+Constitución distingue claramente entre decretos-leyes, decretos legislativos y el decreto de
+declaración del estado de alarma, al que no atribuye expresamente rango legal. Según esta
+crítica, la capacidad de desplazar leyes deriva directamente de la Constitución y de la ley
+orgánica, sin necesidad de reconocerle valor de ley propio, tratándose de una deslegalización
+puntual y temporal.
+Si se hubiera considerado de naturaleza reglamentaria, el control de su validez habría
+correspondido a la jurisdicción contencioso-administrativa, en particular al Tribunal Supremo.
+5. EL DERECHO INTERNACIONAL
+La Constitución reconoce como fuente del Derecho interno una fuente típica del Derecho
+internacional: el tratado internacional. Su incorporación y aplicación forman parte del sistema
+de fuentes del ordenamiento jurídico español.
+No obstante, la influencia del Derecho internacional no se limita a los tratados. La progresiva
+densificación de las organizaciones y organismos internacionales genera reglas y estándares
+comunes que los Estados deben incorporar o cuya incorporación resulta conveniente,
+influyendo así en la actuación interna de los poderes públicos.
+5.1. Los tratados internacionales
+5.1.1. Regulación
+El tratado internacional se concibe desde una doble perspectiva:
+1- Como fuente del Derecho internacional, regulada por la Convención de
+Viena de 1969 y la Convención de Viena de 1986, ambas ratificadas por España.
+2- Como fuente externa integrada en el ordenamiento español, regulada
+en los arts. 56, 63.2 y 93 a 96 CE y en la Ley 25/2014, de Tratados y otros Acuerdos
+Internacionales (LTAI), que ordena su celebración, publicación, ejecución, modificación y
+denuncia.
+Los tratados válidamente celebrados y publicados forman parte del ordenamiento
+interno (art. 96.1 CE), producen efectos desde la fecha prevista o desde su entrada en
+vigor y vinculan a todos los poderes públicos. Son, por regla general, directamente
+aplicables (self-executing), salvo que el propio tratado exija desarrollo normativo interno.
+La ejecución corresponde al Estado, a las comunidades autónomas o a Ceuta y Melilla
+según sus competencias.
+La Constitución establece distintos requisitos de autorización:
+• Ley orgánica para los tratados que atribuyan competencias a
+organizaciones internacionales (art. 93 CE).
+• Ley ordinaria para los tratados políticos, militares, que afecten a derechos
+fundamentales, a la integridad territorial, a obligaciones financieras o que exijan
+modificación legal (art. 94.1 CE).
+• Comunicación a las Cortes para los demás tratados (art. 94.2 CE).
+En cuanto a su posición en el sistema de fuentes, los tratados se sitúan por debajo de
+la Constitución y por encima de la ley:
+• No pueden contradecir la Constitución (art. 95 CE).
+• Prevalecen sobre la ley y solo pueden ser modificados o denunciados
+conforme al propio tratado o al Derecho internacional (art. 96.1 CE y art. 31 LTAI).
+Los tratados sobre derechos humanos tienen una relevancia interpretativa especial: los
+derechos fundamentales se interpretan conforme a ellos (art. 10.2 CE).
+Finalmente, los tratados se interpretan conforme al Derecho internacional, en particular según
+los arts. 31 a 33 de la Convención de Viena, el propio tratado y, en su caso, las normas de la
+organización internacional correspondiente (art. 35 LTAI).
+5.1.2. Relevancia en el ámbito jurídico-administrativo
+En el Derecho administrativo, los tratados internacionales tienen un protagonismo menor
+que otras fuentes, pero resultan especialmente relevantes en determinados ámbitos.
+Los más importantes son los elaborados en el Consejo de Europa, organización orientada al
+fortalecimiento de la democracia y el Estado de Derecho. Destaca el Convenio Europeo de
+Derechos Humanos (CEDH, 1950), ratificado por España en 1979, cuya importancia deriva tanto
+de su contenido como de la jurisprudencia del Tribunal Europeo de Derechos Humanos
+(TEDH), interpretada de forma evolutiva.
+La jurisprudencia del TEDH ha tenido un impacto directo en el Derecho administrativo, en
+especial:
+• La extensión de las garantías del art. 6 CEDH (derecho a un proceso
+justo) al procedimiento sancionador administrativo.
+• La ampliación del alcance del derecho a la vida privada y familiar a
+ámbitos como el medio ambiente, la ordenación del territorio, la investigación policial
+y la extranjería.
+El Tribunal Constitucional y el Tribunal Supremo utilizan de forma intensa la
+jurisprudencia del TEDH. Es especialmente relevante la STEDH Saquetti Iglesias c.
+España (2020), que exigió la doble instancia judicial en materia sancionadora
+administrativa.
+Otros tratados relevantes del Consejo de Europa son la Carta Europea de la Autonomía
+Local (1985) y la Carta Europea de Lenguas Regionales o Minoritarias (1992), esta
+última con un sistema de control no judicial mediante informes periódicos de expertos.
+Fuera del Consejo de Europa, destacan los tratados sobre derechos humanos y medio
+ambiente, en particular el Convenio de Aarhus (1998), ratificado por España y por la Unión
+Europea, que dio lugar a la Ley 27/2006 sobre acceso a la información, participación pública y
+acceso a la justicia en materia ambiental.
+5.2. Otras vías de recepción del Derecho internacional
+Al margen de los tratados internacionales, el Derecho administrativo recibe de forma creciente
+normas procedentes de organizaciones y organismos internacionales distintos de la Unión
+Europea. Se trata, en muchos casos, de reglas técnicas, directrices o guías elaboradas por
+expertos internacionales, que pueden incorporarse al Derecho interno como Derecho vinculante
+o como soft law. Este fenómeno ha sido descrito doctrinalmente como una manifestación de un
+Derecho administrativo global.
+Dado que estas normas no adoptan la forma de tratados internacionales, su incorporación al
+ordenamiento interno se produce a través de mecanismos específicos de recepción previstos
+en normas internas.
+Un primer ejemplo es el de las directrices operativas en el ámbito del transporte aéreo,
+reguladas por el Real Decreto-ley 14/2022. Estas directrices proceden inicialmente de la Unión
+Europea o de organizaciones internacionales y son adaptadas al contexto español por el Comité
+Español de Facilitación del Transporte Aéreo, que recomienda su adopción a la Agencia Estatal
+de Seguridad Aérea. En principio tienen carácter recomendatorio, pero pueden adquirir carácter
+obligatorio mediante orden ministerial. De este modo, normas inicialmente no vinculantes
+pueden transformarse en disposiciones obligatorias.
+Un segundo ejemplo lo constituyen las guías elaboradas por organismos internacionales en
+materia de mercados de valores. Conforme a la Ley 6/2023, la Comisión Nacional del Mercado
+de Valores puede asumir, desarrollar o adaptar estas guías y aplicarlas como soft law interno,
+utilizando la técnica del comply or explain.
+Ambos supuestos reflejan la transnacionalización del Derecho administrativo y la creciente
+relevancia de normas internacionales de carácter técnico en la actuación administrativa interna.
+6. EL DERECHO DE LA UNIÓN EUROPEA
+6.1. Características generales del Derecho de la Unión Europea
+La Unión Europea es una organización supranacional, dotada de un ordenamiento jurídico
+propio, con sistema institucional, normativo y jurisdiccional autónomo. El Derecho de la Unión no
+es una fuente del Derecho interno, sino un ordenamiento independiente, cuyas normas se
+integran en los ordenamientos nacionales conforme a principios comunes.
+El sistema de fuentes distingue entre Derecho primario y Derecho secundario. El Derecho
+primario está integrado por los Tratados constitutivos (TUE y TFUE), la Carta de Derechos
+Fundamentales de la Unión Europea, los tratados de adhesión y los principios generales del
+Derecho de la Unión, deducidos por el Tribunal de Justicia. Este conjunto tiene naturaleza cuasi
+constitucional y constituye la base del sistema jurídico de la Unión.
+La modificación del Derecho primario es compleja, pues exige la intervención de los Estados
+miembros conforme a sus normas constitucionales; en España, con carácter general, mediante
+ley orgánica cuando hay cesión de competencias.
+El Derecho secundario está formado por los actos jurídicos adoptados por las instituciones de
+la Unión, distinguiéndose entre actos vinculantes (reglamentos, directivas y decisiones) y no
+vinculantes (recomendaciones y dictámenes).
+La singularidad del Derecho de la Unión frente al Derecho internacional clásico reside en dos
+principios fundamentales: efecto directo y primacía. Las normas de la Unión, por regla general,
+son directamente aplicables, sin necesidad de acto interno de recepción, y prevalecen sobre
+cualquier norma nacional incompatible, incluso de rango legal. Las autoridades nacionales deben
+inaplicar la norma interna contraria y no pueden cuestionar la validez del Derecho de la Unión,
+que solo puede ser controlada por el Tribunal de Justicia.
+El sistema se completa con un orden jurisdiccional propio, encabezado por el Tribunal de
+Justicia de la Unión Europea, al que corresponde la interpretación definitiva y el control de validez
+del Derecho de la Unión. Los órganos judiciales nacionales deben colaborar mediante el
+procedimiento prejudicial.
+Los Estados miembros están obligados a garantizar la efectividad del Derecho de la Unión y a
+establecer mecanismos de tutela judicial efectiva en los ámbitos cubiertos por este
+ordenamiento.
+6.1.1. La legislación uniforme: el reglamento
+La legislación uniforme es la modalidad de regulación más intensa de la Unión Europea, pues
+desplaza y sustituye a la legislación nacional existente sobre la misma materia. Su instrumento
+jurídico es el reglamento, definido en el art. 288 TFUE como un acto de alcance general,
+obligatorio en todos sus elementos y directamente aplicable en cada Estado miembro.
+El reglamento no requiere actos nacionales de recepción para ser eficaz y exigible, lo que evita
+problemas de incorrecta transposición. Cualquier actuación estatal que pretenda condicionar su
+efectividad es incompatible con el Derecho de la Unión. No obstante, puede prever medidas
+nacionales de ejecución de carácter organizativo o procedimental. Se publica en el Diario
+Oficial de la Unión Europea y entra en vigor simultáneamente en todos los Estados miembros.
+Aunque funcionalmente equivale a una ley, la denominación de “ley” se evita por razones
+políticas. Tras el Tratado de Lisboa, se avanza en la distinción entre función legislativa y
+ejecutiva, atribuyendo la primera al Parlamento Europeo y al Consejo y la segunda, en general,
+a la Comisión, que también puede dictar actos delegados para completar o modificar
+elementos no esenciales del acto legislativo.
+6.1.2. La legislación armonizada: la directiva
+La legislación armonizada es la técnica mediante la cual la Unión Europea aproxima las
+legislaciones nacionales, sin sustituirlas por una normativa uniforme. Su ámbito principal es el
+mercado interior (art. 114 TFUE), aunque también se emplea en materias como la cooperación
+judicial y la política social. El instrumento jurídico utilizado es la directiva.
+Según el art. 288 TFUE, la directiva obliga al Estado miembro en cuanto al resultado, dejando
+a las autoridades nacionales la elección de la forma y los medios. A diferencia del reglamento,
+no es directamente aplicable y requiere, por regla general, transposición al ordenamiento
+interno. La armonización permite la subsistencia de legislaciones nacionales distintas, pero
+convergentes en sus resultados.
+Aunque inicialmente las directivas contenían regulaciones básicas o de mínimos, su nivel de
+detalle ha aumentado progresivamente, reduciendo el margen de configuración de los Estados
+miembros. No obstante, sigue siendo esencial su carácter de obligación de resultado.
+La directiva impone a los Estados tres obligaciones: crear nuevas normas, modificar las
+existentes o abstenerse de adoptar normas incompatibles, incluso durante el plazo de
+transposición. El cumplimiento exige una incorporación efectiva, que permita a los particulares
+ejercer realmente los derechos reconocidos, no bastando una mera compatibilidad formal.
+Cuando una directiva contiene obligaciones claras, precisas e incondicionales, y el Estado no
+la ha transpuesto en plazo o lo ha hecho incorrectamente, puede desplegar efecto directo
+vertical, permitiendo a los particulares invocarla frente a los poderes públicos, pero nunca frente
+a otros particulares ni por el Estado contra ellos.
+6.2. Modalidades de producción normativa
+La Unión Europea dispone de instrumentos normativos vinculantes y no vinculantes para
+regular la conducta de los Estados miembros y de los particulares. Entre los actos vinculantes
+se encuentran el reglamento, la directiva y la decisión (cuando tiene como destinatarios a todos
+los Estados miembros). Entre los no vinculantes figuran las orientaciones generales, las
+recomendaciones y otros instrumentos de soft law.
+A través de estos instrumentos se articulan tres modalidades de regulación: legislación
+uniforme, legislación armonizada y soft law. En este ámbito se examinan las dos primeras.
+La legislación uniforme persigue la aplicación directa y homogénea del Derecho de la Unión en
+todos los Estados miembros, sin necesidad de actos nacionales de transposición. La legislación
+armonizada, en cambio, fija objetivos comunes que deben alcanzarse mediante la adaptación de
+los ordenamientos internos de los Estados miembros.
+Tanto la legislación uniforme como la armonizada requieren la intervención de las instituciones
+legislativas de la Unión, esto es, el Parlamento Europeo, como órgano de representación de
+los ciudadanos, y el Consejo, como órgano representativo de los Estados miembros, actuando
+conforme al procedimiento legislativo ordinario o a alguno de los procedimientos legislativos
+especiales previstos en los Tratados.
+7. LA COSTUMBRE
+La costumbre es la primera fuente supletoria del Derecho escrito (art. 1 CC). Para que exista
+como fuente jurídica requiere dos elementos:
+a) un elemento objetivo, consistente en una práctica duradera y reiterada, y
+b) un elemento subjetivo, la convicción de obligatoriedad jurídica (opinio iuris).
+Solo rige en defecto de norma escrita, ya sea praeter legem o secundum legem.
+En el Derecho administrativo, el espacio de la costumbre es muy reducido. La complejidad de
+las relaciones administrativas, la densidad normativa y la exigencia de seguridad jurídica
+dificultan su formación. Además, existen límites estructurales que prácticamente la excluyen.
+En primer lugar, las reservas de ley (constitucionales o legales, a favor de la ley o del reglamento)
+impiden la utilización de la costumbre como fuente supletoria. Así ocurre, por ejemplo, en materia
+sancionadora, donde el art. 25.1 CE exige Derecho escrito, o en el régimen de subvenciones,
+reservado a norma reglamentaria. La costumbre no puede fundamentar potestades ni sanciones
+administrativas.
+En segundo lugar, el silencio de la ley en Derecho administrativo no equivale necesariamente a
+una laguna. A menudo refleja una opción consciente del legislador, ya sea para no atribuir
+potestades a la Administración o para dejarle un margen de apreciación. En ningún caso la
+Administración puede basar sus competencias en la costumbre, sino únicamente en la ley o el
+reglamento.
+Por estas razones, la costumbre solo opera de forma residual en el Derecho administrativo, por
+ejemplo en aspectos organizativos menores, como el funcionamiento de órganos colegiados.
+Distinta es la remisión expresa del Derecho positivo a la costumbre, que le reconoce un
+espacio propio de eficacia. Estos supuestos se concentran principalmente en el ámbito local:
+– el concejo abierto, cuyo funcionamiento se ajusta a usos y costumbres locales;
+– el aprovechamiento de bienes comunales, conforme a normas consuetudinarias;
+– y las comunidades de usuarios de aguas, donde la costumbre regula determinados aspectos
+internos.
+8. LOS PRINCIPIOS GENERALES DEL DERECHO
+El Derecho no se agota en las fuentes escritas ni en la costumbre. Todo ordenamiento jurídico
+necesita el complemento de los principios generales del Derecho, que actúan como elementos
+estructurales del sistema jurídico.
+El art. 1.1 del Código Civil reconoce expresamente a los principios generales del Derecho como
+fuente del ordenamiento jurídico, y el art. 1.4 CC define su función: se aplican en defecto de
+ley o costumbre, sin perjuicio de su carácter informador del ordenamiento jurídico en su
+conjunto.
+De este precepto se derivan dos funciones esenciales.
+En primer lugar, una función supletoria, pues los principios generales permiten resolver los
+casos en los que no existe norma escrita ni costumbre aplicable.
+En segundo lugar, una función interpretativa o informadora, ya que orientan la interpretación y
+aplicación de las normas jurídicas existentes.
+El texto pone de relieve que el estatus básico de los principios generales del Derecho, como
+fuente supletoria e informadora, se transforma radicalmente cuando esos principios se
+positivizan, es decir, cuando se incorporan a la Constitución o a la ley. En ese caso dejan de
+actuar como fuente supletoria y pasan a integrarse plenamente en el sistema normativo con
+fuerza jurídica propia.
+Por ello, el estudio de los principios generales del Derecho exige distinguir entre dos estatus
+diferenciados:
+– el de los principios no positivizados, aplicables en defecto de ley o costumbre y con función
+informadora,
+– y el de los principios positivizados, que se convierten en auténticas normas jurídicas con el
+rango que les otorgue su incorporación constitucional o legal.
+8.1. El estatuto básico de los principios generales del Derecho
+8.1.1. Caracterización
+Los principios generales del Derecho no positivizados presentan dificultades específicas
+derivadas de su carácter no escrito, siendo la primera de ellas su correcta caracterización. No
+todo lo que se denomina “principio” en el lenguaje jurídico constituye un principio general del
+Derecho.
+No lo son los conceptos jurídicos indeterminados, como el mérito y la capacidad en el acceso
+a la función pública (art. 103.3 CE), ya que requieren concreción legislativa y carecen de
+autonomía normativa. Tampoco lo son las meras reflexiones, criterios interpretativos o reglas
+técnicas de aplicación del Derecho.
+La clave definitoria se encuentra en el art. 1.4 CC: para ser principio general del Derecho debe
+tener capacidad supletoria, es decir, poder aplicarse en defecto de ley o costumbre, lo que
+exige que posea contenido regulador propio y aptitud para integrar lagunas del ordenamiento
+jurídico.
+En cuanto a su fundamento, el ordenamiento jurídico español no acoge una concepción
+iusnaturalista. Los principios generales del Derecho no se conciben como ideas externas de
+justicia, sino como criterios jurídicos internos que informan e inspiran el ordenamiento, lo
+que refleja una concepción institucionalista y objetivada de los mismos.
+La generalidad de los principios generales del Derecho no implica necesariamente aplicación
+transversal a todo el ordenamiento, sino abstracción y aplicabilidad a una pluralidad
+indeterminada de supuestos. Por ello, existen principios de alcance general (buena fe, igualdad) y
+principios sectoriales, como el de proporcionalidad o el non bis in idem, propios del Derecho
+público o del Derecho administrativo sancionador.
+Cuanto mayor es el grado de abstracción del principio, mayor es su ámbito de aplicación, pero
+menor su grado de concreción.
+8.1.2. Identificación
+La identificación de los principios generales del Derecho constituye una dificultad esencial
+derivada de su carácter no escrito. Aunque se les reconozca como fuente autónoma, necesitan
+ser formulados o reconocidos por un agente externo, principalmente la jurisprudencia y la
+doctrina.
+La mera invocación retórica de una idea como “principio” no basta para dotarla de contenido
+normativo autónomo. Un principio general solo existe jurídicamente cuando su existencia,
+contenido y efectos han sido reconocidos y delimitados por la jurisprudencia. Hasta ese
+momento, su carácter puede ser discutido, como ocurre con nociones controvertidas como la
+conservación de los actos o la irrevocabilidad de los actos favorables.
+La función supletoria de los principios generales del Derecho está sometida a las mismas
+limitaciones que la costumbre: no pueden utilizarse para integrar lagunas en materias sujetas a
+reserva constitucional o legal de ley.
+Aunque el Código Civil les atribuye una función supletoria e informadora del ordenamiento, su
+relevancia práctica depende de varios factores:
+– el margen interpretativo reconocido a jueces y tribunales;
+– la concepción judicial del Derecho (aplicación estricta frente a creación o descubrimiento);
+– la tradición histórica de cada rama jurídica.
+En algunos ordenamientos, como el francés o el alemán, el Derecho administrativo se desarrolló
+ampliamente a partir de principios jurisprudenciales. En España, sin embargo, ha predominado
+históricamente la codificación legislativa, lo que ha reducido el protagonismo creador de la
+jurisprudencia en este ámbito.
+Finalmente, el Derecho escrito español tiene una alta capacidad de absorción de principios
+generales: muchos han sido incorporados a la Constitución de 1978 y a leyes administrativas
+posteriores. Esa incorporación los transforma en principios positivizados, que pasan a tener el
+rango normativo de la disposición que los contiene.
+8.1.3. Función
+Los principios generales del Derecho no positivizados cumplen una función supletoria e
+informadora del ordenamiento. Pueden aplicarse para resolver un litigio cuando no exista una
+norma escrita aplicable, pero no tienen capacidad para anular normas escritas, sean legales
+o reglamentarias.
+De acuerdo con el art. 103.1 CE, la Administración actúa con pleno sometimiento a la ley y al
+Derecho, lo que implica que su actuación debe respetar no solo las normas escritas, sino
+también los principios generales del Derecho. En consecuencia, una actuación administrativa
+puede ser anulada por infringir un principio general, y el control jurisdiccional de la legalidad
+administrativa (art. 106.1 CE) incluye también el respeto de dichos principios.
+Esta función adquiere especial relevancia en los ámbitos regidos por la discrecionalidad
+administrativa, donde la escasa o baja densidad normativa concede a la Administración un
+amplio margen de decisión. Los principios generales actúan entonces como límites jurídicos
+frente a la arbitrariedad, permitiendo el control de la actuación administrativa incluso en
+espacios discrecionales mediante principios como igualdad, proporcionalidad, seguridad jurídica
+o buena administración.
+Antes de la Constitución de 1978, los principios generales fueron el instrumento esencial para
+combatir las inmunidades del poder en el Derecho administrativo.
+Desde el punto de vista teórico, los principios se diferencian de las reglas:
+– las reglas imponen conductas concretas y se aplican por subsunción;
+– los principios son normas abiertas que no predeterminan una única solución y se aplican
+mediante ponderación (cuando entran en conflicto) o optimización (cuando no existen
+principios contrapuestos).
+8.2. El estatuto de los principios generales del Derecho positivizados
+La positivización de los principios generales del Derecho produce dos efectos esenciales. En
+primer lugar, facilita su identificación e invocación, al quedar recogidos en normas escritas. En
+segundo lugar, altera su naturaleza jurídica: dejan de ser principios supletorios y pasan a tener
+el rango de la norma que los incorpora (Constitución o ley).
+Los principios constitucionalizados vinculan al legislador y pueden servir como parámetro de
+control de constitucionalidad de las leyes, mientras que los principios positivizados en la ley
+limitan la potestad reglamentaria y permiten el control de legalidad de los reglamentos.
+La Constitución incorpora numerosos principios generales, entre ellos los valores superiores del
+art. 1.1 CE, los principios estructurales del art. 2 CE y los valores del art. 10.1 CE. En el ámbito
+administrativo destacan, entre otros, los principios de legalidad, jerarquía normativa, seguridad
+jurídica, responsabilidad, interdicción de la arbitrariedad y los principios de actuación
+administrativa del art. 103.1 CE, así como el principio de estabilidad presupuestaria (art. 135
+CE).
+Los principios rectores de la política económica y social (arts. 39–52 CE) tienen un estatuto
+distinto: no son fuente directa de Derecho, sino mandatos al legislador, y solo pueden
+alegarse ante los tribunales conforme a las leyes que los desarrollen (art. 53.3 CE).
+Finalmente, el legislador administrativo ha positivizado numerosos principios, especialmente en la
+LRJSP, que recoge una amplia enumeración de principios que rigen la actuación administrativa,
+como eficacia, eficiencia, buena fe, confianza legítima, transparencia, responsabilidad y
+cooperación interadministrativa, dotándolos de plena eficacia jurídica.
+9. LA JURISPRUDENCIA
+9.1. Naturaleza
+La jurisprudencia se entiende como el conjunto de resoluciones dictadas por los órganos
+jurisdiccionales. El art. 1.6 del Código Civil le atribuye un carácter complementario, no
+formalmente creador de Derecho, al señalar que complementa el ordenamiento jurídico
+mediante la doctrina reiterada del Tribunal Supremo al interpretar y aplicar la ley, la costumbre y
+los principios generales del Derecho.
+De este precepto se extraen dos ideas clave. En primer lugar, que la jurisprudencia no es
+reconocida expresamente como fuente formal, aunque el legislador admite su relevancia
+normativa, superando la visión clásica del juez como mero aplicador automático de la ley. En
+segundo lugar, que no toda resolución judicial genera jurisprudencia, sino solo aquella que
+constituye doctrina reiterada, lo que obliga a distinguir entre jurisprudencia en sentido amplio y
+doctrina jurisprudencial con efectos jurídicos relevantes.
+En la práctica, la función jurisdiccional no se limita a aplicar normas, sino que implica
+interpretarlas, integrarlas y concretarlas, adaptándolas a la realidad social y resolviendo
+lagunas del ordenamiento. Por ello, existen criterios de creación jurisprudencial que operan de
+hecho como normas jurídicas, aunque no provengan de fuentes formales.
+Finalmente, el art. 1.6 CC resulta insuficiente y desfasado, pues no refleja la complejidad actual
+del sistema ni la pluralidad de órganos que hoy producen jurisprudencia con efectos relevantes,
+ni los mecanismos específicos de formación de doctrina, especialmente en el orden contencioso-
+administrativo.
+9.2. Pluralidad de jurisprudencias
+El sistema de fuentes no se agota en la jurisprudencia del Tribunal Supremo a la que alude el art.
+1.6 del Código Civil, sino que en el ordenamiento español coexisten varias jurisprudencias con
+relevancia normativa.
+En primer lugar, destaca la jurisprudencia del Tribunal de Justicia de la Unión Europea
+(TJUE). Sus sentencias vinculan a todos los poderes públicos de los Estados miembros y
+producen efectos ex tunc. Las normas de la Unión así interpretadas gozan de primacía, por lo
+que los órganos judiciales nacionales deben dejar inaplicadas las normas internas
+incompatibles. Los jueces nacionales están obligados a aplicar el Derecho de la Unión conforme
+a la jurisprudencia del TJUE (art. 4 bis LOPJ) y pueden —y en ciertos casos deben— plantear
+cuestiones prejudiciales. El apartamiento de esta jurisprudencia puede fundamentar un recurso
+de casación.
+En segundo lugar, la jurisprudencia del Tribunal Europeo de Derechos Humanos (TEDH)
+produce un efecto de cosa interpretada respecto del Convenio Europeo de Derechos Humanos,
+que forma parte del ordenamiento interno. Además, es criterio obligatorio de interpretación de
+los derechos fundamentales constitucionales equivalentes (art. 10.2 CE). Sus sentencias pueden,
+asimismo, justificar un recurso de revisión contra resoluciones judiciales firmes cuando se haya
+producido una vulneración grave y persistente de derechos.
+En tercer lugar, la jurisprudencia del Tribunal Constitucional ocupa una posición central. Sus
+sentencias tienen valor de cosa juzgada, efectos generales y vinculan a todos los poderes
+públicos. Los órganos judiciales deben interpretar y aplicar las leyes conforme a la doctrina
+constitucional (art. 5.1 LOPJ), y la jurisprudencia judicial previa queda corregida por la doctrina
+del Tribunal Constitucional (art. 40.2 LOTC).
+Todas estas jurisprudencias comparten un rasgo esencial: su publicación oficial, garantía de
+seguridad jurídica.
+9.3. Formación de jurisprudencia en el orden contencioso-administrativo
+El art. 1.6 del Código Civil atribuye eficacia complementaria del ordenamiento jurídico a la
+doctrina reiterada del Tribunal Supremo, pero esta formulación clásica resulta hoy insuficiente
+para explicar cómo se forma la jurisprudencia relevante en el orden contencioso-administrativo.
+Tradicionalmente, el criterio de la reiteración servía para distinguir entre resoluciones aisladas y
+una línea jurisprudencial consolidada. Sin embargo, este criterio era impreciso y poco adecuado
+para garantizar seguridad jurídica. Por ello, el legislador ha ido formalizando progresivamente
+los mecanismos de formación de jurisprudencia.
+Desde la reforma de 2015, el instrumento central es el recurso de casación, que deja de
+funcionar como una tercera instancia y pasa a cumplir una función esencialmente nomofiláctica:
+asegurar la interpretación uniforme del Derecho estatal, autonómico y de la Unión Europea. Para
+su admisión no basta con alegar una infracción jurídica, sino que es imprescindible que concurra
+interés casacional objetivo para la formación de jurisprudencia.
+Este interés existe, entre otros supuestos, cuando hay ausencia de jurisprudencia,
+interpretaciones contradictorias entre órganos judiciales o apartamiento deliberado de la
+jurisprudencia existente. El auto de admisión delimita las cuestiones jurídicas y las normas a
+interpretar, y la sentencia de casación fija la interpretación que debe considerarse correcta.
+Como consecuencia, la jurisprudencia formada a través del recurso de casación ya no necesita
+reiteración para cumplir su función, pues la seguridad jurídica se garantiza mediante un
+procedimiento reflexivo, contradictorio y transparente.
+Además, el sistema se completa con los recursos de casación autonómica, atribuidos a los
+Tribunales Superiores de Justicia, que fijan jurisprudencia sobre normas emanadas de las
+comunidades autónomas.
+Aunque la ley no atribuye expresamente eficacia vinculante a la jurisprudencia resultante de la
+casación, el diseño del sistema está orientado a asegurar su efectividad práctica. La ausencia de
+vinculación formal responde a cautelas sobre la independencia judicial, si bien el Tribunal
+Constitucional ha admitido que una vinculación legal de la jurisprudencia no sería en sí misma
+inconstitucional.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+
+  
+   "1": "Las fuentes del Derecho son los cauces de creación y expresión normativa; en Derecho administrativo predominan las fuentes escritas por exigencias de legalidad y seguridad jurídica.",
+      "2": "La Constitución es la norma fundamental y suprema: crea y organiza los poderes del Estado, limita su actuación mediante derechos y principios, y determina la validez y jerarquía de todas las fuentes.",
+      "3": "La ley es la norma central del sistema parlamentario, pero no es soberana: está subordinada a la Constitución y condicionada por límites externos derivados de la integración internacional y supranacional.",
+      "3.1": "La ley se define formalmente por su aprobación parlamentaria y materialmente por su contenido normativo, aunque la Constitución admite la ley singular, cuyo control corresponde en exclusiva al Tribunal Constitucional.",
+      "3.2": "La ley orgánica se caracteriza por una reserva material constitucional y una mayoría reforzada; no es jerárquicamente superior a la ley ordinaria, según la concepción material elaborada por el Tribunal Constitucional.",
+      "3.3": "Dentro de la categoría legal existen múltiples modalidades funcionales (estatutos, leyes de bases, básicas, marco, armonización y presupuestos), diferenciadas por su función constitucional y no por su rango.",
+      "4": "El Gobierno puede dictar normas con rango de ley solo en supuestos tasados por la Constitución, siempre con intervención parlamentaria previa o posterior.",
+      "4.1": "El decreto-legislativo es una norma con rango legal dictada por el Gobierno en virtud de una delegación expresa, limitada y temporal de las Cortes Generales.",
+      "4.2": "El decreto-ley es una disposición legislativa provisional dictada en casos de extraordinaria y urgente necesidad, sujeta a límites materiales y a convalidación parlamentaria en treinta días.",
+      "4.3": "El decreto de declaración del estado de alarma puede limitar derechos y desplazar la legalidad ordinaria; la jurisprudencia constitucional le reconoce valor de ley, aunque esta calificación es discutida doctrinalmente.",
+      "5": "El Derecho internacional influye en el ordenamiento administrativo principalmente a través de los tratados, pero también mediante estándares y normas técnicas internacionales.",
+      "5.1": "Los tratados internacionales, una vez válidamente celebrados y publicados, se integran en el ordenamiento interno con rango infraconstitucional y supralegal.",
+      "5.1.1": "La celebración y efectos de los tratados se rigen por la Constitución y la Ley de Tratados Internacionales, y su autorización parlamentaria varía según la materia.",
+      "5.1.2": "En el ámbito administrativo destacan los tratados del Consejo de Europa, especialmente el CEDH, por la influencia directa de la jurisprudencia del TEDH.",
+      "5.2": "Además de los tratados, el Derecho administrativo recibe normas técnicas internacionales que pueden operar como soft law o adquirir carácter obligatorio mediante mecanismos internos de recepción.",
+      "6.1": "El Derecho de la Unión Europea es un ordenamiento jurídico autónomo que se integra en el nacional mediante los principios de primacía y efecto directo, bajo control exclusivo del TJUE.",
+      "6.2": "La Unión Europea produce normas vinculantes y no vinculantes, articuladas mediante legislación uniforme y legislación armonizada.",
+      "6.1.1": "El reglamento europeo es una norma de alcance general, obligatoria y directamente aplicable, que desplaza la normativa nacional incompatible.",
+      "6.1.2": "La directiva obliga a los Estados al resultado, requiere transposición y puede producir efecto directo vertical en caso de incumplimiento estatal.",
+      "7": "La costumbre tiene un papel residual en el Derecho administrativo y no puede fundamentar potestades ni sanciones debido a las reservas de ley y a la exigencia de seguridad jurídica.",
+      "8": "Los principios generales del Derecho actúan como fuente supletoria e informadora, pero al positivizarse pasan a integrarse plenamente en el sistema normativo.",
+      "8.1": "Los principios generales no positivizados solo existen jurídicamente si tienen capacidad supletoria y son reconocidos por la jurisprudencia.",
+      "8.1.1": "No todo principio lo es en sentido jurídico: deben distinguirse los principios generales de los conceptos jurídicos indeterminados y de las reglas técnicas.",
+      "8.1.2": "La identificación de los principios generales depende de su reconocimiento jurisprudencial y está limitada por las reservas constitucionales y legales.",
+      "8.1.3": "Los principios generales permiten controlar la discrecionalidad administrativa y evitar la arbitrariedad, aunque no pueden anular normas escritas.",
+      "8.2": "La positivización de los principios generales transforma su naturaleza jurídica y les otorga el rango de la norma que los incorpora.",
+      "9": "La jurisprudencia tiene carácter complementario del ordenamiento jurídico y adquiere relevancia normativa a través de la doctrina reiterada.",
+      "9.1": "Solo la doctrina jurisprudencial reiterada tiene efectos jurídicos relevantes, superando la concepción del juez como mero aplicador automático de la ley.",
+      "9.2": "En el sistema español coexisten varias jurisprudencias relevantes: la del TJUE, la del TEDH y la del Tribunal Constitucional.",
+      "9.3": "La reforma de la casación contencioso-administrativa ha convertido este recurso en el principal mecanismo de formación de jurisprudencia con función nomofiláctica."
+  
+    };
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = `#ID = 1
+
+// [1]
+Q: ¿Cómo se caracteriza el ordenamiento jurídico en relación con las fuentes del Derecho?
+A) Por su unidad, compatible con la existencia de una pluralidad de fuentes jurídicas.
+B) Por la coexistencia de múltiples ordenamientos jurídicos independientes entre sí.
+C) Por la existencia de una única fuente normativa con capacidad de crear Derecho.
+OK: A
+EXP: El ordenamiento jurídico es unitario, pero admite pluralidad de fuentes que permiten estructurar los distintos poderes y niveles de decisión.
+
+
+// [2]
+Q: ¿Qué se entiende por fuentes del Derecho?
+A) Los órganos encargados de aplicar las normas jurídicas.
+B) Los procedimientos de interpretación de las normas jurídicas.
+C) Los cauces de creación y expresión de las normas jurídicas.
+OK: C
+EXP: Las fuentes del Derecho son los mecanismos mediante los cuales se crean y se expresan las normas jurídicas dentro del ordenamiento.
+
+
+// [3]
+Q: ¿Desde qué perspectivas pueden analizarse las fuentes del Derecho?
+A) Desde una perspectiva formal y una perspectiva material.
+B) Desde una perspectiva jurídica y una perspectiva social.
+C) Desde una perspectiva normativa y una perspectiva jurisprudencial.
+OK: A
+EXP: El análisis clásico de las fuentes distingue entre perspectiva formal y perspectiva material.
+
+
+// [4]
+Q: ¿Qué identifica la perspectiva formal de las fuentes del Derecho?
+A) La capacidad efectiva de producir normas jurídicas.
+B) Las formas jurídicas mediante las cuales se crean y expresan las normas.
+C) El contenido material de las decisiones jurídicas.
+OK: B
+EXP: La perspectiva formal se centra en las formas normativas que expresan las normas, como ley, reglamento o tratado.
+
+
+// [5]
+Q: ¿Qué característica presenta la perspectiva formal de las fuentes del Derecho?
+A) Permite diferenciar entre la forma jurídica de la norma y su contenido.
+B) Identifica las normas únicamente por su contenido material.
+C) Analiza exclusivamente la eficacia práctica de las normas jurídicas.
+OK: A
+EXP: En la perspectiva formal es posible separar la forma normativa del contenido concreto de la decisión jurídica.
+
+
+// [6]
+Q: ¿Qué define la perspectiva material de las fuentes del Derecho?
+A) La jerarquía normativa dentro del ordenamiento jurídico.
+B) El procedimiento de aprobación de las normas jurídicas.
+C) La capacidad de producir normas jurídicas.
+OK: C
+EXP: Desde la perspectiva material, una fuente se identifica por su capacidad efectiva de crear normas jurídicas.
+
+
+// [7]
+Q: ¿En qué ámbito resulta especialmente relevante la perspectiva material de las fuentes?
+A) En las fuentes reglamentarias.
+B) En las normas constitucionales.
+C) En las leyes aprobadas por el Parlamento.
+OK: A
+EXP: La perspectiva material resulta especialmente relevante en el caso de las fuentes reglamentarias.
+
+
+// [8]
+Q: ¿Qué clasificación tradicional se utilizaba para distinguir las fuentes del Derecho?
+A) Fuentes legislativas y fuentes administrativas.
+B) Fuentes escritas y publicadas frente a fuentes no escritas o reflexivas.
+C) Fuentes estatales frente a fuentes autonómicas.
+OK: B
+EXP: Tradicionalmente se distinguía entre fuentes escritas/publicadas y fuentes no escritas o reflexivas.
+
+
+// [9]
+Q: ¿Qué característica presenta el sistema de fuentes en el Derecho administrativo?
+A) Predomina el uso de fuentes consuetudinarias.
+B) Existe un predominio de fuentes escritas vinculado a los principios de legalidad y seguridad jurídica.
+C) Se basa principalmente en la jurisprudencia como fuente normativa.
+OK: B
+EXP: En el Derecho administrativo predominan las fuentes escritas por su conexión con los principios de legalidad y seguridad jurídica.
+
+
+// [10]
+Q: ¿Qué se entiende por fuentes no estatales del Derecho?
+A) Las normas aprobadas por las comunidades autónomas.
+B) Las normas dictadas por órganos administrativos del Estado.
+C) Las normas procedentes del Derecho de la Unión Europea y del Derecho internacional.
+OK: C
+EXP: Las fuentes no estatales incluyen el Derecho de la Unión Europea y el Derecho internacional incorporado al ordenamiento interno.
+
+
+// [11]
+Q: ¿Qué clasificación sistemática utiliza el manual para ordenar las fuentes del Derecho administrativo?
+A) Fuentes constitucionales y fuentes administrativas.
+B) Fuentes legales y supralegales frente a fuentes infralegales o reglamentarias.
+C) Fuentes estatales frente a fuentes autonómicas.
+OK: B
+EXP: El manual distingue entre fuentes legales y supralegales y fuentes infralegales o reglamentarias.
+
+
+// [12]
+Q: ¿Qué característica presenta el sistema de fuentes del Derecho administrativo?
+A) La utilización simultánea de múltiples fuentes del Derecho.
+B) La existencia de una única fuente normativa central.
+C) La subordinación de todas las fuentes a la costumbre administrativa.
+OK: A
+EXP: El Derecho administrativo se caracteriza por la utilización simultánea de múltiples fuentes, lo que incrementa el riesgo de conflictos normativos.
+
+#ID = 2
+
+// [13]
+Q: ¿Cómo se define la Constitución dentro del ordenamiento jurídico?
+A) Como la norma fundamental y suprema del ordenamiento jurídico.
+B) Como una ley orgánica de especial importancia institucional.
+C) Como un conjunto de principios interpretativos del Derecho público.
+OK: A
+EXP: La Constitución es la norma fundamental y suprema que estructura todo el ordenamiento jurídico.
+
+
+// [14]
+Q: ¿Qué significa que la Constitución sea norma fundamental?
+A) Que regula exclusivamente la organización administrativa del Estado.
+B) Que crea y organiza los poderes del Estado y limita su ejercicio mediante derechos y principios constitucionales.
+C) Que establece únicamente el sistema de fuentes del Derecho.
+OK: B
+EXP: Como norma fundamental, la Constitución crea los poderes del Estado y limita su ejercicio mediante derechos y principios.
+
+
+// [15]
+Q: ¿Qué implica que la Constitución sea “norma de normas”?
+A) Que todas las leyes deben ser aprobadas mediante referéndum.
+B) Que determina la relevancia, validez y jerarquía de las demás normas del ordenamiento.
+C) Que sustituye a las leyes ordinarias en la regulación administrativa.
+OK: B
+EXP: La Constitución define el sistema de fuentes y determina la validez y jerarquía del resto de normas.
+
+
+// [16]
+Q: ¿En qué planos se manifiesta la supremacía constitucional?
+A) En el plano político y en el plano jurisdiccional.
+B) En el plano formal y en el plano material.
+C) En el plano estatal y en el plano autonómico.
+OK: B
+EXP: La supremacía constitucional tiene una dimensión formal y otra material.
+
+
+// [17]
+Q: ¿En qué consiste la supremacía formal de la Constitución?
+A) En que la Constitución no puede ser modificada ni derogada por normas distintas del procedimiento de reforma constitucional.
+B) En que la Constitución puede modificarse mediante ley orgánica.
+C) En que la Constitución prevalece sobre los reglamentos administrativos.
+OK: A
+EXP: La supremacía formal implica que la Constitución solo puede modificarse mediante los procedimientos de reforma constitucional.
+
+
+// [18]
+Q: ¿Quién es titular del poder constituyente en el sistema constitucional?
+A) El Parlamento.
+B) El Tribunal Constitucional.
+C) El pueblo.
+OK: C
+EXP: El poder constituyente reside en el pueblo, que establece la Constitución y sus procedimientos de reforma.
+
+
+// [19]
+Q: ¿Qué implica la supremacía material de la Constitución?
+A) La obligación general de cumplimiento por ciudadanos y poderes públicos.
+B) La aplicación exclusiva de la Constitución por los tribunales.
+C) La subordinación de las leyes al poder legislativo.
+OK: A
+EXP: La supremacía material implica la obligatoriedad de la Constitución para ciudadanos y poderes públicos.
+
+
+// [20]
+Q: ¿Qué ocurre con las normas preconstitucionales incompatibles con la Constitución?
+A) Permanecen vigentes hasta que el legislador las derogue.
+B) Quedan derogadas automáticamente y cualquier juez puede apreciarlo.
+C) Solo pueden ser anuladas por el Tribunal Constitucional.
+OK: B
+EXP: Las normas anteriores incompatibles quedan derogadas automáticamente.
+
+
+// [21]
+Q: ¿Quién puede declarar la inconstitucionalidad de las normas posteriores contrarias a la Constitución?
+A) El Tribunal Supremo.
+B) Los tribunales ordinarios.
+C) El Tribunal Constitucional.
+OK: C
+EXP: La declaración de inconstitucionalidad corresponde exclusivamente al Tribunal Constitucional.
+
+
+// [22]
+Q: ¿Qué principio deriva de la supremacía constitucional en la interpretación del Derecho?
+A) La interpretación conforme a la Constitución de todas las normas jurídicas.
+B) La aplicación preferente de la jurisprudencia constitucional.
+C) La prevalencia de la legislación administrativa sobre la legislación civil.
+OK: A
+EXP: Todas las normas deben interpretarse conforme a la Constitución.
+    `;
+
+
+    const BANCO_2 = `#ID = 3
+
+// [23]
+Q: ¿Qué posición ocupa la ley dentro del sistema de fuentes tras la Constitución?
+A) Constituye la norma suprema del ordenamiento jurídico después de la Constitución, al expresar la voluntad popular a través del Parlamento.
+B) Es una norma subordinada a los reglamentos cuando estos desarrollan materias administrativas específicas.
+C) Tiene el mismo rango que las disposiciones reglamentarias dictadas por el Gobierno en ejercicio de su potestad normativa.
+OK: A
+EXP: Tras la Constitución, la ley es la norma suprema del ordenamiento porque expresa la voluntad popular mediante el Parlamento.
+
+
+// [24]
+Q: ¿Por qué se afirma que en el Estado constitucional de Derecho la ley no es soberana?
+A) Porque el Gobierno puede suspender su aplicación cuando concurren circunstancias excepcionales.
+B) Porque la voluntad del legislador se encuentra subordinada a la Constitución como norma suprema del ordenamiento.
+C) Porque el Tribunal Supremo puede inaplicar libremente las leyes contrarias al interés general.
+OK: B
+EXP: En el Estado constitucional la ley está subordinada a la Constitución, que actúa como límite jurídico del legislador.
+
+
+// [25]
+Q: ¿Qué se entiende por ley desde el punto de vista formal?
+A) Toda disposición que contenga mandatos generales aprobados por el Parlamento.
+B) Todo mandato aprobado por los órganos legislativos conforme al procedimiento previsto en la Constitución.
+C) Toda norma con eficacia general dentro del territorio del Estado.
+OK: B
+EXP: La ley formal se identifica por su aprobación por el órgano legislativo conforme al procedimiento constitucional.
+
+
+// [26]
+Q: ¿Qué caracteriza a la ley desde el punto de vista material?
+A) Su contenido normativo compuesto por reglas generales y abstractas.
+B) Su aprobación mediante mayorías parlamentarias cualificadas.
+C) Su posición jerárquica superior respecto a los reglamentos.
+OK: A
+EXP: Desde el punto de vista material la ley contiene normas generales y abstractas.
+
+
+// [27]
+Q: ¿Es necesario que toda ley tenga carácter general y abstracto?
+A) Sí, porque la Constitución exige que la ley tenga siempre alcance general.
+B) No, ya que la Constitución admite la existencia de leyes singulares o concretas.
+C) Solo cuando la ley regula derechos fundamentales.
+OK: B
+EXP: La Constitución no exige generalidad absoluta, por lo que la ley singular es constitucionalmente válida.
+
+
+// [28]
+Q: ¿Quién es competente para controlar la constitucionalidad de las leyes?
+A) El Tribunal Constitucional.
+B) El Tribunal Supremo.
+C) Los tribunales contencioso-administrativos.
+OK: A
+EXP: El control de constitucionalidad de las leyes corresponde exclusivamente al Tribunal Constitucional.
+
+
+// [29]
+Q: ¿Qué se entiende por deslegalización?
+A) La derogación de una ley por una norma reglamentaria posterior.
+B) La habilitación legal al Gobierno para regular una materia mediante reglamento.
+C) La aprobación de normas administrativas con rango de ley.
+OK: B
+EXP: Se denomina deslegalización cuando la ley remite al reglamento la regulación de una materia.
+
+
+// [30]
+Q: ¿Por qué la distinción entre ley formal y ley material carece de relevancia constitucional?
+A) Porque ambas categorías poseen el mismo procedimiento de aprobación.
+B) Porque la Constitución no condiciona la validez de la ley a su contenido material.
+C) Porque el Tribunal Constitucional ha declarado su inutilidad jurídica.
+OK: B
+EXP: La Constitución no exige que la ley tenga necesariamente contenido general o abstracto.
+
+// [31]
+Q: ¿Qué mayoría parlamentaria se requiere para aprobar una ley ordinaria?
+A) Mayoría simple de las Cortes Generales.
+B) Mayoría absoluta del Congreso.
+C) Mayoría cualificada de tres quintos.
+OK: A
+EXP: La ley ordinaria se aprueba por mayoría simple.
+
+
+// [32]
+Q: ¿Qué requisito caracteriza a la aprobación de una ley orgánica?
+A) Mayoría absoluta del Congreso en votación final sobre el conjunto del proyecto.
+B) Mayoría cualificada de ambas cámaras en cada fase del procedimiento.
+C) Ratificación mediante referéndum.
+OK: A
+EXP: La Constitución exige mayoría absoluta del Congreso en la votación final.
+
+
+// [33]
+Q: ¿Cuál es una materia reservada constitucionalmente a ley orgánica?
+A) La regulación de la potestad reglamentaria del Gobierno.
+B) El desarrollo de los derechos fundamentales y libertades públicas.
+C) La organización interna de los ministerios.
+OK: B
+EXP: El desarrollo de derechos fundamentales está reservado a ley orgánica.
+
+
+// [34]
+Q: ¿Cómo debe interpretarse la reserva de ley orgánica?
+A) De forma amplia para reforzar la seguridad jurídica.
+B) De forma flexible según la voluntad del legislador.
+C) De forma restrictiva.
+OK: C
+EXP: La reserva de ley orgánica debe interpretarse restrictivamente.
+
+
+// [35]
+Q: ¿Qué concepción mantiene el Tribunal Constitucional respecto a la ley orgánica?
+A) Una concepción jerárquica respecto a la ley ordinaria.
+B) Una concepción material vinculada a las materias constitucionalmente reservadas.
+C) Una concepción meramente procedimental.
+OK: B
+EXP: El Tribunal Constitucional adopta una concepción material de la ley orgánica.
+
+
+// [36]
+Q: ¿Qué sucede cuando una ley orgánica regula materias no reservadas constitucionalmente?
+A) Pierde automáticamente su validez jurídica.
+B) Dichos preceptos se consideran orgánicos mientras el Tribunal Constitucional no declare lo contrario.
+C) Se transforman automáticamente en ley ordinaria.
+OK: B
+EXP: Mientras el Tribunal Constitucional no declare lo contrario, la regulación prevalece provisionalmente.
+
+
+// [37]
+Q: ¿Por qué se rechaza la concepción jerárquica entre ley orgánica y ley ordinaria?
+A) Porque impediría la evolución del ordenamiento y la alternancia democrática.
+B) Porque ambas requieren el mismo procedimiento legislativo.
+C) Porque el Tribunal Constitucional carece de competencia para resolver conflictos entre ellas.
+OK: A
+EXP: Una jerarquía entre ambas leyes petrificaría el sistema legislativo.
+
+// [38]
+Q: ¿Qué caracteriza al Estatuto de Autonomía dentro del sistema de fuentes?
+A) Es una ley orgánica estatal que constituye la norma institucional básica de la comunidad autónoma.
+B) Es un reglamento autonómico aprobado por el parlamento territorial.
+C) Es una ley ordinaria del Estado con eficacia territorial limitada.
+OK: A
+EXP: El Estatuto es ley orgánica estatal y norma institucional básica autonómica.
+
+
+// [39]
+Q: ¿Qué función cumplen las leyes de bases?
+A) Delegar potestad legislativa en el Gobierno para dictar textos articulados.
+B) Establecer los principios básicos del sistema tributario.
+C) Determinar las competencias exclusivas del Estado.
+OK: A
+EXP: Las leyes de bases permiten la delegación legislativa al Gobierno.
+
+
+// [40]
+Q: ¿Cuál es una característica esencial de la ley de presupuestos generales del Estado?
+A) Tiene vigencia indefinida hasta su derogación expresa.
+B) Su elaboración corresponde exclusivamente al Gobierno, aunque su aprobación es parlamentaria.
+C) Puede aprobarse mediante decreto-ley en caso de urgencia.
+OK: B
+EXP: El Gobierno elabora el proyecto de presupuestos y el Parlamento lo aprueba.
+
+
+// [41]
+Q: ¿Puede la ley de presupuestos crear tributos?
+A) Sí, cuando así lo acuerde el Parlamento.
+B) No, aunque puede modificarlos si una ley sustantiva lo autoriza.
+C) Sí, siempre que se trate de tributos temporales.
+OK: B
+EXP: La ley de presupuestos no puede crear tributos.
+
+
+// [42]
+Q: ¿Qué finalidad tiene la llamada ley de acompañamiento?
+A) Regular materias fiscales y administrativas que no pueden incluirse en la ley de presupuestos.
+B) Sustituir a la ley de presupuestos en caso de prórroga automática.
+C) Establecer las competencias de las comunidades autónomas.
+OK: A
+EXP: La ley de acompañamiento regula medidas vinculadas al presupuesto que no pueden incluirse en él.
+
+
+// [43]
+Q: ¿Qué naturaleza tienen las leyes autonómicas dentro del sistema constitucional?
+A) Reglamentos autonómicos subordinados a las leyes estatales.
+B) Normas con rango legal sometidas a la Constitución y al control del Tribunal Constitucional.
+C) Disposiciones administrativas dictadas por los gobiernos autonómicos.
+OK: B
+EXP: Las leyes autonómicas son verdaderas leyes dentro del sistema constitucional.
+
+ID = 4
+
+// [44]
+Q: ¿Qué caracteriza a la legislación delegada prevista en el art. 82 CE?
+A) La habilitación al Gobierno para desarrollar reglamentariamente una ley ya aprobada por las Cortes.
+B) La delegación de las Cortes Generales al Gobierno para dictar normas con rango de ley sobre materias determinadas.
+C) La autorización al Gobierno para modificar normas reglamentarias mediante decretos legislativos.
+OK: B
+EXP: La legislación delegada consiste en la delegación de las Cortes al Gobierno para dictar normas con rango de ley.
+
+
+// [45]
+Q: ¿Quién puede ser destinatario de la delegación legislativa conforme a la Constitución?
+A) El Gobierno, como único órgano delegatario posible.
+B) El Gobierno o los ministros competentes en la materia delegada.
+C) El Gobierno y las comunidades autónomas en materias compartidas.
+OK: A
+EXP: La delegación legislativa solo puede otorgarse al Gobierno y no admite subdelegación.
+
+
+// [46]
+Q: ¿Qué requisitos debe reunir la delegación legislativa según el art. 82 CE?
+A) Debe otorgarse por tiempo indefinido y para materias generales.
+B) Debe ser expresa, para materias concretas y por plazo determinado.
+C) Debe aprobarse mediante ley orgánica y con autorización del Senado.
+OK: B
+EXP: La Constitución exige que la delegación sea expresa, concreta y temporal.
+
+
+// [47]
+Q: ¿Sobre qué materias no puede recaer la delegación legislativa?
+A) Sobre materias reservadas a ley orgánica.
+B) Sobre materias de organización administrativa del Estado.
+C) Sobre materias relativas a reglamentos ejecutivos.
+OK: A
+EXP: La delegación legislativa no puede afectar a materias reservadas a ley orgánica.
+
+
+// [48]
+Q: ¿Qué efecto produce el ejercicio de la delegación legislativa por el Gobierno?
+A) La delegación queda automáticamente prorrogada.
+B) La delegación se consume con su ejercicio.
+C) La delegación se transforma en potestad reglamentaria.
+OK: B
+EXP: Una vez ejercida la delegación legislativa, esta se consume y no puede reutilizarse.
+
+
+// [49]
+Q: ¿Qué modalidad de decreto legislativo se produce cuando la delegación se concede mediante ley de bases?
+A) Texto refundido.
+B) Texto articulado.
+C) Decreto legislativo especial.
+OK: B
+EXP: La ley de bases permite al Gobierno elaborar un texto articulado que desarrolle los principios fijados por el legislador.
+
+
+// [50]
+Q: ¿Qué finalidad tiene el texto refundido en la legislación delegada?
+A) Innovar el ordenamiento jurídico mediante regulación nueva.
+B) Unificar y sistematizar textos legales dispersos.
+C) Sustituir todas las leyes vigentes en la materia.
+OK: B
+EXP: El texto refundido busca unificar normas dispersas para reforzar la seguridad jurídica.
+
+
+// [51]
+Q: ¿Qué órgano controla la constitucionalidad de los decretos legislativos?
+A) El Tribunal Constitucional.
+B) El Tribunal Supremo.
+C) El Congreso de los Diputados.
+OK: A
+EXP: El Tribunal Constitucional controla la constitucionalidad de los decretos legislativos.
+
+
+// [52]
+Q: ¿Qué ocurre si el Gobierno excede los límites de la delegación legislativa?
+A) El decreto legislativo queda automáticamente derogado.
+B) Puede ser controlado por la jurisdicción contencioso-administrativa por exceso de delegación.
+C) El Parlamento debe aprobar una ley correctora.
+OK: B
+EXP: La jurisdicción contencioso-administrativa puede controlar el exceso de delegación (ultra vires).
+
+
+// [53]
+Q: ¿Cómo puede derogarse un decreto legislativo?
+A) Mediante otra norma con rango de ley.
+B) Mediante reglamento aprobado por el Gobierno.
+C) Mediante resolución del Consejo de Estado.
+OK: A
+EXP: La derogación de un decreto legislativo requiere otra norma con rango de ley.
+
+// [54]
+Q: ¿Qué es el decreto-ley según el art. 86 CE?
+A) Una disposición reglamentaria reforzada dictada por el Gobierno en situaciones de urgencia.
+B) Una norma con rango de ley aprobada por el Parlamento a iniciativa del Gobierno.
+C) Una disposición legislativa provisional que el Gobierno puede dictar en casos de extraordinaria y urgente necesidad.
+OK: C
+EXP: El decreto-ley es una norma con rango de ley dictada por el Gobierno cuando concurre extraordinaria y urgente necesidad.
+
+
+// [55]
+Q: ¿Qué caracteriza la potestad normativa del Gobierno para dictar decretos-leyes?
+A) Es una potestad legislativa propia reconocida directamente por la Constitución.
+B) Es una potestad delegada por las Cortes Generales mediante ley de bases.
+C) Es una potestad reglamentaria reforzada ejercida por el Consejo de Ministros.
+OK: A
+EXP: El decreto-ley no requiere delegación parlamentaria previa, pues la Constitución reconoce esta potestad directamente al Gobierno.
+
+
+// [56]
+Q: ¿Qué presupuesto habilitante exige la Constitución para dictar un decreto-ley?
+A) La existencia de una crisis económica grave.
+B) La concurrencia de una situación de extraordinaria y urgente necesidad.
+C) La imposibilidad de que el Parlamento se reúna en sesión ordinaria.
+OK: B
+EXP: El presupuesto habilitante del decreto-ley es la extraordinaria y urgente necesidad.
+
+
+// [57]
+Q: ¿Qué debe existir entre la situación de urgencia y las medidas adoptadas en un decreto-ley?
+A) Una relación de proporcionalidad económica.
+B) Una conexión de sentido entre la situación de necesidad y las medidas normativas adoptadas.
+C) Una autorización previa del Congreso de los Diputados.
+OK: B
+EXP: El Tribunal Constitucional exige una conexión de sentido entre la situación alegada y las medidas adoptadas.
+
+
+// [58]
+Q: ¿Qué órgano controla que el uso del decreto-ley no sea arbitrario o abusivo?
+A) El Tribunal Constitucional.
+B) El Tribunal Supremo.
+C) El Consejo de Estado.
+OK: A
+EXP: El Tribunal Constitucional controla que el Gobierno no abuse del decreto-ley.
+
+
+// [59]
+Q: ¿Cuál de las siguientes materias está excluida del decreto-ley por el art. 86 CE?
+A) La regulación del procedimiento administrativo.
+B) El régimen de las instituciones básicas del Estado.
+C) La ordenación de los servicios públicos.
+OK: B
+EXP: El decreto-ley no puede afectar a las instituciones básicas del Estado.
+
+
+// [60]
+Q: ¿Qué sucede tras la publicación de un decreto-ley?
+A) Produce efectos inmediatos aunque su vigencia es provisional.
+B) Solo entra en vigor tras su aprobación por el Congreso.
+C) Se aplica provisionalmente hasta su revisión por el Tribunal Constitucional.
+OK: A
+EXP: El decreto-ley despliega efectos inmediatos pero su vigencia es provisional.
+
+
+// [61]
+Q: ¿Qué debe hacer el Congreso de los Diputados respecto a un decreto-ley?
+A) Convertirlo automáticamente en ley ordinaria.
+B) Convalidarlo o derogarlo en un plazo máximo de treinta días.
+C) Someterlo a referéndum para confirmar su validez.
+OK: B
+EXP: El Congreso debe convalidar o derogar el decreto-ley en treinta días.
+
+
+// [62]
+Q: ¿Qué ocurre si el Congreso no se pronuncia sobre el decreto-ley dentro del plazo constitucional?
+A) El decreto-ley se convierte automáticamente en ley.
+B) El decreto-ley queda suspendido.
+C) El decreto-ley caduca.
+OK: C
+EXP: Si el Congreso no lo convalida dentro de treinta días, el decreto-ley caduca.
+
+
+// [63]
+Q: ¿Qué efecto produce la convalidación parlamentaria del decreto-ley?
+A) Lo transforma automáticamente en ley ordinaria.
+B) Mantiene su eficacia sin alterar su naturaleza jurídica.
+C) Lo convierte en decreto legislativo.
+OK: B
+EXP: La convalidación mantiene su eficacia pero sigue siendo un decreto-ley.
+
+
+// [64]
+Q: ¿Qué opción adicional puede adoptar el Congreso respecto a un decreto-ley convalidado?
+A) Tramitarlo como proyecto de ley por el procedimiento de urgencia.
+B) Someterlo a control previo del Tribunal Constitucional.
+C) Delegar su desarrollo reglamentario al Gobierno.
+OK: A
+EXP: El Congreso puede acordar su tramitación como proyecto de ley por el procedimiento de urgencia.
+
+
+// [65]
+Q: ¿Qué relevancia práctica tiene el decreto-ley en el sistema normativo español?
+A) Es una fuente excepcional y prácticamente inexistente en la práctica legislativa.
+B) Es uno de los instrumentos normativos más utilizados por el Gobierno.
+C) Se utiliza exclusivamente en situaciones de estado de excepción.
+OK: B
+EXP: El decreto-ley se ha convertido en uno de los instrumentos legislativos más utilizados por el Gobierno.
+
+
+// [66]
+Q: ¿Mediante qué instrumento jurídico se declara el estado de alarma en España?
+A) Mediante real decreto del Consejo de Ministros.
+B) Mediante decreto-ley aprobado por el Gobierno.
+C) Mediante ley orgánica aprobada por las Cortes Generales.
+OK: A
+EXP: El estado de alarma se declara mediante real decreto del Consejo de Ministros conforme al art. 116 CE y la LO 4/1981.
+
+
+// [67]
+Q: ¿Qué norma regula específicamente los estados de alarma, excepción y sitio?
+A) La Ley Orgánica 4/1981.
+B) La Ley Orgánica del Tribunal Constitucional.
+C) La Ley de Seguridad Nacional.
+OK: A
+EXP: La Ley Orgánica 4/1981 regula los estados de alarma, excepción y sitio.
+
+
+// [68]
+Q: ¿Qué valor jurídico ha reconocido el Tribunal Constitucional al decreto de declaración del estado de alarma?
+A) Valor reglamentario reforzado.
+B) Valor de ley.
+C) Valor de decreto legislativo.
+OK: B
+EXP: El Tribunal Constitucional ha considerado que el decreto de declaración del estado de alarma tiene valor de ley.
+
+
+// [69]
+Q: ¿Qué órgano es competente para controlar la validez del decreto de declaración del estado de alarma?
+A) El Tribunal Supremo.
+B) La jurisdicción contencioso-administrativa.
+C) El Tribunal Constitucional.
+OK: C
+EXP: Al atribuirle valor de ley, su control corresponde exclusivamente al Tribunal Constitucional.
+
+
+// [70]
+Q: ¿Cuál es la duración máxima inicial del estado de alarma?
+A) Diez días.
+B) Quince días.
+C) Treinta días.
+OK: B
+EXP: El estado de alarma tiene una duración máxima inicial de quince días.
+
+
+// [71]
+Q: ¿Qué requisito es necesario para prorrogar el estado de alarma?
+A) La autorización expresa del Congreso de los Diputados.
+B) La aprobación del Senado por mayoría absoluta.
+C) La convalidación del Tribunal Constitucional.
+OK: A
+EXP: La prórroga del estado de alarma requiere autorización expresa del Congreso.
+
+
+// [72]
+Q: ¿Cuál de las siguientes medidas puede adoptarse durante el estado de alarma?
+A) Suspender definitivamente derechos fundamentales.
+B) Limitar la circulación de personas o vehículos.
+C) Disolver el Parlamento.
+OK: B
+EXP: Durante el estado de alarma pueden limitarse derechos como la circulación, pero no suspenderse.
+
+
+// [73]
+Q: ¿Qué debe fijar necesariamente el decreto de declaración del estado de alarma?
+A) El ámbito territorial, la duración y los efectos de las medidas.
+B) El procedimiento de reforma constitucional.
+C) La modificación del régimen electoral general.
+OK: A
+EXP: El decreto debe determinar ámbito territorial, duración y efectos.
+
+
+// [74]
+Q: ¿Por qué parte de la doctrina critica que el decreto de estado de alarma tenga valor de ley?
+A) Porque la Constitución no le atribuye expresamente rango legal.
+B) Porque su aprobación corresponde al Gobierno y no al Parlamento.
+C) Porque limita derechos fundamentales de forma permanente.
+OK: A
+EXP: La Constitución distingue entre decretos-leyes y el decreto de alarma, sin atribuirle expresamente valor de ley.
+
+
+// [75]
+Q: ¿Qué naturaleza atribuye una parte de la doctrina al decreto de declaración del estado de alarma?
+A) Una norma reglamentaria con efectos excepcionales derivados de la Constitución.
+B) Una ley orgánica temporal.
+C) Una ley ordinaria aprobada por el Gobierno.
+OK: A
+EXP: Para parte de la doctrina se trata de una norma reglamentaria con efectos excepcionales derivados directamente de la Constitución.
+
+
+
+    `;
+
+
+    const BANCO_3 = `#ID = 5
+
+// [76]
+Q: ¿Cómo reconoce la Constitución española al tratado internacional dentro del sistema de fuentes?
+A) Como una fuente del Derecho internacional que, una vez incorporada, forma parte del ordenamiento interno.
+B) Como una norma reglamentaria que requiere desarrollo legislativo para tener efectos internos.
+C) Como una disposición subordinada a las leyes ordinarias aprobadas por las Cortes Generales.
+OK: A
+EXP: La Constitución reconoce al tratado internacional como fuente externa que, una vez incorporada, forma parte del Derecho interno.
+
+
+// [77]
+Q: ¿Desde qué momento producen efectos los tratados internacionales en el ordenamiento español?
+A) Desde su firma por el Gobierno.
+B) Desde la fecha prevista en el propio tratado o desde su entrada en vigor.
+C) Desde su aprobación mediante ley ordinaria por las Cortes Generales.
+OK: B
+EXP: Los tratados válidamente celebrados producen efectos desde su entrada en vigor o desde la fecha prevista en ellos.
+
+
+// [78]
+Q: ¿Qué significa que los tratados internacionales sean generalmente self-executing?
+A) Que requieren siempre desarrollo legislativo para su aplicación interna.
+B) Que solo pueden aplicarse tras autorización parlamentaria expresa.
+C) Que pueden aplicarse directamente sin necesidad de desarrollo normativo interno.
+OK: C
+EXP: Los tratados self-executing son directamente aplicables sin necesidad de norma interna adicional.
+
+
+// [79]
+Q: ¿Qué tipo de autorización exige la Constitución para los tratados que atribuyen competencias a organizaciones internacionales?
+A) Autorización mediante ley ordinaria.
+B) Autorización mediante ley orgánica.
+C) Autorización mediante decreto-ley.
+OK: B
+EXP: El art. 93 CE exige ley orgánica para los tratados que atribuyen competencias a organizaciones internacionales.
+
+
+// [80]
+Q: ¿Qué tipo de tratados requieren autorización mediante ley ordinaria según el art. 94.1 CE?
+A) Tratados políticos, militares o que afecten a derechos fundamentales.
+B) Todos los tratados celebrados por el Estado español.
+C) Únicamente los tratados celebrados con organizaciones internacionales.
+OK: A
+EXP: El art. 94.1 CE exige autorización mediante ley ordinaria para determinados tratados especialmente relevantes.
+
+
+// [81]
+Q: ¿Qué procedimiento se exige para los tratados que no están comprendidos en los supuestos del art. 94.1 CE?
+A) Ratificación por el Senado.
+B) Comunicación a las Cortes Generales.
+C) Autorización mediante decreto legislativo.
+OK: B
+EXP: Los tratados restantes solo requieren comunicación a las Cortes.
+
+
+// [82]
+Q: ¿Qué posición ocupan los tratados internacionales dentro del sistema de fuentes español?
+A) Por encima de la Constitución y por debajo de la ley.
+B) Por debajo de la Constitución y por encima de la ley.
+C) En el mismo nivel que las leyes ordinarias.
+OK: B
+EXP: Los tratados se sitúan por debajo de la Constitución pero prevalecen sobre la ley.
+
+
+// [83]
+Q: ¿Qué ocurre si un tratado internacional contradice la Constitución española?
+A) El tratado prevalece sobre la Constitución.
+B) El tratado no puede celebrarse sin reforma constitucional previa.
+C) El tratado se aplica solo parcialmente.
+OK: B
+EXP: El art. 95 CE impide celebrar tratados contrarios a la Constitución sin reforma previa.
+
+
+// [84]
+Q: ¿Qué función interpretativa tienen los tratados internacionales de derechos humanos en el ordenamiento español?
+A) Permiten modificar directamente la Constitución.
+B) Sirven como criterio para interpretar los derechos fundamentales.
+C) Sustituyen a las leyes orgánicas en materia de derechos fundamentales.
+OK: B
+EXP: El art. 10.2 CE establece que los derechos fundamentales se interpretan conforme a los tratados internacionales.
+
+
+// [85]
+Q: ¿Conforme a qué criterios deben interpretarse los tratados internacionales?
+A) Exclusivamente según el Derecho interno del Estado.
+B) Conforme a los criterios establecidos en la Convención de Viena sobre Derecho de los Tratados.
+C) Conforme a la jurisprudencia del Tribunal Supremo.
+OK: B
+EXP: La interpretación de los tratados se rige por los arts. 31-33 de la Convención de Viena.
+
+// [86]
+Q: ¿Qué organización internacional ha tenido especial relevancia en la influencia del Derecho internacional sobre el Derecho administrativo europeo?
+A) El Consejo de Europa.
+B) La Organización Mundial del Comercio.
+C) El Fondo Monetario Internacional.
+OK: A
+EXP: El Consejo de Europa ha impulsado tratados fundamentales como el CEDH.
+
+
+// [87]
+Q: ¿Qué tratado internacional destaca por su influencia en la protección de derechos fundamentales en Europa?
+A) El Tratado de Maastricht.
+B) El Convenio Europeo de Derechos Humanos.
+C) El Tratado de Lisboa.
+OK: B
+EXP: El CEDH es uno de los instrumentos más influyentes en la protección de derechos fundamentales.
+
+
+// [88]
+Q: ¿Qué impacto ha tenido la jurisprudencia del Tribunal Europeo de Derechos Humanos en el Derecho administrativo?
+A) Ha ampliado la aplicación de garantías procesales al procedimiento sancionador administrativo.
+B) Ha sustituido el sistema jurisdiccional interno en materia administrativa.
+C) Ha eliminado la potestad sancionadora de la Administración.
+OK: A
+EXP: El TEDH ha extendido garantías como el derecho a un proceso justo al ámbito administrativo.
+
+
+// [89]
+Q: ¿Qué exigencia introdujo la STEDH Saquetti Iglesias c. España (2020)?
+A) La obligación de crear tribunales administrativos independientes.
+B) La exigencia de doble instancia judicial en sanciones administrativas.
+C) La prohibición de sanciones administrativas económicas.
+OK: B
+EXP: El TEDH exigió que las sanciones administrativas graves puedan revisarse en doble instancia judicial.
+
+
+// [90]
+Q: ¿Qué tratado internacional influyó directamente en la legislación española sobre acceso a la información ambiental?
+A) El Convenio de Aarhus.
+B) El Tratado de Roma.
+C) El Convenio de Chicago.
+OK: A
+EXP: El Convenio de Aarhus impulsó la Ley 27/2006 sobre acceso a la información ambiental.
+
+
+// [91]
+Q: ¿Qué tipo de normas internacionales suelen incorporarse al Derecho administrativo sin adoptar la forma de tratado?
+A) Normas constitucionales internacionales.
+B) Directrices técnicas o guías elaboradas por organismos internacionales.
+C) Reglamentos aprobados por los parlamentos nacionales.
+OK: B
+EXP: Muchas normas internacionales llegan como directrices o guías elaboradas por expertos.
+
+
+// [92]
+Q: ¿Cómo se denomina doctrinalmente el fenómeno de incorporación de normas internacionales técnicas al Derecho administrativo?
+A) Derecho administrativo comparado.
+B) Derecho administrativo global.
+C) Derecho administrativo supranacional.
+OK: B
+EXP: La doctrina habla de Derecho administrativo global.
+
+
+// [93]
+Q: ¿Qué caracteriza al soft law en el ámbito internacional?
+A) Normas internacionales formalmente obligatorias.
+B) Normas no vinculantes que pueden influir en la actuación administrativa.
+C) Normas que sustituyen a las leyes nacionales.
+OK: B
+EXP: El soft law consiste en normas no vinculantes que orientan la actuación pública.
+
+
+// [94]
+Q: ¿Qué técnica permite aplicar guías internacionales en el ámbito de los mercados financieros?
+A) La técnica del comply or explain.
+B) El control jurisdiccional automático.
+C) La ratificación parlamentaria previa.
+OK: A
+EXP: La CNMV puede aplicar guías internacionales mediante la técnica comply or explain.
+
+
+// [95]
+Q: ¿Qué fenómeno refleja la creciente recepción de normas técnicas internacionales en el Derecho administrativo?
+A) La constitucionalización del Derecho administrativo.
+B) La transnacionalización del Derecho administrativo.
+C) La desaparición de la potestad reglamentaria.
+OK: B
+EXP: La recepción de normas técnicas internacionales refleja la transnacionalización del Derecho administrativo.
+
+#ID = 6
+
+// [96]
+Q: ¿Cuál es la característica esencial del Derecho de la Unión Europea dentro del sistema jurídico europeo?
+A) Es una rama del Derecho internacional público que solo obliga a los Estados.
+B) Constituye un ordenamiento jurídico autónomo que se integra en los ordenamientos nacionales.
+C) Es un conjunto de acuerdos políticos sin eficacia jurídica directa.
+OK: B
+EXP: El Derecho de la Unión Europea constituye un ordenamiento jurídico autónomo que se integra en los ordenamientos de los Estados miembros.
+
+
+// [97]
+Q: ¿Qué elemento diferencia al Derecho de la Unión Europea del Derecho internacional clásico?
+A) Su carácter exclusivamente económico.
+B) La existencia de principios como el efecto directo y la primacía.
+C) La necesidad de ratificación parlamentaria de todas sus normas.
+OK: B
+EXP: El efecto directo y la primacía son principios característicos del Derecho de la Unión que lo distinguen del Derecho internacional clásico.
+
+
+// [98]
+Q: ¿Qué integra el denominado Derecho primario de la Unión Europea?
+A) Los reglamentos, directivas y decisiones adoptados por las instituciones europeas.
+B) Los tratados constitutivos, los tratados de adhesión y los principios generales del Derecho de la Unión.
+C) Las normas aprobadas por los Estados miembros para aplicar el Derecho europeo.
+OK: B
+EXP: El Derecho primario está formado por los tratados constitutivos, la Carta de Derechos Fundamentales, los tratados de adhesión y los principios generales del Derecho de la Unión.
+
+
+// [99]
+Q: ¿Qué papel desempeñan los principios generales del Derecho de la Unión?
+A) Constituyen normas interpretativas elaboradas por el Tribunal de Justicia.
+B) Son recomendaciones no vinculantes de la Comisión Europea.
+C) Son normas constitucionales aprobadas por los Estados miembros.
+OK: A
+EXP: Los principios generales del Derecho de la Unión han sido elaborados por el Tribunal de Justicia y forman parte del Derecho primario.
+
+
+// [100]
+Q: ¿Cómo se modifica el Derecho primario de la Unión Europea?
+A) Mediante decisiones del Parlamento Europeo por mayoría simple.
+B) Mediante acuerdos entre los Estados miembros conforme a sus normas constitucionales.
+C) Mediente reglamentos adoptados por el Consejo.
+OK: B
+EXP: La modificación del Derecho primario exige la intervención de los Estados miembros conforme a sus procedimientos constitucionales.
+
+
+// [101]
+Q: ¿Qué caracteriza al Derecho secundario de la Unión Europea?
+A) Está formado por los tratados constitutivos de la Unión.
+B) Está integrado por los actos jurídicos adoptados por las instituciones de la Unión.
+C) Está compuesto exclusivamente por normas de carácter económico.
+OK: B
+EXP: El Derecho secundario lo constituyen los actos jurídicos adoptados por las instituciones europeas.
+
+
+// [102]
+Q: ¿Cuál de los siguientes actos jurídicos de la Unión tiene carácter vinculante?
+A) Recomendaciones.
+B) Dictámenes.
+C) Reglamentos.
+OK: C
+EXP: Los reglamentos, directivas y decisiones son actos vinculantes del Derecho de la Unión.
+
+
+// [103]
+Q: ¿Qué implica el principio de primacía del Derecho de la Unión Europea?
+A) Que las normas europeas prevalecen sobre cualquier norma nacional incompatible.
+B) Que el Derecho europeo solo se aplica cuando lo autoriza una ley nacional.
+C) Que las normas europeas tienen rango constitucional en los Estados miembros.
+OK: A
+EXP: El principio de primacía implica que el Derecho de la Unión prevalece sobre el Derecho nacional incompatible.
+
+
+// [104]
+Q: ¿Qué consecuencia deriva del principio de primacía del Derecho de la Unión?
+A) Los tribunales nacionales deben inaplicar las normas internas incompatibles.
+B) Las normas nacionales prevalecen sobre las europeas cuando son posteriores.
+C) Los tribunales nacionales deben suspender los procedimientos judiciales.
+OK: A
+EXP: Las autoridades nacionales deben inaplicar las normas internas contrarias al Derecho de la Unión.
+
+
+// [105]
+Q: ¿Quién es competente para controlar la validez del Derecho de la Unión Europea?
+A) El Tribunal Supremo de cada Estado miembro.
+B) El Tribunal Constitucional de cada Estado.
+C) El Tribunal de Justicia de la Unión Europea.
+OK: C
+EXP: El control de validez del Derecho de la Unión corresponde exclusivamente al Tribunal de Justicia.
+
+
+// [106]
+Q: ¿Qué mecanismo permite a los tribunales nacionales plantear dudas sobre la interpretación del Derecho de la Unión?
+A) El recurso de casación europeo.
+B) La cuestión prejudicial.
+C) El recurso de amparo europeo.
+OK: B
+EXP: La cuestión prejudicial permite a los tribunales nacionales solicitar la interpretación del Derecho de la Unión al TJUE.
+
+
+// [107]
+Q: ¿Qué obligación general tienen los Estados miembros respecto al Derecho de la Unión?
+A) Garantizar su efectividad y la tutela judicial en los ámbitos regulados por él.
+B) Aplicarlo únicamente cuando exista legislación nacional de desarrollo.
+C) Someter su aplicación a autorización parlamentaria previa.
+OK: A
+EXP: Los Estados miembros deben garantizar la efectividad del Derecho de la Unión y la tutela judicial efectiva.
+
+// [108]
+Q: ¿Qué distingue a los actos vinculantes de los no vinculantes en el Derecho de la Unión Europea?
+A) Los vinculantes obligan jurídicamente a sus destinatarios.
+B) Los vinculantes solo tienen efectos políticos.
+C) Los vinculantes requieren aprobación por los Estados miembros.
+OK: A
+EXP: Los actos vinculantes generan obligaciones jurídicas para sus destinatarios.
+
+
+// [109]
+Q: ¿Qué modalidades principales de regulación utiliza la Unión Europea?
+A) Legislación uniforme, legislación armonizada y soft law.
+B) Legislación constitucional y legislación reglamentaria.
+C) Legislación internacional y legislación nacional.
+OK: A
+EXP: La Unión Europea utiliza legislación uniforme, legislación armonizada y soft law.
+
+// [110]
+Q: ¿Cómo define el art. 288 TFUE al reglamento de la Unión Europea?
+A) Como un acto obligatorio en todos sus elementos y directamente aplicable.
+B) Como una norma que requiere transposición por los Estados miembros.
+C) Como una recomendación dirigida a los Estados.
+OK: A
+EXP: El reglamento es obligatorio en todos sus elementos y directamente aplicable en cada Estado miembro.
+
+
+// [111]
+Q: ¿Qué efecto tiene un reglamento europeo sobre la legislación nacional existente?
+A) La desplaza y la sustituye en la materia regulada.
+B) Solo la complementa.
+C) Solo la modifica parcialmente.
+OK: A
+EXP: La legislación uniforme mediante reglamentos desplaza la normativa nacional.
+
+
+// [112]
+Q: ¿Qué requisito es necesario para que un reglamento europeo sea aplicable en los Estados miembros?
+A) Su transposición mediante ley nacional.
+B) Su publicación en el Diario Oficial de la Unión Europea.
+C) Su aprobación por los parlamentos nacionales.
+OK: B
+EXP: Los reglamentos entran en vigor tras su publicación en el DOUE.
+
+
+// [113]
+Q: ¿Qué institución ejerce generalmente la función ejecutiva en el sistema institucional de la Unión?
+A) El Parlamento Europeo.
+B) El Consejo Europeo.
+C) La Comisión Europea.
+OK: C
+EXP: La Comisión Europea ejerce normalmente la función ejecutiva y puede adoptar actos delegados.
+
+
+// [114]
+Q: ¿Qué caracteriza a la directiva como instrumento jurídico de la Unión Europea?
+A) Obliga a los Estados miembros en cuanto al resultado.
+B) Es directamente aplicable sin intervención estatal.
+C) Solo produce efectos políticos.
+OK: A
+EXP: La directiva obliga al Estado en cuanto al resultado, dejando libertad sobre forma y medios.
+
+
+// [115]
+Q: ¿Qué exige normalmente la directiva para producir efectos en el ordenamiento interno?
+A) Ratificación parlamentaria.
+B) Transposición al Derecho nacional.
+C) Aprobación por el Consejo Europeo.
+OK: B
+EXP: La directiva requiere generalmente transposición al Derecho interno.
+
+
+// [116]
+Q: ¿Cuál es la finalidad principal de la legislación armonizada de la Unión Europea?
+A) Sustituir completamente las legislaciones nacionales.
+B) Aproximar las legislaciones de los Estados miembros.
+C) Eliminar las competencias legislativas estatales.
+OK: B
+EXP: La armonización busca aproximar las legislaciones nacionales sin sustituirlas.
+
+
+// [117]
+Q: ¿Qué obligación tienen los Estados miembros durante el plazo de transposición de una directiva?
+A) Abstenerse de adoptar normas contrarias a sus objetivos.
+B) Aplicarla directamente como si fuera un reglamento.
+C) Suspender la legislación nacional existente.
+OK: A
+EXP: Durante el plazo de transposición los Estados deben abstenerse de adoptar normas incompatibles.
+
+
+// [118]
+Q: ¿Cuándo puede una directiva desplegar efecto directo vertical?
+A) Cuando contenga obligaciones claras, precisas e incondicionales y no haya sido transpuesta correctamente.
+B) Cuando sea aprobada por el Parlamento Europeo por unanimidad.
+C) Cuando lo autorice el Tribunal Constitucional del Estado miembro.
+OK: A
+EXP: El efecto directo vertical permite invocar la directiva frente a los poderes públicos.
+
+
+// [119]
+Q: ¿Qué límite caracteriza al efecto directo de las directivas?
+A) No puede invocarse frente a particulares.
+B) Solo puede aplicarse en el ámbito penal.
+C) Solo puede aplicarse tras autorización parlamentaria.
+OK: A
+EXP: Las directivas solo producen efecto directo vertical, nunca horizontal.
+   `;
+
+
+    const BANCO_4 = `#ID = 7
+
+// [120]
+Q: En el sistema de fuentes del Derecho español, la costumbre se configura jurídicamente como:
+A) una fuente normativa autónoma que puede prevalecer sobre la ley cuando esté consolidada.
+B) una fuente supletoria del Derecho escrito que solo opera en defecto de norma aplicable.
+C) una manifestación del principio general del Derecho que se integra en la jurisprudencia.
+OK: B
+EXP: El art. 1 CC establece que la costumbre solo rige en defecto de ley, por lo que tiene carácter supletorio respecto del Derecho escrito.
+
+
+// [121]
+Q: ¿Cuál de los siguientes elementos constituye el requisito objetivo para la existencia de una costumbre jurídica?
+A) La reiteración constante de una práctica social durante un período prolongado.
+B) La convicción de los ciudadanos de que la práctica tiene valor jurídico obligatorio.
+C) La aceptación de la práctica por parte de los tribunales.
+OK: A
+EXP: El elemento objetivo consiste en una práctica social reiterada y duradera que revela un comportamiento estable en la comunidad.
+
+
+// [122]
+Q: En la teoría jurídica de la costumbre, la denominada opinio iuris se refiere a:
+A) la aprobación judicial de una práctica social reiterada.
+B) la convicción generalizada de que la práctica observada es jurídicamente obligatoria.
+C) la reiteración constante de comportamientos sociales homogéneos.
+OK: B
+EXP: La opinio iuris es el elemento subjetivo de la costumbre y consiste en la creencia de que la conducta observada es jurídicamente obligatoria.
+
+
+// [123]
+Q: La aplicación de la costumbre como fuente del Derecho requiere:
+A) que exista una norma escrita que la reconozca expresamente.
+B) que no exista una norma escrita aplicable al caso.
+C) que haya sido declarada válida por el Tribunal Supremo.
+OK: B
+EXP: La costumbre rige únicamente en defecto de norma escrita, de acuerdo con el sistema de fuentes del art. 1 CC.
+
+
+// [124]
+Q: Una costumbre se considera praeter legem cuando:
+A) contradice una norma legal vigente.
+B) se aplica en materias no reguladas por el Derecho escrito.
+C) desarrolla una norma jurídica preexistente.
+OK: B
+EXP: La costumbre praeter legem opera en ausencia de regulación escrita, complementando el ordenamiento en materias no previstas por la ley.
+
+
+// [125]
+Q: La costumbre secundum legem se caracteriza por:
+A) sustituir la regulación legal cuando esta resulta insuficiente.
+B) complementar o concretar el contenido de una norma jurídica escrita.
+C) prevalecer sobre el reglamento en caso de conflicto.
+OK: B
+EXP: La costumbre secundum legem actúa como complemento interpretativo o aplicativo de una norma jurídica existente.
+
+
+// [126]
+Q: ¿Por qué la costumbre tiene un espacio muy reducido en el Derecho administrativo?
+A) Porque el Derecho administrativo se basa principalmente en normas escritas y en el principio de legalidad.
+B) Porque la Administración carece de capacidad para aplicar normas no escritas.
+C) Porque las normas consuetudinarias solo son admitidas en el Derecho privado.
+OK: A
+EXP: La densidad normativa del Derecho administrativo y el principio de legalidad limitan el papel de la costumbre.
+
+
+// [127]
+Q: ¿Qué efecto producen las reservas de ley sobre la posible aplicación de la costumbre en el Derecho administrativo?
+A) Permiten que la costumbre sustituya a la ley cuando esta no sea suficientemente precisa.
+B) Impiden que la costumbre actúe como fuente normativa en materias reservadas a la ley o al reglamento.
+C) Permiten que la Administración aplique prácticas consuetudinarias en ausencia de reglamento.
+OK: B
+EXP: Las reservas de ley excluyen el uso de la costumbre como fuente supletoria en determinadas materias.
+
+
+// [128]
+Q: En el Derecho administrativo, la Administración puede ejercer potestades públicas:
+A) cuando exista una práctica administrativa reiterada.
+B) únicamente cuando dichas potestades estén atribuidas por ley o reglamento.
+C) cuando una costumbre administrativa lo haya consolidado.
+OK: B
+EXP: El principio de legalidad exige que las potestades administrativas se fundamenten en normas jurídicas escritas.
+
+
+// [129]
+Q: ¿Puede la costumbre fundamentar la imposición de sanciones administrativas?
+A) Sí, cuando exista una práctica administrativa consolidada.
+B) Solo cuando haya sido reconocida por la jurisprudencia.
+C) No, porque la potestad sancionadora exige tipificación normativa previa.
+OK: C
+EXP: El art. 25.1 CE exige que infracciones y sanciones estén previstas en norma jurídica escrita.
+
+
+// [130]
+Q: En Derecho administrativo, el silencio de la ley:
+A) implica necesariamente la existencia de una laguna normativa.
+B) puede reflejar una decisión deliberada del legislador.
+C) permite aplicar automáticamente la costumbre administrativa.
+OK: B
+EXP: El silencio normativo puede responder a una opción del legislador y no implica necesariamente una laguna.
+
+
+// [131]
+Q: ¿En qué tipo de situaciones puede operar de forma residual la costumbre en el Derecho administrativo?
+A) En el ejercicio de potestades sancionadoras.
+B) En aspectos organizativos menores del funcionamiento administrativo.
+C) En la regulación general del procedimiento administrativo.
+OK: B
+EXP: La costumbre puede aparecer de forma residual en cuestiones organizativas menores, como el funcionamiento de órganos colegiados.
+
+
+// [132]
+Q: ¿Cuál de los siguientes supuestos constituye un ejemplo de remisión expresa del Derecho positivo a la costumbre?
+A) El funcionamiento del concejo abierto conforme a usos y costumbres locales.
+B) La regulación de la potestad reglamentaria del Gobierno.
+C) La determinación de infracciones administrativas.
+OK: A
+EXP: En el concejo abierto la normativa reconoce expresamente la relevancia de usos y costumbres locales.
+
+
+// [133]
+Q: ¿En qué otro ámbito del Derecho administrativo se reconoce eficacia a normas consuetudinarias?
+A) En el régimen de contratación pública.
+B) En el aprovechamiento de bienes comunales y en comunidades de usuarios de aguas.
+C) En la potestad sancionadora de la Administración.
+OK: B
+EXP: Determinados ámbitos del Derecho local y del régimen de aguas admiten la aplicación de normas consuetudinarias.
+
+#ID = 8
+
+// [134]
+Q: ¿Por qué los principios generales del Derecho son necesarios dentro del ordenamiento jurídico?
+A) Porque sustituyen a la legislación escrita cuando esta es insuficiente.
+B) Porque completan el sistema jurídico cuando las fuentes escritas y la costumbre no bastan.
+C) Porque constituyen normas superiores a la Constitución.
+OK: B
+EXP: Los principios generales complementan el ordenamiento cuando la ley y la costumbre no permiten resolver un caso.
+
+
+// [135]
+Q: ¿Qué reconocimiento otorga el art. 1.1 del Código Civil a los principios generales del Derecho?
+A) Los reconoce como fuente del ordenamiento jurídico.
+B) Los considera criterios interpretativos sin valor normativo.
+C) Los equipara jerárquicamente a la ley.
+OK: A
+EXP: El art. 1.1 CC reconoce a los principios generales como fuente del ordenamiento.
+
+
+// [136]
+Q: ¿Qué doble función atribuye el art. 1.4 del Código Civil a los principios generales del Derecho?
+A) Función legislativa y función interpretativa.
+B) Función supletoria y función informadora del ordenamiento.
+C) Función jurisdiccional y función normativa.
+OK: B
+EXP: Los principios se aplican en defecto de ley o costumbre y orientan la interpretación del ordenamiento.
+
+
+// [137]
+Q: ¿Qué efecto produce la positivización de un principio general del Derecho?
+A) Lo transforma en una norma jurídica con el rango de la disposición que lo incorpora.
+B) Lo convierte en criterio interpretativo sin valor jurídico.
+C) Lo sitúa jerárquicamente por encima de la ley.
+OK: A
+EXP: Cuando un principio se incorpora a la Constitución o a la ley pasa a integrarse plenamente en el sistema normativo.
+
+
+// [138]
+Q: ¿Cuál es la principal dificultad para caracterizar los principios generales del Derecho no positivizados?
+A) Su carácter no escrito.
+B) Su aplicación limitada al Derecho privado.
+C) Su incompatibilidad con el principio de legalidad.
+OK: A
+EXP: Al no estar recogidos en normas escritas resulta más complejo delimitar su contenido.
+
+
+// [139]
+Q: ¿Cuál de los siguientes elementos permite identificar un auténtico principio general del Derecho?
+A) Su reconocimiento doctrinal mayoritario.
+B) Su capacidad supletoria para integrar lagunas jurídicas.
+C) Su presencia en normas reglamentarias.
+OK: B
+EXP: El art. 1.4 CC exige que el principio pueda aplicarse en defecto de ley o costumbre.
+
+
+// [140]
+Q: ¿Por qué los conceptos jurídicos indeterminados no se consideran principios generales del Derecho?
+A) Porque requieren concreción legislativa y carecen de autonomía normativa.
+B) Porque solo se aplican en Derecho privado.
+C) Porque no tienen contenido jurídico.
+OK: A
+EXP: Conceptos como mérito y capacidad necesitan desarrollo legislativo para concretarse.
+
+
+// [141]
+Q: ¿Qué concepción adopta el ordenamiento jurídico español respecto del fundamento de los principios generales del Derecho?
+A) Una concepción iusnaturalista basada en valores externos al Derecho.
+B) Una concepción institucionalista que los sitúa dentro del propio ordenamiento.
+C) Una concepción exclusivamente jurisprudencial.
+OK: B
+EXP: Los principios se conciben como criterios internos del sistema jurídico.
+
+
+// [142]
+Q: ¿Qué significa que un principio tenga carácter general?
+A) Que se aplica necesariamente a todo el ordenamiento jurídico.
+B) Que posee un grado de abstracción aplicable a múltiples supuestos.
+C) Que tiene rango constitucional.
+OK: B
+EXP: La generalidad se refiere a su abstracción y aplicabilidad a una pluralidad de casos.
+
+
+// [143]
+Q: ¿Qué relación existe entre abstracción y concreción en los principios generales del Derecho?
+A) A mayor abstracción, mayor concreción normativa.
+B) A mayor abstracción, menor grado de concreción.
+C) No existe relación entre ambos elementos.
+OK: B
+EXP: Cuanto más abstracto es un principio, mayor es su ámbito de aplicación pero menor su precisión.
+
+
+// [144]
+Q: ¿Quién desempeña el papel principal en la identificación de los principios generales del Derecho?
+A) El legislador.
+B) La jurisprudencia y la doctrina jurídica.
+C) La Administración pública.
+OK: B
+EXP: La jurisprudencia reconoce y delimita el contenido de los principios generales.
+
+
+// [145]
+Q: ¿Cuándo puede afirmarse que un principio general del Derecho existe jurídicamente?
+A) Cuando ha sido reconocido y delimitado por la jurisprudencia.
+B) Cuando aparece citado en manuales doctrinales.
+C) Cuando se menciona en una norma administrativa.
+OK: A
+EXP: La jurisprudencia determina su existencia, contenido y efectos.
+
+
+// [146]
+Q: ¿Qué límite afecta a la función supletoria de los principios generales del Derecho?
+A) No pueden aplicarse en materias sujetas a reserva de ley.
+B) Solo se aplican en Derecho privado.
+C) No pueden aplicarse por los tribunales.
+OK: A
+EXP: Al igual que la costumbre, los principios no pueden integrar lagunas en materias reservadas a la ley.
+
+
+// [147]
+Q: ¿Qué factor condiciona especialmente la relevancia práctica de los principios generales del Derecho?
+A) El margen interpretativo reconocido a jueces y tribunales.
+B) El número de normas existentes.
+C) El contenido de la Constitución.
+OK: A
+EXP: La eficacia de los principios depende del papel interpretativo del juez.
+
+
+// [148]
+Q: ¿Qué característica del Derecho administrativo español ha reducido el protagonismo de los principios jurisprudenciales?
+A) La fuerte tradición codificadora del sistema jurídico.
+B) La inexistencia de tribunales administrativos.
+C) La supremacía del Derecho internacional.
+OK: A
+EXP: La codificación legislativa ha limitado el desarrollo jurisprudencial de principios.
+
+
+// [149]
+Q: ¿Qué fenómeno explica que muchos principios generales se encuentren hoy recogidos en normas escritas?
+A) La tendencia del Derecho español a incorporar principios al Derecho positivo.
+B) La desaparición de la jurisprudencia como fuente del Derecho.
+C) La influencia exclusiva del Derecho internacional.
+OK: A
+EXP: El Derecho escrito español ha absorbido numerosos principios incorporándolos a la Constitución y a las leyes.
+
+// [150]
+Q: ¿Qué función principal cumplen los principios generales del Derecho no positivizados?
+A) Sustituir las normas escritas.
+B) Integrar lagunas del ordenamiento.
+C) Modificar el contenido de la ley.
+OK: B
+EXP: Los principios pueden aplicarse cuando no existe norma escrita aplicable.
+
+
+// [151]
+Q: ¿Pueden los principios generales del Derecho anular normas legales o reglamentarias?
+A) Sí, cuando se oponen a la equidad.
+B) No, porque no prevalecen sobre normas escritas.
+C) Sí, si lo decide el Tribunal Constitucional.
+OK: B
+EXP: Los principios no pueden invalidar normas escritas del ordenamiento.
+
+
+// [152]
+Q: ¿Qué implica el sometimiento de la Administración a la ley y al Derecho (art. 103.1 CE)?
+A) Que debe respetar tanto las normas escritas como los principios generales del Derecho.
+B) Que solo debe cumplir las normas legales.
+C) Que puede actuar libremente en ausencia de reglamento.
+OK: A
+EXP: La Administración está sometida al conjunto del ordenamiento jurídico, incluidos los principios.
+
+
+// [153]
+Q: ¿Por qué los principios generales tienen especial importancia en la discrecionalidad administrativa?
+A) Porque sustituyen la legislación aplicable.
+B) Porque actúan como límites jurídicos frente a la arbitrariedad.
+C) Porque permiten ampliar las potestades administrativas.
+OK: B
+EXP: Los principios permiten controlar jurídicamente la discrecionalidad administrativa.
+
+// [154]
+Q: ¿Cuál es uno de los efectos principales de la positivización de los principios generales del Derecho?
+A) Facilita su identificación al quedar recogidos en normas escritas.
+B) Reduce su eficacia jurídica.
+C) Impide su aplicación judicial.
+OK: A
+EXP: Al positivizarse, los principios quedan recogidos en normas escritas y se identifican con mayor claridad.
+
+
+// [155]
+Q: ¿Qué rango adquiere un principio general del Derecho cuando se incorpora a la Constitución?
+A) Rango constitucional.
+B) Rango reglamentario.
+C) Rango interpretativo.
+OK: A
+EXP: Los principios constitucionalizados adquieren el rango normativo de la Constitución.
+
+
+// [156]
+Q: ¿Qué función cumplen los principios constitucionalizados respecto al legislador?
+A) Actúan como parámetro de control de constitucionalidad de las leyes.
+B) Permiten sustituir la legislación ordinaria.
+C) Sustituyen el control del Tribunal Constitucional.
+OK: A
+EXP: Los principios constitucionales pueden servir como parámetro para controlar la constitucionalidad de las leyes.
+
+
+// [157]
+Q: ¿Qué efecto produce la positivización de principios en la legislación administrativa?
+A) Permite su aplicación como normas jurídicas vinculantes.
+B) Los convierte en criterios interpretativos sin valor normativo.
+C) Limita su aplicación al Derecho privado.
+OK: A
+EXP: Cuando los principios se incorporan a leyes administrativas adquieren plena eficacia jurídica.
+    `;
+
+
+    const BANCO_5 = `#ID = 9
+
+// [158]
+Q: ¿Cómo debe entenderse la jurisprudencia en sentido amplio dentro del ordenamiento jurídico?
+A) Como el conjunto de resoluciones dictadas por los órganos jurisdiccionales en el ejercicio de la función judicial.
+B) Como la doctrina reiterada del Tribunal Supremo que, por sí sola, constituye fuente formal del Derecho.
+C) Como las decisiones judiciales firmes que crean normas generales vinculantes para todos los poderes públicos.
+OK: A
+EXP: En sentido amplio, la jurisprudencia se refiere al conjunto de resoluciones judiciales, aunque no todas tengan el mismo valor jurídico.
+
+
+// [159]
+Q: ¿Qué posición atribuye el art. 1.6 del Código Civil a la jurisprudencia?
+A) La reconoce como fuente primaria del ordenamiento junto con la ley y la costumbre.
+B) Le atribuye una función complementaria del ordenamiento mediante la doctrina reiterada del Tribunal Supremo.
+C) La considera una manifestación de la potestad normativa del Poder Judicial.
+OK: B
+EXP: El art. 1.6 CC no configura la jurisprudencia como fuente formal autónoma, sino como elemento complementario del ordenamiento.
+
+
+// [160]
+Q: ¿Cuál es la principal consecuencia de que la jurisprudencia no sea reconocida formalmente como fuente del Derecho?
+A) Que carece de cualquier relevancia normativa en la práctica jurisdiccional.
+B) Que solo puede utilizarse como criterio doctrinal carente de efectos jurídicos.
+C) Que su relevancia jurídica deriva de su función interpretativa e integradora, no de una atribución formal de poder normativo.
+OK: C
+EXP: La jurisprudencia no es fuente formal, pero posee relevancia normativa práctica por su función de interpretación, integración y concreción del Derecho.
+
+
+// [161]
+Q: ¿Qué exige el art. 1.6 CC para que exista doctrina jurisprudencial en sentido técnico?
+A) Que cualquier órgano judicial haya resuelto reiteradamente una misma cuestión.
+B) Que se trate de doctrina reiterada del Tribunal Supremo al interpretar y aplicar las fuentes del Derecho.
+C) Que exista una sentencia firme con efectos generales publicada en un repertorio oficial.
+OK: B
+EXP: No toda resolución judicial crea jurisprudencia; el Código Civil exige doctrina reiterada del Tribunal Supremo.
+
+
+// [162]
+Q: ¿Qué diferencia existe entre jurisprudencia en sentido amplio y doctrina jurisprudencial en sentido técnico?
+A) La primera comprende todas las resoluciones judiciales, mientras la segunda exige reiteración y relevancia jurídica cualificada.
+B) La primera se refiere solo a sentencias del Tribunal Supremo, mientras la segunda incluye también autos y providencias.
+C) La primera tiene valor normativo vinculante, mientras la segunda se limita a orientar la práctica judicial.
+OK: A
+EXP: La jurisprudencia en sentido amplio abarca todas las resoluciones judiciales; la doctrina jurisprudencial exige reiteración y efectos jurídicos relevantes.
+
+
+// [163]
+Q: ¿Qué función desempeña el juez en la aplicación del Derecho según la concepción actual del sistema jurídico?
+A) Se limita a subsumir mecánicamente los hechos en normas previamente completas.
+B) Interpreta, integra y concreta las normas, adaptándolas a la realidad social y resolviendo lagunas del ordenamiento.
+C) Sustituye al legislador cuando aprecia insuficiencias normativas en el caso concreto.
+OK: B
+EXP: La función jurisdiccional no se agota en la mera aplicación mecánica de normas, sino que implica interpretación e integración del Derecho.
+
+
+// [164]
+Q: ¿Por qué se considera insuficiente la formulación del art. 1.6 CC en el sistema actual?
+A) Porque excluye a la jurisprudencia constitucional y europea, y no refleja los mecanismos contemporáneos de formación de doctrina relevante.
+B) Porque impide a los jueces ordinarios aplicar directamente los principios generales del Derecho.
+C) Porque niega expresamente toda eficacia jurídica a las resoluciones del Tribunal Supremo.
+OK: A
+EXP: El art. 1.6 CC responde a un modelo clásico hoy superado por la pluralidad de jurisprudencias y por técnicas más complejas de formación doctrinal.
+
+
+// [165]
+Q: ¿Qué expresa mejor la función normativa de hecho de la jurisprudencia en el sistema contemporáneo?
+A) Que sustituye formalmente a la ley en caso de laguna.
+B) Que crea normas generales con el mismo rango que las disposiciones legislativas.
+C) Que genera criterios de decisión con eficacia práctica relevante aunque no procedan de una fuente formal de producción normativa.
+OK: C
+EXP: La jurisprudencia no crea Derecho en sentido formal, pero produce criterios normativos de hecho con gran incidencia en la práctica jurídica.
+
+// [166]
+Q: ¿Qué caracteriza a la jurisprudencia del Tribunal de Justicia de la Unión Europea en el ordenamiento español?
+A) Su valor meramente orientativo para los órganos judiciales nacionales.
+B) Su capacidad de vincular a los poderes públicos nacionales en la interpretación del Derecho de la Unión.
+C) Su subordinación a la jurisprudencia del Tribunal Supremo en materia interna.
+OK: B
+EXP: La jurisprudencia del TJUE vincula a los poderes públicos nacionales y asegura la aplicación uniforme del Derecho de la Unión.
+
+
+// [167]
+Q: ¿Qué consecuencia produce la interpretación del Derecho de la Unión fijada por el TJUE cuando resulta incompatible con una norma interna?
+A) El órgano judicial nacional debe plantear siempre cuestión de inconstitucionalidad.
+B) La norma interna queda automáticamente derogada por el legislador europeo.
+C) El juez nacional debe inaplicar la norma interna incompatible.
+OK: C
+EXP: Por efecto de la primacía del Derecho de la Unión, los jueces nacionales deben dejar inaplicadas las normas internas incompatibles.
+
+
+// [168]
+Q: ¿Qué efecto principal se atribuye en el ordenamiento español a la jurisprudencia del Tribunal Europeo de Derechos Humanos?
+A) Produce cosa interpretada respecto del Convenio Europeo de Derechos Humanos y orienta la interpretación de derechos fundamentales equivalentes.
+B) Se incorpora automáticamente como ley interna con rango superior a la Constitución.
+C) Vincula solo al Estado condenado, sin ninguna proyección interpretativa general.
+OK: A
+EXP: La jurisprudencia del TEDH tiene valor interpretativo relevante respecto del CEDH y opera como criterio del art. 10.2 CE.
+
+
+// [169]
+Q: ¿Qué relevancia procesal puede tener una sentencia del TEDH en el ordenamiento español?
+A) Puede justificar un recurso de revisión contra resoluciones judiciales firmes en supuestos de vulneración grave y persistente de derechos.
+B) Produce automáticamente la nulidad de todas las resoluciones nacionales relacionadas con el litigio.
+C) Obliga al Tribunal Constitucional a dictar una nueva sentencia sustitutiva.
+OK: A
+EXP: Las sentencias del TEDH pueden fundamentar la revisión de resoluciones firmes cuando concurren los requisitos legales.
+
+
+// [170]
+Q: ¿Qué rasgo define de forma más precisa la posición de la jurisprudencia del Tribunal Constitucional?
+A) Sus sentencias tienen valor de precedente persuasivo pero no vinculan a los jueces ordinarios.
+B) Sus resoluciones poseen cosa juzgada, efectos generales y vinculan a todos los poderes públicos.
+C) Su doctrina solo se impone cuando corrige expresamente una sentencia del Tribunal Supremo.
+OK: B
+EXP: La jurisprudencia constitucional ocupa una posición central por sus efectos generales y su fuerza vinculante para todos los poderes públicos.
+
+
+// [171]
+Q: ¿Qué función cumple la publicación oficial de las jurisprudencias del TJUE, TEDH y Tribunal Constitucional?
+A) Convertir automáticamente sus decisiones en fuentes legislativas del ordenamiento.
+B) Sustituir el deber de motivación de los órganos jurisdiccionales nacionales.
+C) Garantizar la seguridad jurídica mediante su conocimiento y aplicabilidad pública.
+OK: C
+EXP: La publicación oficial asegura accesibilidad, certeza y previsibilidad, elementos esenciales de la seguridad jurídica.
+
+
+// [172]
+Q: ¿Qué transformación principal introdujo la reforma de 2015 en el recurso de casación contencioso-administrativo?
+A) Lo convirtió en un recurso ordinario de segunda instancia frente a toda sentencia administrativa.
+B) Reforzó su función nomofiláctica, orientándolo a la formación de jurisprudencia y a la interpretación uniforme del Derecho.
+C) Sustituyó el control de legalidad por un control exclusivo de oportunidad administrativa.
+OK: B
+EXP: Desde 2015, la casación deja de operar como una tercera instancia y se orienta prioritariamente a la formación de jurisprudencia.
+
+
+// [173]
+Q: ¿Qué requisito resulta imprescindible para la admisión del recurso de casación en el orden contencioso-administrativo?
+A) La mera denuncia de una infracción jurídica cometida por la sentencia recurrida.
+B) La concurrencia de interés casacional objetivo para la formación de jurisprudencia.
+C) La existencia de una contradicción entre normas estatales y autonómicas.
+OK: B
+EXP: La admisión del recurso exige interés casacional objetivo, no bastando con alegar una simple infracción jurídica.
+
+
+// [174]
+Q: ¿Qué caracteriza al modelo actual de formación de jurisprudencia en la casación contencioso-administrativa?
+A) Que sigue dependiendo de la reiteración material de varias sentencias concordantes.
+B) Que atribuye eficacia jurisprudencial solo a la doctrina consolidada por el Tribunal Supremo y los Tribunales Superiores de Justicia tras repetición prolongada.
+C) Que puede fijar jurisprudencia mediante un procedimiento contradictorio y transparente sin necesidad de reiteración previa.
+OK: C
+EXP: El modelo actual permite formar jurisprudencia a través de la casación sin exigir reiteración, gracias a un procedimiento formalizado orientado a la seguridad jurídica.
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
