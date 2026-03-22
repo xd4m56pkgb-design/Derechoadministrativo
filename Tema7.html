@@ -1,0 +1,3359 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1;
+}
+
+.sumTitle{
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+  word-break:break-word;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 7: Los principios de la organización administrativa</h1>
+  <div class="small">by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+    
+1. LA POTESTAD DE AUTOORGANIZACIÓN DE LA ADMINISTRACIÓN.
+
+Toda organización, pública o privada, dispone de medios personales, materiales y financieros que se ordenan conforme a una estructura diseñada para alcanzar sus objetivos con eficacia. En el ámbito administrativo, esta capacidad de configurar su propia estructura en función de sus fines, competencias y recursos económicos se denomina potestad de autoorganización.
+
+Esta potestad corresponde a todas las Administraciones territoriales. En la Administración del Estado su existencia no ha sido cuestionada, mientras que en las comunidades autónomas el Tribunal Constitucional la considera inherente a su autonomía, comprendiendo la facultad de crear, modificar y suprimir órganos, unidades administrativas y entidades dependientes.
+
+En el caso de las entidades locales, la doctrina y la jurisprudencia la reconocen igualmente como una potestad implícita derivada de su autonomía, que les permite establecer la organización más adecuada para garantizar el funcionamiento de los servicios públicos y el cumplimiento de sus fines.
+
+Este reconocimiento cuenta además con respaldo normativo. La Carta Europea de la Autonomía Local afirma el derecho de las entidades locales a definir sus estructuras administrativas internas conforme a sus necesidades, y la Ley de Bases de Régimen Local atribuye expresamente a municipios, provincias e islas la potestad reglamentaria y de autoorganización dentro de sus competencias.
+
+La potestad de autoorganización se materializa en decisiones concretas de configuración administrativa, como la reestructuración de departamentos ministeriales, la determinación de la estructura orgánica de administraciones autonómicas o la aprobación de reglamentos orgánicos en el ámbito local.
+
+2. LÍMITES CONSTITUCIONALES Y LEGALES DE LA POTESTAD DE AUTOORGANIZACIÓN.
+
+La potestad de autoorganización de las Administraciones públicas no es ilimitada, ya que, al igual que ocurre con las entidades privadas cuyos órganos esenciales vienen fijados por la ley, la Constitución y las leyes establecen principios, límites e incluso reglas estructurales que condicionan su organización.
+
+2.1. Límites constitucionales.
+
+Los límites se encuentran, en primer lugar, en la Constitución, que fija las bases de la organización administrativa. En el ámbito estatal, reconoce la Administración del Estado dirigida por el Gobierno y menciona expresamente el Gobierno, el Consejo de Estado como órgano consultivo y el delegado del Gobierno en las comunidades autónomas, todos ellos sujetos a regulación legal.
+
+El artículo 103 CE establece principios que orientan la organización administrativa, como jerarquía, descentralización, desconcentración y coordinación, que vinculan tanto al legislador como a la propia Administración en el ejercicio de su potestad organizativa. Junto a ellos, se recogen principios de actuación como eficacia, servicio a los intereses generales, objetividad y sometimiento a la legalidad, reforzados por el control judicial de la actividad administrativa y reglamentaria.
+
+Estos principios se han ampliado mediante leyes como la Ley de Transparencia y la LRJSP, que incorporan exigencias de buena administración, incluyendo transparencia, participación, responsabilidad, eficiencia, planificación, evaluación y orientación al ciudadano, afectando tanto a la organización como al funcionamiento administrativo.
+
+La Constitución también impone reservas de ley en materia organizativa, exigiendo regulación legal del régimen jurídico de los órganos administrativos y del estatuto del personal público, así como el acceso en condiciones de igualdad. En el ámbito local, establece los elementos básicos de la organización municipal, provincial e insular, mientras que la regulación concreta de su creación o modificación se remite a la legislación ordinaria. En cambio, la organización de las comunidades autónomas apenas se detalla, remitiéndose en gran medida a sus estatutos y leyes propias.
+
+Además, el principio de estabilidad presupuestaria introducido en el artículo 135 CE incide directamente en la potestad organizativa, al imponer límites financieros que condicionan la creación y mantenimiento de estructuras administrativas, así como el gasto de personal, reflejados en normas como la restricción de creación de entidades locales o la tasa de reposición de efectivos.
+
+2.2. Límites legales.
+
+La potestad de autoorganización también está limitada por las leyes, destacando la LRJSP como norma básica aplicable a todas las Administraciones públicas. El Estado, en virtud de sus competencias constitucionales, puede fijar principios y reglas básicas organizativas, aunque con menor intensidad cuando se trata de aspectos internos sin proyección externa.
+
+Estas bases se complementan con legislación específica para cada nivel administrativo. En la Administración del Estado, la Ley del Gobierno regula el órgano político y sus funciones, mientras que la LRJSP ordena la estructura administrativa y la Ley General Presupuestaria establece el régimen económico. En las comunidades autónomas, los estatutos y leyes propias desarrollan su organización dentro del marco básico estatal.
+
+En el ámbito local, la LBRL regula la organización de las entidades locales, desarrollada reglamentariamente, coexistiendo con posibles regulaciones autonómicas que, según la jurisprudencia constitucional, pueden superponerse siempre que no desplacen las bases estatales. De este modo, la potestad de autoorganización queda configurada como una capacidad condicionada por un entramado normativo constitucional y legal que delimita su alcance.
+
+3. LAS UNIDADES Y ÓRGANOS ADMINISTRATIVOS.
+
+El conjunto de medios personales y materiales de la Administración se organiza atendiendo a funciones y ámbitos de actividad. El elemento organizativo básico es la unidad administrativa, definida como un conjunto de puestos de trabajo vinculados funcionalmente por sus cometidos y orgánicamente por una jefatura común responsable de su funcionamiento.
+
+Estas unidades se configuran mediante las relaciones de puestos de trabajo, que determinan la estructura del personal, incluyendo denominación de los puestos, adscripción y retribuciones, mientras que los reglamentos organizativos fijan su denominación concreta. Varias unidades administrativas, simples o complejas, constituyen un órgano cuando sus funciones producen efectos jurídicos frente a los administrados o cuando su intervención es obligatoria en un procedimiento.
+
+El órgano administrativo integra de forma inseparable las funciones atribuidas y la persona o personas físicas que las ejercen. La actuación preceptiva implica la obligación de intervenir en un procedimiento, mientras que las funciones con efectos jurídicos comprenden cualquier manifestación de voluntad administrativa con incidencia externa, lo que permite distinguir entre unidades con actuación interna y órganos con proyección hacia los administrados.
+
+La creación de órganos corresponde a cada Administración, pero exige determinar su integración en la estructura administrativa, su dependencia, sus funciones y la dotación presupuestaria necesaria. Además, en garantía de la seguridad jurídica, no pueden existir órganos con idénticas funciones en el mismo ámbito territorial y poblacional.
+
+Finalmente, en la Administración del Estado, la LRJSP identifica los órganos superiores y directivos, como ministros y altos cargos, cuya concreta estructura se desarrolla reglamentariamente en cada ministerio.
+
+4. LOS ÓRGANOS COLEGIADOS.
+
+4.1. Concepto.
+
+Los órganos administrativos pueden ser unipersonales o colegiados según que su titularidad corresponda a una sola persona o a varias, siendo necesario en el ámbito estatal un mínimo de tres miembros que actúan como un conjunto unitario. En los órganos colegiados, la voluntad se forma mediante un procedimiento que incluye convocatoria, deliberación y adopción de acuerdos por votación.
+
+Esta forma de decisión es más compleja que la de los órganos unipersonales, lo que explica que tradicionalmente las funciones ejecutivas se atribuyeran a estos últimos, mientras que los colegiados asumían funciones consultivas. Con el tiempo, la colegialidad se extendió, impulsada por la especialización técnica y la necesidad de independencia en determinados sectores, dando lugar a órganos decisorios como jurados o tribunales.
+
+Tras la Constitución de 1978, los órganos colegiados pasaron a desempeñar funciones diversas, no solo decisorias, sino también consultivas, de propuesta o control, favoreciendo la cooperación entre administraciones y la participación de intereses sociales. La LRJSP contempla expresamente estos supuestos y permite que dichos órganos adapten sus normas de funcionamiento.
+
+No deben confundirse los órganos colegiados con los órganos complejos, ya que estos últimos agrupan varios órganos simples bajo un único titular, mientras que los colegiados se caracterizan por la pluralidad de miembros que adoptan decisiones de forma conjunta.
+
+4.2. La regulación básica de los órganos colegiados de todas las administraciones públicas.
+
+La LRJSP establece una regulación básica del régimen jurídico de los órganos colegiados, aunque excluye a los órganos de gobierno por su carácter también político. Su creación no requiere necesariamente ley, pero sí la publicación de sus normas cuando adopten decisiones que afecten a terceros, en garantía de la competencia y seguridad jurídica.
+
+La ley regula su funcionamiento, incluyendo convocatoria, sesiones, quorum y adopción de acuerdos, sin agotar la regulación para respetar las competencias autonómicas. Se exige la presencia de un secretario, encargado de certificar los acuerdos y levantar acta, que debe reflejar los elementos esenciales de la sesión y puede incorporar grabaciones para garantizar su autenticidad.
+
+La convocatoria exige la inclusión previa de los asuntos en el orden del día, salvo supuestos excepcionales, y permite el uso de medios electrónicos. El quorum mínimo requiere la asistencia de la mitad de los miembros, debiendo mantenerse durante toda la sesión, y los acuerdos se adoptan por mayoría. Los miembros que votan en contra o se abstienen quedan exentos de responsabilidad.
+
+La ley también admite el uso de medios telemáticos para la celebración de sesiones, aunque en el ámbito local su uso queda limitado a situaciones excepcionales, manteniéndose como regla general la presencialidad.
+
+4.3. El desarrollo legislativo de la normativa básica para los órganos colegiados de la administración del estado.
+
+En la Administración del Estado, los órganos colegiados se crean por norma, convenio o acuerdo, aunque aquellos con funciones decisorias o relevantes requieren una norma formal. Deben contar con al menos tres miembros y un presidente, al que se atribuyen funciones de dirección y voto de calidad para resolver empates.
+
+El presidente representa al órgano, convoca y dirige las sesiones y garantiza el funcionamiento del mismo, siendo sustituido según criterios establecidos o por previsión normativa específica. El secretario, por su parte, realiza funciones de apoyo, convocatoria, certificación y elaboración de actas, actuando con voz y voto solo cuando es miembro.
+
+Se reconocen derechos a los miembros para garantizar su participación efectiva, como el acceso previo a la información, el ejercicio del voto y la posibilidad de dejar constancia de sus intervenciones o del sentido de su voto en el acta, incluyendo su motivación.
+
+4.4. El desarrollo legislativo de la normativa básica para los órganos colegiados de las comunidades autónomas.
+
+Las comunidades autónomas han desarrollado la regulación básica mediante sus propias leyes, manteniendo en general una estructura similar a la estatal. Las diferencias se limitan a aspectos concretos como los plazos de convocatoria, la publicidad de las deliberaciones o la forma de designación del presidente.
+
+En términos generales, se mantiene un modelo con fuerte protagonismo del presidente, al que se atribuye el voto de calidad, y una regulación homogénea que, en muchos casos, remite a la legislación básica estatal para los aspectos esenciales del régimen jurídico de los órganos colegiados.
+
+5. EL PRINCIPIO DE JERARQUÍA.
+
+5.1. Significado y alcance.
+
+El principio de jerarquía, consagrado en el artículo 103 CE, estructura la organización administrativa mediante una ordenación escalonada de órganos con competencias sobre una misma materia, de modo que los superiores pueden dirigir, fiscalizar y resolver los conflictos de los inferiores para asegurar la unidad de actuación. Esta relación exige, por un lado, una distribución escalonada de órganos sobre una misma competencia material y, por otro, un vínculo de subordinación que garantice la prevalencia de la voluntad del superior.
+
+Este principio preside la organización interna de cada Administración. Las unidades administrativas cuentan con una jefatura responsable de su funcionamiento y todo órgano debe integrarse en una estructura con dependencia jerárquica determinada. Sin embargo, quedan exceptuados algunos órganos por su propia naturaleza, como los consultivos, los servicios jurídicos y ciertos órganos colegiados con participación de intereses sociales o de varias Administraciones, porque su función exige autonomía o independencia de criterio.
+
+También puede existir una relación jerárquica atenuada entre una Administración territorial y las entidades dependientes o adscritas a ella, como ocurre con los medios propios o con la revisión de actos de organismos públicos. En cambio, el principio de autonomía excluye la jerarquía entre Administraciones territoriales, cuyas relaciones se basan en cooperación, coordinación y control de legalidad, aunque el Estado conserve una posición de superioridad constitucional que no equivale a una verdadera relación jerárquica.
+
+5.2. Contenido.
+
+La primera manifestación del principio de jerarquía es la facultad de impulso y dirección de los órganos inferiores mediante instrucciones y órdenes de servicio. Estas no tienen carácter normativo ni eficacia externa frente a terceros, sino que actúan como directrices internas para asegurar la coherencia en el funcionamiento de la organización administrativa, por lo que solo vinculan a los órganos subordinados y su incumplimiento no determina por sí mismo la nulidad del acto dictado.
+
+La jerarquía comprende además otras facultades, como coordinar la actuación de los inferiores, resolver conflictos de atribuciones, ejercer inspección y vigilancia, designar suplentes, transferir competencias y revisar sus actos a través del recurso de alzada. También permite subsanar actos afectados por incompetencia jerárquica mediante su convalidación por el órgano superior competente.
+
+Cuando estas facultades no se ejercen a través de procedimientos formales, se apoyan en el deber de obediencia impuesto a titulares de órganos y empleados públicos, reforzado por la potestad disciplinaria. El ordenamiento considera falta muy grave la desobediencia abierta a órdenes o instrucciones superiores, aunque esta obligación no ampara la obediencia a órdenes manifiestamente ilegales.
+
+No obstante, la efectividad tradicional del principio de jerarquía se ha visto matizada por el reconocimiento de derechos y libertades de los funcionarios. La jurisprudencia constitucional admite restricciones derivadas de su condición, pero exige valorar cada caso atendiendo a factores como el cuerpo al que pertenecen, el contexto de actuación y si su conducta compromete la autoridad del superior o el buen funcionamiento del servicio.
+
+Pese a estas modulaciones, el principio de jerarquía mantiene un peso decisivo en el sistema administrativo, como demuestra la conservación del carácter obligatorio del recurso de alzada, aun cuando se haya criticado su utilidad práctica por la frecuente confirmación de la decisión del órgano inferior por el superior.
+
+6. EL PRINCIPIO DE COMPETENCIA.
+
+6.1. Significado.
+
+La competencia es el conjunto de atribuciones que corresponden a cada Administración territorial o entidad pública y, dentro de cada una de ellas, a sus distintos órganos. Su distribución parte del marco constitucional entre Estado y comunidades autónomas, se concreta para las entidades locales en la legislación correspondiente y, después, se reparte internamente mediante leyes y reglamentos de organización, siendo el titular de cada órgano quien asigna funciones a las unidades integradas en él.
+
+Dentro de cada Administración, la competencia es irrenunciable y debe ejercerse por el órgano al que ha sido atribuida. Por eso, la infracción de las normas competenciales vicia los actos administrativos y también las disposiciones generales. La competencia puede considerarse desde una dimensión jerárquica, vinculada a la distribución escalonada de funciones dentro de una misma materia, desde una dimensión material, referida al sector o contenido sobre el que actúa el órgano, y desde una dimensión territorial, relativa al espacio en que puede ejercerse válidamente la función.
+
+La validez del acto exige que concurran conjuntamente competencia material, jerárquica y territorial. Cuando falta la competencia material o territorial y esa falta es manifiesta, el acto incurre en nulidad de pleno derecho. Cuando la incompetencia es jerárquica o cuando la incompetencia material o territorial no resulta manifiesta, el acto es anulable y puede incluso ser convalidado por el órgano superior competente.
+
+6.2. Figuras legales que permiten que la competencia se ejerza por quien no la tiene
+
+atribuida sin modificarse la titularidad de la competencia: delegación de competencias, delegación de firma, suplencia y encomienda de gestión.
+
+La LRJSP permite que el ejercicio de una competencia sea realizado por un órgano distinto del titular sin que cambie la titularidad de la misma. En todos estos casos, los actos se consideran dictados por el órgano competente y conservan el régimen de recursos que correspondería si hubiera actuado directamente su titular, siempre que se respeten los límites y requisitos legales.
+
+6.2.1. Delegación de competencias.
+
+La delegación de competencias permite que un órgano o entidad pública ejerza competencias atribuidas a otro, sin necesidad de que exista entre ambos relación jerárquica directa. Para que produzca efectos debe publicarse y también debe publicarse su revocación. Desde ese momento, el órgano delegado puede ejercer válidamente la competencia y el delegante no puede hacerlo mientras la delegación siga vigente.
+
+La delegación debe hacerse constar expresamente en la resolución adoptada y los actos dictados por delegación se entienden emanados del órgano delegante. No todas las competencias son delegables. Quedan excluidas las de naturaleza política, la potestad reglamentaria, la resolución de recursos administrativos en el órgano autor del acto recurrido y, con carácter general, las competencias que ya se ejercen por delegación. Además, cuando la delegación procede de un órgano colegiado, debe adoptarse con la misma mayoría exigida para el asunto delegado.
+
+6.2.2. Delegación de firma.
+
+La delegación de firma no altera el ejercicio material de la competencia, sino únicamente la firma del acto o resolución ya decidido por el órgano competente. El órgano delegado se limita a suscribir formalmente la decisión del titular, por lo que no se requiere publicación de esta técnica.
+
+Su finalidad es facilitar el funcionamiento administrativo en procedimientos repetitivos o masivos.
+
+Aunque no necesita publicación, debe hacerse constar en la firma de la resolución la referencia al órgano delegante. Tampoco cabe en aquellos supuestos en los que no sería posible delegar la competencia, salvo previsión legal específica.
+
+6.2.3. La suplencia.
+
+La suplencia consiste en la sustitución temporal de la persona titular del órgano en casos tasados como vacante, ausencia, enfermedad o imposibilidad de intervenir por abstención o recusación.
+
+No se modifica la competencia porque sigue ejerciéndola el mismo órgano, aunque cambie temporalmente la persona que lo ocupa.
+
+No es necesaria su publicación, ya que responde a exigencias de eficacia y pretende evitar paralizaciones en la actividad administrativa. Sin embargo, debe reflejarse en la firma de la resolución quién actúa como suplente y en sustitución de qué titular, pues ello puede afectar a las garantías del interesado, especialmente en relación con posibles causas de recusación.
+
+6.2.4. La encomienda de gestión.
+
+La encomienda de gestión permite encargar a otro órgano o entidad pública la realización de actividades materiales o técnicas cuando el órgano competente no dispone de medios idóneos para llevarlas a cabo. Puede darse entre órganos de la misma Administración o entre Administraciones distintas, pero no implica transmisión de la titularidad de la competencia.
+
+El límite esencial es que los actos jurídicos que sostienen o integran la actuación encomendadadeben seguir siendo dictados por el órgano competente. Aunque la jurisprudencia ha admitido que puedan incluirse ciertos actos instrumentales o de trámite, la encomienda no puede vaciar de contenido el ejercicio real de la competencia, especialmente en procedimientos sancionadores cuando intervienen personas sin estatuto funcionarial.
+
+Su formalización varía según se produzca dentro de la misma Administración o entre Administraciones distintas, pero en todo caso requiere un instrumento formal y su publicación. Su ámbito ha quedado restringido, ya que no puede dirigirse a entidades privadas del sector público y tampoco procede cuando el objeto encaja en contratos del sector público o en encargos a medios propios.
+
+6.3. La avocación.
+
+La avocación es una manifestación del principio de jerarquía por la que el órgano superior asume para sí la resolución de un asunto concreto que normalmente corresponde a un órgano inferior, ya sea porque este la tenga atribuida directamente o la ejerza por delegación. No altera de forma general el reparto competencial, sino solo para ese caso singular.
+
+Al referirse a un asunto concreto, no exige publicación oficial, bastando su notificación a los interesados. El acuerdo de avocación debe estar motivado, ya que supone un tratamiento singular respecto de otros asuntos semejantes y solo se justifica por razones técnicas, económicas, sociales, jurídicas o territoriales.
+
+La impugnación de la avocación no puede hacerse separadamente, sino al recurrir el acto final del procedimiento. La jurisprudencia ha interpretado además que no es imprescindible una relación jerárquica directa entre el órgano que avoca y el que venía ejerciendo la competencia, siendo suficiente la existencia de dependencia jerárquica dentro de la misma organización administrativa.
+
+7. LA RESOLUCIÓN DE LOS CONFLICTOS DE COMPETENCIAS ENTRE ÓRGANOS DE LA MISMA ADMINISTRACIÓN. LOS CONFLICTOS DE ATRIBUCIONES.
+
+Tradicionalmente, la expresión conflicto de competencias se ha reservado para los enfrentamientos entre la Administración y los órganos judiciales, mientras que los conflictos entre órganos de una misma Administración reciben el nombre de conflictos de atribuciones. La LRJSP mantiene esta distinción y considera conflictos de atribuciones las cuestiones competenciales surgidas entre órganos de una misma Administración que no están unidos por relación jerárquica, siempre que el procedimiento aún no haya concluido.
+
+Si el procedimiento ya ha finalizado, la cuestión no se resuelve mediante conflicto de atribuciones, sino a través del recurso correspondiente contra el acto dictado por un órgano presuntamente incompetente. La legislación básica prevé que la cuestión pueda plantearse de oficio por el propio órgano que se considere incompetente, remitiendo las actuaciones al que estime competente y comunicándolo a los interesados, o a instancia de estos, que pueden pedir al órgano actuante que decline su competencia.
+
+En la Administración del Estado, la LRJSP regula tanto la competencia para resolver estos conflictos como su tramitación, distinguiendo entre conflictos positivos y negativos. Los positivos surgen cuando un órgano se considera competente y requiere a otro que se inhiba, interviniendo el superior jerárquico común si no se acepta el requerimiento. Los negativos se producen cuando un órgano se declara incompetente y remite las actuaciones a otro que también rechaza la competencia, debiendo decidir entonces el superior jerárquico común. La resolución debe dictarse en diez días y no admite recurso.
+
+Cuando el conflicto surge entre ministerios, la competencia para plantearlo corresponde al ministro, mientras que su resolución corresponde al presidente del Gobierno. En las comunidades autónomas, las leyes propias desarrollan este régimen dentro del marco básico estatal. En las entidades locales, la LBRL atribuye con carácter general la resolución al alcalde o presidente, aunque corresponde al pleno cuando el conflicto afecta a órganos colegiados o a sus miembros.
+
+8. EL PRINCIPIO DE DESCONCENTRACIÓN.
+
+El principio de desconcentración, recogido en el artículo 103.1 CE y en la LRJSP, implica que las competencias no deben concentrarse en los órganos superiores, sino distribuirse dentro de la propia organización administrativa. Su alcance depende de cómo las normas organizativas repartan las funciones entre los distintos órganos, operando siempre en el interior de una misma Administración.
+
+A diferencia de la delegación, que supone un ejercicio temporal y revocable de competencias, la desconcentración implica una modificación normativa que atribuye de forma estable la titularidad y el ejercicio de la competencia a órganos inferiores. Esta técnica responde a la necesidad de evitar la acumulación de asuntos y los retrasos en la gestión administrativa, garantizando una actuación más eficaz al servicio del interés general.
+
+La desconcentración se caracteriza porque el órgano inferior ejerce la competencia como propia, en su nombre y con carácter definitivo, pudiendo a su vez delegarla en los términos previstos legalmente. Este desplazamiento puede ser de carácter funcional o territorial, pero siempre dentro de la misma Administración, y no elimina la relación jerárquica, ya que el órgano superior mantiene su poder de dirección y control, pudiendo conocer de los recursos de alzada contra los actos del órgano inferior.
+
+El legislador ha articulado mecanismos para favorecer la desconcentración. Cuando una norma atribuye una competencia a una Administración sin concretar el órgano, se entiende atribuida al órgano inferior competente por razón de la materia y del territorio. Además, cuando la competencia se asigna expresamente a un órgano, la propia norma puede prever su transferencia definitiva a órganos inferiores, permitiendo así un reajuste estructural de la distribución competencial.
+
+Finalmente, la atribución de competencias decisorias a órganos inferiores, habitualmente ocupados por funcionarios, se ha acompañado del uso de sistemas de provisión basados en la confianza, lo que ha supuesto una cierta proyección de criterios políticos en niveles funcionariales superiores.
+
+9. LA DESCENTRALIZACIÓN.
+
+9.1. Descentralización política o territorial.
+
+La descentralización política o territorial implica la existencia de entidades con personalidad jurídica propia que ejercen competencias con autonomía, en contraste con el modelo centralizado en el que solo existe una Administración organizada jerárquicamente. Para que exista verdadera descentralización no basta con transferir competencias, sino que es necesario que la entidad que las recibe pueda ejercerlas sin control permanente de otra Administración, aunque puedan existir controles excepcionales.
+
+En España, la descentralización territorial culmina con la Constitución de 1978, que organiza el Estado en municipios, provincias y comunidades autónomas, todos ellos dotados de autonomía para la gestión de sus intereses. Esta autonomía es distinta en cada nivel, ya que las entidades locales carecen de potestad legislativa y solo pueden dictar normas reglamentarias.
+
+La descentralización local se refuerza con la Carta Europea de la Autonomía Local, que vincula este modelo con los valores democráticos y la participación ciudadana, destacando la importancia de dotar a las entidades locales de competencias efectivas y de autonomía real. La descentralización autonómica también se consolida constitucionalmente, reconociéndose el derecho a la autonomía de nacionalidades y regiones y articulándose en un sistema con múltiples niveles de decisión.
+
+Este modelo presenta ventajas, como la proximidad al ciudadano y una gestión más ajustada a las necesidades territoriales, pero también inconvenientes, como el incremento de costes, la posible duplicidad de estructuras y las tensiones entre diversidad territorial y tendencias uniformadoras derivadas de la globalización. No obstante, se considera que sus beneficios en términos de participación y eficacia compensan sus costes.
+
+9.2. Descentralización funcional.
+
+La descentralización funcional consiste en transferir competencias a entidades con personalidad jurídica distinta dentro de la misma Administración, a diferencia de la desconcentración, que opera entre órganos de una misma persona jurídica. En este caso, no es imprescindible que las competencias se ejerzan con plena autonomía, ya que la entidad matriz mantiene controles sobre la actividad de los entes creados.
+
+Esta técnica responde a criterios de eficacia, ya que los organismos resultantes suelen estar especializados en las funciones que gestionan, disponen de patrimonio y recursos propios y cuentan con mayor agilidad en su actuación. Sin embargo, su autonomía es relativa, pues la Administración de la que dependen conserva facultades de control y designación de sus órganos de dirección.
+
+El grado de autonomía varía según la naturaleza de la entidad, siendo menor en los organismos públicos sometidos a controles más estrictos y mayor en entidades de derecho privado del sector público. También existen organismos que actúan con especial independencia debido a la naturaleza de sus funciones, como las autoridades administrativas independientes, cuya actuación requiere objetividad y autonomía respecto de la Administración matriz.
+
+El uso intensivo de la descentralización funcional ha llevado a introducir cautelas en la creación de estos organismos, exigiendo la justificación de su necesidad, la definición de objetivos e indicadores, la evaluación de su eficiencia y la garantía de que no se produzcan duplicidades en la organización administrativa.
+
+10. EL PRINCIPIO DE COORDINACIÓN INTRAADMINISTRATIVA.
+
+El principio de coordinación intraadministrativa responde a la necesidad de armonizar la actuación de los distintos órganos de una misma Administración, especialmente ante la complejidad de sus funciones y la existencia de competencias materiales de carácter transversal que inciden sobre múltiples ámbitos de actuación. Aunque esta función se integra en el poder de dirección propio de la jerarquía, su relevancia exige mecanismos específicos que permitan evitar duplicidades y contradicciones, orientando la actuación administrativa hacia objetivos comunes.
+
+La LRJSP no regula expresamente la coordinación interna, centrándose en la coordinación entre Administraciones territoriales, pero este principio se encuentra implícito en las funciones de determinados órganos que actúan como instancias de coordinación. Así ocurre con el Consejo de Ministros, las comisiones delegadas del Gobierno o la Comisión General de Secretarios de Estado y subsecretarios, que aseguran la coherencia en la actuación de los distintos departamentos.
+
+Además de la coordinación orgánica, basada en la existencia de órganos específicos, también existe una coordinación funcional que se articula mediante instrumentos como reuniones periódicas, informes o la planificación, sin necesidad de crear nuevas estructuras organizativas.
+
+11. LOS PRINCIPIOS VERTEBRADORES DE LAS RELACIONES ENTRE LA ADMINISTRACIÓN DEL ESTADO Y LAS COMUNIDADES AUTÓNOMAS.
+
+El Estado descentralizado excluye la jerarquía entre Administraciones territoriales por ser incompatible con la autonomía. Por eso, las relaciones entre la Administración del Estado y las comunidades autónomas se articulan mediante principios como la lealtad institucional, el respeto competencial, la colaboración, la cooperación, la coordinación, la eficiencia en el uso de recursos, la responsabilidad y la solidaridad interterritorial.
+
+11.1. Coordinación versus colaboración/cooperación. Sus diferencias.
+
+La coordinación interadministrativa ha sido reconocida por la doctrina constitucional, pero no debe confundirse con la colaboración o la cooperación. La colaboración constituye un presupuesto implícito del sistema competencial y no requiere un título específico, mientras que la coordinación sí exige una competencia concreta que habilite su ejercicio. Por eso, el Estado no puede invocar la coordinación para limitar competencias autonómicas si carece de título competencial suficiente.
+
+Esta diferencia tiene consecuencias jurídicas relevantes. La vulneración del principio de colaboración o cooperación no puede originar por sí misma un conflicto competencial ante el Tribunal Constitucional, mientras que sí puede hacerlo un ejercicio indebido de la coordinación.
+
+La cooperación se basa en la voluntariedad y se traduce en compromisos asumidos libremente por varias Administraciones para una actuación común.
+
+La coordinación, en cambio, permite garantizar la coherencia de las actuaciones administrativas cuando así lo prevea el ordenamiento, y puede imponer efectos vinculantes incluso a quienes no hayan prestado su conformidad. Entre ambas aparece una posición intermedia cuando el Estado impone informes preceptivos no vinculantes en procedimientos autonómicos, supuesto que la doctrina ha calificado como cooperación obligatoria, aunque exige igualmente una competencia estatal que la justifique.
+
+11.2. Las diferencias entre colaboración y cooperación. La identificación por el legislador del principio de cooperación con la lealtad institucional.
+
+La LRJSP distingue entre cooperación y colaboración. La cooperación se articula mediante técnicas orgánicas o funcionales y se concreta en acuerdos de órganos de cooperación o en convenios interadministrativos. La colaboración, en cambio, se vincula a deberes generales de conducta entre Administraciones.
+
+Estos deberes presentan una vertiente negativa, consistente en respetar el ejercicio legítimo de las competencias ajenas, y otra positiva, que obliga a facilitar el ejercicio de las competencias de las demás Administraciones mediante el suministro de información, la creación de bases de datos integradas o la prestación de auxilio. Solo cabe excusar estas obligaciones cuando falten medios suficientes o exista incompatibilidad con las funciones propias.
+
+De este modo, el legislador identifica la colaboración con la lealtad institucional, entendida como manifestación de la lealtad constitucional en el ámbito interadministrativo. Esta exige auxilio recíproco, consideración de los intereses generales comunes y abstención de actuaciones que puedan perjudicar o perturbar el funcionamiento del sistema descentralizado.
+
+11.3. Los convenios interadministrativos.
+
+La cooperación puede instrumentarse mediante diversas técnicas, como la participación en órganos comunes, la emisión de informes, las encomiendas de gestión o las cesiones de bienes.
+
+Cuando no se canaliza a través de un órgano, la voluntad de cooperar se formaliza mediante convenios.
+
+La LRJSP regula de forma completa los convenios, en especial los interadministrativos, para corregir problemas detectados en la práctica anterior, como la indefinición de obligaciones, la falta de control financiero o la ausencia de plazos claros de ejecución. Estos convenios pueden celebrarse entre Administraciones distintas o entre organismos públicos dependientes de ellas, e incluso pueden incluir el uso de medios y recursos ajenos para el ejercicio de competencias propias o delegadas, salvo que por su contenido deban calificarse como encomienda de gestión.
+
+Los convenios tienen naturaleza contractual y producen efectos jurídicos exigibles, por lo que se perfeccionan por el consentimiento de las partes y se distinguen de los simples protocolos de intenciones. Por esa razón, la ley exige controles reforzados de estabilidad presupuestaria, sostenibilidad financiera, necesidad, oportunidad e impacto económico, así como un contenido mínimo que determine sujetos, competencias, obligaciones, compromisos económicos, consecuencias del incumplimiento, mecanismos de seguimiento, duración y eventual prórroga.
+
+11.4. La conferencia de presidentes, las conferencias sectoriales y las comisiones bilaterales.
+
+La cooperación también se manifiesta en órganos colegiados en los que participan varias Administraciones. Estos órganos pueden ser bilaterales, como las comisiones bilaterales, o multilaterales, como la conferencia de presidentes y las conferencias sectoriales, y pueden tener carácter general o sectorial según su ámbito material.
+
+La conferencia de presidentes es el máximo órgano de cooperación política y reúne al presidente del Gobierno con los presidentes autonómicos y de las ciudades autónomas. Su funcionamiento se rige por su propio reglamento y sus decisiones pueden adoptar la forma de acuerdos o recomendaciones, con distinto grado de consenso y vinculación.
+
+Las comisiones bilaterales son órganos permanentes entre el Estado y cada comunidad autónoma o ciudad autónoma. Su función principal es mejorar la coordinación en asuntos singulares y adoptar acuerdos vinculantes por consentimiento mutuo. Tienen especial relevancia en la negociación previa al recurso de inconstitucionalidad, al poder servir como cauce para resolver discrepancias sin necesidad de acudir al Tribunal Constitucional.
+
+Las conferencias sectoriales son órganos multilaterales especializados por materias en los que participan el ministro competente y los consejeros autonómicos correspondientes. Sus funciones dependen de su norma de creación o de su reglamento, pero destacan el intercambio de información, la planificación, el informe de anteproyectos normativos y el establecimiento de criterios para el reparto de fondos estatales.
+
+Su régimen de decisiones refleja su doble condición de órganos de cooperación y, en ciertos casos, también de coordinación. Los acuerdos contienen compromisos vinculantes para quienes los aceptan y, cuando recaen sobre materias en las que el Estado ostenta competencia de coordinación, vinculan a todas las Administraciones integradas en la conferencia. Las recomendaciones, por su parte, obligan a adaptar la actuación administrativa a quienes no se hayan opuesto a su adopción.
+
+12. LAS RELACIONES DE LAS ADMINISTRACIONES DEL ESTADO Y COMUNIDADES AUTÓNOMAS CON LAS ENTIDADES LOCALES.
+
+12.1. La eliminación del principio de jerarquía y la limitación de los controles
+administrativos sobre las entidades locales.
+
+Las relaciones entre el Estado, las comunidades autónomas y las entidades locales ya no se rigen por el principio de jerarquía, sino por la autonomía local, lo que ha reducido intensamente los controles administrativos existentes en el pasado. Frente al sistema anterior a la Constitución, basado en recursos de alzada, autorizaciones, aprobaciones y suspensiones de actos locales, el modelo actual admite controles mucho más limitados.
+
+La Carta Europea de la Autonomía Local y la doctrina del Tribunal Constitucional permiten controles administrativos, pero solo si están previstos en la Constitución o en la ley, si se refieren con carácter general a la legalidad y no a la oportunidad, salvo en casos excepcionales de competencias delegadas o afectación de intereses supralocales, y si su intensidad es proporcionada al interés público protegido. Por eso, no caben controles genéricos sobre la actividad local, sino solo controles concretos y vinculados a intereses supramunicipales.
+
+El control ordinario de la actividad de las entidades locales corresponde a la jurisdicción contencioso-administrativa. El Estado y las comunidades autónomas pueden impugnar actos y disposiciones locales cuando infrinjan el ordenamiento o lesionen sus competencias, pero esta facultad no constituye un control administrativo directo, sino una legitimación procesal. Antes de acudir a los tribunales, pueden formular un requerimiento a la entidad local para que anule el acto, aunque este trámite no suspende su eficacia ni sustituye al control judicial.
+
+Solo de manera excepcional se reconocen controles administrativos directos. El delegado del Gobierno puede suspender actos locales que atenten gravemente al interés general de España, aunque para ello debe requerir antes a la entidad local y acudir después a la vía contenciosa.
+
+También existen mecanismos extraordinarios de sustitución cuando la entidad local incumple obligaciones legales que impiden el ejercicio de competencias estatales o autonómicas, y medidas aún más intensas como la disolución de los órganos de gobierno local en supuestos de gestión gravemente dañosa para los intereses generales y de incumplimiento de obligaciones constitucionales.
+
+Junto a estos controles existen supuestos de autorización o aprobación previa en materias concretas, como consultas populares, servicios en régimen de monopolio o determinados actos urbanísticos. No obstante, el legislador autonómico debe respetar en todo caso el modelo básico de control fijado por la LBRL, ya que constituye una garantía de la autonomía local.
+
+12.2. La tutela económico-financiera del Estado y las comunidades autónomas sobre las entidades locales.
+
+La tutela económico-financiera constituye una manifestación específica del control sobre las entidades locales, intensificada a partir de la exigencia de estabilidad presupuestaria. Su ejercicio corresponde al Estado o, en determinadas comunidades autónomas, a la propia comunidad que haya asumido esta competencia en su Estatuto de Autonomía.
+
+Esta tutela comprende diversas facultades, como la emisión de informes preceptivos, a veces vinculantes y otras no, la recepción de información presupuestaria, la autorización de determinadas garantías financieras, la supervisión de discrepancias en materia de control interno y la aprobación y seguimiento de los planes económico-financieros elaborados por los municipios cuando incumplen los objetivos de estabilidad o las reglas de gasto.
+
+12.3. Los principios de colaboración, cooperación y lealtad institucional.
+
+Las relaciones con las entidades locales también se rigen por los principios del artículo 140.1 LRJSP. La LBRL mantiene la distinción entre coordinación y cooperación, vinculando la colaboración a la idea de lealtad institucional. Dentro de esta lealtad destacan deberes como el suministro de información por parte de las entidades locales a las Administraciones superiores, requisito esencial para que estas puedan ejercer las facultades de control que la ley les reconoce.
+
+También se exige a las entidades locales que valoren el impacto financiero y presupuestario que puede tener el ejercicio de sus competencias sobre el resto de Administraciones. Como instrumentos de cooperación, además de los convenios, la ley prevé consorcios cuando el convenio no sea suficiente y resulte económicamente justificada la creación de una entidad diferenciada.
+
+Existen igualmente órganos de cooperación de carácter consultivo o deliberante, como las comisiones territoriales, en las que pueden participar el Estado, las comunidades autónomas y las entidades locales. Aunque su finalidad es favorecer la coordinación y evitar duplicidades, sus acuerdos solo vinculan a quienes los aceptan, lo que refleja su verdadera naturaleza cooperativa.
+
+También puede hablarse de cooperación forzosa cuando las entidades locales participan en decisiones de otras Administraciones mediante informes exigidos legalmente.
+
+12.4. El principio de coordinación.
+
+La coordinación permite a una Administración ejercer un cierto poder de dirección sobre las entidades locales, pero como afecta a su autonomía está sujeta a límites materiales y procedimentales muy estrictos. Desde el punto de vista sustantivo, la ley debe definir de forma precisa el alcance del poder coordinador y garantizar que la entidad local conserve una capacidad decisoria proporcionada al interés que sigue presente en el asunto.
+
+Estos límites se reflejan en la LBRL, que exige para coordinar que la actividad o servicio local trascienda el interés propio de la entidad, incida de manera relevante en intereses estatales o autonómicos o sea concurrente o complementario con los de estas Administraciones. Además, la coordinación solo es legítima cuando no basta la cooperación voluntaria o esta resulta manifiestamente inadecuada.
+
+El instrumento típico de la coordinación son los planes sectoriales, que deben estar previstos legalmente y fijan objetivos y prioridades para orientar la programación y ejecución de los servicios locales. La participación de las entidades locales en su elaboración constituye una garantía esencial de su autonomía, porque permite armonizar los intereses en presencia y limita las desviaciones de la Administración coordinadora.
+
+Finalmente, las leyes sectoriales que establezcan facultades de coordinación deben concretar con suficiente detalle sus condiciones, límites y modalidades de control, reforzando así las exigencias de predeterminación y proporcionalidad que impone la autonomía local.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+    
+  "1": "La potestad de autoorganización es la capacidad de cada Administración para configurar su propia estructura personal, material y financiera conforme a sus fines, competencias y recursos, con el objetivo de actuar eficazmente.",
+  "2": "La potestad de autoorganización no es absoluta, porque la Constitución y las leyes imponen principios, reservas normativas y límites estructurales que condicionan cómo puede organizarse cada Administración pública.",
+  "2.1": "Los límites constitucionales derivan de los principios del artículo 103 CE, de las reservas de ley sobre órganos y función pública, de la regulación básica de las estructuras territoriales y de las exigencias de estabilidad presupuestaria que restringen la creación y sostenimiento de estructuras administrativas.",
+  "2.2": "Los límites legales proceden de la legislación básica estatal, especialmente de la LRJSP, complementada por normas específicas de cada nivel territorial, de modo que la autoorganización queda sometida a un marco normativo que delimita su alcance y contenido.",
+  "3": "La unidad administrativa es el elemento organizativo básico formado por puestos de trabajo conectados funcional y jerárquicamente, mientras que el órgano administrativo surge cuando esas unidades ejercen funciones con efectos jurídicos externos o intervención preceptiva en procedimientos.",
+  "4": "Los órganos colegiados son aquellos integrados por varias personas que forman su voluntad mediante convocatoria, deliberación y votación conjunta, y cumplen hoy funciones no solo consultivas, sino también decisorias, de control, propuesta y cooperación interadministrativa.",
+  "4.1": "La colegialidad se caracteriza por la adopción conjunta de decisiones por varios miembros y no debe confundirse con los órganos complejos, ya que en los colegiados la pluralidad personal integra un solo proceso unitario de formación de voluntad.",
+  "4.2": "La LRJSP establece el régimen básico de los órganos colegiados en materias como creación, publicidad, sesiones, orden del día, quorum, acuerdos, actas y uso de medios electrónicos, garantizando competencia, seguridad jurídica y funcionamiento regular.",
+  "4.3": "En la Administración del Estado, los órganos colegiados requieren creación formal suficiente según su relevancia y se estructuran en torno a presidente, secretario y miembros, con funciones y derechos destinados a asegurar dirección, validez de los acuerdos y participación efectiva.",
+  "4.4": "Las comunidades autónomas han desarrollado la normativa básica estatal con regulaciones propias que conservan en lo esencial el mismo esquema, aunque introducen variaciones puntuales en convocatoria, publicidad o designación del presidente.",
+  "5": "El principio de jerarquía ordena escalonadamente los órganos sobre una misma materia y permite a los superiores dirigir, controlar y revisar la actuación de los inferiores para asegurar unidad y coherencia en la acción administrativa.",
+  "5.1": "La jerarquía estructura internamente cada Administración mediante relaciones de subordinación, aunque queda excluida o atenuada respecto de órganos que exigen independencia funcional y entre Administraciones territoriales, donde rigen autonomía, cooperación y coordinación.",
+  "5.2": "El contenido de la jerarquía incluye órdenes e instrucciones internas, coordinación, inspección, resolución de conflictos, revisión por alzada, convalidación y potestad disciplinaria, si bien su ejercicio se modula por los derechos de los empleados públicos y la prohibición de obedecer órdenes manifiestamente ilegales.",
+  "6": "El principio de competencia distribuye las atribuciones entre Administraciones, entidades y órganos, y exige que cada función sea ejercida por su titular conforme a criterios materiales, jerárquicos y territoriales, siendo su respeto condición de validez del acto administrativo.",
+  "6.1": "La competencia es irrenunciable y su infracción genera invalidez, distinguiéndose entre incompetencia material, jerárquica y territorial, con consecuencias distintas según sea manifiesta o no, pudiendo en ciertos casos dar lugar a nulidad y en otros a anulabilidad o convalidación.",
+  "6.2": "La LRJSP admite técnicas por las que una competencia puede ejercerse por órgano distinto del titular sin alterar su titularidad, siempre dentro de los límites legales y manteniéndose que los actos se entienden dictados por el órgano competente.",
+  "6.2.1": "La delegación de competencias permite trasladar el ejercicio de una competencia a otro órgano o entidad pública, exige publicación y tiene límites materiales, de forma que el delegado actúa en nombre del delegante sin alteración de la titularidad.",
+  "6.2.2": "La delegación de firma solo desplaza la suscripción formal de actos ya decididos por el titular competente, sin transferir el ejercicio material de la competencia y sin necesidad de publicación general.",
+  "6.2.3": "La suplencia consiste en la sustitución temporal de la persona titular del órgano por causas tasadas, manteniéndose inalterada la competencia del órgano aunque cambie provisionalmente quien la ejerce.",
+  "6.2.4": "La encomienda de gestión permite encargar actividades materiales o técnicas a otro órgano o entidad pública por razones de eficacia, pero sin transmitir la titularidad ni los actos jurídicos decisorios de la competencia encomendada.",
+  "6.3": "La avocación permite al órgano superior asumir la resolución de un asunto concreto atribuido a un inferior, por razones justificadas y mediante acuerdo motivado, sin modificar de modo general el reparto de competencias.",
+  "7": "Los conflictos de atribuciones son controversias competenciales entre órganos de una misma Administración no vinculados jerárquicamente y se resuelven mediante reglas específicas según sean positivos o negativos, siempre antes de la finalización del procedimiento.",
+  "8": "La desconcentración distribuye de forma estable competencias dentro de una misma Administración hacia órganos inferiores, para evitar acumulación en los superiores y mejorar la eficacia sin romper la relación jerárquica.",
+  "9": "La descentralización implica atribuir competencias a entidades con personalidad jurídica propia, ya sea territorialmente con autonomía política o funcionalmente mediante entes diferenciados dentro de una misma Administración.",
+  "9.1": "La descentralización política o territorial se basa en la existencia de municipios, provincias y comunidades autónomas dotados de autonomía para gestionar sus intereses, favoreciendo proximidad y participación aunque genere costes y tensiones de articulación territorial.",
+  "9.2": "La descentralización funcional transfiere competencias a entidades con personalidad jurídica diferenciada para ganar especialización y agilidad, aunque bajo controles de la Administración matriz y con exigencias reforzadas para justificar su creación y evitar duplicidades.",
+  "10": "La coordinación intraadministrativa busca armonizar la actuación de los distintos órganos de una misma Administración mediante órganos específicos o técnicas funcionales, para evitar contradicciones y orientar la acción pública hacia fines comunes.",
+  "11": "Las relaciones entre la Administración del Estado y las comunidades autónomas se rigen por principios de lealtad institucional, respeto competencial, colaboración, cooperación, coordinación, eficiencia, responsabilidad y solidaridad, excluyéndose la jerarquía por exigencia de la autonomía territorial.",
+  "11.1": "La coordinación se diferencia de la colaboración y la cooperación porque exige un título competencial específico y puede desplegar efectos vinculantes, mientras que la colaboración es un deber implícito del sistema y la cooperación descansa en la voluntariedad de las Administraciones participantes.",
+  "11.2": "La LRJSP identifica la colaboración con la lealtad institucional, entendida como un deber general de respeto, auxilio, información y consideración recíproca entre Administraciones para preservar el funcionamiento del sistema descentralizado.",
+  "11.3": "Los convenios interadministrativos son instrumentos jurídicos de cooperación con efectos obligatorios, sometidos a exigencias de contenido mínimo, control financiero, duración, seguimiento y evaluación para asegurar su necesidad, claridad y sostenibilidad.",
+  "11.4": "La conferencia de presidentes, las conferencias sectoriales y las comisiones bilaterales son órganos de cooperación política o técnica que canalizan acuerdos, recomendaciones, intercambio de información y solución de discrepancias entre el Estado y las comunidades autónomas.",
+  "12": "Las relaciones del Estado y de las comunidades autónomas con las entidades locales se rigen por la autonomía local, lo que excluye la jerarquía y somete los controles, la coordinación y la tutela a límites legales estrictos y a los principios de proporcionalidad y predeterminación normativa.",
+  "12.1": "La autonomía local ha sustituido los controles jerárquicos clásicos por un sistema en el que predominan el control judicial y solo se admiten controles administrativos concretos, excepcionales y vinculados a la legalidad o a intereses supralocales especialmente protegidos.",
+  "12.2": "La tutela económico-financiera permite al Estado o a ciertas comunidades autónomas supervisar la actividad presupuestaria local mediante informes, autorizaciones, seguimiento e intervención sobre planes económico-financieros, especialmente en aplicación de la estabilidad presupuestaria.",
+  "12.3": "Las relaciones con las entidades locales también descansan en la colaboración, la cooperación y la lealtad institucional, que se concretan en deberes de información, valoración del impacto financiero y uso de instrumentos como convenios, consorcios y órganos consultivos comunes.",
+  "12.4": "La coordinación sobre entidades locales solo es legítima cuando la ley delimita con precisión su alcance, existe incidencia relevante en intereses supralocales y no basta la cooperación voluntaria, utilizándose principalmente planes sectoriales con participación local como garantía de autonomía."
+};
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = ` 
+#ID = 1
+
+// [1]
+Q: ¿Qué define mejor la potestad de autoorganización en el ámbito administrativo?
+A) La capacidad de cada Administración para fijar libremente sus fines sin sujeción a competencias previas.
+B) La facultad de ordenar su estructura personal, material y financiera conforme a sus fines, competencias y recursos.
+C) La posibilidad de modificar el reparto territorial del poder público mediante decisiones internas.
+OK: B
+EXP: La autoorganización consiste en configurar la propia estructura administrativa para actuar con eficacia según fines, competencias y medios disponibles.
+
+// [2]
+Q: ¿Por qué puede afirmarse que la potestad de autoorganización corresponde a todas las Administraciones territoriales?
+A) Porque en todas ellas se reconoce la capacidad de adecuar su organización al cumplimiento de sus funciones públicas.
+B) Porque todas pueden crear cualquier entidad dependiente sin condicionamiento jurídico alguno.
+C) Porque todas ejercen idénticas competencias organizativas con el mismo alcance y contenido.
+OK: A
+EXP: El texto destaca que Estado, comunidades autónomas y entidades locales disponen de esta potestad como instrumento para organizarse conforme a sus fines.
+
+// [3]
+Q: En las comunidades autónomas, la potestad de autoorganización se vincula principalmente a:
+A) Una habilitación reglamentaria concedida por la Administración del Estado.
+B) Una competencia delegada por la legislación de régimen local.
+C) Una facultad inherente a su autonomía reconocida por el Tribunal Constitucional.
+OK: C
+EXP: El texto señala que el Tribunal Constitucional considera esta potestad inherente a la autonomía de las comunidades autónomas.
+
+// [4]
+Q: ¿Qué rasgo singular presenta el reconocimiento de la potestad de autoorganización en las entidades locales?
+A) Se fundamenta como potestad implícita derivada de su autonomía y orientada a asegurar servicios y fines propios.
+B) Se apoya exclusivamente en la posibilidad de aprobar reglamentos estatales de organización territorial.
+C) Se limita a la gestión económica, sin alcanzar la creación o adaptación de estructuras administrativas.
+OK: A
+EXP: En el ámbito local, doctrina y jurisprudencia la conectan con la autonomía local para configurar la organización adecuada a sus servicios y fines.
+
+// [5]
+Q: ¿Qué función cumple el respaldo normativo mencionado respecto de la potestad de autoorganización local?
+A) Sustituye la autonomía local por un sistema de organización impuesto de manera uniforme.
+B) Refuerza jurídicamente la facultad de las entidades locales para definir sus estructuras dentro de sus competencias.
+C) Convierte toda decisión organizativa local en una competencia exclusiva del legislador estatal.
+OK: B
+EXP: La Carta Europea de la Autonomía Local y la LBRL confirman normativamente que las entidades locales pueden definir su organización interna dentro de su ámbito competencial.
+
+// [6]
+Q: ¿Cuál de los siguientes supuestos refleja una manifestación concreta de la potestad de autoorganización?
+A) La revisión judicial de los actos administrativos por los tribunales contencioso-administrativos.
+B) La aprobación de reglamentos orgánicos o la reestructuración de departamentos para adaptar la organización administrativa.
+C) La aprobación de leyes estatales que distribuyen competencias entre distintos niveles territoriales.
+OK: B
+EXP: El texto pone como ejemplos de autoorganización la reestructuración de departamentos, la fijación de estructuras orgánicas y la aprobación de reglamentos orgánicos.
+
+#ID = 2
+
+// [7]
+Q: ¿Qué caracteriza de forma esencial a la potestad de autoorganización de las Administraciones públicas?
+A) Su ejercicio libre sin condicionamientos jurídicos cuando se refiere a aspectos internos.
+B) Su sometimiento a un marco de principios, límites y reglas fijados por la Constitución y las leyes.
+C) Su dependencia exclusiva de decisiones políticas sin intervención normativa previa.
+OK: B
+EXP: El texto subraya que la autoorganización no es ilimitada, sino condicionada por normas constitucionales y legales.
+
+// [8]
+Q: ¿Por qué se compara la potestad de autoorganización administrativa con la de las entidades privadas?
+A) Porque ambas carecen de regulación legal en su estructura interna.
+B) Porque ambas pueden configurar libremente sus órganos sin intervención normativa.
+C) Porque en ambos casos la ley fija elementos esenciales que limitan su organización.
+OK: C
+EXP: Se destaca que, al igual que en entidades privadas, la ley fija límites estructurales a la organización administrativa.
+
+#ID = 2.1
+
+// [9]
+Q: ¿Qué función cumple la Constitución respecto a la organización administrativa?
+A) Determinar de forma exhaustiva toda la estructura organizativa de cada Administración.
+B) Establecer las bases, principios y algunos órganos esenciales sujetos a desarrollo legal.
+C) Delegar completamente la regulación organizativa en las comunidades autónomas.
+OK: B
+EXP: La Constitución fija bases y menciona órganos clave, dejando el desarrollo a la ley.
+
+// [10]
+Q: ¿Qué papel desempeñan los principios del artículo 103 CE en la organización administrativa?
+A) Actúan solo como criterios orientativos sin efectos jurídicos vinculantes.
+B) Vinculan tanto al legislador como a la Administración en el ejercicio de la potestad organizativa.
+C) Se limitan a regular el funcionamiento interno de los órganos colegiados.
+OK: B
+EXP: Estos principios orientan y obligan tanto al legislador como a la Administración en su organización.
+
+// [11]
+Q: ¿Cómo se relacionan los principios de actuación administrativa con la organización?
+A) Son independientes de la estructura administrativa y solo afectan a la ejecución material.
+B) Condicionan indirectamente la organización al exigir eficacia, objetividad y legalidad.
+C) Solo se aplican en el ámbito judicial, no en la organización administrativa.
+OK: B
+EXP: Los principios de actuación influyen en cómo se organiza la Administración para cumplir sus fines.
+
+// [12]
+Q: ¿Qué implica la incorporación de principios de buena administración por leyes como la LRJSP?
+A) La sustitución de los principios constitucionales por nuevos criterios administrativos.
+B) La ampliación de exigencias que afectan tanto a la estructura como al funcionamiento administrativo.
+C) La limitación de la potestad organizativa exclusivamente al ámbito económico.
+OK: B
+EXP: Se amplían los principios con transparencia, eficiencia o participación, influyendo en organización y funcionamiento.
+
+// [13]
+Q: ¿Qué supone la reserva de ley en materia organizativa?
+A) Que la Administración puede regular libremente sus órganos sin intervención legislativa.
+B) Que determinados aspectos organizativos deben estar necesariamente regulados por ley.
+C) Que solo las comunidades autónomas pueden regular la estructura administrativa.
+OK: B
+EXP: La Constitución exige regulación legal de órganos y personal, limitando la autoorganización.
+
+// [14]
+Q: ¿Cómo se distribuye la regulación organizativa entre los distintos niveles territoriales según la Constitución?
+A) El Estado regula todos los niveles de forma completa y uniforme.
+B) La organización local se deja a las comunidades autónomas sin intervención estatal.
+C) Se fijan bases para lo local, mientras que las comunidades autónomas se regulan principalmente por sus estatutos.
+OK: C
+EXP: La Constitución define bases locales y remite la organización autonómica a sus propias normas.
+
+// [15]
+Q: ¿Qué efecto tiene el principio de estabilidad presupuestaria sobre la organización administrativa?
+A) Permite ampliar sin límites la estructura administrativa si mejora la eficacia.
+B) Introduce restricciones financieras que condicionan la creación y mantenimiento de estructuras.
+C) Se limita exclusivamente al control del déficit sin afectar a la organización.
+OK: B
+EXP: La estabilidad presupuestaria impone límites al gasto y a la creación de estructuras administrativas.
+
+// [16]
+Q: ¿Por qué puede considerarse que la estabilidad presupuestaria incide directamente en la autoorganización?
+A) Porque elimina la necesidad de planificación administrativa.
+B) Porque condiciona decisiones organizativas al imponer límites económicos y de personal.
+C) Porque sustituye las competencias organizativas por decisiones judiciales.
+OK: B
+EXP: Limita la capacidad organizativa al imponer restricciones financieras y de recursos humanos.
+
+#ID = 2.2
+
+// [17]
+Q: ¿Cuál es el papel de la LRJSP en relación con la autoorganización administrativa?
+A) Actuar como norma básica que establece principios organizativos aplicables a todas las Administraciones.
+B) Sustituir completamente la legislación autonómica en materia organizativa.
+C) Regular exclusivamente el funcionamiento interno de los ministerios.
+OK: A
+EXP: La LRJSP es la norma básica común que fija principios organizativos generales.
+
+// [18]
+Q: ¿Cómo se justifica la capacidad del Estado para fijar bases organizativas?
+A) Por su potestad reglamentaria ordinaria sin respaldo constitucional.
+B) Por sus competencias constitucionales que le permiten establecer reglas básicas.
+C) Por delegación de las comunidades autónomas en materia organizativa.
+OK: B
+EXP: El Estado puede fijar bases organizativas en virtud de sus competencias constitucionales.
+
+// [19]
+Q: ¿En qué medida se aplican las bases estatales en aspectos internos de la organización?
+A) Con la misma intensidad que en los aspectos con proyección externa.
+B) Con menor intensidad cuando se trata de cuestiones internas sin efectos externos.
+C) Solo en el ámbito de las entidades locales.
+OK: B
+EXP: El texto señala que la intervención estatal es menor en aspectos puramente internos.
+
+// [20]
+Q: ¿Cómo se articula la regulación organizativa en la Administración del Estado?
+A) Exclusivamente mediante la Constitución sin desarrollo legislativo.
+B) A través de leyes como la Ley del Gobierno, la LRJSP y la Ley General Presupuestaria.
+C) Mediante reglamentos autonómicos de aplicación general.
+OK: B
+EXP: Estas normas regulan el órgano político, la estructura administrativa y el régimen económico.
+
+// [21]
+Q: ¿Qué papel desempeñan los estatutos y leyes autonómicas en la organización de las comunidades autónomas?
+A) Sustituyen completamente el marco básico estatal.
+B) Desarrollan su organización dentro de los límites fijados por las bases estatales.
+C) Se limitan a regular cuestiones presupuestarias sin afectar a la estructura.
+OK: B
+EXP: Las comunidades autónomas desarrollan su organización respetando el marco básico estatal.
+
+// [22]
+Q: ¿Cómo se configura la organización de las entidades locales en el sistema normativo?
+A) Exclusivamente por normas autonómicas sin intervención estatal.
+B) Mediante la LBRL, desarrollada reglamentariamente y compatible con normas autonómicas que respeten las bases.
+C) Por decisiones discrecionales de cada entidad local sin marco normativo.
+OK: B
+EXP: La LBRL fija la base, permitiendo desarrollos autonómicos sin desplazarla.
+
+// [23]
+Q: ¿Qué conclusión puede extraerse sobre la potestad de autoorganización a partir de los límites legales?
+A) Que es una facultad discrecional sin condicionamientos normativos relevantes.
+B) Que queda integrada en un sistema normativo complejo que delimita su alcance y contenido.
+C) Que depende exclusivamente de la voluntad política de cada Administración.
+OK: B
+EXP: La autoorganización se configura como una capacidad condicionada por normas constitucionales y legales.
+
+#ID = 3
+
+// [24]
+Q: ¿Qué criterio fundamental determina la organización de los medios administrativos?
+A) La distribución territorial de las Administraciones públicas.
+B) La asignación de funciones y ámbitos de actividad a los distintos elementos organizativos.
+C) La jerarquía política entre los distintos órganos superiores del Estado.
+OK: B
+EXP: El texto señala que la organización se articula en función de las funciones y ámbitos de actividad.
+
+// [25]
+Q: ¿Qué caracteriza a la unidad administrativa como elemento organizativo básico?
+A) Su capacidad para dictar actos con efectos jurídicos frente a terceros.
+B) Su composición por órganos políticos con funciones decisorias.
+C) Su configuración como conjunto de puestos de trabajo vinculados funcional y jerárquicamente.
+OK: C
+EXP: La unidad administrativa se define por la conexión funcional de puestos y su dependencia de una jefatura común.
+
+// [26]
+Q: ¿Qué función cumplen las relaciones de puestos de trabajo en la organización administrativa?
+A) Establecer los principios generales de actuación administrativa.
+B) Determinar la estructura del personal, incluyendo puestos, adscripción y retribuciones.
+C) Regular exclusivamente la jerarquía entre órganos administrativos.
+OK: B
+EXP: Las RPT configuran la estructura del personal y sus características esenciales.
+
+// [27]
+Q: ¿Cuándo puede afirmarse que varias unidades administrativas constituyen un órgano?
+A) Cuando comparten un mismo presupuesto anual.
+B) Cuando sus funciones generan efectos jurídicos externos o su intervención es obligatoria en un procedimiento.
+C) Cuando dependen directamente de un órgano político superior.
+OK: B
+EXP: El órgano surge cuando las funciones tienen proyección externa o intervención preceptiva.
+
+// [28]
+Q: ¿Qué distingue esencialmente a un órgano administrativo de una unidad administrativa?
+A) La existencia de una jefatura común en el órgano y no en la unidad.
+B) La proyección externa de sus funciones o su intervención obligatoria en procedimientos.
+C) La pertenencia exclusiva al ámbito de la Administración del Estado.
+OK: B
+EXP: La diferencia clave es la capacidad de producir efectos jurídicos externos o intervenir preceptivamente.
+
+// [29]
+Q: ¿Cómo se configura jurídicamente el órgano administrativo?
+A) Como una estructura independiente de las personas que lo integran.
+B) Como una combinación inseparable entre funciones atribuidas y personas físicas que las ejercen.
+C) Como un conjunto de normas sin vinculación con personas concretas.
+OK: B
+EXP: El órgano integra funciones y titulares que las ejercen de forma inseparable.
+
+// [30]
+Q: ¿Qué implica que la actuación de un órgano sea preceptiva?
+A) Que puede intervenir libremente en cualquier procedimiento.
+B) Que está obligado a intervenir en determinados procedimientos conforme a la ley.
+C) Que solo actúa cuando lo solicita el administrado.
+OK: B
+EXP: La actuación preceptiva supone una obligación de intervención en el procedimiento.
+
+// [31]
+Q: ¿Qué permite diferenciar entre unidades administrativas y órganos desde el punto de vista funcional?
+A) La existencia de retribuciones distintas entre sus miembros.
+B) La distinta forma de designación de sus titulares.
+C) La existencia o no de efectos jurídicos externos en sus actuaciones.
+OK: C
+EXP: Las unidades actúan internamente, mientras que los órganos tienen proyección externa.
+
+// [32]
+Q: ¿Qué requisito debe cumplirse para la válida creación de un órgano administrativo?
+A) Únicamente su aprobación por un reglamento organizativo.
+B) La determinación de su integración, dependencia, funciones y dotación presupuestaria.
+C) Su inclusión en una relación de puestos de trabajo sin más requisitos.
+OK: B
+EXP: La creación exige definir su encaje estructural, funciones y recursos económicos.
+
+// [33]
+Q: ¿Qué finalidad persigue la prohibición de órganos con funciones idénticas en un mismo ámbito?
+A) Evitar duplicidades que puedan afectar a la seguridad jurídica.
+B) Garantizar la igualdad retributiva entre empleados públicos.
+C) Limitar la autonomía organizativa de las Administraciones.
+OK: A
+EXP: Se busca evitar conflictos y asegurar claridad en la actuación administrativa.
+
+// [34]
+Q: ¿Qué papel desempeña la LRJSP en relación con los órganos de la Administración del Estado?
+A) Regula únicamente los procedimientos administrativos sin referencia a los órganos.
+B) Identifica los órganos superiores y directivos, cuya estructura se desarrolla reglamentariamente.
+C) Sustituye a los reglamentos ministeriales en la organización interna.
+OK: B
+EXP: La LRJSP define los órganos superiores y directivos, dejando el desarrollo concreto a normas reglamentarias.
+
+#ID = 4.1
+
+// [35]
+Q: ¿Qué elemento distingue esencialmente a los órganos colegiados frente a los unipersonales?
+A) La existencia de una pluralidad de miembros que adoptan decisiones de forma conjunta.
+B) La dependencia directa de un órgano superior jerárquico en todos los casos.
+C) La imposibilidad de ejercer funciones decisorias con efectos jurídicos externos.
+OK: A
+EXP: Los órganos colegiados se caracterizan por la pluralidad de miembros y la formación conjunta de la voluntad.
+
+// [36]
+Q: ¿Cómo se forma la voluntad en un órgano colegiado?
+A) Mediante decisiones individuales de cada miembro sin procedimiento común.
+B) A través de un procedimiento que incluye convocatoria, deliberación y votación.
+C) Por delegación automática en el presidente del órgano.
+OK: B
+EXP: La voluntad colegiada exige un proceso formal con fases de convocatoria, deliberación y adopción de acuerdos.
+
+// [37]
+Q: ¿Por qué tradicionalmente las funciones ejecutivas se atribuían a órganos unipersonales?
+A) Porque los órganos colegiados carecen de legitimidad democrática suficiente.
+B) Porque los órganos colegiados no pueden adoptar decisiones vinculantes.
+C) Porque el procedimiento colegiado es más complejo y menos ágil.
+OK: C
+EXP: La complejidad del proceso colegiado explica la preferencia histórica por órganos unipersonales en funciones ejecutivas.
+
+// [38]
+Q: ¿Qué explica la expansión de los órganos colegiados en la organización administrativa?
+A) La necesidad de reducir costes administrativos mediante estructuras más simples.
+B) La especialización técnica y la búsqueda de independencia en determinadas funciones.
+C) La obligación constitucional de sustituir los órganos unipersonales.
+OK: B
+EXP: La colegialidad se extendió por la especialización técnica y la necesidad de independencia.
+
+// [39]
+Q: ¿Qué cambio relevante se produce tras la Constitución de 1978 respecto a los órganos colegiados?
+A) Su desaparición en favor de órganos unipersonales más eficaces.
+B) Su limitación exclusiva a funciones consultivas sin capacidad decisoria.
+C) La ampliación de sus funciones a ámbitos decisorios, consultivos y de control.
+OK: C
+EXP: Tras 1978, los órganos colegiados asumen funciones diversas más allá de lo consultivo.
+
+// [40]
+Q: ¿Cuál es la diferencia esencial entre órganos colegiados y órganos complejos?
+A) Los colegiados se integran por varios órganos simples bajo un único titular.
+B) Los complejos carecen de estructura organizativa definida.
+C) Los colegiados implican pluralidad de miembros que deciden conjuntamente, no agregación de órganos.
+OK: C
+EXP: El órgano colegiado se define por la pluralidad de miembros, no por la suma de órganos.
+
+// [41]
+Q: ¿Qué papel atribuye la LRJSP a los órganos colegiados en la actualidad?
+A) Permitir su adaptación funcional dentro de los supuestos previstos por la ley.
+B) Sustituir su funcionamiento por decisiones automatizadas.
+C) Limitar su actuación al ámbito consultivo exclusivamente.
+OK: A
+EXP: La LRJSP reconoce su diversidad funcional y permite adaptar su funcionamiento.
+
+#ID = 4.2
+
+// [42]
+Q: ¿Qué alcance tiene la regulación de la LRJSP sobre órganos colegiados?
+A) Regula exhaustivamente todos los aspectos sin margen autonómico.
+B) Establece un marco básico respetando competencias autonómicas.
+C) Se limita exclusivamente a la Administración del Estado.
+OK: B
+EXP: La LRJSP fija bases sin agotar la regulación para respetar competencias autonómicas.
+
+// [43]
+Q: ¿En qué caso se exige la publicación de normas de órganos colegiados?
+A) Cuando sus decisiones tienen efectos frente a terceros.
+B) Siempre que se constituya un órgano colegiado.
+C) Solo cuando actúan en el ámbito interno de la Administración.
+OK: A
+EXP: La publicación garantiza competencia y seguridad jurídica cuando afectan a terceros.
+
+// [44]
+Q: ¿Qué función cumple el secretario en un órgano colegiado?
+A) Representar políticamente al órgano frente a terceros.
+B) Certificar acuerdos y documentar las sesiones mediante actas.
+C) Sustituir al presidente en todas las decisiones del órgano.
+OK: B
+EXP: El secretario garantiza la fe pública interna del órgano mediante actas y certificaciones.
+
+// [45]
+Q: ¿Qué requisito general se exige para la válida constitución del órgano colegiado en sesión?
+A) La asistencia de todos sus miembros titulares.
+B) La presencia de un número mínimo equivalente a la mitad de sus miembros.
+C) La aprobación previa del orden del día por el presidente únicamente.
+OK: B
+EXP: El quorum mínimo exige la asistencia de la mitad de los miembros.
+
+// [46]
+Q: ¿Cómo se adoptan, con carácter general, los acuerdos en los órganos colegiados?
+A) Por unanimidad de todos los miembros presentes.
+B) Por decisión exclusiva del presidente con carácter vinculante.
+C) Por mayoría de los miembros asistentes.
+OK: C
+EXP: La regla general es la adopción de acuerdos por mayoría.
+
+// [47]
+Q: ¿Qué consecuencia tiene votar en contra o abstenerse en un órgano colegiado?
+A) Genera responsabilidad solidaria por el acuerdo adoptado.
+B) Exime de responsabilidad respecto del acuerdo adoptado.
+C) Obliga a impugnar el acuerdo de forma inmediata.
+OK: B
+EXP: Quienes votan en contra o se abstienen quedan exentos de responsabilidad.
+
+// [48]
+Q: ¿Cuál es la regla general sobre el uso de medios telemáticos en órganos colegiados locales?
+A) Se permite sin limitación como forma ordinaria de funcionamiento.
+B) Está prohibido en cualquier circunstancia.
+C) Se admite de forma excepcional, manteniéndose la presencialidad como regla.
+OK: C
+EXP: En el ámbito local, lo telemático es excepcional y la regla general es la presencialidad.
+
+#ID = 4.3
+
+// [49]
+Q: ¿Qué criterio determina la forma de creación de los órganos colegiados en la Administración del Estado?
+A) Siempre mediante ley formal con independencia de sus funciones.
+B) Exclusivamente mediante decisiones internas sin soporte normativo.
+C) Mediante norma, convenio o acuerdo, exigiéndose norma formal en casos relevantes.
+OK: C
+EXP: La forma de creación depende de la relevancia de sus funciones, siendo más exigente en funciones decisorias.
+
+// [50]
+Q: ¿Qué función específica caracteriza al presidente de un órgano colegiado?
+A) Elaborar las actas y certificar los acuerdos adoptados.
+B) Dirigir el funcionamiento del órgano y resolver empates mediante voto de calidad.
+C) Actuar exclusivamente como representante simbólico sin funciones decisorias.
+OK: B
+EXP: El presidente dirige y tiene voto de calidad para resolver empates.
+
+// [51]
+Q: ¿Cuál es el papel del secretario cuando no es miembro del órgano colegiado?
+A) Participar con voz y voto en todas las decisiones.
+B) Sustituir automáticamente al presidente en caso de ausencia.
+C) Actuar con voz pero sin voto, desempeñando funciones de apoyo y documentación.
+OK: C
+EXP: El secretario solo tiene voto si es miembro; en otro caso, actúa con voz sin voto.
+
+// [52]
+Q: ¿Qué derecho garantiza la participación efectiva de los miembros en órganos colegiados?
+A) El acceso previo a la información necesaria para deliberar.
+B) La posibilidad de delegar su voto en cualquier persona externa.
+C) La obligación de seguir siempre el criterio del presidente.
+OK: A
+EXP: El acceso a la información es clave para una participación efectiva.
+
+// [53]
+Q: ¿Qué permite a los miembros reflejar su posición en el órgano colegiado?
+A) La emisión de votos secretos sin constancia documental.
+B) La inclusión en acta de sus intervenciones o del sentido de su voto.
+C) La impugnación automática de cualquier acuerdo adoptado.
+OK: B
+EXP: Pueden dejar constancia en acta de su intervención o motivación del voto.
+
+#ID = 4.4
+
+// [54]
+Q: ¿Cómo se caracteriza el desarrollo autonómico de la normativa sobre órganos colegiados?
+A) Por una ruptura completa con el modelo estatal básico.
+B) Por una aplicación uniforme sin ninguna variación.
+C) Por mantener una estructura similar con diferencias puntuales.
+OK: C
+EXP: Las CCAA siguen el modelo básico con variaciones concretas.
+
+// [55]
+Q: ¿En qué aspectos suelen diferenciarse las regulaciones autonómicas?
+A) En la supresión de la figura del presidente del órgano.
+B) En elementos como plazos de convocatoria o publicidad de deliberaciones.
+C) En la eliminación del quorum como requisito de validez.
+OK: B
+EXP: Las diferencias se centran en aspectos concretos de funcionamiento.
+
+// [56]
+Q: ¿Qué rasgo común destaca en la regulación autonómica de los órganos colegiados?
+A) La desaparición del voto de calidad del presidente.
+B) El predominio del presidente dentro del órgano colegiado.
+C) La sustitución del modelo colegiado por órganos unipersonales.
+OK: B
+EXP: Se mantiene un modelo con fuerte protagonismo del presidente.
+
+// [57]
+Q: ¿Qué papel desempeña la legislación básica estatal en la regulación autonómica?
+A) Actúa como referencia para los aspectos esenciales del régimen jurídico.
+B) Se limita a regular únicamente la Administración del Estado.
+C) Es sustituida completamente por las leyes autonómicas.
+OK: A
+EXP: La normativa autonómica remite en gran medida a la legislación básica estatal.
+    `;
+
+
+    const BANCO_2 = ` 
+#ID = 5.1
+
+// [58]
+Q: ¿Qué función estructural cumple el principio de jerarquía en la organización administrativa?
+A) Permite la distribución escalonada de órganos y asegura la prevalencia del superior.
+B) Garantiza la igualdad absoluta entre todos los órganos administrativos.
+C) Elimina la necesidad de coordinación entre órganos con competencias similares.
+OK: A
+EXP: La jerarquía organiza los órganos en niveles y asegura la dirección del superior.
+
+// [59]
+Q: ¿Qué elementos son necesarios para que exista una relación jerárquica plena?
+A) La coincidencia territorial entre órganos administrativos distintos.
+B) Una distribución escalonada de funciones y un vínculo de subordinación.
+C) La dependencia exclusiva de normas reglamentarias internas.
+OK: B
+EXP: La jerarquía exige estructura escalonada y subordinación entre órganos.
+
+// [60]
+Q: ¿Qué característica define la organización interna de cada Administración bajo el principio de jerarquía?
+A) La autonomía total de cada órgano sin dependencia estructural.
+B) La existencia de órganos independientes sin conexión funcional.
+C) La integración de todos los órganos en una estructura con dependencia jerárquica.
+OK: C
+EXP: Todo órgano debe integrarse en una estructura jerárquica.
+
+// [61]
+Q: ¿Por qué ciertos órganos quedan exceptuados del principio de jerarquía?
+A) Porque carecen de funciones administrativas relevantes.
+B) Porque su función exige independencia o autonomía de criterio.
+C) Porque pertenecen exclusivamente a niveles territoriales inferiores.
+OK: B
+EXP: Algunos órganos requieren independencia funcional y no se someten a jerarquía.
+
+// [62]
+Q: ¿Cómo se manifiesta la jerarquía en las relaciones entre Administraciones territoriales?
+A) Mediante una subordinación directa del nivel inferior al superior.
+B) A través de relaciones de cooperación, coordinación y control de legalidad.
+C) Mediante la imposición unilateral de decisiones por parte del Estado.
+OK: B
+EXP: La autonomía territorial excluye jerarquía, sustituyéndola por cooperación y coordinación.
+
+// [63]
+Q: ¿Qué significa la existencia de una jerarquía atenuada en determinados casos?
+A) La desaparición total de la relación de dependencia entre órganos.
+B) La existencia de una subordinación limitada en entidades dependientes o adscritas.
+C) La imposición de control judicial directo sobre todos los órganos inferiores.
+OK: B
+EXP: En algunos supuestos hay una dependencia más débil o limitada.
+
+// [64]
+Q: ¿Qué implica la posición de superioridad constitucional del Estado frente a otras Administraciones?
+A) La existencia de una relación jerárquica directa sobre comunidades autónomas.
+B) La posibilidad de anular cualquier decisión autonómica sin control.
+C) Una posición superior que no equivale a jerarquía administrativa.
+OK: C
+EXP: El Estado tiene superioridad constitucional, pero no jerarquía sobre otras Administraciones.
+
+// [65]
+Q: ¿Qué papel desempeña la jefatura dentro de las unidades administrativas?
+A) Garantizar su funcionamiento dentro de la estructura jerárquica.
+B) Sustituir la actuación de los órganos superiores.
+C) Actuar de forma independiente sin sujeción a directrices superiores.
+OK: A
+EXP: La jefatura asegura el funcionamiento dentro de la organización jerárquica.
+
+#ID = 5.2
+
+// [66]
+Q: ¿Qué naturaleza tienen las instrucciones y órdenes de servicio dentro de la jerarquía?
+A) Normativa y con efectos obligatorios frente a terceros.
+B) Interna, dirigida a órganos subordinados sin eficacia externa.
+C) Judicial, al ser dictadas por tribunales administrativos.
+OK: B
+EXP: Son directrices internas sin carácter normativo ni efectos externos.
+
+// [67]
+Q: ¿Qué consecuencia tiene el incumplimiento de una instrucción jerárquica interna?
+A) Determina automáticamente la nulidad del acto dictado.
+B) Carece de relevancia jurídica en cualquier caso.
+C) No implica por sí mismo la nulidad del acto administrativo.
+OK: C
+EXP: El incumplimiento no conlleva automáticamente la nulidad del acto.
+
+// [68]
+Q: ¿Cuál de las siguientes facultades forma parte del contenido del principio de jerarquía?
+A) La revisión de actos mediante recurso de alzada.
+B) La aprobación de leyes por el Parlamento.
+C) La creación de normas constitucionales.
+OK: A
+EXP: La jerarquía incluye facultades como revisión mediante recurso de alzada.
+
+// [69]
+Q: ¿Qué mecanismo permite subsanar actos afectados por incompetencia jerárquica?
+A) Su anulación automática por el órgano inferior.
+B) Su convalidación por el órgano superior competente.
+C) Su transformación en actos reglamentarios.
+OK: B
+EXP: El órgano superior puede convalidar actos viciados por incompetencia jerárquica.
+
+// [70]
+Q: ¿Sobre qué se apoya el ejercicio de facultades jerárquicas fuera de procedimientos formales?
+A) En el deber de obediencia de órganos y empleados públicos.
+B) En la intervención directa del poder judicial.
+C) En la autonomía individual de cada funcionario.
+OK: A
+EXP: El deber de obediencia sostiene el funcionamiento jerárquico.
+
+// [71]
+Q: ¿Qué límite presenta el deber de obediencia en el ámbito administrativo?
+A) No existe ningún límite si la orden proviene del superior.
+B) Solo se aplica en procedimientos sancionadores.
+C) No ampara la obediencia a órdenes manifiestamente ilegales.
+OK: C
+EXP: La obediencia no cubre órdenes ilegales evidentes.
+
+// [72]
+Q: ¿Cómo ha influido el reconocimiento de derechos de los funcionarios en el principio de jerarquía?
+A) Ha eliminado completamente su aplicación práctica.
+B) Ha introducido matices que exigen valorar cada caso concreto.
+C) Ha reforzado el carácter absoluto de la obediencia jerárquica.
+OK: B
+EXP: Los derechos de los funcionarios matizan la aplicación del principio.
+
+// [73]
+Q: ¿Qué refleja la obligatoriedad del recurso de alzada dentro del sistema administrativo?
+A) La desaparición del control jerárquico sobre actos administrativos.
+B) La supremacía del poder judicial sobre la Administración.
+C) La persistencia del principio de jerarquía en la revisión de actos.
+OK: C
+EXP: El recurso de alzada evidencia la vigencia del control jerárquico.
+
+#ID = 6.1
+
+// [74]
+Q: ¿Qué se entiende por competencia en el ámbito administrativo?
+A) El conjunto de atribuciones asignadas a Administraciones y órganos para actuar válidamente.
+B) La capacidad política de los órganos superiores para imponer decisiones.
+C) La facultad de dictar normas con rango de ley en cualquier materia.
+OK: A
+EXP: La competencia define las atribuciones que permiten actuar jurídicamente a cada órgano.
+
+// [75]
+Q: ¿Cómo se articula la distribución de la competencia en el sistema administrativo?
+A) Exclusivamente mediante decisiones internas de cada órgano.
+B) Desde el marco constitucional hasta su concreción legal y reglamentaria interna.
+C) Solo a través de acuerdos entre Administraciones territoriales.
+OK: B
+EXP: La competencia se distribuye desde la Constitución y se concreta en normas y organización interna.
+
+// [76]
+Q: ¿Qué implica el carácter irrenunciable de la competencia?
+A) Que puede delegarse libremente sin límites legales.
+B) Que solo puede ejercerse por órganos superiores.
+C) Que debe ejercerse por el órgano al que ha sido atribuida.
+OK: C
+EXP: La competencia corresponde al órgano titular y no puede abandonarse.
+
+// [77]
+Q: ¿Qué consecuencia tiene la infracción de las normas de competencia?
+A) La nulidad automática de todos los actos sin excepción.
+B) La validez del acto si no se impugna expresamente.
+C) La invalidez del acto o disposición, según el tipo de incompetencia.
+OK: C
+EXP: La infracción competencial vicia los actos con distintos efectos según el caso.
+
+// [78]
+Q: ¿Qué dimensiones permiten analizar la competencia administrativa?
+A) Territorial, económica y política.
+B) Jerárquica, material y territorial.
+C) Reglamentaria, legislativa y ejecutiva.
+OK: B
+EXP: La competencia se analiza desde estas tres dimensiones fundamentales.
+
+// [79]
+Q: ¿Cuándo un acto administrativo incurre en nulidad de pleno derecho por falta de competencia?
+A) Cuando la incompetencia es jerárquica en cualquier caso.
+B) Cuando falta la competencia material o territorial de forma manifiesta.
+C) Cuando el órgano actúa sin motivación suficiente.
+OK: B
+EXP: La nulidad se produce si la incompetencia material o territorial es evidente.
+
+// [80]
+Q: ¿Qué ocurre cuando la incompetencia no es manifiesta o es jerárquica?
+A) El acto es inexistente y no puede producir efectos.
+B) El acto es anulable y puede ser convalidado por el órgano superior.
+C) El acto se convierte automáticamente en válido.
+OK: B
+EXP: En estos casos el acto es anulable y susceptible de convalidación.
+
+// [81]
+Q: ¿Qué requisito es necesario para la validez del acto administrativo en relación con la competencia?
+A) Que exista al menos competencia material.
+B) Que concurra únicamente la competencia territorial.
+C) Que concurran conjuntamente competencia material, jerárquica y territorial.
+OK: C
+EXP: La validez exige la concurrencia de todas las dimensiones competenciales.
+
+#ID = 6.2
+
+// [82]
+Q: ¿Qué característica común tienen las figuras como delegación o suplencia?
+A) Modifican la titularidad de la competencia de forma permanente.
+B) Permiten el ejercicio por otro órgano sin alterar la titularidad.
+C) Eliminan la necesidad de control sobre el ejercicio de la competencia.
+OK: B
+EXP: Estas figuras permiten ejercer la competencia sin cambiar su titularidad.
+
+// [83]
+Q: ¿Cómo se consideran los actos dictados mediante estas técnicas?
+A) Como actos del órgano que ejecuta materialmente la competencia.
+B) Como actos del órgano titular de la competencia.
+C) Como actos carentes de validez jurídica.
+OK: B
+EXP: Los actos se entienden dictados por el órgano competente titular.
+
+// [84]
+Q: ¿Qué condición general debe cumplirse en estas figuras para su validez?
+A) Que se elimine cualquier control jerárquico.
+B) Que se respete el régimen de recursos y los requisitos legales.
+C) Que se publiquen siempre en el BOE.
+OK: B
+EXP: Deben respetarse límites legales y el régimen de recursos correspondiente.
+
+#ID = 6.2.1
+
+// [85]
+Q: ¿Qué permite la delegación de competencias en el ámbito administrativo?
+A) Transferir definitivamente la titularidad de la competencia.
+B) Ejercer competencias ajenas sin necesidad de relación jerárquica directa.
+C) Sustituir completamente al órgano delegante.
+OK: B
+EXP: Permite el ejercicio por otro órgano sin necesidad de jerarquía directa.
+
+// [86]
+Q: ¿Qué requisito formal es necesario para la eficacia de la delegación?
+A) Su aprobación por el Parlamento.
+B) Su inscripción en el registro administrativo.
+C) Su publicación, así como la de su revocación.
+OK: C
+EXP: La delegación exige publicación para producir efectos jurídicos.
+
+// [87]
+Q: ¿Qué efecto produce la delegación sobre el órgano delegante?
+A) Pierde definitivamente la competencia.
+B) Mantiene la titularidad pero no puede ejercerla mientras esté vigente.
+C) Puede ejercerla simultáneamente con el delegado.
+OK: B
+EXP: El delegante conserva la titularidad pero no ejerce la competencia delegada.
+
+// [88]
+Q: ¿Cuál es una limitación general de la delegación de competencias?
+A) No puede aplicarse a competencias de naturaleza política o reglamentaria.
+B) Solo puede realizarse entre órganos con relación jerárquica directa.
+C) Debe aplicarse obligatoriamente en todos los procedimientos.
+OK: A
+EXP: Existen materias no delegables como las de naturaleza política o reglamentaria.
+
+// [89]
+Q: ¿Cómo se entienden los actos dictados por delegación?
+A) Como actos del órgano delegado con plena autonomía.
+B) Como actos del órgano delegante.
+C) Como actos del órgano superior jerárquico.
+OK: B
+EXP: Se consideran dictados por el órgano delegante.
+
+// [90]
+Q: ¿Qué especialidad presenta la delegación en órganos colegiados?
+A) No puede realizarse en ningún caso.
+B) Requiere unanimidad de todos sus miembros.
+C) Debe adoptarse con la misma mayoría exigida para el asunto delegado.
+OK: C
+EXP: La delegación sigue el mismo régimen de mayorías que el asunto.
+
+#ID = 6.2.2
+
+// [91]
+Q: ¿Qué diferencia esencial existe entre delegación de competencias y delegación de firma?
+A) La delegación de firma implica transferencia de titularidad.
+B) La delegación de firma afecta solo a la suscripción formal del acto.
+C) Ambas implican el mismo grado de transferencia funcional.
+OK: B
+EXP: La delegación de firma solo afecta a la firma, no al contenido decisorio.
+
+// [92]
+Q: ¿Qué finalidad tiene la delegación de firma?
+A) Garantizar la independencia del órgano delegado.
+B) Sustituir la voluntad del órgano competente.
+C) Agilizar la gestión en procedimientos repetitivos o masivos.
+OK: C
+EXP: Busca facilitar la tramitación administrativa en procesos reiterados.
+
+// [93]
+Q: ¿Qué requisito formal debe cumplirse en la delegación de firma?
+A) Publicación obligatoria en todos los casos.
+B) Referencia expresa al órgano delegante en la firma.
+C) Autorización judicial previa.
+OK: B
+EXP: Debe constar en la firma la referencia al órgano delegante.
+
+// [94]
+Q: ¿Cuándo no es posible la delegación de firma?
+A) Cuando se trate de actos administrativos simples.
+B) Cuando la competencia no es delegable, salvo previsión legal.
+C) Cuando el órgano sea unipersonal.
+OK: B
+EXP: No puede aplicarse donde la competencia no sea delegable.
+
+#ID = 6.2.3
+
+// [95]
+Q: ¿Qué caracteriza a la suplencia en la organización administrativa?
+A) La sustitución definitiva del órgano competente.
+B) La transferencia de la competencia a otro órgano.
+C) La sustitución temporal del titular del órgano.
+OK: C
+EXP: La suplencia implica sustitución temporal sin alterar la competencia.
+
+// [96]
+Q: ¿Qué efecto tiene la suplencia sobre la competencia?
+A) La modifica y la transfiere al suplente.
+B) No altera la competencia, solo la persona que la ejerce.
+C) La suspende durante el periodo de sustitución.
+OK: B
+EXP: La competencia sigue siendo del mismo órgano.
+
+// [97]
+Q: ¿Por qué no es necesaria la publicación de la suplencia?
+A) Porque carece de relevancia jurídica.
+B) Porque responde a exigencias de eficacia y continuidad.
+C) Porque se regula exclusivamente por normas internas.
+OK: B
+EXP: Se busca evitar paralizaciones en la actividad administrativa.
+
+// [98]
+Q: ¿Qué requisito formal debe cumplirse en la actuación del suplente?
+A) Indicar en la firma quién actúa y a quién sustituye.
+B) Publicar la sustitución en el boletín oficial.
+C) Solicitar autorización previa del superior jerárquico.
+OK: A
+EXP: Debe constar quién actúa como suplente y a quién sustituye.
+
+#ID = 6.2.4
+
+// [99]
+Q: ¿Cuál es la finalidad de la encomienda de gestión?
+A) Transferir la titularidad de la competencia a otra Administración.
+B) Permitir la realización de actividades materiales o técnicas por falta de medios.
+C) Sustituir completamente la actuación del órgano competente.
+OK: B
+EXP: Se utiliza para realizar tareas técnicas cuando faltan medios adecuados.
+
+// [100]
+Q: ¿Qué límite esencial presenta la encomienda de gestión?
+A) No puede aplicarse entre Administraciones distintas.
+B) No puede implicar la transferencia de actos jurídicos decisorios.
+C) Debe ser siempre indefinida en el tiempo.
+OK: B
+EXP: Los actos jurídicos deben seguir siendo dictados por el órgano competente.
+
+// [101]
+Q: ¿Qué característica define la formalización de la encomienda de gestión?
+A) Se realiza verbalmente sin necesidad de documentación.
+B) Requiere siempre aprobación judicial previa.
+C) Exige un instrumento formal y su publicación.
+OK: C
+EXP: La encomienda necesita formalización y publicidad.
+
+// [102]
+Q: ¿Qué limitación actual afecta al ámbito de la encomienda de gestión?
+A) Puede dirigirse libremente a entidades privadas.
+B) No puede utilizarse cuando encaja en contratos o encargos a medios propios.
+C) Solo se aplica en el ámbito local.
+OK: B
+EXP: Su uso está restringido frente a otras figuras jurídicas.
+
+#ID = 6.3
+
+// [103]
+Q: ¿Qué caracteriza a la avocación dentro del sistema competencial?
+A) La transferencia permanente de competencias a un órgano superior.
+B) La asunción puntual de un asunto concreto por el órgano superior.
+C) La eliminación del principio de jerarquía.
+OK: B
+EXP: La avocación implica asumir un caso concreto sin alterar el sistema general.
+
+// [104]
+Q: ¿Qué requisito formal exige el acuerdo de avocación?
+A) Publicación en el boletín oficial correspondiente.
+B) Aprobación por mayoría absoluta del órgano superior.
+C) Motivación basada en razones justificadas.
+OK: C
+EXP: La avocación debe estar motivada por razones técnicas, jurídicas u otras.
+
+// [105]
+Q: ¿Cómo se impugna la avocación?
+A) Mediante recurso independiente contra el acuerdo.
+B) Solo ante el Tribunal Constitucional.
+C) Junto con el recurso contra el acto final del procedimiento.
+OK: C
+EXP: No se impugna separadamente, sino con el acto final.
+
+// [106]
+Q: ¿Qué relación jerárquica se exige para la avocación?
+A) Una jerarquía directa entre los órganos implicados.
+B) Ninguna relación jerárquica en ningún caso.
+C) Una dependencia jerárquica dentro de la misma organización.
+OK: C
+EXP: Basta una dependencia jerárquica, no necesariamente directa.
+
+#ID = 7
+
+// [107]
+Q: ¿Qué diferencia esencial existe entre conflicto de competencias y conflicto de atribuciones?
+A) El primero se refiere a órganos de una misma Administración y el segundo a órganos judiciales.
+B) El primero se limita a cuestiones internas sin efectos jurídicos.
+C) El primero se refiere a relaciones con órganos judiciales y el segundo a conflictos internos administrativos.
+OK: C
+EXP: Tradicionalmente, los conflictos de competencias se reservan para relaciones con el poder judicial y los de atribuciones para órganos administrativos.
+
+// [108]
+Q: ¿Cuándo puede plantearse un conflicto de atribuciones según la LRJSP?
+A) Cuando exista relación jerárquica directa entre los órganos.
+B) Cuando el procedimiento ya haya finalizado.
+C) Cuando surja una cuestión competencial entre órganos sin relación jerárquica y el procedimiento esté en curso.
+OK: C
+EXP: Se exige ausencia de jerarquía y que el procedimiento no haya concluido.
+
+// [109]
+Q: ¿Cómo se resuelve la cuestión competencial si el procedimiento ya ha finalizado?
+A) Mediante la intervención del superior jerárquico.
+B) A través del recurso contra el acto dictado por el órgano presuntamente incompetente.
+C) Mediante la apertura de un nuevo procedimiento administrativo.
+OK: B
+EXP: Si el procedimiento ha concluido, se recurre el acto en lugar de plantear conflicto.
+
+// [110]
+Q: ¿Quién puede plantear un conflicto de atribuciones?
+A) Únicamente los interesados afectados por el procedimiento.
+B) Solo el órgano superior jerárquico.
+C) Tanto el órgano que se considere incompetente como los interesados.
+OK: C
+EXP: Puede iniciarse de oficio o a instancia de parte.
+
+// [111]
+Q: ¿Qué caracteriza a los conflictos positivos de atribuciones?
+A) Que ambos órganos rechazan su competencia.
+B) Que un órgano se considera competente y requiere a otro que se inhiba.
+C) Que se produce una ausencia total de órganos competentes.
+OK: B
+EXP: En los conflictos positivos, un órgano afirma su competencia frente a otro.
+
+// [112]
+Q: ¿Qué define a los conflictos negativos de atribuciones?
+A) Que un órgano superior asume directamente la competencia.
+B) Que ambos órganos aceptan su competencia simultáneamente.
+C) Que ningún órgano se considera competente y ambos rechazan la atribución.
+OK: C
+EXP: En los negativos, ambos órganos declinan la competencia.
+
+// [113]
+Q: ¿Quién resuelve el conflicto cuando los órganos implicados no aceptan la solución propuesta?
+A) El órgano judicial competente.
+B) El superior jerárquico común.
+C) El órgano inicialmente actuante.
+OK: B
+EXP: El superior jerárquico común decide el conflicto.
+
+// [114]
+Q: ¿Qué característica presenta la resolución de los conflictos de atribuciones en la Administración del Estado?
+A) Es recurrible ante la jurisdicción contenciosa.
+B) Debe dictarse en un plazo breve y no admite recurso.
+C) Solo puede dictarse tras informe del Consejo de Estado.
+OK: B
+EXP: La resolución se dicta en diez días y no admite recurso.
+
+// [115]
+Q: ¿Cómo se resuelven los conflictos de atribuciones entre ministerios?
+A) Por el Tribunal Constitucional.
+B) Por el Consejo de Ministros.
+C) Por el presidente del Gobierno.
+OK: C
+EXP: El presidente del Gobierno resuelve estos conflictos.
+
+// [116]
+Q: ¿Qué órgano resuelve con carácter general los conflictos de atribuciones en el ámbito local?
+A) El alcalde o presidente de la entidad local.
+B) El Tribunal Supremo.
+C) El delegado del Gobierno.
+OK: A
+EXP: En el ámbito local, la regla general es la resolución por el alcalde o presidente.
+
+// [117]
+Q: ¿En qué caso corresponde al pleno resolver un conflicto de atribuciones en el ámbito local?
+A) Cuando intervienen órganos unipersonales.
+B) Cuando afecta a órganos colegiados o a sus miembros.
+C) Cuando el conflicto es de naturaleza económica.
+OK: B
+EXP: El pleno resuelve cuando el conflicto afecta a órganos colegiados.
+
+// [118]
+Q: ¿Cómo se desarrolla el régimen de conflictos de atribuciones en las comunidades autónomas?
+A) Mediante aplicación directa de la normativa estatal sin adaptación.
+B) A través de sus propias leyes dentro del marco básico estatal.
+C) Mediante decisiones discrecionales del Gobierno autonómico.
+OK: B
+EXP: Las comunidades autónomas desarrollan este régimen respetando las bases estatales.
+
+    `;
+
+
+    const BANCO_3 = ` 
+#ID = 8
+
+// [119]
+Q: ¿Cuál es la finalidad principal del principio de desconcentración en la organización administrativa?
+A) Distribuir competencias dentro de la misma Administración para evitar su acumulación en órganos superiores.
+B) Transferir competencias entre distintas Administraciones territoriales.
+C) Sustituir el principio de jerarquía por relaciones de cooperación.
+OK: A
+EXP: La desconcentración busca repartir funciones dentro de la misma Administración para mejorar la eficacia.
+
+// [120]
+Q: ¿En qué se diferencia la desconcentración de la delegación de competencias?
+A) En que la delegación supone una atribución definitiva de la competencia.
+B) En que la desconcentración implica una atribución estable de la competencia mediante norma.
+C) En que la delegación elimina la relación jerárquica entre órganos.
+OK: B
+EXP: La desconcentración implica una modificación normativa estable, a diferencia de la delegación que es temporal.
+
+// [121]
+Q: ¿Cómo ejerce la competencia el órgano inferior en un supuesto de desconcentración?
+A) En nombre del órgano superior y de forma provisional.
+B) Como propia, en su nombre y con carácter definitivo.
+C) Solo cuando recibe autorización expresa en cada caso.
+OK: B
+EXP: El órgano inferior actúa como titular de la competencia de forma estable.
+
+// [122]
+Q: ¿Qué efecto tiene la desconcentración sobre la relación jerárquica?
+A) La elimina completamente entre los órganos implicados.
+B) La transforma en una relación de coordinación sin control.
+C) La mantiene, permitiendo al superior dirigir y controlar.
+OK: C
+EXP: La jerarquía se mantiene, ya que el superior conserva funciones de control.
+
+// [123]
+Q: ¿Qué tipo de desplazamiento puede producir la desconcentración?
+A) Únicamente territorial entre distintas Administraciones.
+B) Funcional o territorial, pero siempre dentro de la misma Administración.
+C) Exclusivamente político entre órganos superiores.
+OK: B
+EXP: Puede ser funcional o territorial, pero sin salir de la misma Administración.
+
+// [124]
+Q: ¿Qué papel desempeña el recurso de alzada en el contexto de la desconcentración?
+A) Permite al órgano inferior revisar decisiones del superior.
+B) Elimina la posibilidad de control jerárquico.
+C) Refuerza el control del superior sobre los actos del órgano inferior.
+OK: C
+EXP: El superior mantiene control a través del recurso de alzada.
+
+// [125]
+Q: ¿Qué ocurre cuando una norma atribuye una competencia a una Administración sin especificar el órgano?
+A) Se asigna automáticamente al órgano superior.
+B) Se entiende atribuida al órgano inferior competente por materia y territorio.
+C) Queda sin aplicación hasta desarrollo reglamentario.
+OK: B
+EXP: La regla general es atribuirla al órgano inferior competente.
+
+// [126]
+Q: ¿Qué mecanismo permite ajustar la distribución de competencias en la desconcentración?
+A) La transferencia definitiva prevista por la norma a órganos inferiores.
+B) La intervención del poder judicial en la organización administrativa.
+C) La supresión de órganos administrativos superiores.
+OK: A
+EXP: Las normas pueden prever transferencias definitivas a órganos inferiores.
+
+// [127]
+Q: ¿Qué finalidad práctica tiene la desconcentración en la gestión administrativa?
+A) Reducir la autonomía de los órganos inferiores.
+B) Evitar retrasos y acumulación de asuntos en órganos superiores.
+C) Eliminar la necesidad de planificación administrativa.
+OK: B
+EXP: Busca agilizar la gestión y mejorar la eficacia.
+
+// [128]
+Q: ¿Qué característica tienen habitualmente los órganos que reciben competencias por desconcentración?
+A) Están ocupados por cargos políticos exclusivamente.
+B) Carecen de cualquier tipo de control jerárquico.
+C) Suelen estar ocupados por funcionarios con competencias decisorias.
+OK: C
+EXP: La desconcentración suele atribuir competencias a órganos funcionariales.
+
+// [129]
+Q: ¿Qué consecuencia ha tenido el uso de sistemas de provisión basados en la confianza en la desconcentración?
+A) La eliminación de la profesionalización administrativa.
+B) La proyección de criterios políticos en niveles funcionariales superiores.
+C) La desaparición del principio de mérito y capacidad.
+OK: B
+EXP: Ha introducido cierta influencia política en niveles funcionariales superiores.
+
+#ID = 9.1
+
+// [130]
+Q: ¿Qué elemento es esencial para que exista verdadera descentralización política o territorial?
+A) La simple transferencia formal de competencias entre Administraciones.
+B) La capacidad de la entidad receptora para ejercer competencias con autonomía real.
+C) La existencia de una jerarquía entre las distintas Administraciones territoriales.
+OK: B
+EXP: No basta transferir competencias; es necesario que se ejerzan sin control permanente.
+
+// [131]
+Q: ¿Qué caracteriza al modelo descentralizado frente al centralizado?
+A) La coexistencia de entidades con personalidad jurídica propia y autonomía.
+B) La existencia de un único centro de decisión con órganos subordinados.
+C) La ausencia de cualquier tipo de control entre Administraciones.
+OK: A
+EXP: La descentralización implica múltiples entidades con autonomía propia.
+
+// [132]
+Q: ¿Qué configuración territorial establece la Constitución de 1978 en España?
+A) Un sistema centralizado basado en una única Administración.
+B) Un modelo basado exclusivamente en comunidades autónomas.
+C) Una organización en municipios, provincias y comunidades autónomas con autonomía.
+OK: C
+EXP: La Constitución configura un sistema territorial descentralizado en varios niveles.
+
+// [133]
+Q: ¿Qué diferencia existe entre la autonomía de las entidades locales y la de las comunidades autónomas?
+A) Las entidades locales carecen de potestad normativa.
+B) Las entidades locales no pueden ejercer competencias propias.
+C) Las entidades locales no tienen potestad legislativa, solo reglamentaria.
+OK: C
+EXP: Las entidades locales no tienen potestad legislativa, a diferencia de las comunidades autónomas.
+
+// [134]
+Q: ¿Qué función cumple la Carta Europea de la Autonomía Local en el sistema descentralizado?
+A) Sustituir la legislación estatal en materia local.
+B) Reforzar la autonomía local vinculándola con valores democráticos y participación.
+C) Limitar la actuación de las entidades locales a funciones administrativas básicas.
+OK: B
+EXP: Refuerza la autonomía local y su conexión con la democracia y la participación.
+
+// [135]
+Q: ¿Qué ventaja principal se atribuye al modelo descentralizado?
+A) La reducción total del gasto público.
+B) La uniformidad absoluta en la gestión administrativa.
+C) La proximidad al ciudadano y la adaptación a necesidades territoriales.
+OK: C
+EXP: La descentralización mejora la cercanía y la adecuación a necesidades locales.
+
+// [136]
+Q: ¿Qué inconveniente se asocia a la descentralización territorial?
+A) La desaparición de la autonomía política.
+B) El aumento de costes y posibles duplicidades organizativas.
+C) La imposibilidad de coordinar políticas públicas.
+OK: B
+EXP: Puede generar duplicidades y mayores costes.
+
+// [137]
+Q: ¿Cómo se valora globalmente el modelo descentralizado según el texto?
+A) Como un sistema ineficaz que debe ser sustituido.
+B) Como un modelo cuyos beneficios compensan sus costes.
+C) Como una solución provisional sin relevancia práctica.
+OK: B
+EXP: Se considera que sus ventajas superan los inconvenientes.
+
+// [138]
+Q: ¿Qué tensión estructural puede generar la descentralización territorial?
+A) Entre centralización y descentralización jurídica.
+B) Entre autonomía individual y control judicial.
+C) Entre diversidad territorial y tendencias uniformadoras.
+OK: C
+EXP: El modelo puede generar tensiones entre diversidad y uniformidad.
+
+// [139]
+Q: ¿Qué condición distingue la descentralización política de otras técnicas organizativas?
+A) La existencia de órganos colegiados.
+B) La atribución de competencias sin personalidad jurídica propia.
+C) La existencia de entidades con personalidad jurídica propia y autonomía.
+OK: C
+EXP: La descentralización política implica personalidad jurídica y autonomía.
+
+#ID = 9.2
+
+// [140]
+Q: ¿Qué caracteriza a la descentralización funcional frente a la desconcentración?
+A) Se produce entre órganos de la misma persona jurídica.
+B) Supone la creación de entidades con personalidad jurídica distinta.
+C) Elimina cualquier control por parte de la Administración matriz.
+OK: B
+EXP: La descentralización funcional implica entidades distintas, no órganos internos.
+
+// [141]
+Q: ¿Qué rasgo define el ejercicio de competencias en la descentralización funcional?
+A) Se ejerce con plena autonomía sin control alguno.
+B) Se ejerce con autonomía relativa bajo control de la entidad matriz.
+C) Se ejerce exclusivamente por delegación temporal.
+OK: B
+EXP: Existe autonomía, pero con control de la Administración de la que dependen.
+
+// [142]
+Q: ¿Qué justifica el uso de la descentralización funcional?
+A) La necesidad de reducir el número de órganos administrativos.
+B) La búsqueda de especialización, recursos propios y mayor agilidad.
+C) La obligación constitucional de crear nuevas entidades públicas.
+OK: B
+EXP: Se busca eficacia mediante especialización y flexibilidad.
+
+// [143]
+Q: ¿Qué implica que la autonomía de estos entes sea relativa?
+A) Que actúan sin ningún control externo.
+B) Que dependen completamente de decisiones judiciales.
+C) Que la Administración matriz mantiene facultades de control y designación.
+OK: C
+EXP: La autonomía no es plena, ya que existe control por la entidad matriz.
+
+// [144]
+Q: ¿De qué depende el grado de autonomía en la descentralización funcional?
+A) De la voluntad discrecional del órgano superior.
+B) De la naturaleza jurídica de la entidad creada.
+C) Del número de competencias que se transfieran.
+OK: B
+EXP: El grado de autonomía varía según el tipo de entidad.
+
+// [145]
+Q: ¿Qué tipo de organismos presentan mayor independencia dentro de este modelo?
+A) Los organismos sometidos a control jerárquico estricto.
+B) Las entidades de derecho privado del sector público.
+C) Las autoridades administrativas independientes.
+OK: C
+EXP: Estas entidades requieren especial autonomía por la naturaleza de sus funciones.
+
+// [146]
+Q: ¿Qué finalidad tienen las cautelas introducidas en la creación de organismos descentralizados?
+A) Evitar la existencia de cualquier tipo de control administrativo.
+B) Garantizar necesidad, eficiencia y evitar duplicidades organizativas.
+C) Reducir la participación de los ciudadanos en la gestión pública.
+OK: B
+EXP: Se busca asegurar eficiencia y evitar duplicaciones innecesarias.
+
+// [147]
+Q: ¿Qué requisito se exige para justificar la creación de organismos en descentralización funcional?
+A) La existencia de una mayoría parlamentaria suficiente.
+B) La evaluación de su eficiencia y definición de objetivos.
+C) La aprobación por parte del poder judicial.
+OK: B
+EXP: Se exige justificar su necesidad y evaluar su funcionamiento.
+
+// [148]
+Q: ¿Qué relación mantiene la Administración matriz con los entes descentralizados funcionalmente?
+A) Ninguna, ya que actúan con independencia absoluta.
+B) Una relación jerárquica directa sin autonomía.
+C) Una relación de control y supervisión sin eliminar su autonomía.
+OK: C
+EXP: Existe control, pero no se elimina la autonomía del ente.
+
+// [149]
+Q: ¿Qué diferencia esencial separa la descentralización funcional de la política?
+A) La primera no implica personalidad jurídica distinta.
+B) La primera se produce dentro de la misma Administración.
+C) La primera elimina toda forma de control.
+OK: B
+EXP: La descentralización funcional opera dentro de una misma Administración, a diferencia de la territorial.
+   `;
+
+
+    const BANCO_4 = ` 
+#ID = 10
+
+// [150]
+Q: ¿Cuál es la finalidad principal del principio de coordinación intraadministrativa?
+A) Garantizar la armonización de la actuación de los órganos dentro de una misma Administración.
+B) Sustituir el principio de jerarquía por relaciones horizontales entre órganos.
+C) Limitar la actuación de los órganos con competencias transversales.
+OK: A
+EXP: La coordinación busca armonizar actuaciones y evitar incoherencias dentro de la misma Administración.
+
+// [151]
+Q: ¿Por qué adquiere especial relevancia la coordinación intraadministrativa?
+A) Por la existencia de múltiples Administraciones territoriales independientes.
+B) Por la complejidad de funciones y la presencia de competencias que afectan a varios ámbitos.
+C) Por la necesidad de sustituir los procedimientos administrativos ordinarios.
+OK: B
+EXP: La complejidad funcional y las competencias transversales exigen coordinación.
+
+// [152]
+Q: ¿Cómo se relaciona la coordinación intraadministrativa con el principio de jerarquía?
+A) Sustituye completamente el poder de dirección jerárquico.
+B) Se integra en el poder de dirección propio de la jerarquía.
+C) Se opone a cualquier forma de jerarquía administrativa.
+OK: B
+EXP: La coordinación forma parte del poder de dirección jerárquico.
+
+// [153]
+Q: ¿Qué problema pretende evitar el principio de coordinación intraadministrativa?
+A) La falta de autonomía de los órganos administrativos.
+B) La concentración de competencias en órganos superiores.
+C) La existencia de duplicidades y contradicciones en la actuación administrativa.
+OK: C
+EXP: La coordinación busca evitar duplicidades y contradicciones.
+
+// [154]
+Q: ¿Cómo regula la LRJSP la coordinación intraadministrativa?
+A) Mediante una regulación detallada y exhaustiva.
+B) No la regula expresamente, centrándose en la coordinación entre Administraciones.
+C) A través de normas específicas para cada órgano administrativo.
+OK: B
+EXP: La LRJSP no regula expresamente la coordinación interna.
+
+// [155]
+Q: ¿Qué papel desempeñan órganos como el Consejo de Ministros en la coordinación intraadministrativa?
+A) Actúan como instancias que aseguran la coherencia entre distintos departamentos.
+B) Sustituyen a los órganos administrativos en la toma de decisiones.
+C) Se limitan a funciones consultivas sin efectos organizativos.
+OK: A
+EXP: Estos órganos coordinan y garantizan coherencia en la actuación administrativa.
+
+// [156]
+Q: ¿Qué caracteriza a la coordinación orgánica?
+A) Se basa en la utilización de instrumentos informales sin estructura.
+B) Se articula mediante órganos específicos creados para coordinar.
+C) Se limita exclusivamente a reuniones periódicas entre órganos.
+OK: B
+EXP: La coordinación orgánica se realiza a través de órganos creados con esa función.
+
+// [157]
+Q: ¿Qué rasgo define la coordinación funcional?
+A) La creación de nuevos órganos administrativos permanentes.
+B) La ausencia total de planificación en la actuación administrativa.
+C) El uso de instrumentos como reuniones, informes o planificación sin crear nuevas estructuras.
+OK: C
+EXP: La coordinación funcional utiliza instrumentos flexibles sin necesidad de nuevos órganos.
+
+// [158]
+Q: ¿Qué objetivo persigue la coordinación funcional dentro de la Administración?
+A) Reducir la participación de los órganos administrativos.
+B) Sustituir la estructura organizativa existente.
+C) Facilitar la coherencia en la actuación mediante mecanismos flexibles.
+OK: C
+EXP: Busca coherencia sin necesidad de modificar la estructura organizativa.
+
+// [159]
+Q: ¿Qué relación existe entre coordinación orgánica y funcional?
+A) Son excluyentes y no pueden coexistir en una misma Administración.
+B) Ambas son formas complementarias de articular la coordinación.
+C) La funcional sustituye completamente a la orgánica.
+OK: B
+EXP: Ambas modalidades coexisten y se complementan en la práctica administrativa.
+
+#ID = 11
+
+// [160]
+Q: ¿Qué principio queda excluido en las relaciones entre el Estado y las comunidades autónomas?
+A) La jerarquía administrativa entre Administraciones territoriales.
+B) La cooperación en el ejercicio de competencias compartidas.
+C) La coordinación en determinadas materias.
+OK: A
+EXP: La jerarquía es incompatible con la autonomía de las Administraciones territoriales.
+
+// [161]
+Q: ¿Sobre qué base se articulan las relaciones entre el Estado y las comunidades autónomas?
+A) Sobre una subordinación jerárquica directa.
+B) Sobre principios como lealtad, cooperación, coordinación y respeto competencial.
+C) Sobre la imposición unilateral de decisiones estatales.
+OK: B
+EXP: El sistema se basa en principios que respetan la autonomía y fomentan la cooperación.
+
+// [162]
+Q: ¿Qué caracteriza al modelo de Estado descentralizado en relación con estas relaciones?
+A) La concentración del poder en el Estado central.
+B) La existencia de controles permanentes entre Administraciones.
+C) La sustitución de la jerarquía por relaciones basadas en principios de colaboración.
+OK: C
+EXP: La descentralización implica relaciones no jerárquicas, basadas en principios cooperativos.
+
+#ID = 11.1
+
+// [163]
+Q: ¿Qué diferencia fundamental existe entre coordinación y colaboración?
+A) La coordinación es un deber implícito sin necesidad de habilitación normativa.
+B) La colaboración requiere un título competencial específico para su ejercicio.
+C) La coordinación exige una competencia concreta que la legitime.
+OK: C
+EXP: La coordinación requiere un título competencial, a diferencia de la colaboración.
+
+// [164]
+Q: ¿Qué consecuencia jurídica tiene la vulneración del principio de colaboración?
+A) Genera automáticamente un conflicto competencial ante el Tribunal Constitucional.
+B) No origina por sí sola un conflicto competencial.
+C) Implica la nulidad de todos los actos administrativos relacionados.
+OK: B
+EXP: La vulneración de colaboración no genera por sí misma conflicto competencial.
+
+// [165]
+Q: ¿Cómo se caracteriza la cooperación entre Administraciones?
+A) Por su carácter obligatorio y vinculante en todo caso.
+B) Por basarse en compromisos voluntarios entre Administraciones.
+C) Por ser una manifestación de la jerarquía estatal.
+OK: B
+EXP: La cooperación se basa en la voluntariedad de las Administraciones.
+
+// [166]
+Q: ¿Qué rasgo distingue a la coordinación frente a la cooperación?
+A) La imposibilidad de producir efectos jurídicos.
+B) Su carácter exclusivamente consultivo.
+C) Su capacidad para generar efectos vinculantes.
+OK: C
+EXP: La coordinación puede imponer efectos vinculantes cuando existe habilitación.
+
+// [167]
+Q: ¿Qué se entiende por cooperación obligatoria en el sistema interadministrativo?
+A) La imposición de decisiones vinculantes sin base legal.
+B) La exigencia de informes preceptivos no vinculantes con base competencial.
+C) La sustitución de la autonomía autonómica por decisiones estatales.
+OK: B
+EXP: Se trata de informes obligatorios pero no vinculantes con base legal.
+
+// [168]
+Q: ¿Qué límite tiene el Estado al invocar la coordinación?
+A) Puede aplicarla libremente en cualquier materia.
+B) Solo puede ejercerla si dispone de competencia específica.
+C) Debe hacerlo siempre mediante acuerdos voluntarios.
+OK: B
+EXP: La coordinación requiere un título competencial que la justifique.
+
+#ID = 11.2
+
+// [169]
+Q: ¿Cómo distingue la LRJSP entre cooperación y colaboración?
+A) La cooperación se basa en deberes generales y la colaboración en acuerdos formales.
+B) La cooperación se articula mediante instrumentos organizativos o funcionales.
+C) La cooperación es siempre obligatoria y la colaboración voluntaria.
+OK: B
+EXP: La cooperación se concreta en técnicas organizativas y acuerdos formales.
+
+// [170]
+Q: ¿Qué caracteriza a la colaboración entre Administraciones?
+A) Su vinculación a deberes generales de conducta.
+B) Su carácter contractual obligatorio.
+C) Su dependencia de autorización judicial previa.
+OK: A
+EXP: La colaboración implica deberes generales como respeto y auxilio.
+
+// [171]
+Q: ¿Qué implica la vertiente negativa del deber de colaboración?
+A) Facilitar información a otras Administraciones.
+B) Abstenerse de interferir en el ejercicio legítimo de competencias ajenas.
+C) Coordinar actuaciones mediante órganos comunes.
+OK: B
+EXP: Supone respetar las competencias de otras Administraciones.
+
+// [172]
+Q: ¿Qué obligación refleja la vertiente positiva de la colaboración?
+A) La abstención de actuar en materias compartidas.
+B) La subordinación jerárquica entre Administraciones.
+C) El suministro de información y el auxilio a otras Administraciones.
+OK: C
+EXP: Implica cooperación activa mediante información y asistencia.
+
+// [173]
+Q: ¿Cómo se identifica la colaboración en el sistema jurídico?
+A) Como una manifestación de la lealtad institucional.
+B) Como una técnica de coordinación obligatoria.
+C) Como un mecanismo de control jerárquico.
+OK: A
+EXP: La colaboración se vincula a la lealtad institucional.
+
+// [174]
+Q: ¿Qué exige la lealtad institucional entre Administraciones?
+A) La imposición de decisiones por la Administración estatal.
+B) El respeto mutuo y la consideración de intereses generales comunes.
+C) La eliminación de cualquier forma de control jurídico.
+OK: B
+EXP: Implica respeto, cooperación y consideración de intereses comunes.
+
+#ID = 11.3
+
+// [175]
+Q: ¿Cómo puede instrumentarse la cooperación interadministrativa?
+A) Exclusivamente mediante convenios formales.
+B) Mediante diversas técnicas como órganos comunes o encomiendas.
+C) Únicamente mediante decisiones judiciales.
+OK: B
+EXP: La cooperación puede adoptar múltiples formas organizativas y funcionales.
+
+// [176]
+Q: ¿Qué caracteriza a los convenios interadministrativos?
+A) Su carácter meramente declarativo sin efectos jurídicos.
+B) Su naturaleza contractual con efectos jurídicos exigibles.
+C) Su imposición unilateral por una Administración.
+OK: B
+EXP: Son acuerdos contractuales con obligaciones exigibles.
+
+// [177]
+Q: ¿Qué diferencia existe entre convenios y protocolos de intenciones?
+A) Los convenios carecen de efectos jurídicos.
+B) Los protocolos tienen carácter vinculante.
+C) Los convenios producen efectos jurídicos y los protocolos no.
+OK: C
+EXP: Los convenios son vinculantes, los protocolos no.
+
+// [178]
+Q: ¿Qué finalidad tiene la regulación de los convenios en la LRJSP?
+A) Eliminar su uso en la práctica administrativa.
+B) Evitar problemas como falta de control o indefinición de obligaciones.
+C) Sustituirlos por normas reglamentarias obligatorias.
+OK: B
+EXP: Se busca mayor control, claridad y eficacia en su uso.
+
+// [179]
+Q: ¿Qué requisito se exige para la validez de los convenios interadministrativos?
+A) La aprobación judicial previa.
+B) El consentimiento de las partes implicadas.
+C) La existencia de jerarquía entre Administraciones.
+OK: B
+EXP: Se perfeccionan por el consentimiento de las partes.
+
+// [180]
+Q: ¿Qué tipo de control se exige sobre los convenios interadministrativos?
+A) Exclusivamente control político.
+B) Control de legalidad sin exigencias económicas.
+C) Control de estabilidad, sostenibilidad y evaluación económica.
+OK: C
+EXP: Se exige control económico y de eficiencia.
+
+// [181]
+Q: ¿Qué contenido mínimo deben incluir los convenios?
+A) Solo la identificación de las partes firmantes.
+B) Sujetos, obligaciones, compromisos económicos y mecanismos de seguimiento.
+C) Únicamente la duración del acuerdo.
+OK: B
+EXP: Deben incluir elementos esenciales que definan su funcionamiento.
+
+#ID = 11.4
+
+// [182]
+Q: ¿Qué caracteriza a los órganos de cooperación interadministrativa?
+A) Su carácter exclusivamente judicial.
+B) La participación de varias Administraciones en órganos comunes.
+C) La subordinación jerárquica de las comunidades autónomas.
+OK: B
+EXP: Son órganos en los que participan varias Administraciones.
+
+// [183]
+Q: ¿Qué distingue a la conferencia de presidentes?
+A) Es un órgano técnico especializado por materias.
+B) Es un órgano bilateral entre Estado y comunidades autónomas.
+C) Es el máximo órgano de cooperación política.
+OK: C
+EXP: Reúne al presidente del Gobierno y a los autonómicos.
+
+// [184]
+Q: ¿Qué función principal tienen las comisiones bilaterales?
+A) Sustituir al Tribunal Constitucional en conflictos competenciales.
+B) Mejorar la coordinación en asuntos concretos y adoptar acuerdos vinculantes.
+C) Aprobar leyes autonómicas de forma conjunta.
+OK: B
+EXP: Sirven para coordinar y resolver discrepancias de forma consensuada.
+
+// [185]
+Q: ¿Qué caracteriza a las conferencias sectoriales?
+A) Su carácter exclusivamente político sin funciones técnicas.
+B) Su estructura unilateral dependiente del Estado.
+C) Su especialización por materias y participación de ministros y consejeros.
+OK: C
+EXP: Son órganos multilaterales especializados por sectores.
+
+// [186]
+Q: ¿Qué tipo de decisiones pueden adoptar estos órganos?
+A) Solo decisiones no vinculantes en todos los casos.
+B) Acuerdos vinculantes en determinados supuestos y recomendaciones.
+C) Únicamente decisiones judiciales.
+OK: B
+EXP: Pueden adoptar acuerdos vinculantes o recomendaciones.
+
+// [187]
+Q: ¿Qué efecto tienen los acuerdos adoptados en materias de coordinación estatal?
+A) Solo obligan a quienes los votan favorablemente.
+B) Carecen de efectos jurídicos.
+C) Vinculan a todas las Administraciones integradas en el órgano.
+OK: C
+EXP: En materias de coordinación, los acuerdos son vinculantes para todas.
+
+// [188]
+Q: ¿Qué efecto tienen las recomendaciones en estos órganos?
+A) Obligan a todas las Administraciones sin excepción.
+B) Solo obligan a quienes no se hayan opuesto a su adopción.
+C) Carecen de cualquier relevancia jurídica.
+OK: B
+EXP: Las recomendaciones obligan a quienes no se hayan opuesto.
+    `;
+
+
+    const BANCO_5 = ` 
+#ID = 12.1
+
+// [189]
+Q: ¿Qué principio rige actualmente las relaciones entre Estado, comunidades autónomas y entidades locales?
+A) La jerarquía administrativa directa.
+B) La autonomía local en sustitución de la jerarquía.
+C) La subordinación funcional de las entidades locales.
+OK: B
+EXP: El sistema actual sustituye la jerarquía por la autonomía local.
+
+// [190]
+Q: ¿Qué caracteriza al modelo actual de control sobre las entidades locales?
+A) La ampliación de controles administrativos generales.
+B) La supresión total de cualquier forma de control.
+C) La existencia de controles más limitados y concretos.
+OK: C
+EXP: El modelo actual reduce los controles y los limita a supuestos concretos.
+
+// [191]
+Q: ¿Qué condición deben cumplir los controles administrativos sobre entidades locales?
+A) Ser discrecionales en función de la oportunidad.
+B) Estar previstos en la Constitución o en la ley.
+C) Aplicarse de forma general a toda la actividad local.
+OK: B
+EXP: Solo son válidos si tienen cobertura constitucional o legal.
+
+// [192]
+Q: ¿Qué tipo de control predomina sobre la actividad de las entidades locales?
+A) El control administrativo directo del Estado.
+B) El control político por las comunidades autónomas.
+C) El control judicial contencioso-administrativo.
+OK: C
+EXP: El control ordinario corresponde a la jurisdicción contenciosa.
+
+// [193]
+Q: ¿Qué naturaleza tiene la impugnación de actos locales por el Estado o las comunidades autónomas?
+A) Un control administrativo directo.
+B) Una legitimación procesal ante los tribunales.
+C) Un mecanismo de coordinación obligatoria.
+OK: B
+EXP: Es una vía procesal, no un control administrativo directo.
+
+// [194]
+Q: ¿Qué ocurre con el requerimiento previo a la impugnación judicial de un acto local?
+A) Suspende automáticamente su eficacia.
+B) Sustituye al control judicial.
+C) No suspende su eficacia ni sustituye al control judicial.
+OK: C
+EXP: Es un trámite previo sin efectos suspensivos.
+
+// [195]
+Q: ¿En qué casos se admiten controles administrativos directos sobre entidades locales?
+A) De forma general en toda su actividad.
+B) Solo en supuestos excepcionales previstos legalmente.
+C) Siempre que lo decida el Estado discrecionalmente.
+OK: B
+EXP: Solo se permiten en supuestos excepcionales.
+
+// [196]
+Q: ¿Qué medida puede adoptar el delegado del Gobierno ante actos locales graves?
+A) Anularlos directamente sin intervención judicial.
+B) Suspenderlos sin necesidad de requerimiento previo.
+C) Suspenderlos tras requerimiento y acudir a la vía judicial.
+OK: C
+EXP: Debe requerir previamente y acudir a la jurisdicción.
+
+// [197]
+Q: ¿Qué tipo de medidas pueden adoptarse ante incumplimientos graves de entidades locales?
+A) Solo sanciones económicas.
+B) Medidas como sustitución o incluso disolución de órganos.
+C) Únicamente advertencias sin efectos jurídicos.
+OK: B
+EXP: Existen medidas intensas como sustitución o disolución.
+
+// [198]
+Q: ¿Qué límite debe respetar el legislador autonómico en materia de control local?
+A) La libre configuración de controles sin límites.
+B) El modelo básico fijado por la LBRL.
+C) La exclusión total de controles administrativos.
+OK: B
+EXP: Debe respetar el modelo básico de control estatal.
+
+#ID = 12.2
+
+// [199]
+Q: ¿Qué tipo de control representa la tutela económico-financiera?
+A) Un control político de oportunidad.
+B) Un control específico vinculado a la estabilidad presupuestaria.
+C) Un control judicial sobre actos administrativos.
+OK: B
+EXP: Se centra en el control económico y financiero.
+
+// [200]
+Q: ¿Quién puede ejercer la tutela económico-financiera sobre entidades locales?
+A) Solo el Estado en todos los casos.
+B) Exclusivamente los tribunales de justicia.
+C) El Estado o la comunidad autónoma competente.
+OK: C
+EXP: Puede corresponder al Estado o a la comunidad autónoma.
+
+// [201]
+Q: ¿Qué facultad forma parte de la tutela económico-financiera?
+A) La aprobación directa de normas locales.
+B) La supervisión de planes económico-financieros municipales.
+C) La sustitución automática de los órganos locales.
+OK: B
+EXP: Incluye el control de planes económico-financieros.
+
+// [202]
+Q: ¿Qué tipo de informes pueden exigirse en el marco de la tutela financiera?
+A) Solo informes voluntarios.
+B) Informes siempre vinculantes.
+C) Informes preceptivos, a veces vinculantes y otras no.
+OK: C
+EXP: Pueden ser vinculantes o no según el caso.
+
+#ID = 12.3
+
+// [203]
+Q: ¿Qué principio se vincula a la colaboración entre Administraciones?
+A) La jerarquía administrativa.
+B) La lealtad institucional.
+C) La descentralización política.
+OK: B
+EXP: La colaboración se identifica con la lealtad institucional.
+
+// [204]
+Q: ¿Qué obligación tienen las entidades locales en virtud de la lealtad institucional?
+A) Subordinarse a las decisiones estatales.
+B) Suministrar información a otras Administraciones.
+C) Renunciar a sus competencias propias.
+OK: B
+EXP: Deben facilitar información para el ejercicio de competencias.
+
+// [205]
+Q: ¿Qué instrumento puede utilizarse cuando el convenio no es suficiente?
+A) La delegación de competencias.
+B) La creación de consorcios.
+C) La avocación de funciones.
+OK: B
+EXP: Los consorcios son instrumentos adicionales de cooperación.
+
+// [206]
+Q: ¿Qué caracteriza a los órganos de cooperación con entidades locales?
+A) Sus acuerdos son siempre vinculantes.
+B) Actúan bajo jerarquía estatal directa.
+C) Sus acuerdos solo vinculan a quienes los aceptan.
+OK: C
+EXP: Reflejan la naturaleza voluntaria de la cooperación.
+
+// [207]
+Q: ¿Cuándo puede hablarse de cooperación forzosa?
+A) Cuando se imponen decisiones sin base legal.
+B) Cuando las entidades locales participan mediante informes obligatorios.
+C) Cuando se eliminan las competencias locales.
+OK: B
+EXP: Se produce cuando la participación es obligatoria.
+
+#ID = 12.4
+
+// [208]
+Q: ¿Qué permite el principio de coordinación respecto a las entidades locales?
+A) Un control ilimitado del Estado sobre ellas.
+B) Un poder de dirección limitado y sujeto a condiciones.
+C) La sustitución de su autonomía por decisiones estatales.
+OK: B
+EXP: La coordinación permite dirección, pero con límites estrictos.
+
+// [209]
+Q: ¿Qué requisito debe cumplir la coordinación sobre entidades locales?
+A) Ser discrecional y no regulada.
+B) Estar definida con precisión por la ley.
+C) Basarse en acuerdos voluntarios.
+OK: B
+EXP: Debe estar claramente definida legalmente.
+
+// [210]
+Q: ¿Cuándo es legítima la coordinación?
+A) Siempre que exista interés estatal.
+B) Solo cuando la cooperación voluntaria es insuficiente.
+C) Cuando lo soliciten las entidades locales.
+OK: B
+EXP: Es subsidiaria respecto a la cooperación.
+
+// [211]
+Q: ¿Qué instrumento típico se utiliza para la coordinación?
+A) Los convenios interadministrativos.
+B) Los recursos administrativos.
+C) Los planes sectoriales.
+OK: C
+EXP: Los planes sectoriales orientan la actuación coordinada.
+
+// [212]
+Q: ¿Qué garantiza la participación de las entidades locales en los planes sectoriales?
+A) La subordinación de sus decisiones.
+B) La eliminación de conflictos competenciales.
+C) La preservación de su autonomía.
+OK: C
+EXP: Permite armonizar intereses respetando su autonomía.
+
+// [213]
+Q: ¿Qué deben concretar las leyes sectoriales en materia de coordinación?
+A) Solo los objetivos generales.
+B) Las condiciones, límites y modalidades de control.
+C) Únicamente los órganos competentes.
+OK: B
+EXP: Deben definir con precisión el alcance de la coordinación.
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>

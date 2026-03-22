@@ -1,0 +1,1881 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1;
+}
+
+.sumTitle{
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+  word-break:break-word;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 6: La Administración Pública</h1>
+  <div class="small">LA SEPARACIÓN MATRIMONIAL, by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+
+1. EL CONCEPTO DE ADMINISTRACIÓN PÚBLICA
+
+La Administración pública surge históricamente vinculada a la separación de poderes tras la Revolución Francesa. Frente a la concentración de funciones en el monarca absoluto, se establecen tres funciones diferenciadas: legislar, ejecutar y juzgar, cada una atribuida a órganos distintos e independientes. La Administración se identifica así con la organización encargada de ejercer la función ejecutiva o de administrar.
+
+Sin embargo, definir qué es administrar plantea dificultades, porque las funciones del poder ejecutivo han evolucionado. En el Estado social de Derecho la Administración no solo ejerce potestades públicas que implican autoridad y desigualdad frente al ciudadano, sino que también presta servicios públicos esenciales y desarrolla actividades económicas sometidas a las reglas del mercado. Esta ampliación funcional complica su delimitación frente a los otros poderes.
+
+La función administrativa consiste en aplicar la ley al caso concreto, pero esta operación también la realizan los jueces. La diferencia radica en que el juez actúa con independencia absoluta y su decisión prevalece. Además, cuando la Administración actúa en el ámbito de la discrecionalidad, puede integrar criterios de oportunidad, eficacia o eficiencia dentro del marco de la legalidad, mientras que el juez se rige exclusivamente por el principio de legalidad.
+
+También el legislador ha asumido en ocasiones tareas de aplicación concreta mediante las llamadas leyes singulares, que contienen decisiones particulares. El Tribunal Constitucional ha admitido su constitucionalidad, pero sometiéndolas al principio de proporcionalidad cuando puedan afectar al derecho a la tutela judicial efectiva.
+
+Ante estas dificultades, la función de administrar se ha definido negativamente como la distinta de la legislativa y judicial. No obstante, el sistema constitucional incluye otros órganos de control, como el Defensor del Pueblo y el Tribunal de Cuentas, que no encajan estrictamente en la clásica división tripartita.
+
+El elemento esencial de la Administración es su personalidad jurídica. No es un simple conjunto de órganos, sino una persona jurídica que actúa como sujeto de derecho, celebra contratos, posee patrimonio y responde ante los tribunales. Según la LRJSP, cada Administración actúa con personalidad jurídica única.
+
+No existe una única Administración, sino varias administraciones territoriales —Estado, comunidades autónomas y entidades locales— definidas por su ámbito territorial y dotadas de potestades públicas como la reglamentaria, expropiatoria o tributaria. Junto a ellas se sitúa la Administración institucional, integrada por organismos públicos y entidades de derecho público con personalidad propia y fines específicos.
+
+Existen además entidades del sector público con forma privada, como sociedades mercantiles públicas o fundaciones, que han protagonizado la denominada huida del Derecho administrativo, al utilizar formas privadas para eludir controles públicos. Frente a ello se formuló la tesis de la reserva constitucional de Derecho administrativo, aunque finalmente ha sido el Derecho europeo el que ha reforzado los controles en materia de contratación y gasto.
+
+Por último, aparecen figuras intermedias como las corporaciones públicas de base asociativa privada y supuestos en los que particulares colaboran en el ejercicio de funciones públicas sin integrarse en la Administración. Todo ello muestra la complejidad del concepto y anticipa el estudio de las formas de colaboración de los privados en el ejercicio de funciones públicas.
+
+2. LAS CORPORACIONES DE DERECHO PÚBLICO
+
+2.1. Origen de las corporaciones públicas.
+
+En el Estado liberal inicial solo se reconocían los intereses del individuo y del Estado, lo que explica la tardía admisión de la libertad de asociación. Sin embargo, algunas asociaciones históricas sobrevivieron por su arraigo social, y el Estado advirtió la utilidad de que los propios interesados participaran en el ejercicio de funciones públicas, siempre bajo control administrativo.
+
+Durante el siglo XX, especialmente en periodos autoritarios, la técnica corporativa se expandió como instrumento de ordenación social, sustituyendo en ocasiones la libre asociación y sindicación. Se generalizó la creación de colegios profesionales y cámaras sectoriales con adscripción forzosa, así como corporaciones en ámbitos específicos como la ONCE o la SGAE.
+
+Estas entidades combinan fines públicos y privados, situándose a medio camino entre la Administración y las asociaciones privadas.
+
+2.2. ¿Existe una garantía constitucional de la organización corporativa?
+
+La Constitución menciona expresamente a los colegios profesionales (art. 36 CE) y de forma indirecta a las organizaciones profesionales (art. 52 CE), imponiendo reserva de ley y funcionamiento democrático. No obstante, el Tribunal Constitucional ha negado que exista una garantía institucional que obligue a mantener su configuración tradicional. Corresponde al legislador determinar su naturaleza jurídica y régimen, dentro de los límites constitucionales, pudiendo configurarlas como corporaciones públicas o asociaciones privadas, ampliar o reducir sus funciones e incluso establecer modelos distintos. La Constitución no impone su mantenimiento en los términos históricos en que fueron concebidas.
+
+2.3. La distribución competencial en materia de corporaciones públicas.
+
+Aunque la Constitución no menciona expresamente las corporaciones públicas en los artículos 148 y 149 CE, muchos estatutos de autonomía han asumido competencia exclusiva en la materia.
+
+Sin embargo, el Estado conserva competencia para establecer las bases del régimen jurídico cuando ejercen funciones administrativas, en virtud del artículo 149.1.18 CE. En el caso de los colegios profesionales, el Tribunal Constitucional ha declarado que la adscripción obligatoria puede formar parte de esas bases estatales, siempre que se respeten las exigencias constitucionales. Además, cuando se impone colegiación obligatoria, el Estado actúa también al amparo del artículo 149.1.1 CE, al afectar a las condiciones básicas de igualdad en el ejercicio del derecho al trabajo y a la libre elección de profesión u oficio.
+
+2.4. La naturaleza jurídico-pública de las corporaciones.
+
+La controversia sobre si las corporaciones son entidades públicas o privadas, debido a su base asociativa, ha sido resuelta por el legislador al calificarlas expresamente como entidades de derecho público. Además, el artículo 1.2 LJCA las incluye dentro de las administraciones públicas a efectos jurisdiccionales cuando estén sometidas a tutela administrativa. Aunque parte de la doctrina cuestiona la necesidad de esta personificación pública, la discusión carece hoy de consecuencias prácticas relevantes, ya que es indiscutido que su actividad es administrativa cuando ejercen funciones públicas y privada en el resto de su actuación.
+
+2.5. Características de las corporaciones.
+
+Las corporaciones de derecho público presentan como notas esenciales: - Origen público, pues son creadas por ley o acto del poder público y no por libre voluntad asociativa Dualidad funcional, ya que ejercen funciones públicas y privadas, lo que determina un régimen jurídico mixto de derecho administrativo y derecho privado - Autofinanciación mediante cuotas o aportaciones de sus miembros - Actuación en régimen de monopolio, al existir una única corporación para cada sector - Adscripción obligatoria indirecta, en cuanto la pertenencia se convierte en requisito para ejercer una profesión o actividad.
+
+La adscripción forzosa es el elemento más problemático desde la perspectiva constitucional. El Tribunal Constitucional ha afirmado que las corporaciones no son asociaciones privadas en sentido propio y no se incardinan directamente en los artículos 22 y 28 CE. No obstante, el derecho de asociación opera como límite: - No pueden impedir la creación y funcionamiento de asociaciones privadas para fines propios - La adscripción obligatoria solo es constitucional si está justificada por un interés público relevante y no existe una vía menos restrictiva. En todo caso, la adscripción es un mecanismo excepcional que debe justificarse por las concretas funciones públicas atribuidas.
+
+2.6. La organización cameral.
+
+De las cámaras oficiales previstas en el artículo 52 CE, solo han subsistido como corporaciones públicas, aunque transformadas, las cámaras de comercio y, en algunas comunidades autónomas, determinadas cámaras agrarias.
+
+2.6.1. Las cámaras agrarias.
+
+Originariamente asociaciones privadas, fueron progresivamente publificadas hasta convertirse en corporaciones de adscripción obligatoria. La atribución de funciones comerciales y la obligatoriedad de pertenencia generaron conflictos con la libertad de asociación, lo que llevó a la Ley 23/1986 a suprimir elementos esenciales del modelo corporativo, limitando sus funciones a tareas consultivas y de colaboración y eliminando su papel representativo. Posteriormente, la Ley 18/2005 dejó su regulación en manos de las comunidades autónomas, muchas de las cuales optaron por suprimirlas, aunque algunas las mantienen.
+
+2.6.2. Las cámaras de la propiedad urbana.
+
+Evolucionaron desde asociaciones privadas hacia corporaciones públicas con adscripción obligatoria. A partir de 1988 se inició un proceso legislativo que culminó en su extinción. El Tribunal Constitucional declaró inconstitucional la adscripción forzosa por vulneración del derecho de asociación cuando no existían funciones públicas que la justificaran. Tras diversos intentos normativos y pronunciamientos, su desaparición fue finalmente consolidada, aunque algunas comunidades autónomas las mantienen como entidades asociativas privadas sin funciones públicas.
+
+2.6.3. Las cámaras de comercio, industria y navegación.
+
+Nacieron como asociaciones voluntarias y fueron convertidas en corporaciones públicas con adscripción y financiación obligatoria. La constitucionalidad de esta adscripción fue objeto de pronunciamientos contradictorios del Tribunal Constitucional: primero se declaró incompatible con el derecho de asociación y posteriormente se consideró justificada por sus funciones públicas y por el respaldo del artículo 52 CE. Finalmente, el Real Decreto-Ley 13/2010 eliminó la obligación económica. En la actualidad, la Ley 4/2014 mantiene su carácter de corporaciones de derecho público con adscripción formal obligatoria, pero sin carga económica, financiándose mediante servicios y aportaciones voluntarias y ejerciendo funciones públicas de representación, certificación, asesoramiento y apoyo a la actividad empresarial.
+
+2.7. Los colegios profesionales.
+
+2.7.1. Noción.
+
+Los colegios profesionales son corporaciones de derecho público creadas por ley estatal o autonómica, con personalidad jurídica propia y plena capacidad para el cumplimiento de sus fines, conforme a la Ley 2/1974. En España han constituido tradicionalmente la forma de organización de las profesiones tituladas, asumiendo no solo la representación del colectivo profesional sino también funciones públicas de regulación y disciplina.
+
+El estatuto general de cada profesión es aprobado por el Consejo de Ministros a solicitud del Consejo General correspondiente, y tipifica infracciones y sanciones que aplican los colegios territoriales. Cuando ejercen funciones públicas, sus actos se someten al derecho administrativo y son recurribles ante la jurisdicción contencioso-administrativa. Junto a ello desarrollan funciones privadas, como la defensa de los intereses de sus miembros o la prestación de servicios a los colegiados.
+
+El modelo colegial ha sido objeto de críticas, ya que se encomienda a los propios profesionales la defensa de los derechos de los usuarios de sus servicios, lo que genera tensiones entre intereses corporativos y protección del consumidor.
+
+2.7.2. El progresivo sometimiento al principio de libre competencia.
+
+Los servicios profesionales forman parte del mercado y, por tanto, deben respetar las reglas de la libre competencia. Los acuerdos e instrucciones de los colegios constituyen acuerdos entre competidores y quedan sometidos a la normativa de defensa de la competencia y competencia desleal.
+
+Las reformas iniciadas en 1996 y 1997 introdujeron cambios relevantes: - Prohibición de honorarios obligatorios, permitiéndose solo criterios orientativo
+- Eliminación de la obligación de suscribir determinados seguros o mutualidades como requisito de colegiación 
+- Implantación del principio de colegiación única, permitiendo ejercer en todo el territorio nacional con una sola inscripción.
+
+No obstante, la Comisión Europea consideró insuficientes estas reformas, señalando que subsistían barreras injustificadas a la competencia, como restricciones publicitarias, reservas de actividad excesivas o limitaciones organizativas. La regulación de las profesiones debía cumplir requisitos estrictos: no discriminación, justificación por razones imperiosas de interés general, adecuación y proporcionalidad.
+
+La Directiva 2006/123/CE sobre servicios en el mercado interior impulsó una nueva reforma mediante la Ley 25/2009, orientada a reducir barreras de entrada y restricciones al ejercicio profesional, reforzando la compatibilidad del modelo colegial con el principio de libre competencia.
+
+2.7.3. La regulación actual.
+
+La legislación vigente establece que quien posea la titulación exigida y cumpla los requisitos estatutarios tiene derecho y, en su caso, obligación de colegiarse cuando la adscripción sea obligatoria. La cuota de colegiación no puede constituir una barrera de entrada, por lo que debe limitarse a los costes de tramitación y no ser desproporcionada, aunque en la práctica existen diferencias entre colegios de una misma profesión.
+
+Solo cuando una ley estatal exija la suscripción de un seguro profesional por razones de seguridad o salud pública podrá el colegio imponerlo como requisito. En ausencia de previsión legal, no puede exigirse. Asimismo, se consolida el principio de colegiación única: basta estar inscrito en un colegio para ejercer en todo el territorio nacional, sin necesidad de comunicaciones, habilitaciones adicionales ni pagos distintos de los correspondientes a servicios efectivamente prestados.
+
+La colegiación obligatoria pasa de ser regla general a convertirse en excepción. Solo puede establecerse por ley estatal cuando concurran razones imperiosas de interés general, formando parte de la competencia básica del Estado. Coexisten así dos modelos: colegios de adscripción obligatoria, establecidos por el Estado, y colegios voluntarios, cuya creación corresponde a las comunidades autónomas. Aunque la ley preveía una revisión general de las profesiones con colegiación obligatoria, esta no se ha llevado a cabo.
+
+2.7.4. Las regulaciones colegiales sobre honorarios y visados profesionales.
+
+La fijación de honorarios ha sido una cuestión central desde la perspectiva de la libre competencia. La ley ha eliminado la facultad de fijar honorarios obligatorios u orientativos con efectos vinculantes, al considerarse que favorecen la concertación entre competidores y limitan la competencia. Incluso en el ámbito de la abogacía, el Tribunal Supremo ha restringido esta posibilidad a criterios meramente indicativos y generales, prohibiendo la fijación concreta de cuantías.
+
+En cuanto a los visados profesionales, la reforma de 2009 distinguió entre visados voluntarios, solicitados por el usuario, y visados obligatorios, que solo pueden establecerse por el Gobierno cuando exista relación directa con la seguridad o integridad física. Los colegios no pueden imponer por sí mismos la obligatoriedad del visado.
+
+El visado se limita a comprobar la identidad y habilitación del profesional y la corrección formal e integridad de la documentación, pero no garantiza la corrección técnica del trabajo. La responsabilidad del colegio es subsidiaria y se circunscribe a los defectos formales que debieron advertirse en el control propio del visado, sin extenderse a errores técnicos del proyecto.
+
+3. LAS ASOCIACIONES PRIVADAS DE CONFIGURACIÓN LEGAL
+
+Las asociaciones privadas de configuración legal son entidades de base asociativa y personificación privada que, además de cumplir fines privados, ejercen funciones públicas encomendadas por la Administración. Se diferencian de las corporaciones públicas en su naturaleza jurídica: mientras estas tienen personificación pública, aquellas mantienen naturaleza privada aunque su régimen se vea intensamente condicionado por el ejercicio de funciones públicas.
+
+El concepto fue acuñado por el Tribunal Constitucional en la STC 67/1985, al analizar el régimen de las federaciones deportivas. Estas entidades presentan un régimen peculiar que, aunque formalmente asociativo, se aproxima en muchos aspectos al de las corporaciones públicas debido a las funciones administrativas que desempeñan bajo tutela del Consejo Superior de Deportes.
+
+Las federaciones deportivas son entidades privadas con régimen especial. Ejercen funciones públicas como la ejecución de programas deportivos, la expedición de licencias, la calificación de competiciones oficiales o el ejercicio de potestad disciplinaria. Estas funciones se desarrollan bajo tutela administrativa, lo que permite al Consejo Superior de Deportes ejercer poderes de control, inspección y supervisión.
+
+Su régimen jurídico presenta características que las separan del modelo asociativo clásico: - Requieren autorización previa para su creación - Operan en régimen de monopolio, al reconocerse una única federación por modalidad deportiva - La adscripción resulta necesaria para participar en competiciones oficiales, lo que introduce un elemento de integración forzosa indirecta.
+
+Estas notas tensionan el derecho de asociación, pero el Tribunal Constitucional ha considerado que son compatibles con el artículo 22 CE siempre que se respeten ciertos límites: - No puede obligarse directamente a nadie a asociarse - Debe permitirse la creación de otras asociaciones con fines privados - La configuración excepcional debe estar justificada por la necesidad de garantizar fines públicos. El derecho de asociación no incluye el derecho a constituir asociaciones cuyo objeto sea el ejercicio de funciones públicas administrativas, por lo que su regulación no requiere ley orgánica siempre que respete el marco general del derecho de asociación.
+
+En definitiva, las asociaciones de configuración legal constituyen un modelo intermedio entre lo público y lo privado: entidades privadas que ejercen funciones públicas bajo tutela administrativa, con un régimen excepcional que solo resulta constitucional cuando está justificado por la protección del interés general.
+
+4. OTRAS FORMAS DE COLABORACIÓN DE LOS PARTICULARES EN EL EJERCICIO DE FUNCIONES PÚBLICAS 
+
+En determinados sectores se ha producido una externalización del ejercicio de funciones públicas, especialmente en actividades de control e inspección. Inicialmente, la colaboración privada se limitaba a la prestación de servicios públicos contratados por la Administración, pero la legislación siempre ha excluido de la contratación aquellas actividades que impliquen ejercicio de autoridad o prerrogativas públicas, reservadas a funcionarios.
+
+Desde los años ochenta, factores tecnológicos y la apertura del mercado impulsada por la Unión Europea favorecieron la intervención de entidades privadas en funciones técnicas de inspección y control. Estas entidades actúan en ámbitos como la inspección técnica de vehículos, seguridad industrial, control ambiental, certificación técnica o control en materia de subvenciones.
+
+Existe debate doctrinal sobre si estas entidades ejercen verdaderas funciones públicas o si simplemente colaboran aportando apoyo técnico previo al acto administrativo. La respuesta depende del diseño legal sectorial: en algunos casos sustituyen el control administrativo; en otros, su actuación es un elemento previo que la Administración puede valorar al dictar el acto definitivo.
+
+La jurisprudencia no reconoce a sus actuaciones la presunción de certeza propia de los funcionarios públicos, aunque sí les otorga un valor probatorio reforzado dada su cualificación técnica y la obligación legal de objetividad.
+
+La intervención de particulares en funciones públicas exige reserva de ley cuando afecta a derechos de los ciudadanos o impone prestaciones patrimoniales no tributarias, conforme al artículo 31.3 CE. La creación de entidades colaboradoras y la imposición de pagos obligatorios requieren cobertura legal suficiente.
+
+El número de entidades puede ser limitado o ilimitado. Cuando es limitado, suele utilizarse la técnica concesional; cuando es abierto, basta autorización administrativa. En algunos casos se formaliza la relación mediante convenio de colaboración.
+
+El control administrativo resulta esencial, ya que la Administración responde por la función ejercida. Deben preverse mecanismos de supervisión, régimen de incompatibilidades, exigencia de cualificación técnica e independencia, así como sistemas de recurso ante la Administración y posteriormente ante la jurisdicción contencioso-administrativa.
+
+En definitiva, se trata de un modelo de colaboración público-privada en el ejercicio de funciones públicas que exige base legal, control administrativo efectivo, garantías de objetividad e imputación última de la función a la Administración titular.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+
+  
+    "1": "La Administración pública se identifica históricamente con la función ejecutiva dentro de la separación de poderes, pero en el Estado social su concepto se complejiza al combinar potestades de autoridad, prestación de servicios y actividad económica. Su rasgo esencial es la personalidad jurídica propia, actuando como sujeto de derecho con patrimonio y responsabilidad, existiendo múltiples Administraciones territoriales e institucionales.",
+
+  "2": "Las corporaciones de derecho público son entidades creadas por ley que combinan fines públicos y privados, ejercen funciones administrativas bajo tutela estatal y presentan un régimen jurídico mixto. Su existencia responde a técnicas de ordenación sectorial y plantea tensiones con el derecho de asociación, especialmente en casos de adscripción obligatoria.",
+
+  "2.1": "Las corporaciones públicas surgen como técnica mediante la cual el Estado integra a colectivos profesionales o sectoriales en el ejercicio de funciones públicas, consolidándose especialmente en el siglo XX mediante colegios profesionales y cámaras con adscripción forzosa.",
+
+  "2.2": "La Constitución no impone una garantía institucional de la organización corporativa; corresponde al legislador definir su naturaleza y funciones, respetando reserva de ley y funcionamiento democrático, pudiendo configurarlas como entidades públicas o privadas.",
+
+  "2.3": "Aunque muchas comunidades autónomas asumen competencia en materia de corporaciones, el Estado conserva competencia básica cuando ejercen funciones administrativas (art. 149.1.18 CE) y en materia de igualdad en el ejercicio profesional (art. 149.1.1 CE).",
+
+  "2.4": "La ley califica a las corporaciones como entidades de derecho público y la LJCA las incluye como Administración cuando actúan bajo tutela administrativa, aplicándose derecho administrativo en sus funciones públicas y derecho privado en el resto.",
+
+  "2.5": "Sus notas esenciales son origen legal, dualidad funcional, autofinanciación, monopolio sectorial y adscripción obligatoria indirecta, siendo esta constitucional solo si responde a un interés público relevante y proporcional.",
+
+  "2.6": "La organización cameral ha experimentado transformaciones profundas, subsistiendo básicamente las cámaras de comercio y, en algunos territorios, cámaras agrarias, con reducción progresiva de la adscripción y financiación obligatoria.",
+
+  "2.6.1": "Las cámaras agrarias evolucionaron hacia corporaciones obligatorias, pero reformas posteriores suprimieron su función representativa y dejaron su regulación en manos autonómicas, muchas de las cuales optaron por su desaparición.",
+
+  "2.6.2": "Las cámaras de la propiedad urbana fueron extinguidas tras declararse inconstitucional su adscripción obligatoria cuando no existían funciones públicas que la justificaran.",
+
+  "2.6.3": "Las cámaras de comercio mantienen carácter de corporación pública con adscripción formal pero sin obligación económica, financiándose por servicios y ejerciendo funciones públicas de apoyo empresarial.",
+
+  "2.7": "Los colegios profesionales son corporaciones públicas creadas por ley que ejercen funciones de regulación y disciplina profesional, sometidas a control contencioso-administrativo, coexistiendo funciones públicas y privadas.",
+
+  "2.7.1": "Los colegios representan al colectivo profesional y ejercen potestades disciplinarias, aunque el modelo genera tensiones entre defensa corporativa y protección de los usuarios.",
+
+  "2.7.2": "El principio de libre competencia ha limitado su capacidad regulatoria, prohibiendo honorarios obligatorios y eliminando barreras como colegiación múltiple o seguros impuestos sin base legal.",
+
+  "2.7.3": "La regulación actual restringe la colegiación obligatoria a supuestos excepcionales por ley estatal y consolida la colegiación única y la limitación de cuotas y requisitos desproporcionados.",
+
+  "2.7.4": "Los colegios no pueden fijar honorarios obligatorios ni imponer visados salvo previsión gubernamental por razones de seguridad, limitándose el visado a control formal y no técnico.",
+
+  "3": "Las asociaciones privadas de configuración legal son entidades privadas que ejercen funciones públicas bajo tutela administrativa, constituyendo un modelo intermedio entre Administración y asociación privada, siempre que su configuración excepcional esté justificada por interés general.",
+
+  "4": "La colaboración de particulares en funciones públicas se ha extendido en actividades técnicas de control e inspección, exigiendo base legal, control administrativo efectivo y garantía de que la función última sigue imputándose a la Administración."
+  
+    };
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = `#ID = 1
+
+// [1]
+Q: ¿Qué rasgo define el origen de la Administración pública en el constitucionalismo moderno?
+A) Su vinculación a la descentralización territorial propia del Estado autonómico.
+B) Su identificación con la función ejecutiva tras la separación de poderes.
+C) Su configuración como órgano de control independiente del poder político.
+OK: B
+EXP: La Administración surge como organización encargada de la función ejecutiva tras la separación de poderes frente al absolutismo.
+
+// [2]
+Q: ¿Por qué resulta problemático definir la Administración pública en el Estado social de Derecho?
+A) Porque ha asumido funciones que combinan autoridad pública y actividad económica en el mercado.
+B) Porque ha perdido completamente su vinculación con el principio de legalidad.
+C) Porque sus funciones han sido absorbidas por el poder judicial en su totalidad.
+OK: A
+EXP: La ampliación funcional de la Administración —potestades públicas y actividad económica— dificulta su delimitación conceptual.
+
+// [3]
+Q: ¿Cuál es la función característica de la Administración pública en sentido clásico?
+A) Interpretar de forma vinculante el Derecho con carácter definitivo e inmutable.
+B) Aplicar la ley al caso concreto integrando criterios de oportunidad y eficacia.
+C) Elaborar normas generales con fuerza de ley mediante procedimientos parlamentarios.
+OK: B
+EXP: La Administración aplica la ley al caso concreto, pudiendo incorporar discrecionalidad dentro del marco legal.
+
+// [4]
+Q: ¿Qué diferencia esencial existe entre la actuación administrativa y la jurisdiccional?
+A) El juez actúa con criterios de oportunidad mientras la Administración se somete estrictamente a la legalidad.
+B) La Administración carece de toda capacidad para aplicar la ley al caso concreto.
+C) El juez actúa con independencia absoluta mientras la Administración puede integrar criterios de oportunidad.
+OK: C
+EXP: La independencia judicial y la prevalencia de sus decisiones distinguen al juez frente a la discrecionalidad administrativa.
+
+// [5]
+Q: ¿Qué implica la discrecionalidad administrativa frente al principio de legalidad judicial?
+A) La posibilidad de actuar al margen de la ley cuando lo exijan razones de eficacia.
+B) La integración de criterios de oportunidad dentro de los márgenes que permite la ley.
+C) La sustitución de la ley por decisiones puramente técnicas sin control jurídico.
+OK: B
+EXP: La discrecionalidad permite elegir entre varias opciones legales, pero siempre dentro del marco de la legalidad.
+
+// [6]
+Q: ¿Qué son las leyes singulares en el contexto del poder legislativo?
+A) Normas generales que regulan categorías abstractas sin destinatarios concretos.
+B) Disposiciones que contienen decisiones concretas aplicables a supuestos específicos.
+C) Reglamentos dictados por el poder ejecutivo con rango de ley formal.
+OK: B
+EXP: Las leyes singulares aplican el Derecho a casos concretos, difuminando la frontera entre legislar y administrar.
+
+// [7]
+Q: ¿Cuál es el límite principal que el Tribunal Constitucional impone a las leyes singulares?
+A) La prohibición absoluta de su utilización en cualquier supuesto.
+B) Su sometimiento al principio de proporcionalidad cuando afecten a derechos.
+C) La exigencia de aprobación por mayoría cualificada reforzada.
+OK: B
+EXP: El control se centra en la proporcionalidad, especialmente cuando pueden afectar a la tutela judicial efectiva.
+
+// [8]
+Q: ¿En qué consiste la definición negativa de la Administración pública?
+A) En identificarla exclusivamente con los entes territoriales del Estado.
+B) En considerarla como la actividad distinta de la legislativa y judicial.
+C) En atribuirle únicamente funciones de control sobre otros poderes.
+OK: B
+EXP: Tradicionalmente se define la Administración por exclusión respecto de los otros poderes, aunque es una definición insuficiente.
+
+// [9]
+Q: ¿Qué caracteriza a órganos como el Defensor del Pueblo o el Tribunal de Cuentas?
+A) Ejercen funciones legislativas dentro del sistema parlamentario.
+B) Forman parte del poder judicial en sentido estricto.
+C) Son órganos de control que no encajan plenamente en la división clásica de poderes.
+OK: C
+EXP: Estos órganos cumplen funciones de control institucional fuera del esquema tripartito tradicional.
+
+// [10]
+Q: ¿Cuál es el elemento esencial que define jurídicamente a la Administración pública?
+A) Su capacidad normativa autónoma sin sujeción a control judicial.
+B) Su personalidad jurídica como sujeto de derechos y obligaciones.
+C) Su dependencia directa del poder legislativo en todas sus actuaciones.
+OK: B
+EXP: La Administración es una persona jurídica que actúa como sujeto de derecho, no un mero conjunto de órganos.
+
+// [11]
+Q: ¿Qué consecuencia se deriva de la personalidad jurídica de la Administración?
+A) La imposibilidad de ser demandada ante los tribunales ordinarios.
+B) La facultad de dictar sentencias con efectos de cosa juzgada.
+C) La capacidad de contratar, tener patrimonio y responder jurídicamente.
+OK: C
+EXP: Como sujeto de derecho, la Administración puede contratar, poseer bienes y asumir responsabilidad jurídica.
+
+// [12]
+Q: ¿Qué implica la existencia de varias Administraciones públicas en el ordenamiento?
+A) La subordinación jerárquica absoluta de todas ellas al Estado.
+B) La coexistencia de entidades territoriales con potestades propias.
+C) La desaparición de las competencias de las entidades locales.
+OK: B
+EXP: Estado, comunidades autónomas y entidades locales tienen autonomía y potestades propias dentro de su ámbito.
+
+// [13]
+Q: ¿Cuál de las siguientes es una manifestación de potestad administrativa?
+A) La potestad jurisdiccional de resolver conflictos con fuerza de cosa juzgada.
+B) La potestad reglamentaria para dictar normas subordinadas a la ley.
+C) La potestad constituyente para elaborar la Constitución.
+OK: B
+EXP: La potestad reglamentaria es una de las manifestaciones típicas del poder administrativo.
+
+// [14]
+Q: ¿Qué caracteriza a la Administración institucional?
+A) La ausencia de personalidad jurídica diferenciada respecto de la Administración matriz.
+B) La integración exclusiva de órganos sin funciones propias.
+C) La existencia de entidades con personalidad propia y fines específicos.
+OK: C
+EXP: La Administración institucional se compone de organismos públicos con personalidad jurídica propia.
+
+// [15]
+Q: ¿Qué se entiende por “huida del Derecho administrativo”?
+A) La eliminación de controles sobre la actividad administrativa en todos los ámbitos.
+B) El uso de formas privadas por entidades públicas para evitar controles públicos.
+C) La desaparición de la Administración institucional en favor de entes territoriales.
+OK: B
+EXP: Se refiere a la utilización de sociedades o fundaciones para eludir el régimen público, fenómeno corregido en parte por el Derecho europeo.
+    `;
+
+
+    const BANCO_2 = `#ID = 2
+
+// [16]
+Q: ¿Qué explica la aparición de las corporaciones de derecho público en el tránsito del Estado liberal?
+A) La necesidad de sustituir completamente al Estado en el ejercicio de funciones públicas.
+B) La conveniencia de que los interesados participen en funciones públicas bajo control administrativo.
+C) La obligación constitucional de reconocer asociaciones profesionales con carácter general.
+OK: B
+EXP: Surgen como mecanismo para integrar a los interesados en funciones públicas, siempre bajo tutela administrativa.
+
+// [17]
+Q: ¿Qué rasgo caracteriza la evolución de las corporaciones públicas durante el siglo XX en regímenes autoritarios?
+A) La supresión de cualquier forma de adscripción obligatoria a entidades profesionales.
+B) La consolidación de modelos voluntarios basados exclusivamente en la libre asociación.
+C) La expansión de estructuras corporativas con adscripción forzosa para ordenar sectores sociales.
+OK: C
+EXP: Se generaliza el modelo corporativo con adscripción obligatoria como instrumento de control social.
+
+// [18]
+Q: ¿Cómo se define la naturaleza de las corporaciones de derecho público desde el punto de vista funcional?
+A) Como entidades exclusivamente privadas que actúan al margen del Derecho administrativo.
+B) Como órganos administrativos integrados jerárquicamente en la Administración estatal.
+C) Como entidades híbridas que combinan fines públicos y privados.
+OK: C
+EXP: Su rasgo esencial es la dualidad funcional, situándose entre lo público y lo privado.
+
+// [19]
+Q: ¿Qué alcance tiene el reconocimiento constitucional de las corporaciones públicas?
+A) Establece una garantía institucional que impide su transformación por el legislador.
+B) Obliga a mantener su configuración tradicional en todos los sectores profesionales.
+C) Permite su regulación por ley sin imponer un modelo organizativo concreto.
+OK: C
+EXP: La Constitución no garantiza su modelo histórico, dejando al legislador su configuración.
+
+// [20]
+Q: ¿Qué ha declarado el Tribunal Constitucional respecto a la organización corporativa?
+A) Que constituye una institución constitucionalmente protegida en su forma tradicional.
+B) Que el legislador puede modificar su naturaleza y funciones dentro de los límites constitucionales.
+C) Que solo puede existir bajo forma de corporación pública y nunca como asociación privada.
+OK: B
+EXP: El TC niega garantía institucional y reconoce libertad de configuración legislativa.
+
+// [21]
+Q: ¿Cómo se distribuyen las competencias en materia de corporaciones de derecho público?
+A) Corresponden exclusivamente al Estado por afectar a la organización administrativa.
+B) Corresponden únicamente a las comunidades autónomas por su carácter territorial.
+C) Se reparten entre Estado y CCAA, reservándose el Estado las bases cuando ejercen funciones públicas.
+OK: C
+EXP: El Estado fija bases (art. 149.1.18 CE) y las CCAA desarrollan el régimen.
+
+// [22]
+Q: ¿Qué fundamento constitucional permite al Estado regular la colegiación obligatoria?
+A) La competencia exclusiva en materia de asociaciones del art. 149.1.6 CE.
+B) La garantía institucional de los colegios profesionales en el art. 36 CE.
+C) La fijación de condiciones básicas de igualdad en el ejercicio profesional.
+OK: C
+EXP: El art. 149.1.1 CE justifica la intervención estatal en la colegiación obligatoria.
+
+// [23]
+Q: ¿Cómo se califica jurídicamente a las corporaciones de derecho público en el ordenamiento vigente?
+A) Como asociaciones privadas sometidas al Derecho civil en toda su actividad.
+B) Como entidades de derecho público cuando ejercen funciones administrativas.
+C) Como órganos del poder judicial con funciones de control profesional.
+OK: B
+EXP: El legislador las define como entidades de derecho público, al menos en su actividad pública.
+
+// [24]
+Q: ¿Qué implica la dualidad funcional de las corporaciones públicas?
+A) La aplicación exclusiva del Derecho administrativo en todas sus actuaciones.
+B) La coexistencia de actuaciones sometidas a Derecho administrativo y a Derecho privado.
+C) La exclusión total del Derecho privado en el ejercicio de sus funciones.
+OK: B
+EXP: Actúan bajo Derecho administrativo cuando ejercen funciones públicas y privado en el resto.
+
+// [25]
+Q: ¿Cuál de las siguientes es una característica estructural de las corporaciones públicas?
+A) Su creación por la libre voluntad de sus miembros sin intervención del legislador.
+B) Su existencia simultánea en régimen de competencia dentro de un mismo sector.
+C) Su origen público mediante norma y su posición de monopolio sectorial.
+OK: C
+EXP: Se crean por ley y normalmente existe una única corporación por sector.
+
+// [26]
+Q: ¿Qué significa la adscripción obligatoria indirecta en las corporaciones públicas?
+A) La imposición directa de pertenencia a la corporación sin relación con actividad profesional.
+B) La necesidad de pertenecer a la corporación como requisito para ejercer una actividad.
+C) La libre afiliación sin consecuencias para el ejercicio profesional.
+OK: B
+EXP: No es una obligación abstracta, sino vinculada al ejercicio de la profesión.
+
+// [27]
+Q: ¿Cómo se sitúan las corporaciones públicas respecto al derecho de asociación?
+A) Se integran plenamente en el ámbito del art. 22 CE como asociaciones privadas.
+B) Quedan totalmente al margen de cualquier límite constitucional en esta materia.
+C) No se identifican con asociaciones, pero el derecho de asociación actúa como límite.
+OK: C
+EXP: No son asociaciones, pero deben respetar el derecho de asociación como límite.
+
+// [28]
+Q: ¿Cuándo es constitucional la adscripción obligatoria a una corporación pública?
+A) Siempre que lo establezca una norma reglamentaria.
+B) Solo cuando esté justificada por un interés público relevante y sea proporcional.
+C) En cualquier caso, por el mero hecho de tratarse de una corporación pública.
+OK: B
+EXP: Es una medida excepcional que requiere justificación y proporcionalidad.
+
+// [29]
+Q: ¿Qué rasgo define la evolución reciente de las cámaras de comercio?
+A) La desaparición completa de su carácter público.
+B) El mantenimiento de la adscripción obligatoria con financiación forzosa.
+C) La subsistencia de su carácter público sin obligación económica para los miembros.
+OK: C
+EXP: Se mantiene la adscripción formal, pero se elimina la carga económica obligatoria.
+
+// [30]
+Q: ¿Cuál es la naturaleza de los colegios profesionales en el ordenamiento español?
+A) Asociaciones privadas sin funciones públicas relevantes.
+B) Corporaciones de derecho público creadas por ley con funciones públicas y privadas.
+C) Órganos administrativos dependientes jerárquicamente del Ministerio correspondiente.
+OK: B
+EXP: Son corporaciones públicas con personalidad jurídica y funciones mixtas.
+
+// [31]
+Q: ¿A qué jurisdicción se someten los actos de los colegios profesionales cuando ejercen funciones públicas?
+A) A la jurisdicción civil por su base asociativa.
+B) A la jurisdicción contencioso-administrativa.
+C) A la jurisdicción constitucional de forma directa.
+OK: B
+EXP: Sus actos administrativos son recurribles ante la jurisdicción contencioso-administrativa.
+
+// [32]
+Q: ¿Qué principio rige actualmente la actuación de los colegios profesionales en el mercado?
+A) La libre fijación colectiva de condiciones económicas entre colegiados.
+B) La exclusión de las normas de competencia por su carácter público.
+C) La sujeción a las reglas de defensa de la competencia como operadores en el mercado.
+OK: C
+EXP: Se consideran agentes económicos y deben respetar el Derecho de la competencia.
+
+// [33]
+Q: ¿Qué transformación introdujeron las reformas de los años noventa en los colegios profesionales?
+A) La imposición de honorarios mínimos obligatorios para garantizar calidad.
+B) La eliminación de restricciones como honorarios obligatorios o mutualidades forzosas.
+C) La prohibición de ejercer la profesión fuera del ámbito territorial del colegio.
+OK: B
+EXP: Se eliminaron barreras a la competencia como honorarios obligatorios.
+
+// [34]
+Q: ¿Qué implica el principio de colegiación única?
+A) La obligación de colegiarse en todas las comunidades autónomas donde se ejerza.
+B) La necesidad de autorización administrativa adicional para cada territorio.
+C) La posibilidad de ejercer en todo el territorio con una sola colegiación.
+OK: C
+EXP: Basta una única colegiación para ejercer en todo el territorio nacional.
+
+// [35]
+Q: ¿Cuál es el régimen actual de los honorarios profesionales fijados por los colegios?
+A) Pueden establecerse con carácter obligatorio y vinculante.
+B) Solo pueden fijarse como orientaciones generales sin carácter vinculante.
+C) Están completamente prohibidos incluso como referencia orientativa.
+OK: B
+EXP: Se permiten solo criterios orientativos generales, no vinculantes.
+
+// [36]
+Q: ¿Cuál es el alcance del visado colegial en la actualidad?
+A) Garantiza la corrección técnica del trabajo profesional realizado.
+B) Supone una validación completa del contenido material del proyecto.
+C) Se limita a comprobar identidad, habilitación y aspectos formales.
+OK: C
+EXP: El visado no controla el contenido técnico, solo aspectos formales y de habilitación.
+    `;
+
+
+    const BANCO_3 = `#ID = 3
+
+// [37]
+Q: ¿Qué caracteriza esencialmente a las asociaciones privadas de configuración legal que ejercen funciones públicas?
+A) Su integración orgánica en la Administración pública como entes instrumentales.
+B) Su naturaleza privada combinada con el ejercicio de funciones públicas encomendadas por la Administración.
+C) Su carácter público derivado del ejercicio exclusivo de potestades administrativas.
+OK: B
+EXP: Son entidades privadas que ejercen funciones públicas bajo tutela administrativa sin perder su naturaleza jurídica.
+
+// [38]
+Q: ¿Cuál es la diferencia fundamental entre las asociaciones privadas de configuración legal y las corporaciones de derecho público?
+A) Las corporaciones no ejercen funciones públicas, mientras que las asociaciones sí.
+B) Las asociaciones están sometidas íntegramente al Derecho administrativo y las corporaciones no.
+C) Las asociaciones tienen personalidad privada, mientras que las corporaciones poseen naturaleza jurídica pública.
+OK: C
+EXP: La clave diferenciadora es la naturaleza jurídica, no el tipo de funciones que ejercen.
+
+// [39]
+Q: ¿Qué estableció el Tribunal Constitucional en la STC 67/1985 respecto a las federaciones deportivas?
+A) Que vulneran el derecho de asociación por imponer integración obligatoria.
+B) Que constituyen un ejemplo de entidades privadas que ejercen funciones públicas bajo un régimen especial.
+C) Que deben configurarse necesariamente como corporaciones de derecho público.
+OK: B
+EXP: El TC reconoce el modelo intermedio de entidades privadas con funciones públicas.
+
+// [40]
+Q: ¿Cuál de las siguientes funciones públicas pueden ejercer las federaciones deportivas como asociaciones privadas de configuración legal?
+A) La aprobación de normas con rango de ley en materia deportiva.
+B) La expedición de licencias deportivas y el ejercicio de potestad disciplinaria.
+C) La jurisdicción sobre conflictos deportivos con efectos de cosa juzgada.
+OK: B
+EXP: Ejercen funciones públicas administrativas, como licencias y disciplina, pero no potestad legislativa ni jurisdiccional.
+
+// [41]
+Q: ¿Qué implica la tutela administrativa del Consejo Superior de Deportes sobre las federaciones deportivas?
+A) Su integración jerárquica en la Administración General del Estado.
+B) La pérdida de su personalidad jurídica privada.
+C) La existencia de funciones de control, inspección y supervisión sobre su actividad.
+OK: C
+EXP: La tutela supone control funcional, no integración orgánica ni pérdida de naturaleza privada.
+
+// [42]
+Q: ¿Qué rasgo distingue a las asociaciones privadas de configuración legal del modelo clásico de asociación privada?
+A) La libre creación sin intervención de los poderes públicos.
+B) La ausencia total de funciones públicas en su actividad.
+C) La exigencia de autorización previa y su funcionamiento en régimen de monopolio sectorial.
+OK: C
+EXP: Estas notas reflejan su carácter excepcional frente al modelo asociativo puro.
+
+// [43]
+Q: ¿Cómo se manifiesta la adscripción obligatoria indirecta en las federaciones deportivas?
+A) En la obligación legal general de pertenecer a la federación sin relación con actividad alguna.
+B) En la necesidad de integrarse en la federación para participar en competiciones oficiales.
+C) En la imposición de cuotas obligatorias con independencia de la actividad deportiva.
+OK: B
+EXP: No hay obligación directa de asociarse, pero sí para acceder a actividades oficiales.
+
+// [44]
+Q: ¿Qué límites establece el Tribunal Constitucional respecto al derecho de asociación en las asociaciones privadas que ejercen funciones públicas?
+A) La prohibición de crear asociaciones alternativas en el mismo ámbito.
+B) La obligación de integrarse en la entidad para cualquier actividad relacionada.
+C) La imposibilidad de imponer asociación directa y la necesidad de permitir otras asociaciones privadas.
+OK: C
+EXP: El modelo es constitucional si respeta el derecho de asociación y no impide alternativas privadas.
+
+// [45]
+Q: ¿Por qué se considera constitucional el modelo de asociaciones privadas de configuración legal?
+A) Porque elimina completamente la intervención administrativa en el sector correspondiente.
+B) Porque garantiza el ejercicio libre y absoluto del derecho de asociación sin limitaciones.
+C) Porque permite la realización de funciones públicas necesarias para el interés general bajo control administrativo.
+OK: C
+EXP: Su justificación radica en el interés general, siempre que sea un modelo necesario y proporcional.
+   `;
+
+
+    const BANCO_4 = `#ID = 4
+
+// [46]
+Q: ¿Qué se entiende por colaboración de particulares en el ejercicio de funciones públicas en el Derecho administrativo?
+A) La sustitución completa de la Administración por entidades privadas en todas sus funciones.
+B) La participación de entidades privadas en tareas técnicas o de control bajo dirección y responsabilidad de la Administración.
+C) La transferencia definitiva de la titularidad de la función pública a sujetos privados.
+OK: B
+EXP: Es un modelo de colaboración, no de sustitución ni de privatización de la función pública.
+
+// [47]
+Q: ¿Qué factores impulsaron desde los años ochenta la intervención de entidades privadas en funciones de control e inspección administrativa?
+A) La desaparición del principio de legalidad en la actuación administrativa.
+B) La reducción del papel del Estado en favor de la jurisdicción judicial.
+C) El desarrollo tecnológico y la apertura del mercado promovida por la Unión Europea.
+OK: C
+EXP: La complejidad técnica y la liberalización de mercados favorecieron la colaboración privada.
+
+// [48]
+Q: ¿Cuál es el límite fundamental a la intervención de particulares en funciones públicas?
+A) La imposibilidad de participar en actividades de carácter técnico.
+B) La prohibición de ejercer potestades que impliquen autoridad o prerrogativas públicas.
+C) La obligación de actuar siempre mediante contratos administrativos.
+OK: B
+EXP: Las funciones que implican autoridad están reservadas a funcionarios públicos.
+
+// [49]
+Q: ¿Qué diferencia existe entre la prestación de servicios públicos por empresas privadas y el ejercicio de potestades públicas?
+A) Ninguna, ambas implican ejercicio de autoridad administrativa.
+B) La prestación de servicios puede externalizarse, pero el ejercicio de potestades públicas no.
+C) El ejercicio de potestades públicas es libremente delegable a cualquier entidad privada.
+OK: B
+EXP: La clave es que la autoridad pública no puede externalizarse.
+
+// [50]
+Q: ¿En qué ámbitos es habitual la actuación de entidades privadas colaboradoras en funciones públicas?
+A) En la elaboración de leyes y reglamentos administrativos.
+B) En actividades como inspección técnica, control ambiental o certificación técnica.
+C) En el ejercicio de la jurisdicción contencioso-administrativa.
+OK: B
+EXP: Actúan en ámbitos técnicos como ITV, seguridad industrial o certificación.
+
+// [51]
+Q: ¿Qué determina si una entidad privada colaboradora ejerce realmente una función pública o solo presta apoyo técnico?
+A) La voluntad de la propia entidad privada.
+B) El diseño legal establecido en la normativa sectorial correspondiente.
+C) El criterio discrecional del órgano judicial en cada caso concreto.
+OK: B
+EXP: Depende de cómo el legislador configure la función en cada sector.
+
+// [52]
+Q: ¿Qué diferencia existe entre un modelo en el que la entidad privada sustituye el control administrativo y otro en el que actúa como apoyo?
+A) En ambos casos la Administración pierde toda capacidad de decisión final.
+B) En el modelo de sustitución la entidad decide, mientras que en el de apoyo la Administración mantiene la decisión final.
+C) En el modelo de apoyo la entidad privada ejerce potestad sancionadora directa.
+OK: B
+EXP: La diferencia radica en quién adopta la decisión administrativa final.
+
+// [53]
+Q: ¿Qué valor jurídico tienen las actuaciones de entidades privadas colaboradoras frente a las realizadas por funcionarios públicos?
+A) Gozan de la misma presunción de certeza que los actos de los funcionarios.
+B) Carecen de todo valor probatorio en el procedimiento administrativo.
+C) No tienen presunción de certeza, pero pueden tener un valor probatorio reforzado.
+OK: C
+EXP: No tienen presunción de veracidad, pero sí relevancia técnica probatoria.
+
+// [54]
+Q: ¿Cuándo es necesaria la reserva de ley en la intervención de entidades privadas en funciones públicas?
+A) Solo cuando se trate de actividades voluntarias sin impacto jurídico.
+B) Cuando se afecten derechos de los ciudadanos o se impongan prestaciones patrimoniales.
+C) Únicamente cuando se trate de funciones internas de la Administración.
+OK: B
+EXP: El art. 31.3 CE exige cobertura legal en estos supuestos.
+
+// [55]
+Q: ¿Qué técnica jurídica suele utilizarse cuando el número de entidades privadas colaboradoras está limitado?
+A) La autorización administrativa general.
+B) La concesión administrativa.
+C) La contratación menor de servicios.
+OK: B
+EXP: Cuando el número es limitado, se recurre a concesión; si es abierto, autorización.
+
+// [56]
+Q: ¿Quién responde en último término por la función pública ejercida por entidades privadas colaboradoras?
+A) Exclusivamente la entidad privada que realiza la actividad.
+B) La Administración pública titular de la función.
+C) El órgano judicial que controle la actuación.
+OK: B
+EXP: La Administración mantiene la titularidad y responsabilidad de la función pública.
+    `;
+
+
+    const BANCO_5 = ` 
+pega texto aqui
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
