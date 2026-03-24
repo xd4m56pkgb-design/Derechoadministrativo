@@ -1,0 +1,2529 @@
+<!doctype html>
+< lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1;
+}
+
+.sumTitle{
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+  word-break:break-word;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 8: La administración general del Estado</h1>
+  <div class="small">by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+1. INTRODUCCIÓN
+
+La Administración General del Estado presenta un peso relativo reducido dentro del conjunto del sector público, ya que en 2022 solo concentraba una parte minoritaria del empleo público, en contraste con el crecimiento experimentado por las Administraciones autonómica y local. A pesar de esta reducción de efectivos y de la pérdida de funciones ejecutivas en favor de tareas de regulación, coordinación y supervisión, sigue siendo una organización de gran dimensión y elevada complejidad, con más de medio millón de empleados y una estructura cada vez más amplia por la diversificación de la actividad administrativa.
+
+La AGE se configura como un conjunto integrado por tres grandes ámbitos en función del territorio de actuación: la Administración central, la territorial o periférica y la exterior. Esta estructura ha evolucionado históricamente desde modelos más simples, como el previsto en la normativa de 1957, hacia una organización más compleja en la que se han ido incorporando nuevos órganos superiores y directivos, ajustándose continuamente el número de ministerios y sus competencias en función de las necesidades y del contexto político.
+
+La evolución de determinadas áreas materiales, como el medio ambiente, refleja claramente este proceso de reorganización progresiva, pasando de estructuras dispersas a la creación de órganos especializados y finalmente a ministerios propios con competencias integradas. Este dinamismo también se aprecia en el número de ministerios, que ha variado en función de factores económicos y políticos, desde configuraciones más reducidas en momentos de austeridad hasta estructuras más amplias vinculadas a gobiernos de coalición.
+
+La creación o modificación de ministerios implica la adaptación de la estructura administrativa mediante la redistribución de puestos y órganos, sin que ello suponga necesariamente un incremento significativo del gasto público. En todo caso, el diseño de la Administración central responde fundamentalmente a decisiones de carácter político, en las que influyen tanto la complejidad de las materias como criterios estratégicos del Gobierno, sin que existan parámetros objetivos que determinen el número óptimo de ministerios o el rango de sus órganos.
+
+Para comprender la estructura de la Administración central es necesario atender a distintos niveles normativos, que incluyen los reales decretos del presidente del Gobierno, del Consejo de Ministros y los específicos de cada ministerio, que desarrollan progresivamente la organización hasta niveles detallados. Este sistema normativo refleja el carácter flexible y adaptable de la organización administrativa.
+
+Junto a la Administración central, la AGE incluye la Administración territorial o periférica, integrada por los delegados y subdelegados del Gobierno y los directores insulares, que actúan en ámbitos territoriales concretos. Asimismo, forma parte de ella la Administración exterior, compuesta por embajadores, representantes permanentes y el conjunto de órganos y medios que actúan fuera del territorio nacional.
+
+Finalmente, la estructura estatal se completa con el sector público estatal institucional, formado por entidades de derecho público o privado dependientes o adscritas a la Administración del Estado para el cumplimiento de sus funciones, así como por determinadas universidades, configurando así un entramado organizativo amplio y diversificado que excede el núcleo estrictamente administrativo.
+
+2. EL GOBIERNO
+
+2.1. Naturaleza y funciones
+
+El Gobierno del Estado ejerce, conforme al artículo 97 CE, la dirección de la política interior y exterior, la dirección de la Administración civil y militar, la potestad reglamentaria y la función ejecutiva. Su regulación se remite por la Constitución a la Ley del Gobierno, lo que confirma que no es solo el órgano superior de la Administración del Estado, sino también el órgano constitucional que, por su legitimación democrática, asume la función de gobernar. Por ello, junto a funciones propiamente administrativas, desempeña funciones de dirección política y de dirección de la Administración.
+
+Dentro de la dirección de la política exterior se incluyen las competencias para negociar tratados internacionales y alcanzar acuerdos de esa naturaleza. En el ámbito de la política interior se comprenden decisiones de especial relevancia constitucional, como la actuación en situaciones de crisis mediante los estados de alarma y excepción y la iniciativa para el estado de sitio, la disolución de las Cámaras y la convocatoria de elecciones, la iniciativa legislativa y presupuestaria, la aprobación de normas con rango de ley, la propuesta de referéndum, la propuesta de nombramientos constitucionalmente relevantes, la iniciativa de reforma constitucional y la adopción de medidas frente a las comunidades autónomas al amparo del artículo 155 CE.
+
+Junto a ello, las funciones de dirección de la Administración civil y militar abarcan la creación y supresión de órganos directivos ministeriales, el nombramiento de sus titulares y la aprobación de programas, planes y directrices vinculantes para todos los órganos de la Administración General del Estado. La diferenciación entre actos de dirección política y actividad administrativa dio lugar a una intensa polémica sobre su control jurisdiccional, especialmente tras la STC 45/1990, que negó que toda la actuación del Gobierno estuviera sometida al Derecho administrativo cuando se tratase de manifestaciones de la función de dirección política.
+
+La discusión sobre el control de los actos del Gobierno fue recogida por la Ley del Gobierno, que remite a la legislación reguladora de la jurisdicción contencioso-administrativa y del Tribunal Constitucional. La LJCA rechazó la existencia de una categoría general de actos políticos inmunes al control judicial y extendió el control de los tribunales, aunque preservando el núcleo discrecional de la decisión. En todo caso, siempre cabe control sobre los derechos fundamentales, los elementos reglados del acto y las indemnizaciones procedentes.
+
+Pese a ello, la controversia no ha desaparecido. La jurisprudencia ha seguido afirmando en determinados supuestos la doble condición del Gobierno como órgano constitucional y como órgano administrativo, lo que ha llevado a excluir del control del Tribunal Supremo ciertos actos dictados en el ejercicio de funciones directamente constitucionales. Esta línea fue confirmada respecto de los reales decretos de declaración del estado de alarma, cuyo control asumió el Tribunal Constitucional al considerarlos normas con rango de ley.
+
+2.2. Los miembros del Gobierno
+
+La Constitución establece que el Gobierno está integrado, al menos, por el presidente, el vicepresidente o vicepresidentes y los ministros. La Ley del Gobierno ha mantenido esa composición mínima sin incluir a los secretarios de Estado, aunque estos dirijan áreas concretas dentro de los ministerios bajo la dependencia directa del ministro.
+
+2.2.1. El presidente y el vicepresidente o vicepresidentes
+
+El presidente ocupa una posición claramente dominante dentro del Gobierno. Le corresponde crear, modificar y suprimir los departamentos ministeriales y proponer al Rey el nombramiento y cese de los demás miembros del Gobierno, de modo que la propia existencia de los órganos y la designación de sus titulares dependen directamente de su voluntad. También fija las directrices políticas generales, puede impartir instrucciones a los ministros, resuelve conflictos de atribuciones entre departamentos y, dentro del Consejo de Ministros, convoca, preside y fija el orden del día de las reuniones.
+
+Aunque el sistema tiene un marcado carácter presidencialista, el Gobierno actúa conforme al principio de colegialidad y de responsabilidad solidaria de sus miembros, sin perjuicio de la responsabilidad individual que cada ministro asume por la gestión de su departamento. El nombramiento del presidente exige la confianza del Congreso de los Diputados, obtenida en los términos previstos constitucionalmente, y su cese puede producirse por pérdida de esa confianza o por la celebración de elecciones generales.
+
+La vicepresidencia no es un órgano necesario, pues depende de la voluntad del presidente. Este decide también las funciones que atribuye al vicepresidente, que no necesita ser ministro, aunque la acumulación de ambos cargos refuerza su posición política. Puede haber varios vicepresidentes y corresponde al vicepresidente primero, si existe, sustituir al presidente del Gobierno.
+
+2.2.2. Los ministros
+
+Los ministros son una figura con antecedentes históricos en los Secretarios del Despacho, surgidos para sustituir progresivamente a los Consejos Reales y especializar la gestión de los asuntos públicos. En la actualidad, además de formar parte del Gobierno, desarrollan el programa gubernamental en el departamento del que son titulares conforme a los acuerdos del Consejo de Ministros y a las instrucciones del presidente.
+
+Como órganos superiores de la Administración central del Estado, dirigen las actividades comprendidas en la competencia de su ministerio y responden de su gestión. Les corresponde fijar objetivos, aprobar planes de actuación y controlar la ejecución por los órganos superiores y directivos, así como ejercer el control de eficacia sobre estos y sobre los organismos dependientes. También poseen potestad reglamentaria, aunque limitada a las materias propias de su departamento, sin alcanzar la aprobación de reglamentos generales de desarrollo y ejecución de las leyes, que corresponde al Consejo de Ministros.
+
+Los ministros proponen la organización interna de su departamento y el nombramiento o cese de determinados órganos directivos, nombran y cesan a otros titulares salvo los atribuidos al secretario de Estado, delegan competencias, imparten instrucciones y ejercen funciones de revisión de actos, declaración de lesividad, resolución de recursos y de conflictos internos de atribuciones. Asimismo, ostentan la jefatura del personal del departamento, gestionan los planes de empleo y las relaciones de puestos de trabajo y pueden imponer la sanción de separación del servicio por faltas muy graves.
+
+También asumen la gestión presupuestaria del ministerio, elaborando las propuestas de gasto y de presupuesto de los organismos dependientes y administrando después los créditos aprobados y sus modificaciones dentro de su ámbito competencial. Además, representan al departamento en sus relaciones con las comunidades autónomas y en los órganos de cooperación correspondientes. Junto a los ministros con departamento pueden existir ministros sin cartera, que carecen de ministerio propio, pero disponen de estructura y medios asignados por real decreto, y cuyas competencias dependen de la norma de creación del órgano.
+
+2.2.3. El régimen común a vicepresidentes y ministros
+
+Para ser vicepresidente o ministro no es necesario ser diputado. Basta con reunir la nacionalidad española, la mayoría de edad, el disfrute de los derechos de sufragio, no estar inhabilitado y cumplir los requisitos de idoneidad exigidos a los altos cargos de la Administración General del Estado. Sin embargo, al no exigirse una formación o experiencia profesional mínima concreta, la idoneidad queda en la práctica muy vinculada a la honorabilidad y a la apreciación del presidente del Gobierno, que decide si la persona nombrada es adecuada para el cargo.
+
+La retribución de los miembros del Gobierno se fija anualmente por la ley de presupuestos en una cuantía anual distribuida en doce meses, a la que puede añadirse la antigüedad si se trata de funcionarios. Al ser nombrados, dejan el servicio activo y pasan a la situación de servicios especiales, lo que les permite recuperar posteriormente su puesto o uno similar. Su cargo solo es compatible con el mandato parlamentario, quedando excluida cualquier otra función pública o actividad profesional o mercantil.
+
+Tras el cese, los miembros del Gobierno tienen derecho, en los términos legalmente establecidos, a una pensión indemnizatoria temporal, concebida para compensar las limitaciones que pesan sobre su actividad profesional posterior y para evitar las denominadas puertas giratorias. Esa percepción es incompatible con la obtención de determinadas retribuciones públicas o privadas, salvo en los supuestos excepcionales previstos legalmente.
+
+2.3. El funcionamiento del Gobierno
+
+La Ley del Gobierno dispone que sus miembros se reúnen en Consejo de Ministros y en Comisiones Delegadas del Gobierno. Ambos son órganos colegiados del Gobierno, aunque la denominación de las Comisiones Delegadas no implica que todas sus competencias procedan de una delegación del Consejo de Ministros.
+
+2.3.1. El Consejo de Ministros
+
+El Consejo de Ministros integra a todos los miembros del Gobierno. A sus reuniones pueden asistir, con voz y sin voto, secretarios de Estado y altos cargos cuando sean convocados por el presidente, que es quien convoca, preside y fija el orden del día, mientras que la secretaría corresponde al ministro de la Presidencia. De las reuniones, que pueden tener carácter deliberante o decisorio, se levanta acta con un contenido limitado, coherente con el carácter secreto de las deliberaciones reconocido expresamente por la Ley del Gobierno.
+
+Su funcionamiento no se rige por las reglas generales de los órganos colegiados de la LRJSP, sino por disposiciones internas no publicadas, lo que pone de manifiesto el peso de la tradición burocrática. La Ley del Gobierno recoge solo algunas reglas básicas, muchas de ellas procedentes de instrucciones internas anteriores.
+
+Entre sus competencias destacan la aprobación de proyectos de ley y del proyecto de ley de presupuestos generales del Estado, la aprobación de reales decretos-leyes y reales decretos legislativos, la negociación y firma de tratados internacionales o su remisión a las Cortes, la declaración de los estados de alarma y excepción y la propuesta del estado de sitio, la emisión de deuda pública cuando exista autorización legal, la aprobación de reglamentos de desarrollo y ejecución de las leyes y de otras disposiciones reglamentarias, la creación, modificación y supresión de órganos directivos ministeriales y la adopción de programas, planes y directrices vinculantes para la Administración General del Estado.
+
+2.3.2. Las Comisiones Delegadas del Gobierno
+
+Las Comisiones Delegadas del Gobierno surgieron para facilitar la coordinación entre ministerios en materias que afectaban a varios departamentos y para aligerar la toma de decisiones del Gobierno en Pleno. Reúnen a los ministros directamente interesados en cada materia, lo que permite coordinar actuaciones, preparar asuntos reservados al Consejo de Ministros y resolver aquellos que no requieren su intervención directa.
+
+Estas Comisiones son creadas por real decreto del Consejo de Ministros a propuesta del presidente, que determina su composición, presidencia, secretaría, funciones y reglas de funcionamiento. Sus reuniones son secretas y, aunque son órganos colegiados del Gobierno, en ellas participan también secretarios de Estado para hacer más eficaz su actividad.
+
+Sus funciones son principalmente de coordinación, examen y resolución de cuestiones que afectan a varios ministerios, así como de elaboración de propuestas conjuntas para su elevación al Consejo de Ministros. También pueden ejercer funciones administrativas delegadas por este, salvo aquellas que les están vedadas por derivar directamente de la Constitución o por referirse al nombramiento y separación de altos cargos. A su vez, el Consejo de Ministros puede avocar asuntos atribuidos a estas Comisiones.
+
+La Ley del Gobierno no les atribuye expresamente potestad reglamentaria ni permite que la reciban por delegación, aunque existe una cierta tensión con otros preceptos legales que parecen admitir la adopción de disposiciones por estas Comisiones. En todo caso, esa ambigüedad no elimina el hecho de que la atribución expresa de la potestad reglamentaria se reconoce únicamente al Consejo de Ministros.
+
+3. LOS ÓRGANOS DE APOYO AL GOBIERNO
+
+3.1. Los secretarios de Estado
+
+Entre los órganos de apoyo al Gobierno destaca el secretario de Estado, cargo inspirado en el modelo francés, que depende directamente del ministro y ocupa una posición superior al subsecretario, aunque este no dependa de él sino también del ministro. Su función consiste en dar unidad de dirección e intensificar la acción administrativa en un área concreta de un ministerio cuando esa materia no justifica la creación de un departamento independiente, pero sí requiere una dirección política y administrativa propia.
+
+Los secretarios de Estado no forman parte del Gobierno, aunque pueden integrarse en las Comisiones Delegadas del Gobierno cuando así lo prevea el real decreto correspondiente. Son órganos superiores que coordinan las secretarías generales, si existen, y las direcciones generales incluidas en su ámbito, respondiendo ante el ministro por la ejecución de la política gubernamental en el área que tienen encomendada. Sus funciones propias, reguladas en la LRJSP, se asemejan en gran medida a las del ministro, pero limitadas a su sector de actividad.
+
+Dentro de esas funciones, asumen la representación externa de la secretaría de Estado, dirigen y supervisan los órganos directivos adscritos, nombran y separan a los subdirectores generales de su dependencia, resuelven recursos frente a actos de los órganos que dependen directamente de ellos y solucionan conflictos de atribuciones entre dichos órganos. También gestionan, dentro de los límites fijados por el ministro, los créditos presupuestarios de su área, aprueban modificaciones presupuestarias, reconocen obligaciones económicas y proponen su pago.
+
+Las secretarías de Estado se crean por real decreto del presidente, mientras que sus titulares son nombrados y separados por real decreto del Consejo de Ministros. Aunque tienen la condición de altos cargos y les resulta aplicable el régimen general correspondiente, no se les exigen requisitos específicos adicionales de formación, experiencia o condición funcionarial. Su régimen retributivo, pese a tratarse de órganos superiores, se aproxima al de los órganos directivos, al estructurarse en sueldo, complemento de destino, complemento específico y productividad, con una configuración semejante a la de los funcionarios, aunque se trate de cargos de carácter político.
+
+3.2. La Comisión General de Secretarios de Estado y Subsecretarios
+
+La Comisión General de Secretarios de Estado y Subsecretarios está integrada por los titulares de esos cargos y cuenta además con la asistencia del abogado general del Estado, que dirige el servicio jurídico del Estado. El presidente puede convocar también a otros altos cargos asimilados cuando la naturaleza de los asuntos lo aconseje. La presidencia corresponde a un vicepresidente del Gobierno o, más habitualmente, al ministro de la Presidencia, y en su ausencia se aplica el orden de precedencia entre los departamentos ministeriales. La secretaría corresponde al subsecretario del ministerio de la Presidencia, actuando el director del secretariado del Gobierno como secretario adjunto.
+
+La función principal de esta Comisión es preparar los asuntos que posteriormente se elevarán al Consejo de Ministros, salvo aquellos que deban ir directamente o los que, por razones de urgencia, así lo decida su presidente. Además, actúa en la práctica como órgano de coordinación respecto de cuestiones que, aun sin corresponder al Consejo de Ministros, afectan a varios ministerios.
+
+El funcionamiento interno de la Comisión muestra su relevancia política y técnica. Su orden del día, conocido como índice negro, incluye los asuntos seleccionados por su presidente entre los propuestos por los ministerios. Tras emitir informe, es también el presidente quien decide la forma en que los asuntos se elevan al Consejo de Ministros. De ahí derivan el índice verde, que reúne los asuntos informados favorablemente y normalmente aprobados sin discusión, y el índice rojo, en el que se incluyen los asuntos que, pese a contar con informe favorable, han suscitado oposición de algún ministerio o exigen una atención especial, por lo que son objeto de deliberación expresa por el Consejo de Ministros.
+
+3.3. El secretariado del Gobierno
+
+El secretariado del Gobierno es el órgano del ministerio de la Presidencia encargado del apoyo material a los órganos colegiados del Gobierno y a la Comisión de Secretarios de Estado y Subsecretarios. Se ocupa de remitir convocatorias, archivar y custodiar actas y documentación, asistir al ministro que desempeña la secretaría del Consejo de Ministros y velar por la publicación en el BOE de las disposiciones y normas emanadas del Gobierno cuando proceda. Su titular ejerce además la secretaría adjunta de la Comisión de Secretarios de Estado y Subsecretarios.
+
+También desarrolla funciones de asistencia al ministro de la Presidencia en materias de especial relevancia institucional. Entre ellas se encuentran la obtención de la sanción real de las leyes aprobadas por las Cortes, la expedición real de los reales decretos, la tramitación de los actos y disposiciones del Rey que deben ser refrendados por el presidente del Gobierno y la tramitación de las disposiciones y actos del propio presidente del Gobierno.
+
+3.4. Los gabinetes
+
+Los miembros del Gobierno y los secretarios de Estado cuentan con un gabinete como órgano de apoyo político y de especial confianza. Su función es asesorarles tanto en sus tareas parlamentarias como en sus relaciones con las instituciones y con la organización administrativa.
+
+La composición, número de integrantes y categoría de sus puestos se determina en los reales decretos de estructura orgánica básica de los departamentos ministeriales.
+
+Los puestos de los gabinetes suelen configurarse como puestos que pueden ser ocupados indistintamente por personal funcionario o eventual. El personal eventual, nombrado con carácter no permanente, realiza exclusivamente funciones de confianza, lo que permite incorporar a personas que no son funcionarios de carrera. Por ello, los gabinetes suelen integrar personas vinculadas políticamente al Gobierno o al alto cargo correspondiente, o personas de su especial confianza, siendo además libre su cese y produciéndose en todo caso cuando cesa la autoridad a la que prestan asesoramiento.
+
+Cuando un funcionario de carrera pasa a ocupar un puesto en un gabinete, puede mantenerse en servicio activo en ese nuevo puesto o pasar a la situación de servicios especiales. Esta última situación le garantiza, tras el cese, la posibilidad de reincorporarse a un puesto en la misma localidad y con las retribuciones correspondientes a la categoría, nivel o escalón que tuviera consolidados.
+
+4. ÓRGANOS DIRECTIVOS DE LA ADMINISTRACIÓN CENTRAL DEL ESTADO
+
+4.1. El subsecretario
+
+La Administración central del Estado cuenta, además de con ministros y secretarios de Estado como órganos superiores, con órganos directivos entre los que se incluyen subsecretarios, secretarios generales, secretarios generales técnicos, directores generales y subdirectores generales. La agrupación legal de estos cargos responde al rango que la ley les atribuye y al régimen retributivo asociado, no a la identidad de sus funciones. Todos, salvo el subdirector general, son altos cargos con una estructura salarial semejante a la funcionarial, aunque solo este último ocupa realmente un puesto funcionarial en servicio activo. Además, mientras secretarios generales y directores generales se proyectan sobre áreas concretas de actividad, subsecretarios y secretarios generales técnicos prestan servicio al conjunto del departamento.
+
+El subsecretario depende directamente del ministro y representa al departamento, dirigiendo sus servicios comunes. Asume la coordinación operativa del personal y de los medios materiales para hacer posibles los objetivos de la acción ministerial, asegurando la asistencia técnica y jurídica necesaria para que los órganos superiores desarrollen sus funciones de planificación, control de eficacia, organización del personal y ejercicio de la potestad reglamentaria del ministro.
+
+Tras el ministro, ejerce la jefatura de personal de todo el departamento, nombrando y cesando subdirectores generales, imponiendo sanciones disciplinarias salvo la de pérdida del empleo, convocando y resolviendo pruebas selectivas y concursos de provisión. Supervisa la secretaría general técnica, dirige los servicios comunes y la inspección de servicios, y se ocupa también de obtener los inmuebles precisos para el funcionamiento del ministerio. A ello se añade su colaboración con el ministro en la planificación de los objetivos departamentales y su papel de relación con otros ministerios, especialmente relevante en la Comisión General de Secretarios de Estado y Subsecretarios.
+
+Todos los departamentos ministeriales cuentan necesariamente con una única subsecretaría. Su titular debe reunir no solo los requisitos generales de idoneidad exigidos a los altos cargos, sino también la condición de funcionario de carrera del subgrupo A1 de cualquier Administración pública, lo que pretende asegurar un conocimiento interno de la organización administrativa. Su nombramiento y cese corresponde al Consejo de Ministros mediante real decreto.
+
+4.2. El secretario general
+
+El secretario general es un órgano directivo con rango asimilado al de subsecretario. Puede depender directamente del ministro o del secretario de Estado cuando actúa en un área concreta atribuida a una secretaría de Estado. Su origen está en antiguos subsecretarios que, sin ocuparse de los servicios comunes del ministerio, ejercían funciones de dirección sobre sectores específicos de actividad.
+
+Los actuales secretarios generales son, por tanto, órganos de carácter excepcional que dirigen un sector determinado dentro del ministerio, coordinan los órganos subordinados que dependen de ellos y ejercen las competencias que les atribuyen las normas de estructura orgánica básica.
+
+Su función no se extiende a todo el departamento, sino a un ámbito material concreto dentro de él.
+
+Son nombrados por el Consejo de Ministros a propuesta del ministro o del presidente del Gobierno entre personas con cualificación y experiencia en puestos de responsabilidad en la gestión pública o privada. Sin embargo, al no concretarse legalmente qué nivel de cualificación o experiencia se exige, esta previsión apenas añade contenido real a la exigencia general de idoneidad establecida para los altos cargos.
+
+4.3. El secretario general técnico
+
+El secretario general técnico nació para proporcionar asistencia técnica en las materias propias del departamento, elaborando estudios, reuniendo documentación, preparando proyectos de planes y programas y recopilando información estadística. Esa función técnica sigue siendo hoy su rasgo esencial, aunque actualmente se le atribuyan además otras competencias relacionadas con los servicios comunes del ministerio.
+
+En la actualidad le corresponden, como mínimo, funciones relativas a asistencia jurídica, publicaciones y producción normativa, lo que confirma su posición como órgano de apoyo técnico general del departamento. Depende del subsecretario y tiene rango asimilado al de director general, por lo que sirve al conjunto del ministerio y no a un área sectorial concreta.
+
+Su nombramiento corresponde al Consejo de Ministros, a propuesta del titular del ministerio, y exige no solo la idoneidad propia de los altos cargos, sino también la condición de funcionario de carrera del subgrupo A1, igual que sucede con los subsecretarios. Con ello se refuerza su perfil técnico y profesional dentro de la estructura directiva ministerial.
+
+4.4. El director general
+
+El director general es el órgano directivo de categoría inmediatamente inferior al subsecretario y puede depender funcionalmente de una subsecretaría, de una secretaría de Estado o de una secretaría general. Tiene encomendada la gestión ordinaria de una o varias áreas de actividad conectadas entre sí, impulsando y supervisando las tareas de gestión, velando por el buen funcionamiento de los órganos y unidades dependientes y ejerciendo las competencias que le atribuyan las normas o le sean delegadas.
+
+Constituye el último escalón político de la Administración, ya que, aunque normalmente debe ser funcionario de carrera, no desempeña su cargo en situación de servicio activo, sino en servicios especiales. La legislación ha intentado profesionalizar este nivel exigiendo, como regla general, que el director general pertenezca a un cuerpo del subgrupo A1 y reúna además los requisitos generales de idoneidad.
+
+Sin embargo, la propia ley permite exceptuar esa exigencia mediante real decreto de estructura, siempre que la decisión esté motivada. Esa excepción no existe para subsecretarios ni secretarios generales técnicos, que necesariamente han de ser funcionarios de carrera. La legalidad de la exención puede ser controlada por los tribunales, que exigen una justificación objetiva y comprensible, vinculada a las funciones concretas de la dirección general y a la preparación o experiencia requerida para su desempeño, especialmente cuando esa cualificación pueda proceder del sector privado.
+
+4.5. El subdirector general
+
+El subdirector general es el órgano directivo encargado de ejecutar las actividades que tenga asignadas y de llevar la gestión ordinaria de los asuntos propios de su subdirección. Aunque la ley lo incluye entre los órganos directivos, se trata en realidad de un cargo integrado plenamente en la carrera funcionarial.
+
+Debe ser desempeñado por un funcionario de carrera en servicio activo perteneciente a un cuerpo del subgrupo A1, ya que se trata de puestos que suelen tener nivel de destino 30. Su nombramiento corresponde al órgano superior o directivo del que dependa, pero debe hacerse conforme a los principios de igualdad, mérito y capacidad y a través de los sistemas de provisión previstos para los funcionarios, normalmente mediante libre designación.
+
+La libre designación exige convocatoria pública, pero permite al órgano competente valorar discrecionalmente la idoneidad de los candidatos en relación con los requisitos del puesto.
+
+Precisamente por ese carácter discrecional, tanto el nombramiento como el cese deben ser motivados. En el caso del cese, la motivación ha de expresar de forma real y suficiente la desaparición de las razones de confianza o idoneidad que justificaron el nombramiento, o la concurrencia de una circunstancia objetiva que lo haga procedente, sin que basten fórmulas genéricas o estandarizadas. Esta exigencia diferencia claramente al subdirector general del resto de órganos superiores y directivos, cuyos titulares, al ser cargos políticos ajenos a la carrera funcionarial, pueden ser nombrados y cesados sin motivación.
+
+5. ORGANIGRAMA DEL MINISTERIO DEL INTERIOR
+
+El ministerio del Interior se estructura en torno al ministro, del que dependen directamente órganos de apoyo como el gabinete y la oficina de comunicación, así como tres grandes bloques organizativos que concentran la estructura básica del departamento: la secretaría de Estado de Seguridad, la secretaría general de Instituciones Penitenciarias y la subsecretaría del Interior.
+
+La secretaría de Estado de Seguridad constituye el núcleo principal en materia de seguridad pública y se organiza en torno a varias direcciones generales. Destacan la Dirección General de la Policía y la Dirección General de la Guardia Civil, que, pese a su denominación, tienen rango equivalente al de subsecretaría de Estado. Bajo ellas se integran diversos órganos con denominaciones heterogéneas, como direcciones adjuntas operativas, mandos y gabinetes técnicos, todos ellos con rango de subdirección general. Junto a estas, existen otras direcciones generales con funciones más transversales, como las de relaciones internacionales y extranjería o la de coordinación y estudios, además de órganos especializados en cooperación policial, planificación de infraestructuras y sistemas de información.
+
+La secretaría general de Instituciones Penitenciarias se configura como el órgano encargado de la ejecución de la política penitenciaria y se articula fundamentalmente a través de la Dirección General de Ejecución Penal y Reinserción Social. Bajo esta se integran órganos responsables de la gestión de penas, medidas alternativas y actividad penitenciaria, junto con otros centros directivos orientados a la coordinación institucional, la gestión de recursos, la planificación económica y el análisis. Asimismo, depende de esta secretaría una entidad de derecho público dedicada al trabajo penitenciario y a la formación para el empleo.
+
+La subsecretaría del Interior actúa como órgano de dirección de los servicios comunes del ministerio y concentra funciones transversales de apoyo. Bajo su dependencia se sitúan la secretaría general técnica y diversas direcciones generales con competencias específicas, como política interior, tráfico, protección civil y emergencias, y apoyo a víctimas del terrorismo. Estas direcciones se estructuran internamente en subdirecciones generales especializadas en ámbitos como procesos electorales, movilidad y seguridad vial, planificación de emergencias o asistencia a víctimas. Además, la subsecretaría cuenta con órganos de apoyo como la Abogacía del Estado y la Intervención Delegada, que garantizan respectivamente la asistencia jurídica y el control económico-financiero del departamento.
+
+En conjunto, el organigrama del ministerio del Interior refleja una estructura compleja en la que coexisten órganos superiores, directivos y entidades instrumentales, con una organización que combina áreas funcionales específicas con órganos de coordinación y apoyo común, destacando la singularidad de sus denominaciones frente a su verdadero rango orgánico.
+
+6. LA ADMINISTRACIÓN PERIFÉRICA DEL ESTADO
+
+La Administración General del Estado ejerce sus competencias en todo el territorio nacional, pero la existencia de un único centro de decisión hace necesario acercar su actuación a los distintos ámbitos territoriales. Dado que el Estado mantiene competencias ejecutivas, tanto en la prestación de servicios como en el ejercicio de potestades públicas, resulta imprescindible una organización territorial que permita su ejercicio eficaz. Esta es la finalidad de la Administración periférica del Estado, regulada en la LRJSP.
+
+6.1. Los delegados del Gobierno
+
+La Constitución configura a los delegados del Gobierno como los órganos encargados de dirigir la Administración del Estado en cada comunidad autónoma y de coordinarla tanto internamente como con las administraciones autonómica y local. Se trata de un órgano propio de la administración periférica que no debe confundirse con otros órganos de igual denominación integrados en la Administración central.
+
+Su configuración actual es el resultado de una evolución normativa que culmina con la LOFAGE y se mantiene en la LRJSP, que los configura como cargos directivos equiparados a subsecretarios y sometidos al régimen de los altos cargos. Son nombrados por real decreto del Consejo de Ministros a propuesta del presidente del Gobierno, con amplios márgenes de discrecionalidad, ya que no se exigen requisitos concretos de cualificación ni la condición de funcionario de carrera.
+
+En caso de ausencia o vacante, la suplencia corresponde al subdelegado del Gobierno designado o, en su defecto, al de la provincia sede de la delegación, y en comunidades autónomas uniprovinciales al secretario general de la delegación.
+
+Sus competencias comprenden la dirección y coordinación de la Administración del Estado en la comunidad autónoma, incluyendo el nombramiento de subdelegados y la supervisión de los servicios territoriales. También asumen funciones de información al ciudadano, actuando como punto de acceso a las distintas administraciones, y de coordinación entre administraciones mediante el intercambio de información y la promoción de convenios.
+
+Ejercen asimismo funciones de control de legalidad, resolviendo recursos administrativos y velando por la correcta aplicación del ordenamiento jurídico, pudiendo incluso suspender actos de entidades locales que lesionen gravemente el interés general, con posterior impugnación ante la jurisdicción contencioso-administrativa. Además, informan a los ministerios sobre el funcionamiento de los servicios territoriales, proponen medidas de mejora organizativa y coordinan el uso de medios materiales.
+
+Finalmente, desempeñan funciones esenciales en materia de seguridad ciudadana y protección de derechos y libertades, a través de las Fuerzas y Cuerpos de Seguridad del Estado bajo la dependencia funcional del ministerio del Interior.
+
+6.2. Los servicios territoriales y la estructura de las delegaciones del Gobierno
+
+La Administración del Estado dispone de servicios territoriales distribuidos por todo el territorio, que pueden integrarse o no en las delegaciones del Gobierno. La integración persigue la racionalización organizativa y el ahorro de costes mediante el uso compartido de medios personales y materiales.
+
+Los servicios integrados dependen orgánicamente del delegado del Gobierno o del subdelegado, a través de la secretaría general, y sus puestos de trabajo se adscriben al ministerio competente en materia de política territorial. Sin embargo, funcionalmente continúan dependiendo de los ministerios correspondientes, que dictan instrucciones, resuelven consultas y evalúan su actividad, manteniendo una relación directa en la gestión ordinaria.
+
+Existen también servicios no integrados, cuya organización se determina mediante real decreto o por orden ministerial según su nivel orgánico. Esta dualidad ha hecho necesaria la creación de un órgano de coordinación interministerial para garantizar el correcto funcionamiento del sistema.
+
+La estructura de las delegaciones del Gobierno incluye las subdelegaciones en las provincias y las direcciones insulares, así como una secretaría general encargada de los servicios comunes y de ámbitos como derechos ciudadanos, procesos electorales o protección civil, que dependen funcionalmente del ministerio del Interior. También existen áreas funcionales para la gestión de los servicios integrados y un gabinete de apoyo al delegado.
+
+6.3. Los subdelegados del Gobierno
+
+Los subdelegados del Gobierno en la provincia sustituyen a los antiguos gobernadores civiles y responden a la adaptación de la administración periférica al Estado autonómico. A diferencia de aquellos, carecen de carácter político y se configuran como puestos reservados a funcionarios de carrera del subgrupo A1, equiparados a subdirectores generales.
+
+Existe un subdelegado en cada provincia, salvo en las comunidades autónomas uniprovinciales, donde sus funciones son asumidas por el delegado del Gobierno, salvo excepciones justificadas.
+
+Son nombrados por el delegado del Gobierno mediante libre designación y pasan a la situación de servicios especiales.
+
+Ejercen funciones relativas al orden público, la seguridad ciudadana y la protección civil en el ámbito provincial, coordinan la actuación de la administración estatal con la autonómica y local, dirigen los servicios territoriales integrados y supervisan los no integrados, y coordinan la utilización de medios materiales en la provincia.
+
+6.4. El director insular
+
+El director insular tiene su origen en los antiguos gobernadores insulares y responde a la necesidad de adaptar la organización territorial a la realidad insular. Su regulación actual mantiene la lógica de profesionalización introducida por la LOFAGE, configurándolo como un puesto reservado a funcionarios de carrera del subgrupo A1.
+
+Es nombrado por el delegado del Gobierno mediante libre designación y depende jerárquicamente de este o del subdelegado del Gobierno, cuando exista. Ejerce en su ámbito territorial funciones equivalentes a las de los subdelegados del Gobierno, aunque no tiene la condición de órgano directivo al no estar equiparado a una subdirección general.
+
+Su existencia no es obligatoria en todas las islas, sino únicamente en aquellas que se determinen reglamentariamente, atendiendo a las necesidades organizativas del territorio.
+
+7. LA ADMINISTRACIÓN DEL ESTADO EN EL EXTERIOR
+
+La Administración del Estado en el exterior careció durante mucho tiempo de una regulación legal sistemática, pues su organización se apoyaba en reales decretos y en normas específicas sobre determinados órganos o instituciones. La novedad llegó con la LOFAGE, que incorporó una regulación básica de esta materia, aunque hoy el régimen principal se contiene en la Ley de la Acción y del Servicio Exterior del Estado, a la que la LRJSP se remite, quedando esta última con aplicación supletoria.
+
+La Ley de la Acción y del Servicio Exterior del Estado regula el servicio exterior con la finalidad de asegurar la unidad de acción. Sus funciones generales consisten en proporcionar al Gobierno la información necesaria para el desarrollo de la política exterior y en prestar en el extranjero asistencia y protección a las personas físicas y jurídicas españolas. El servicio exterior está integrado por órganos, unidades administrativas, instituciones y medios personales y materiales que actúan fuera del territorio nacional y que, aunque dependen orgánica y funcionalmente de los ministerios competentes por razón de la materia, quedan jerárquicamente sometidos al embajador.
+
+La organización del servicio exterior comprende las misiones diplomáticas permanentes, las representaciones permanentes, las misiones diplomáticas especiales, las delegaciones y las oficinas consulares. Las misiones diplomáticas permanentes representan a España ante uno o varios Estados, mientras que las representaciones permanentes lo hacen ante la Unión Europea o ante organizaciones internacionales, incluyéndose entre ellas las representaciones de observación ante organizaciones de las que España no forma parte.
+
+Estas misiones y representaciones ejercen las funciones que les atribuyen el Derecho internacional, los tratados internacionales, la normativa de la Unión Europea y las reglas de la organización internacional correspondiente. Debido a que actúan en el ámbito internacional, la aplicación del derecho interno se adapta en aspectos como la gestión del personal, la administración económica, la contratación pública, la seguridad de la información o la defensa jurídica en el exterior.
+
+La creación de misiones diplomáticas y representaciones permanentes exige real decreto del Consejo de Ministros a iniciativa del ministerio competente en asuntos exteriores, con acuerdo del ministerio de Hacienda y previo informe del Consejo Ejecutivo de Política Exterior. Al frente de ambas se sitúa el embajador, salvo que en determinadas representaciones pueda actuar un encargado de negocios. El embajador es el jefe de la misión o representación y dirige, coordina, supervisa e impulsa la actividad del conjunto de órganos y unidades integrados en ella.
+
+Los embajadores son nombrados por real decreto. Normalmente proceden de la carrera diplomática, aunque también pueden ser designadas personas ajenas a ella conforme a criterios de experiencia profesional. Junto a la jefatura, las misiones y representaciones cuentan con una chancillería diplomática dirigida por un funcionario de la carrera diplomática y con otras unidades especializadas, como consejerías, agregadurías, oficinas sectoriales, oficinas económicas y comerciales, centros culturales o de cooperación, que dependen orgánica y funcionalmente de sus respectivos ministerios. En algunos casos existe además una sección de servicios comunes para la gestión compartida de recursos.
+
+Las misiones diplomáticas especiales y las delegaciones se caracterizan por su carácter temporal. Las primeras responden a cometidos concretos o asuntos especiales y se crean por real decreto del Consejo de Ministros, que determina su objeto y duración de acuerdo con el Estado receptor. Las delegaciones representan al Estado en conferencias o actos concretos y están presididas, con carácter general, por los órganos que ostentan la representación del Estado, requiriéndose solo excepcionalmente autorización específica para que esa función recaiga en otro titular.
+
+Las oficinas consulares son los órganos encargados de ejercer las funciones consulares previstas en los tratados internacionales y de prestar asistencia a los españoles en el exterior. Entre sus tareas se encuentran la expedición de pasaportes y documentos de viaje, la representación o asistencia ante autoridades del Estado receptor, la comunicación de resoluciones judiciales, la tramitación de comisiones rogatorias y la protección de menores españoles. Esa protección no se limita a los nacionales españoles, pues también puede extenderse a ciudadanos de otros Estados miembros de la Unión Europea cuando su Estado no esté representado en el país tercero de que se trate.
+
+Las oficinas consulares se crean por real decreto a iniciativa del ministerio competente en asuntos exteriores, con conformidad del ministerio de Hacienda e informe previo del Consejo Ejecutivo de Política Exterior. Pueden ser oficinas consulares de carrera, dirigidas por funcionarios de la carrera diplomática y de las que dependen agencias consulares, u oficinas consulares honorarias, a cargo de cónsules honorarios.
+`.trim();
+
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+  "1": "La Administración General del Estado ha perdido peso relativo dentro del empleo público y ha cedido funciones ejecutivas, pero sigue siendo una organización muy compleja, estructurada en administración central, periférica y exterior, completada por un sector público institucional amplio y adaptable a decisiones políticas y necesidades organizativas cambiantes.",
+  "2.1": "El Gobierno es simultáneamente órgano constitucional de dirección política y órgano superior de la Administración, al que corresponde dirigir la política interior y exterior, la Administración civil y militar, ejercer la potestad reglamentaria y desarrollar la función ejecutiva, con actos sometidos a control jurisdiccional al menos en sus elementos reglados, derechos fundamentales e indemnizaciones.",
+  "2.2": "La composición mínima del Gobierno incluye presidente, vicepresidente o vicepresidentes y ministros, quedando fuera los secretarios de Estado, lo que refleja una estructura constitucional básica que distingue entre miembros del Gobierno y órganos superiores de apoyo o dirección sectorial.",
+  "2.2.1": "El presidente ocupa una posición central y dominante, ya que define la estructura ministerial, propone los nombramientos y ceses, fija la orientación política general y dirige el funcionamiento del Consejo de Ministros, mientras que la vicepresidencia es eventual, depende de su decisión y cumple funciones de apoyo o sustitución.",
+  "2.2.2": "Los ministros integran el Gobierno y, al mismo tiempo, son órganos superiores de la Administración encargados de dirigir su departamento, desarrollar el programa gubernamental, ejercer potestades organizativas, reglamentarias, de personal, presupuestarias y de control, pudiendo existir también ministros sin cartera con competencias definidas singularmente.",
+  "2.2.3": "El régimen común de vicepresidentes y ministros se basa en requisitos generales de nacionalidad, capacidad e idoneidad, en una compatibilidad muy restringida del cargo y en un estatuto económico y profesional que incluye retribución presupuestaria, pase a servicios especiales y una pensión indemnizatoria temporal tras el cese bajo condiciones legales estrictas.",
+  "2.3": "El Gobierno funciona colegiadamente a través del Consejo de Ministros y de las Comisiones Delegadas del Gobierno, órganos que articulan la deliberación, coordinación y adopción de decisiones políticas y administrativas en distintos niveles.",
+  "2.3.1": "El Consejo de Ministros reúne a todos los miembros del Gobierno bajo la dirección del presidente, actúa con deliberaciones secretas y posee las competencias centrales en materia legislativa, reglamentaria, presupuestaria, internacional, organizativa y de dirección general de la Administración del Estado.",
+  "2.3.2": "Las Comisiones Delegadas del Gobierno son órganos colegiados creados para coordinar ministerios, preparar asuntos del Consejo de Ministros y resolver cuestiones interdepartamentales, pudiendo recibir funciones administrativas delegadas, pero sin atribución expresa de potestad reglamentaria.",
+  "3.1": "El secretario de Estado es un órgano superior de apoyo político-administrativo que, sin formar parte del Gobierno, dirige un área concreta dentro de un ministerio, coordina órganos directivos, ejecuta la política gubernamental sectorial y ejerce funciones de representación, supervisión, resolución y gestión presupuestaria en su ámbito.",
+  "3.2": "La Comisión General de Secretarios de Estado y Subsecretarios actúa como órgano preparatorio y coordinador previo al Consejo de Ministros, filtrando y clasificando los asuntos según su grado de consenso o conflictividad mediante una dinámica interna que combina relevancia política y depuración técnica.",
+  "3.3": "El secretariado del Gobierno presta apoyo material y técnico a los órganos colegiados del Gobierno, custodia documentación, tramita convocatorias y publicaciones oficiales y asiste al ministro de la Presidencia en actuaciones institucionales relacionadas con leyes, reales decretos y actos del Rey o del presidente del Gobierno.",
+  "3.4": "Los gabinetes son órganos de confianza y apoyo político de ministros y secretarios de Estado, integrados por personal funcionario o eventual, cuya finalidad es asesorar en relaciones parlamentarias, institucionales y administrativas, con cese libre vinculado a la autoridad a la que sirven.",
+  "4.1": "El subsecretario es el órgano directivo que, bajo la dependencia directa del ministro, dirige los servicios comunes del departamento, coordina personal y medios, ejerce amplias funciones de gestión interna y debe ser necesariamente funcionario A1, lo que refuerza su perfil técnico y organizativo.",
+  "4.2": "El secretario general es un órgano directivo excepcional, con rango asimilado al subsecretario, encargado de dirigir y coordinar un sector material concreto del ministerio, sin proyectarse sobre el conjunto del departamento y con un estatuto personal más flexible que el del subsecretario.",
+  "4.3": "El secretario general técnico es el órgano de asistencia técnica general del ministerio, especializado en apoyo jurídico, producción normativa, publicaciones y documentación, dependiente del subsecretario y reservado a funcionarios A1 para asegurar su carácter técnico-profesional.",
+  "4.4": "El director general gestiona ordinariamente áreas específicas de actividad y constituye el último escalón político de la Administración, normalmente reservado a funcionarios A1, aunque la ley admite excepciones motivadas que solo son válidas si se justifican objetivamente por la naturaleza del cargo.",
+  "4.5": "El subdirector general, aunque legalmente órgano directivo, es en realidad un puesto plenamente funcionarial reservado a funcionarios A1 en servicio activo, cuyo nombramiento y cese por libre designación exigen motivación suficiente por afectar a criterios de mérito, capacidad e idoneidad.",
+  "5": "El organigrama del ministerio del Interior muestra una estructura especialmente compleja en la que el ministro se apoya en grandes bloques funcionales —seguridad, instituciones penitenciarias y servicios comunes— articulados mediante órganos de distinto nombre y verdadero rango orgánico, junto con entidades instrumentales y órganos transversales de apoyo.",
+  "6": "La Administración periférica del Estado responde a la necesidad de proyectar territorialmente la actuación de una Administración centralizada, permitiendo ejercer de forma eficaz competencias ejecutivas y potestades públicas en todo el territorio nacional.",
+  "6.1": "Los delegados del Gobierno son los máximos responsables de la Administración del Estado en cada comunidad autónoma, con funciones de dirección, coordinación interadministrativa, control de legalidad, supervisión de servicios territoriales e intervención en seguridad ciudadana, bajo un régimen de nombramiento ampliamente discrecional.",
+  "6.2": "Los servicios territoriales de la Administración del Estado pueden estar integrados o no en las delegaciones del Gobierno, manteniendo en todo caso una dualidad entre dependencia orgánica territorial y dependencia funcional ministerial, lo que exige mecanismos específicos de coordinación.",
+  "6.3": "Los subdelegados del Gobierno son cargos profesionalizados, reservados a funcionarios A1, que sustituyen a los antiguos gobernadores civiles y ejercen en la provincia funciones de seguridad, coordinación administrativa y dirección de servicios territoriales bajo la dependencia del delegado del Gobierno.",
+  "6.4": "El director insular es un puesto funcionarial creado para adaptar la organización periférica a la realidad insular, con funciones equivalentes a las de los subdelegados en su ámbito territorial, aunque sin la condición formal de órgano directivo.",
+  "7": "La Administración del Estado en el exterior se ordena para garantizar la unidad de acción exterior mediante un conjunto de misiones, representaciones, delegaciones y oficinas consulares que actúan fuera del territorio nacional, bajo la jefatura del embajador y con un régimen adaptado a las exigencias del ámbito internacional y de la asistencia a españoles en el extranjero."
+};
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = ` 
+Correcto. Aquí lo tienes cumpliendo todo: numeración desde 1 y #ID ajustado al epígrafe real.
+
+#ID = 1
+
+// [1]
+Q: ¿Qué rasgo define mejor la posición de la Administración General del Estado dentro del conjunto del sector público español?
+A) Mantiene un peso relativo menor en empleo público, aunque conserva una organización de gran dimensión y complejidad.
+B) Reúne la mayor parte del empleo público y concentra también la mayor parte de las funciones ejecutivas.
+C) Ha quedado reducida a una estructura residual con funciones meramente simbólicas dentro del Estado.
+OK: A
+EXP: La AGE tiene menor peso relativo en empleo público, pero sigue siendo una organización extensa y compleja.
+
+// [2]
+Q: ¿Cómo describe el texto la evolución funcional de la Administración General del Estado?
+A) Como una expansión de funciones ejecutivas directas en detrimento de otras Administraciones.
+B) Como un desplazamiento hacia funciones de regulación, coordinación y supervisión frente a la ejecución.
+C) Como una sustitución completa de su actividad administrativa por entidades institucionales independientes.
+OK: B
+EXP: La AGE ha reducido funciones ejecutivas y ha reforzado su papel regulador, coordinador y supervisor.
+
+// [3]
+Q: ¿Cuál es el criterio utilizado para distinguir los tres grandes ámbitos de la Administración General del Estado?
+A) El rango jerárquico de los órganos administrativos.
+B) La materia atribuida a cada órgano.
+C) El territorio en el que desarrollan su actuación.
+OK: C
+EXP: La división en central, territorial y exterior se basa en el ámbito territorial de actuación.
+
+// [4]
+Q: ¿Qué idea refleja la evolución histórica de la estructura de la Administración General del Estado?
+A) Que se mantiene inalterada desde la normativa de 1957.
+B) Que ha pasado de estructuras simples a una organización más compleja y adaptable.
+C) Que ha eliminado órganos superiores en favor de estructuras periféricas.
+OK: B
+EXP: La organización ha evolucionado hacia mayor complejidad con incorporación de nuevos órganos.
+
+// [5]
+Q: ¿Qué ejemplo ilustra el proceso de reorganización progresiva en la Administración General del Estado?
+A) La reducción de competencias en defensa.
+B) La evolución del medio ambiente hacia estructuras especializadas y ministerios propios.
+C) La desaparición de órganos territoriales.
+OK: B
+EXP: El medio ambiente muestra el paso de estructuras dispersas a órganos especializados e integrados.
+
+// [6]
+Q: ¿De qué depende principalmente la creación o modificación de ministerios en la Administración General del Estado?
+A) De criterios políticos y estratégicos del Gobierno.
+B) De parámetros técnicos objetivos fijados por ley.
+C) De decisiones judiciales vinculantes.
+OK: A
+EXP: El diseño ministerial responde a decisiones políticas, no a criterios objetivos predeterminados.
+
+// [7]
+Q: ¿Qué efecto organizativo tiene la creación o modificación de ministerios?
+A) Aumenta necesariamente el gasto público.
+B) Supone la desaparición de órganos existentes.
+C) Implica redistribuir puestos y órganos dentro de la Administración.
+OK: C
+EXP: La reorganización ministerial conlleva ajustes internos, no necesariamente más gasto.
+
+// [8]
+Q: ¿Cómo se estructura normativamente la organización de la Administración central del Estado?
+A) Mediante una única ley orgánica.
+B) A través de reales decretos del presidente, del Consejo de Ministros y de cada ministerio.
+C) Exclusivamente mediante reglamentos internos.
+OK: B
+EXP: La estructura se desarrolla progresivamente mediante distintos reales decretos.
+
+// [9]
+Q: ¿Qué característica refleja el sistema normativo de la Administración General del Estado?
+A) Rigidez organizativa.
+B) Fragmentación sin conexión.
+C) Flexibilidad y capacidad de adaptación.
+OK: C
+EXP: El sistema normativo permite adaptar la organización administrativa a las necesidades.
+
+// [10]
+Q: ¿Qué órganos forman parte de la Administración territorial o periférica de la Administración General del Estado?
+A) Ministros y secretarios de Estado.
+B) Delegados del Gobierno, subdelegados y directores insulares.
+C) Embajadores y representantes permanentes.
+OK: B
+EXP: Estos órganos representan al Estado en el territorio.
+
+// [11]
+Q: ¿Qué define a la Administración exterior de la Administración General del Estado?
+A) La gestión interna de servicios públicos.
+B) La representación del Estado fuera del territorio nacional.
+C) La coordinación de las comunidades autónomas.
+OK: B
+EXP: La Administración exterior actúa en el extranjero mediante embajadores y representantes.
+
+// [12]
+Q: ¿Qué integra el sector público estatal institucional según el texto?
+A) Solo los ministerios.
+B) Entidades dependientes o adscritas, de derecho público o privado, y determinadas universidades.
+C) Únicamente órganos administrativos centrales.
+OK: B
+EXP: Incluye entidades públicas o privadas vinculadas al Estado, ampliando el entramado organizativo.
+
+#ID = 2
+
+// [13]
+Q: ¿Qué naturaleza jurídica tiene el Gobierno del Estado según el artículo 97 de la Constitución Española?
+A) Es exclusivamente un órgano administrativo encargado de ejecutar leyes sin funciones políticas propias.
+B) Es un órgano constitucional que combina funciones de dirección política y dirección de la Administración.
+C) Es un órgano técnico subordinado al Parlamento sin capacidad de decisión autónoma.
+OK: B
+EXP: El Gobierno es órgano constitucional con funciones tanto políticas como administrativas.
+
+// [14]
+Q: ¿Qué caracteriza la función del Gobierno del Estado en relación con la política exterior?
+A) La gestión interna de los ministerios sin intervención en relaciones internacionales.
+B) La aprobación de normas reglamentarias internas sin efectos exteriores.
+C) La negociación de tratados internacionales y la adopción de acuerdos internacionales.
+OK: C
+EXP: La política exterior incluye la negociación de tratados y acuerdos internacionales.
+
+// [15]
+Q: ¿Cuál de las siguientes actuaciones forma parte de la dirección de la política interior del Gobierno del Estado?
+A) La disolución de las Cámaras y la convocatoria de elecciones.
+B) La designación de funcionarios de nivel inferior.
+C) La gestión ordinaria de servicios públicos sin relevancia constitucional.
+OK: A
+EXP: Son decisiones de especial relevancia constitucional dentro de la política interior.
+
+// [16]
+Q: ¿Qué función corresponde al Gobierno del Estado en relación con la Administración civil y militar?
+A) La aprobación exclusiva de tratados internacionales.
+B) La creación y supresión de órganos directivos y la fijación de directrices vinculantes.
+C) La resolución de conflictos entre particulares sin intervención judicial.
+OK: B
+EXP: El Gobierno dirige la Administración mediante organización interna y directrices.
+
+// [17]
+Q: ¿Qué problema jurídico generó la diferenciación entre actos de dirección política y actividad administrativa del Gobierno?
+A) La desaparición del control judicial sobre toda la actuación administrativa.
+B) La discusión sobre el alcance del control jurisdiccional de los actos del Gobierno.
+C) La imposibilidad de dictar normas con rango de ley.
+OK: B
+EXP: Se planteó qué actos del Gobierno podían ser controlados por los tribunales.
+
+// [18]
+Q: ¿Qué estableció la Ley de la Jurisdicción Contencioso-Administrativa respecto a los actos del Gobierno?
+A) Que todos los actos políticos son inmunes al control judicial.
+B) Que existe una categoría general de actos políticos no revisables.
+C) Que no existe inmunidad general y que los tribunales pueden controlar ciertos aspectos de los actos del Gobierno.
+OK: C
+EXP: La LJCA amplía el control judicial, aunque respeta el núcleo discrecional.
+
+// [19]
+Q: ¿Qué elementos de los actos del Gobierno pueden ser siempre objeto de control judicial?
+A) Únicamente la oportunidad política de la decisión.
+B) Los derechos fundamentales, los elementos reglados y las indemnizaciones.
+C) Exclusivamente la voluntad discrecional del Gobierno.
+OK: B
+EXP: Siempre cabe control sobre derechos fundamentales y elementos reglados del acto.
+
+// [20]
+Q: ¿Qué criterio ha seguido la jurisprudencia respecto a determinados actos del Gobierno dictados en funciones constitucionales?
+A) Someterlos siempre al control del Tribunal Supremo.
+B) Excluirlos del control judicial en todo caso.
+C) Atribuir su control al Tribunal Constitucional cuando tengan rango de ley.
+OK: C
+EXP: Determinados actos, como el estado de alarma, son controlados por el Tribunal Constitucional.
+
+// [21]
+Q: ¿Qué composición mínima del Gobierno establece la Constitución Española?
+A) Presidente, secretarios de Estado y ministros.
+B) Presidente, vicepresidente o vicepresidentes y ministros.
+C) Presidente, directores generales y ministros.
+OK: B
+EXP: La Constitución fija esa composición mínima del Gobierno.
+
+// [22]
+Q: ¿Qué posición ocupa el presidente del Gobierno dentro de la estructura gubernamental?
+A) Una posición subordinada a los ministros.
+B) Una posición dominante con capacidad de organización y dirección política.
+C) Una posición meramente representativa sin funciones ejecutivas.
+OK: B
+EXP: El presidente dirige el Gobierno y controla su estructura.
+
+// [23]
+Q: ¿Qué competencia tiene el presidente del Gobierno respecto a los ministros?
+A) Elegirlos libremente sin intervención de otros órganos.
+B) Proponer su nombramiento y cese al Rey.
+C) Ser elegido por los ministros mediante votación interna.
+OK: B
+EXP: El presidente propone al Rey el nombramiento y cese de ministros.
+
+// [24]
+Q: ¿Qué principio rige el funcionamiento interno del Gobierno pese al carácter dominante del presidente?
+A) El principio de jerarquía absoluta.
+B) El principio de autonomía ministerial total.
+C) El principio de colegialidad y responsabilidad solidaria.
+OK: C
+EXP: El Gobierno actúa colegiadamente con responsabilidad solidaria.
+
+// [25]
+Q: ¿Qué requisito es necesario para el nombramiento del presidente del Gobierno?
+A) La designación directa por el Rey sin intervención parlamentaria.
+B) La confianza del Congreso de los Diputados.
+C) La aprobación del Senado por mayoría simple.
+OK: B
+EXP: El presidente necesita la confianza del Congreso.
+
+// [26]
+Q: ¿Qué caracteriza a la vicepresidencia del Gobierno?
+A) Es un órgano obligatorio con funciones fijadas por ley.
+B) Depende de la voluntad del presidente y sus funciones son determinadas por este.
+C) Tiene competencias independientes del presidente y del Consejo de Ministros.
+OK: B
+EXP: La vicepresidencia no es necesaria y depende del presidente.
+
+// [27]
+Q: ¿Qué función desempeñan los ministros dentro del Gobierno del Estado?
+A) Actúan únicamente como asesores sin competencias ejecutivas.
+B) Ejecutan el programa gubernamental en su departamento conforme a directrices del Gobierno.
+C) Sustituyen al presidente en todas sus funciones.
+OK: B
+EXP: Los ministros desarrollan el programa gubernamental en su ámbito.
+
+// [28]
+Q: ¿Qué tipo de potestad reglamentaria tienen los ministros?
+A) General para desarrollar todas las leyes del ordenamiento.
+B) Limitada a las materias propias de su departamento.
+C) Exclusiva para aprobar reales decretos-leyes.
+OK: B
+EXP: Su potestad reglamentaria se limita a su ámbito ministerial.
+
+// [29]
+Q: ¿Qué función tienen los ministros en relación con la organización de su departamento?
+A) Carecen de capacidad organizativa interna.
+B) Proponen la organización interna y nombramientos de órganos directivos.
+C) Solo ejecutan órdenes del Parlamento.
+OK: B
+EXP: Los ministros organizan y dirigen su departamento.
+
+// [30]
+Q: ¿Qué papel desempeñan los ministros en la gestión presupuestaria?
+A) No intervienen en el presupuesto del Estado.
+B) Elaboran propuestas de gasto y administran los créditos asignados.
+C) Únicamente aprueban impuestos.
+OK: B
+EXP: Gestionan el presupuesto dentro de su ámbito competencial.
+
+// [31]
+Q: ¿Qué requisito se exige para ser ministro o vicepresidente según el régimen común?
+A) Ser obligatoriamente diputado.
+B) Tener formación universitaria específica.
+C) Cumplir requisitos generales como nacionalidad, edad y derechos de sufragio.
+OK: C
+EXP: No se exige ser diputado ni formación concreta, solo requisitos generales.
+
+// [32]
+Q: ¿Qué caracteriza la compatibilidad del cargo de ministro o vicepresidente?
+A) Es compatible con cualquier actividad profesional privada.
+B) Solo es compatible con el mandato parlamentario.
+C) Es incompatible incluso con el mandato parlamentario.
+OK: B
+EXP: Solo se permite compatibilidad con el mandato parlamentario.
+
+// [33]
+Q: ¿Qué órgano colegiado integra a todos los miembros del Gobierno?
+A) Las Comisiones Delegadas del Gobierno.
+B) El Consejo de Ministros.
+C) El Congreso de los Diputados.
+OK: B
+EXP: El Consejo de Ministros reúne a todos los miembros del Gobierno.
+
+// [34]
+Q: ¿Qué función principal cumplen las Comisiones Delegadas del Gobierno?
+A) Sustituir al Consejo de Ministros en todas sus competencias.
+B) Coordinar actuaciones entre varios ministerios y preparar decisiones.
+C) Aprobar leyes con rango constitucional.
+OK: B
+EXP: Facilitan la coordinación interministerial y preparan decisiones del Gobierno.
+    `;
+
+
+    const BANCO_2 = ` 
+#ID = 3
+
+// [35]
+Q: ¿Qué posición ocupa el secretario de Estado dentro de la estructura de un ministerio en la Administración General del Estado?
+A) Es un órgano inferior al subsecretario y subordinado jerárquicamente a este.
+B) Es un órgano superior que depende directamente del ministro y se sitúa por encima del subsecretario.
+C) Es un órgano colegiado integrado por varios directores generales.
+OK: B
+EXP: El secretario de Estado es órgano superior, depende del ministro y ocupa posición superior al subsecretario.
+
+// [36]
+Q: ¿Cuál es la función principal del secretario de Estado dentro de un ministerio?
+A) Sustituir al ministro en todas sus funciones políticas y administrativas.
+B) Dirigir un área concreta cuando no justifica un ministerio propio pero requiere dirección política y administrativa.
+C) Aprobar leyes en materias específicas del departamento.
+OK: B
+EXP: Su función es dar unidad de dirección a áreas relevantes sin crear un ministerio independiente.
+
+// [37]
+Q: ¿Forman parte los secretarios de Estado del Gobierno del Estado?
+A) Sí, como miembros ordinarios del Consejo de Ministros.
+B) Solo cuando actúan en funciones administrativas.
+C) No, aunque pueden participar en Comisiones Delegadas si así se prevé.
+OK: C
+EXP: No son miembros del Gobierno, pero pueden integrarse en Comisiones Delegadas.
+
+// [38]
+Q: ¿Qué función ejercen los secretarios de Estado respecto a los órganos directivos de su ámbito?
+A) Actúan únicamente como órganos consultivos sin funciones de dirección.
+B) Coordinan y supervisan direcciones generales y secretarías generales bajo su responsabilidad.
+C) Delegan toda la gestión en los subsecretarios.
+OK: B
+EXP: Dirigen y coordinan los órganos directivos dentro de su área.
+
+// [39]
+Q: ¿Qué competencias tienen los secretarios de Estado en materia de gestión presupuestaria?
+A) Ninguna, ya que corresponde exclusivamente al ministro.
+B) Pueden gestionar créditos, aprobar modificaciones y reconocer obligaciones dentro de su ámbito.
+C) Solo pueden proponer gastos sin capacidad de ejecución.
+OK: B
+EXP: Gestionan el presupuesto dentro de los límites fijados por el ministro.
+
+// [40]
+Q: ¿Cómo se crean las secretarías de Estado en la Administración General del Estado?
+A) Por ley aprobada por las Cortes Generales.
+B) Por orden ministerial del titular del departamento.
+C) Por real decreto del presidente del Gobierno.
+OK: C
+EXP: Su creación corresponde al presidente mediante real decreto.
+
+// [41]
+Q: ¿Qué caracteriza el régimen jurídico de los secretarios de Estado en cuanto a requisitos personales?
+A) Se exige necesariamente condición de funcionario de carrera.
+B) Se exige formación jurídica especializada.
+C) No se establecen requisitos específicos adicionales más allá del régimen general de altos cargos.
+OK: C
+EXP: No se exige formación ni experiencia específica adicional.
+
+// [42]
+Q: ¿Cómo se configura el régimen retributivo de los secretarios de Estado?
+A) Como una retribución exclusivamente política sin estructura salarial.
+B) De forma similar a los funcionarios, con sueldo, complementos y productividad.
+C) Mediante dietas variables sin salario fijo.
+OK: B
+EXP: Su sistema retributivo se asemeja al de los órganos directivos y funcionarios.
+
+// [43]
+Q: ¿Qué órgano integra a secretarios de Estado y subsecretarios para preparar asuntos del Gobierno?
+A) El Consejo de Estado.
+B) La Comisión General de Secretarios de Estado y Subsecretarios.
+C) El Tribunal Constitucional.
+OK: B
+EXP: Es el órgano encargado de preparar asuntos antes de su elevación al Consejo de Ministros.
+
+// [44]
+Q: ¿Cuál es la función principal de la Comisión General de Secretarios de Estado y Subsecretarios?
+A) Aprobar leyes en sustitución del Parlamento.
+B) Resolver conflictos judiciales entre ministerios.
+C) Preparar los asuntos que se elevarán al Consejo de Ministros.
+OK: C
+EXP: Su función esencial es preparar los asuntos para el Consejo de Ministros.
+
+// [45]
+Q: ¿Qué papel desempeña el presidente de la Comisión General de Secretarios de Estado y Subsecretarios?
+A) Decide qué asuntos se incluyen en el orden del día y cómo se elevan al Consejo de Ministros.
+B) Se limita a convocar reuniones sin funciones decisorias.
+C) Actúa únicamente como representante institucional sin funciones operativas.
+OK: A
+EXP: El presidente controla el orden del día y la elevación de asuntos.
+
+// [46]
+Q: ¿Qué distingue al denominado índice verde en el funcionamiento de la Comisión General de Secretarios de Estado y Subsecretarios?
+A) Incluye asuntos rechazados por los ministerios.
+B) Recoge asuntos informados favorablemente que suelen aprobarse sin debate.
+C) Contiene exclusivamente asuntos urgentes.
+OK: B
+EXP: El índice verde agrupa asuntos con informe favorable y aprobación habitual sin discusión.
+
+// [47]
+Q: ¿Qué función cumple el secretariado del Gobierno dentro de la Administración General del Estado?
+A) Aprobar normas con rango de ley.
+B) Prestar apoyo material a los órganos colegiados del Gobierno.
+C) Dirigir la política exterior del Estado.
+OK: B
+EXP: Su función es de apoyo técnico y material a los órganos colegiados.
+
+// [48]
+Q: ¿Qué tarea corresponde al secretariado del Gobierno en relación con las disposiciones del Gobierno?
+A) Elaborar leyes orgánicas.
+B) Velar por su publicación en el BOE cuando proceda.
+C) Aprobar tratados internacionales.
+OK: B
+EXP: Se encarga de la publicación oficial de normas del Gobierno.
+
+// [49]
+Q: ¿Qué caracteriza a los gabinetes de los miembros del Gobierno y secretarios de Estado?
+A) Son órganos administrativos permanentes con funciones ejecutivas.
+B) Son órganos de apoyo político y de confianza para asesoramiento.
+C) Son órganos jurisdiccionales internos.
+OK: B
+EXP: Los gabinetes prestan asesoramiento político y de confianza.
+
+// [50]
+Q: ¿Qué tipo de personal puede integrar los gabinetes del Gobierno?
+A) Exclusivamente funcionarios de carrera.
+B) Solo personal eventual sin posibilidad de funcionarios.
+C) Tanto personal funcionario como personal eventual de confianza.
+OK: C
+EXP: Los gabinetes pueden incluir funcionarios y personal eventual.
+
+// [51]
+Q: ¿Qué ocurre con el personal eventual de los gabinetes cuando cesa la autoridad a la que asesora?
+A) Mantiene su puesto indefinidamente.
+B) Es trasladado automáticamente a otro ministerio.
+C) Cesan automáticamente junto con la autoridad.
+OK: C
+EXP: El personal eventual cesa cuando cesa el alto cargo al que sirve.
+
+// [52]
+Q: ¿Qué garantía tiene un funcionario de carrera que pasa a ocupar un puesto en un gabinete?
+A) Pierde definitivamente su condición de funcionario.
+B) Puede reincorporarse posteriormente a un puesto equivalente tras el cese.
+C) Solo puede volver mediante oposición.
+OK: B
+EXP: Puede regresar a su puesto o equivalente tras el cese.
+    `;
+
+
+    const BANCO_3 = ` 
+#ID = 4
+
+// [53]
+Q: ¿Qué caracteriza a los órganos directivos de la Administración central del Estado en relación con su régimen jurídico?
+A) Todos desempeñan funciones idénticas por pertenecer al mismo nivel jerárquico.
+B) Su agrupación responde al rango y régimen retributivo, no a la identidad de sus funciones.
+C) Son órganos exclusivamente políticos sin funciones administrativas.
+OK: B
+EXP: La ley los agrupa por rango y retribución, no por funciones homogéneas.
+
+// [54]
+Q: ¿Qué rasgo distingue al subdirector general respecto del resto de órganos directivos?
+A) Es el único que no tiene funciones administrativas.
+B) Es el único que ocupa un puesto funcionarial en servicio activo.
+C) Es el único que no depende de ningún órgano superior.
+OK: B
+EXP: El subdirector general es el único integrado plenamente en la carrera funcionarial.
+
+// [55]
+Q: ¿Qué función desempeña el subsecretario dentro del ministerio?
+A) Dirigir exclusivamente un área material concreta.
+B) Coordinar los servicios comunes y representar al departamento.
+C) Aprobar leyes en nombre del ministerio.
+OK: B
+EXP: El subsecretario dirige los servicios comunes y representa al departamento.
+
+// [56]
+Q: ¿Qué papel tiene el subsecretario en materia de personal dentro del ministerio?
+A) No tiene competencias en materia de personal.
+B) Comparte la jefatura de personal con el secretario general.
+C) Ejerce la jefatura de personal tras el ministro.
+OK: C
+EXP: Es el responsable principal del personal después del ministro.
+
+// [57]
+Q: ¿Qué requisito específico se exige para ser subsecretario?
+A) Ser necesariamente diputado del Congreso.
+B) Ser funcionario de carrera del subgrupo A1.
+C) Tener experiencia en el sector privado exclusivamente.
+OK: B
+EXP: Se exige pertenecer al subgrupo A1 para asegurar conocimiento administrativo.
+
+// [58]
+Q: ¿Quién nombra y cesa al subsecretario en la Administración General del Estado?
+A) El ministro mediante orden ministerial.
+B) El presidente del Gobierno por decreto.
+C) El Consejo de Ministros mediante real decreto.
+OK: C
+EXP: Su nombramiento y cese corresponde al Consejo de Ministros.
+
+// [59]
+Q: ¿Qué función caracteriza al secretario general dentro de la estructura ministerial?
+A) Dirigir los servicios comunes de todo el ministerio.
+B) Dirigir un sector específico de actividad dentro del ministerio.
+C) Ejercer funciones exclusivamente consultivas.
+OK: B
+EXP: El secretario general actúa sobre un área concreta, no sobre todo el departamento.
+
+// [60]
+Q: ¿Qué rasgo define el carácter del secretario general como órgano directivo?
+A) Es un órgano general presente en todos los ministerios.
+B) Es un órgano excepcional que actúa en ámbitos específicos.
+C) Es un órgano exclusivamente técnico sin funciones de dirección.
+OK: B
+EXP: Su existencia es excepcional y responde a necesidades concretas.
+
+// [61]
+Q: ¿Qué función principal desempeña el secretario general técnico dentro del ministerio?
+A) Dirigir la política del departamento.
+B) Prestar asistencia técnica y jurídica al conjunto del ministerio.
+C) Aprobar reglamentos generales.
+OK: B
+EXP: Su función esencial es técnica y de apoyo general.
+
+// [62]
+Q: ¿De quién depende el secretario general técnico dentro de la organización ministerial?
+A) Del ministro directamente.
+B) Del secretario de Estado.
+C) Del subsecretario.
+OK: C
+EXP: El secretario general técnico depende del subsecretario.
+
+// [63]
+Q: ¿Qué requisito específico se exige para el nombramiento del secretario general técnico?
+A) Ser elegido por el Parlamento.
+B) Ser funcionario de carrera del subgrupo A1.
+C) Tener experiencia política previa obligatoria.
+OK: B
+EXP: Se exige pertenecer al subgrupo A1 para reforzar su perfil técnico.
+
+// [64]
+Q: ¿Qué función caracteriza al director general dentro de la Administración central del Estado?
+A) Aprobar leyes orgánicas.
+B) Gestionar áreas de actividad y supervisar órganos dependientes.
+C) Coordinar todo el ministerio en su conjunto.
+OK: B
+EXP: El director general gestiona áreas específicas y supervisa su funcionamiento.
+
+// [65]
+Q: ¿Qué rasgo define al director general como nivel dentro de la estructura administrativa?
+A) Es el último escalón político de la Administración.
+B) Es un órgano exclusivamente técnico sin dimensión política.
+C) Es el máximo órgano del ministerio.
+OK: A
+EXP: Es el último nivel con componente político dentro de la estructura.
+
+// [66]
+Q: ¿Qué posibilidad permite la ley respecto al requisito de ser funcionario de carrera para ser director general?
+A) No admite ninguna excepción.
+B) Permite excepciones sin necesidad de motivación.
+C) Permite excepciones motivadas mediante real decreto.
+OK: C
+EXP: La ley permite excepciones justificadas al requisito de funcionario.
+
+// [67]
+Q: ¿Qué función desempeña el subdirector general dentro de la organización administrativa?
+A) Dirigir la política del ministerio.
+B) Ejecutar actividades y gestionar asuntos de su unidad.
+C) Aprobar reglamentos generales.
+OK: B
+EXP: Se encarga de la gestión ordinaria de su subdirección.
+
+// [68]
+Q: ¿Qué sistema se utiliza habitualmente para el nombramiento de subdirectores generales?
+A) Elección parlamentaria.
+B) Libre designación con convocatoria pública.
+C) Designación directa sin procedimiento.
+OK: B
+EXP: Se utiliza la libre designación con convocatoria pública.
+
+// [69]
+Q: ¿Qué exigencia caracteriza el cese de un subdirector general?
+A) Puede realizarse sin motivación.
+B) Debe estar motivado con razones reales y suficientes.
+C) Solo puede acordarse por sentencia judicial.
+OK: B
+EXP: El cese debe justificarse adecuadamente, no basta fórmula genérica.
+
+// [70]
+Q: ¿Qué distingue al subdirector general respecto a otros altos cargos en materia de nombramiento y cese?
+A) Puede ser cesado libremente sin justificación.
+B) Su nombramiento y cese deben estar motivados.
+C) Es nombrado por el Parlamento.
+OK: B
+EXP: A diferencia de cargos políticos, exige motivación.
+
+// [71]
+Q: ¿Qué órgano constituye el núcleo principal del Ministerio del Interior en materia de seguridad pública?
+A) La subsecretaría del Interior.
+B) La secretaría general técnica.
+C) La secretaría de Estado de Seguridad.
+OK: C
+EXP: Es el núcleo central en materia de seguridad pública.
+
+// [72]
+Q: ¿Qué función desempeña la secretaría general de Instituciones Penitenciarias?
+A) Coordinar la política exterior del Estado.
+B) Ejecutar la política penitenciaria.
+C) Dirigir la política económica.
+OK: B
+EXP: Se encarga de la ejecución de la política penitenciaria.
+
+// [73]
+Q: ¿Qué función caracteriza a la subsecretaría del Interior dentro del ministerio?
+A) Dirigir la seguridad pública.
+B) Coordinar servicios comunes y funciones transversales de apoyo.
+C) Aprobar leyes penales.
+OK: B
+EXP: Actúa como órgano de servicios comunes y apoyo transversal.
+
+// [74]
+Q: ¿Qué refleja el organigrama del Ministerio del Interior según el texto?
+A) Una estructura simple basada en un único nivel jerárquico.
+B) Una organización homogénea sin diferencias funcionales.
+C) Una estructura compleja con órganos superiores, directivos y entidades instrumentales.
+OK: C
+EXP: El ministerio presenta una estructura compleja y diversificada.
+
+#ID = 5
+
+// [75]
+Q: ¿Cómo se estructura orgánicamente el Ministerio del Interior según el organigrama descrito?
+A) En torno a un único órgano central sin divisiones funcionales diferenciadas.
+B) En torno al ministro, con órganos de apoyo y tres grandes bloques organizativos principales.
+C) En torno exclusivamente a direcciones generales independientes entre sí.
+OK: B
+EXP: El ministerio se organiza alrededor del ministro, con órganos de apoyo y tres grandes bloques estructurales.
+
+// [76]
+Q: ¿Qué función cumplen el gabinete y la oficina de comunicación dentro del Ministerio del Interior?
+A) Dirigir la política de seguridad pública del Estado.
+B) Ejercer funciones de control jurisdiccional interno.
+C) Actuar como órganos de apoyo directo al ministro.
+OK: C
+EXP: Son órganos de apoyo directo dependientes del ministro.
+
+// [77]
+Q: ¿Qué órgano constituye el núcleo principal del Ministerio del Interior en materia de seguridad pública?
+A) La subsecretaría del Interior.
+B) La secretaría de Estado de Seguridad.
+C) La secretaría general técnica.
+OK: B
+EXP: La secretaría de Estado de Seguridad es el núcleo central en materia de seguridad pública.
+
+// [78]
+Q: ¿Qué característica presentan la Dirección General de la Policía y la Dirección General de la Guardia Civil dentro del organigrama?
+A) Tienen rango equivalente al de subdirección general.
+B) Son órganos meramente consultivos sin funciones operativas.
+C) Poseen un rango equivalente al de una subsecretaría de Estado pese a su denominación.
+OK: C
+EXP: Aunque se denominan direcciones generales, su rango es superior al habitual.
+
+// [79]
+Q: ¿Qué tipo de órganos se integran bajo la Dirección General de la Policía y la Guardia Civil?
+A) Únicamente órganos colegiados de carácter político.
+B) Órganos con denominaciones diversas como mandos y gabinetes técnicos con rango de subdirección general.
+C) Exclusivamente órganos jurisdiccionales internos.
+OK: B
+EXP: Bajo estas direcciones se integran órganos heterogéneos con rango de subdirección general.
+
+// [80]
+Q: ¿Qué función desempeñan las direcciones generales de carácter transversal dentro de la secretaría de Estado de Seguridad?
+A) Sustituir a los órganos superiores del ministerio.
+B) Desarrollar funciones específicas como relaciones internacionales, extranjería o coordinación.
+C) Aprobar leyes en materia de seguridad.
+OK: B
+EXP: Cumplen funciones transversales dentro del ámbito de seguridad.
+
+// [81]
+Q: ¿Qué órgano es responsable de la ejecución de la política penitenciaria en el Ministerio del Interior?
+A) La subsecretaría del Interior.
+B) La secretaría de Estado de Seguridad.
+C) La secretaría general de Instituciones Penitenciarias.
+OK: C
+EXP: Este órgano ejecuta la política penitenciaria del Estado.
+
+// [82]
+Q: ¿Qué función cumple la Dirección General de Ejecución Penal y Reinserción Social?
+A) Dirigir la política exterior del Estado.
+B) Gestionar la ejecución penal y la reinserción social dentro del ámbito penitenciario.
+C) Coordinar los servicios comunes del ministerio.
+OK: B
+EXP: Es el órgano central en la ejecución penal y reinserción.
+
+// [83]
+Q: ¿Qué tipo de actividades desarrollan los órganos dependientes de la secretaría general de Instituciones Penitenciarias?
+A) Exclusivamente funciones legislativas.
+B) Gestión de penas, medidas alternativas y actividad penitenciaria.
+C) Control judicial de sentencias penales.
+OK: B
+EXP: Se ocupan de la gestión penitenciaria en sentido amplio.
+
+// [84]
+Q: ¿Qué papel desempeña la entidad de derecho público dependiente de la secretaría general de Instituciones Penitenciarias?
+A) Aprobar reglamentos penitenciarios.
+B) Desarrollar actividades de trabajo penitenciario y formación para el empleo.
+C) Controlar la actividad judicial penitenciaria.
+OK: B
+EXP: Se dedica al trabajo penitenciario y formación laboral.
+
+// [85]
+Q: ¿Qué función caracteriza a la subsecretaría del Interior dentro del organigrama?
+A) Dirigir la política de seguridad pública.
+B) Coordinar servicios comunes y funciones transversales de apoyo.
+C) Aprobar tratados internacionales.
+OK: B
+EXP: Actúa como órgano de servicios comunes y apoyo transversal.
+
+// [86]
+Q: ¿Qué órganos dependen de la subsecretaría del Interior en el Ministerio del Interior?
+A) Únicamente órganos políticos del Gobierno.
+B) La secretaría general técnica y direcciones generales con competencias específicas.
+C) Solo órganos jurisdiccionales internos.
+OK: B
+EXP: Bajo la subsecretaría se sitúan órganos técnicos y direcciones generales.
+
+// [87]
+Q: ¿Qué función desempeñan las direcciones generales dependientes de la subsecretaría del Interior?
+A) Aprobar leyes orgánicas.
+B) Gestionar ámbitos específicos como tráfico, protección civil o política interior.
+C) Representar al Estado en el exterior.
+OK: B
+EXP: Estas direcciones gestionan áreas funcionales concretas.
+
+// [88]
+Q: ¿Qué función cumplen la Abogacía del Estado y la Intervención Delegada dentro del Ministerio del Interior?
+A) Ejercer funciones legislativas.
+B) Garantizar la asistencia jurídica y el control económico-financiero.
+C) Coordinar la política exterior del Estado.
+OK: B
+EXP: Aseguran el control jurídico y económico del departamento.
+
+// [89]
+Q: ¿Qué característica general presenta el organigrama del Ministerio del Interior?
+A) Es una estructura simple y uniforme.
+B) Es una estructura compleja con coexistencia de distintos tipos de órganos.
+C) Es una organización exclusivamente política sin órganos técnicos.
+OK: B
+EXP: Se trata de una estructura compleja con órganos superiores, directivos e instrumentales.
+
+// [90]
+Q: ¿Qué elemento singular destaca en el organigrama del Ministerio del Interior respecto a sus órganos?
+A) La ausencia de direcciones generales.
+B) La coincidencia exacta entre denominación y rango de los órganos.
+C) La diferencia entre la denominación de los órganos y su verdadero rango orgánico.
+OK: C
+EXP: Existe una singularidad entre denominación y rango real de algunos órganos.
+   `;
+
+
+    const BANCO_4 = ` 
+#ID = 6
+
+// [91]
+Q: ¿Qué finalidad cumple la Administración periférica del Estado dentro de la Administración General del Estado?
+A) Sustituir a la Administración central en la toma de decisiones políticas.
+B) Acercar la actuación del Estado al territorio para el ejercicio eficaz de sus competencias.
+C) Limitar la actuación del Estado exclusivamente a funciones simbólicas.
+OK: B
+EXP: La Administración periférica permite ejercer eficazmente las competencias estatales en el territorio.
+
+// [92]
+Q: ¿Por qué resulta necesaria la existencia de una Administración periférica del Estado?
+A) Porque el Estado carece de competencias ejecutivas.
+B) Porque existe un único centro de decisión y es necesario descentralizar la actuación territorial.
+C) Porque las comunidades autónomas asumen todas las funciones del Estado.
+OK: B
+EXP: La centralización decisoria exige una organización territorial para actuar eficazmente.
+
+// [93]
+Q: ¿Qué función principal desempeñan los delegados del Gobierno en las comunidades autónomas?
+A) Aprobar leyes autonómicas.
+B) Dirigir y coordinar la Administración del Estado en la comunidad autónoma.
+C) Representar al poder judicial en el territorio.
+OK: B
+EXP: Son los responsables de la dirección y coordinación de la Administración estatal en la comunidad.
+
+// [94]
+Q: ¿Qué caracteriza el régimen jurídico de los delegados del Gobierno?
+A) Son funcionarios de carrera obligatoriamente.
+B) Son cargos directivos equiparados a subsecretarios y sometidos al régimen de altos cargos.
+C) Son órganos colegiados con funciones jurisdiccionales.
+OK: B
+EXP: Tienen rango equiparado a subsecretarios y régimen de altos cargos.
+
+// [95]
+Q: ¿Qué rasgo define el sistema de nombramiento de los delegados del Gobierno?
+A) Se realiza mediante oposición pública.
+B) Exige requisitos estrictos de cualificación técnica.
+C) Se realiza con amplia discrecionalidad sin exigencia de requisitos concretos.
+OK: C
+EXP: No se exigen requisitos específicos, lo que otorga amplio margen discrecional.
+
+// [96]
+Q: ¿Qué función de coordinación ejercen los delegados del Gobierno?
+A) Coordinan exclusivamente a los ministerios entre sí.
+B) Coordinan la Administración del Estado con las administraciones autonómica y local.
+C) Coordinan únicamente a los órganos judiciales.
+OK: B
+EXP: Actúan como nexo entre administraciones estatal, autonómica y local.
+
+// [97]
+Q: ¿Qué función de control pueden ejercer los delegados del Gobierno respecto a entidades locales?
+A) Aprobar sus presupuestos.
+B) Suspender actos que lesionen gravemente el interés general e impugnarlos judicialmente.
+C) Nombrar a sus representantes políticos.
+OK: B
+EXP: Pueden suspender actos y promover su control ante la jurisdicción contencioso-administrativa.
+
+// [98]
+Q: ¿Qué papel desempeñan los delegados del Gobierno en materia de seguridad ciudadana?
+A) Actúan bajo dependencia funcional del ministerio del Interior a través de las Fuerzas y Cuerpos de Seguridad.
+B) Carecen de competencias en materia de seguridad.
+C) Sustituyen al poder judicial en la protección de derechos.
+OK: A
+EXP: Ejercen funciones de seguridad mediante las Fuerzas y Cuerpos de Seguridad del Estado.
+
+// [99]
+Q: ¿Qué objetivo persigue la integración de los servicios territoriales en las delegaciones del Gobierno?
+A) Aumentar la burocracia administrativa.
+B) Reducir la coordinación entre órganos.
+C) Racionalizar la organización y ahorrar costes mediante medios compartidos.
+OK: C
+EXP: La integración busca eficiencia organizativa y ahorro de recursos.
+
+// [100]
+Q: ¿Qué caracteriza la dependencia funcional de los servicios territoriales integrados?
+A) Dependen exclusivamente del delegado del Gobierno.
+B) Mantienen dependencia funcional de los ministerios competentes.
+C) Dependen únicamente de las comunidades autónomas.
+OK: B
+EXP: Aunque orgánicamente integrados, funcionalmente dependen de los ministerios.
+
+// [101]
+Q: ¿Qué problema organizativo genera la existencia de servicios territoriales integrados y no integrados?
+A) La desaparición de la coordinación administrativa.
+B) La necesidad de crear mecanismos de coordinación interministerial.
+C) La imposibilidad de gestionar servicios públicos.
+OK: B
+EXP: La dualidad exige órganos de coordinación para garantizar coherencia.
+
+// [102]
+Q: ¿Qué órganos forman parte de la estructura de las delegaciones del Gobierno?
+A) Únicamente los delegados del Gobierno.
+B) Subdelegaciones, direcciones insulares y una secretaría general.
+C) Exclusivamente órganos judiciales territoriales.
+OK: B
+EXP: Incluye subdelegaciones, direcciones insulares y servicios comunes.
+
+// [103]
+Q: ¿Qué función desempeña la secretaría general de la delegación del Gobierno?
+A) Aprobar leyes estatales.
+B) Gestionar servicios comunes y ámbitos como procesos electorales o protección civil.
+C) Coordinar exclusivamente la política exterior.
+OK: B
+EXP: Asume funciones de servicios comunes y materias específicas.
+
+// [104]
+Q: ¿Qué carácter tienen los subdelegados del Gobierno en la provincia?
+A) Son cargos políticos equivalentes a ministros.
+B) Son funcionarios de carrera del subgrupo A1 sin carácter político.
+C) Son órganos colegiados de representación territorial.
+OK: B
+EXP: Son funcionarios profesionales, no cargos políticos.
+
+// [105]
+Q: ¿Qué función principal ejercen los subdelegados del Gobierno en la provincia?
+A) Aprobar normas con rango de ley.
+B) Coordinar la Administración estatal y ejercer funciones de seguridad y protección civil.
+C) Representar al poder legislativo.
+OK: B
+EXP: Actúan en seguridad, coordinación administrativa y gestión territorial.
+
+// [106]
+Q: ¿Qué rasgo define la figura del director insular dentro de la Administración periférica del Estado?
+A) Es un órgano colegiado con funciones legislativas.
+B) Es un puesto reservado a funcionarios A1 con funciones similares a los subdelegados.
+C) Es un cargo político de libre designación sin requisitos.
+OK: B
+EXP: Es un funcionario A1 con funciones equivalentes a las del subdelegado en su ámbito.
+
+// [107]
+Q: ¿Qué característica distingue al director insular respecto a los subdelegados del Gobierno?
+A) Tiene mayor rango orgánico que el subdelegado.
+B) Carece de condición de órgano directivo equiparado a subdirección general.
+C) Depende exclusivamente del Gobierno central sin intermediarios.
+OK: B
+EXP: No tiene la condición formal de órgano directivo como el subdelegado.
+
+// [108]
+Q: ¿Qué criterio determina la existencia de directores insulares en la Administración periférica del Estado?
+A) Su existencia es obligatoria en todas las islas.
+B) Se establece automáticamente por la Constitución.
+C) Depende de las necesidades organizativas determinadas reglamentariamente.
+OK: C
+EXP: Solo existen donde se considere necesario según criterios organizativos.
+    `;
+
+
+    const BANCO_5 = ` 
+#ID = 7
+
+// [109]
+Q: ¿Qué caracteriza la evolución normativa de la Administración del Estado en el exterior?
+A) Ha estado siempre regulada de forma sistemática por una única ley orgánica.
+B) Ha pasado de una regulación dispersa a un régimen sistemático centrado en la Ley de la Acción y del Servicio Exterior del Estado.
+C) Carece actualmente de regulación jurídica aplicable.
+OK: B
+EXP: Inicialmente se regulaba por normas dispersas, pero hoy el régimen principal está en la Ley de la Acción Exterior.
+
+// [110]
+Q: ¿Cuál es la finalidad principal de la Ley de la Acción y del Servicio Exterior del Estado?
+A) Regular exclusivamente la organización interna de los ministerios.
+B) Garantizar la autonomía de cada órgano exterior del Estado.
+C) Asegurar la unidad de acción del Estado en el exterior.
+OK: C
+EXP: La ley busca coordinar y unificar la acción exterior del Estado.
+
+// [111]
+Q: ¿Qué funciones generales cumple el servicio exterior del Estado?
+A) Aprobar normas con rango de ley en el ámbito internacional.
+B) Proporcionar información al Gobierno y prestar asistencia a españoles en el extranjero.
+C) Dirigir exclusivamente la política económica interna.
+OK: B
+EXP: Sus funciones clave son informativas y de protección en el exterior.
+
+// [112]
+Q: ¿Qué característica define la organización del servicio exterior en relación con los ministerios?
+A) Actúa de forma completamente independiente de los ministerios.
+B) Depende orgánica y funcionalmente de los ministerios, pero jerárquicamente del embajador.
+C) Está subordinado exclusivamente al Parlamento.
+OK: B
+EXP: Existe doble dependencia: funcional de ministerios y jerárquica del embajador.
+
+// [113]
+Q: ¿Qué función cumplen las misiones diplomáticas permanentes dentro del servicio exterior del Estado?
+A) Representar a España ante uno o varios Estados.
+B) Coordinar la política interior del Estado.
+C) Dirigir los servicios comunes del ministerio de Asuntos Exteriores.
+OK: A
+EXP: Representan al Estado ante otros Estados.
+
+// [114]
+Q: ¿Qué distingue a las representaciones permanentes dentro del servicio exterior del Estado?
+A) Representan a España únicamente en el territorio nacional.
+B) Actúan exclusivamente en el ámbito judicial.
+C) Representan a España ante organizaciones internacionales o la Unión Europea.
+OK: C
+EXP: Se encargan de la representación ante organizaciones internacionales.
+
+// [115]
+Q: ¿Qué norma regula principalmente las funciones de las misiones diplomáticas y representaciones permanentes?
+A) Exclusivamente la legislación administrativa interna española.
+B) El Derecho internacional, los tratados y normas de la Unión Europea.
+C) Las ordenanzas municipales del Estado receptor.
+OK: B
+EXP: Su actuación se rige por normas internacionales y europeas.
+
+// [116]
+Q: ¿Qué requisito es necesario para la creación de misiones diplomáticas y representaciones permanentes?
+A) Una orden ministerial del ministro competente.
+B) Un acuerdo parlamentario por mayoría absoluta.
+C) Un real decreto del Consejo de Ministros con determinados informes previos.
+OK: C
+EXP: Su creación exige real decreto y participación de varios órganos.
+
+// [117]
+Q: ¿Qué función desempeña el embajador en las misiones diplomáticas y representaciones permanentes?
+A) Actuar como órgano consultivo sin funciones directivas.
+B) Dirigir, coordinar y supervisar la actividad de los órganos integrados en la misión.
+C) Representar exclusivamente al poder judicial español.
+OK: B
+EXP: El embajador es el jefe de la misión y dirige su actividad.
+
+// [118]
+Q: ¿Qué característica define el sistema de nombramiento de los embajadores?
+A) Deben pertenecer obligatoriamente a la carrera diplomática.
+B) Se nombran exclusivamente mediante oposición pública.
+C) Se nombran por real decreto y pueden proceder o no de la carrera diplomática.
+OK: C
+EXP: Pueden ser diplomáticos o personas con experiencia profesional relevante.
+
+// [119]
+Q: ¿Qué función desempeña la chancillería diplomática dentro de las misiones diplomáticas?
+A) Aprobar normas con rango de ley.
+B) Coordinar la política interior del Estado.
+C) Gestionar funciones administrativas bajo dirección de un diplomático.
+OK: C
+EXP: Es la unidad administrativa principal de la misión.
+
+// [120]
+Q: ¿Qué caracteriza a las misiones diplomáticas especiales y a las delegaciones?
+A) Su carácter permanente e indefinido.
+B) Su carácter temporal vinculado a cometidos concretos.
+C) Su función exclusivamente judicial.
+OK: B
+EXP: Son estructuras temporales para tareas específicas.
+
+// [121]
+Q: ¿Qué función desempeñan las oficinas consulares dentro del servicio exterior del Estado?
+A) Aprobar tratados internacionales.
+B) Prestar asistencia a españoles y ejercer funciones consulares.
+C) Coordinar exclusivamente la política económica.
+OK: B
+EXP: Realizan funciones consulares y de asistencia a ciudadanos.
+
+// [122]
+Q: ¿Qué tipo de actuaciones pueden realizar las oficinas consulares?
+A) Dictar sentencias judiciales en el extranjero.
+B) Expedir documentos, asistir ante autoridades y proteger a ciudadanos.
+C) Aprobar leyes orgánicas en el exterior.
+OK: B
+EXP: Realizan funciones administrativas y de asistencia consular.
+
+// [123]
+Q: ¿A quién puede extenderse la protección prestada por las oficinas consulares además de a los españoles?
+A) Exclusivamente a ciudadanos del Estado receptor.
+B) A ciudadanos de otros Estados de la Unión Europea sin representación en el país.
+C) A cualquier persona sin limitación.
+OK: B
+EXP: También protegen a ciudadanos de la UE sin representación en el país.
+
+// [124]
+Q: ¿Qué tipos de oficinas consulares existen según su organización?
+A) Únicamente oficinas consulares de carácter político.
+B) Oficinas consulares de carrera y oficinas consulares honorarias.
+C) Solo oficinas dependientes del Parlamento.
+OK: B
+EXP: Existen oficinas de carrera y honorarias según su titularidad.
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
