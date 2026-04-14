@@ -1,0 +1,2192 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1;
+}
+
+.sumTitle{
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+  word-break:break-word;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 10. La administración de las comunidades autónomas </h1>
+  <div class="small">by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+    const PDF_TEXTO = `
+1. INTRODUCCIÓN
+
+El reconocimiento constitucional del derecho a la autonomía de nacionalidades y regiones en 1978 transformó el Estado centralizado en un Estado políticamente descentralizado, añadiendo un nuevo nivel de gobierno y administración a la organización previa basada en el Estado, los municipios y las provincias. La creación de las diecisiete comunidades autónomas se inició en 1979 y quedó prácticamente culminada en 1983, en algunos casos tras una fase preparatoria de regímenes preautonómicos durante la transición.
+
+Junto al estatuto de autonomía, las comisiones mixtas de transferencias fueron un instrumento esencial en la institucionalización de las comunidades autónomas, al encargarse de ordenar y pactar el traspaso de funciones y atribuciones entre el Estado y cada comunidad autónoma. Sus acuerdos eran aprobados por el Gobierno mediante real decreto y publicados en el BOE.
+
+Con el paso de dos décadas, la Administración autonómica pasó a ocupar una posición central en el sistema administrativo tanto por gasto como por personal, hasta el punto de concentrar aproximadamente el sesenta por ciento de los empleados públicos, con un peso especialmente relevante en educación y sanidad.
+
+En términos generales, las comunidades autónomas reprodujeron no solo el esquema institucional estatal previsto en la Constitución, sino también el modelo organizativo del gobierno y la administración general del Estado, con una estructura departamental, burocrática, funcionarial, concentrada y centralizadora. Por ello, la organización de sus gobiernos y administraciones constituye en gran medida una réplica de la estructura estatal.
+
+Ese diseño concentrado y centralizador propició, en las comunidades autónomas pluriprovinciales, la creación de una administración periférica propia y afectó además a las relaciones con los gobiernos locales, especialmente con los municipios. En las comunidades autónomas uniprovinciales, la provincia desapareció como entidad local al integrarse sus competencias en los nuevos entes autonómicos.
+
+La lección se limita a ofrecer una visión panorámica de la organización de la administración propia de las comunidades autónomas. No aborda ni el origen y desarrollo del Estado autonómico, ni su sistema institucional, competencial o de controles, ni tampoco cuestiones más específicas y complejas como la función pública autonómica, la hacienda o la gestión presupuestaria. Su propósito es exponer los rasgos generales de esa organización administrativa partiendo de los criterios fijados por las normas superiores del ordenamiento, en especial la Constitución y los estatutos de autonomía.
+
+2. LA ADMINISTRACIÓN AUTONÓMICA EN LA CONSTITUCIÓN Y LOS ESTATUTOS DE AUTONOMÍA
+
+La Constitución no estableció una regulación general de la organización específica de las comunidades autónomas, en coherencia con el principio de autonomía, que alcanza en el plano organizativo una especial intensidad. Su previsión más relevante en este punto se contiene en el artículo 147 CE, que remite al estatuto de autonomía, como norma institucional básica, la determinación de materias como la denominación, organización y sede de las instituciones autónomas propias.
+
+Aunque la existencia de distintas vías de acceso a la autonomía pretendía dar lugar a modelos organizativos diferenciados y, al menos transitoriamente, a distintos niveles competenciales, esa diferenciación organizativa no llegó a consolidarse, porque todas las comunidades autónomas adoptaron un modelo similar. Solo de forma transitoria, y como resultado de los Pactos Autonómicos de 1981, algunos estatutos de la vía lenta introdujeron límites al número de consejerías y a la creación de administración periférica, restricciones que después desaparecieron. También la Ley Orgánica 9/1992 contribuyó a una amplia igualación competencial entre comunidades.
+
+Que la Constitución no regule de forma específica la organización administrativa autonómica no significa que no le resulten aplicables sus disposiciones generales sobre Administración pública y ejercicio del poder público. Por ello, los preceptos constitucionales referidos a esos ámbitos son igualmente aplicables a la Administración de las comunidades autónomas, como confirma además la jurisprudencia constitucional respecto del artículo 103 CE.
+
+La determinación constitucional más importante en esta materia es la competencia exclusiva del Estado del artículo 149.1.18 CE, que le atribuye la fijación de las bases del régimen jurídico de las administraciones públicas y del régimen estatutario de sus funcionarios, así como del procedimiento administrativo común, la expropiación forzosa, la legislación básica sobre contratos y concesiones administrativas y el sistema de responsabilidad de todas las administraciones públicas. Esta competencia estatal condiciona decisivamente el margen de autonomía organizativa de las comunidades autónomas, de modo que cuanto más extensa y densa sea la regulación estatal, menor será su capacidad para configurar de forma diferenciada su propia administración e innovar organizativamente.
+
+Los estatutos de autonomía se refieren de manera desigual a la administración autonómica y a su organización: algunos no contienen precepto alguno sobre la materia, mientras que otros dedican varias disposiciones a regularla. Con frecuencia se limitan a afirmar la competencia autonómica para crear y regular una administración propia, pero cuando inciden directamente en aspectos organizativos presentan varias coincidencias.
+
+Es habitual que incluyan una cláusula general sobre la Administración autonómica que reitera los criterios de actuación del artículo 103.1 CE y, en ocasiones, añade otros principios ya presentes en la legislación estatal, como la buena fe, la confianza legítima, la lealtad institucional o la transparencia. En los estatutos más recientes también aparecen referencias a la buena administración, a la prestación de servicios públicos de calidad, a la publicidad de la oferta y características de los servicios públicos y a la evaluación de las políticas públicas.
+
+Algunos estatutos califican a la Administración autonómica como administración ordinaria en el ejercicio de sus competencias o le atribuyen la gestión ordinaria de sus actividades mediante sus servicios centrales y periféricos. Esa calificación no excluye la existencia de administración periférica del Estado en el territorio autonómico, según precisó el Tribunal Constitucional, pero parece apuntar a que la comunidad autónoma debe ejercer normalmente sus competencias con su propia estructura administrativa y no mediante estructuras ajenas, como las de las entidades locales a través de encomiendas de gestión.
+
+También es frecuente que los estatutos atribuyan a la Administración autonómica las potestades y prerrogativas reconocidas por el ordenamiento a la Administración del Estado, ya sea mediante remisión general a ellas o mediante su enumeración expresa. Asimismo, suelen establecer reservas de ley para determinadas submaterias, entre ellas el estatuto de los funcionarios de la propia Administración, y en algunos casos extienden esa remisión legal a aspectos como la organización administrativa, las formas de descentralización funcional, la personificación pública y privada, la gestión de los servicios públicos, la participación del sector privado, la participación ciudadana, el acceso a la Administración, la presencia equilibrada de hombres y mujeres en órganos directivos, colegiados o consultivos, o la evaluación de las políticas públicas.
+
+Por último, algunos estatutos prevén que organismos, servicios o dependencias de la Administración autonómica puedan ubicarse en distintas localidades del territorio, además de en la capital.
+
+3. LA CONFIGURACIÓN DE LAS ADMINISTRACIONES DE LAS COMUNIDADES AUTÓNOMAS
+
+3.1. El proceso de creación: Entre inercia y autonomía limitada
+
+La configuración de las administraciones autonómicas ha sido interpretada como una paradoja de la autonomía o como una oportunidad perdida, porque, en lugar de aprovechar su autonomía para crear estructuras propias e innovadoras, las comunidades autónomas reprodujeron en gran medida el modelo estatal tradicional, caracterizado por su organización burocrática, funcionarial, departamental, centralizada y concentrada. Esta reproducción no obedeció solo a la inercia o a la urgencia del proceso de construcción autonómica, sino también a condicionantes jurídicos relevantes.
+
+El Tribunal Constitucional distinguió entre la potestad de organización de las instituciones de autogobierno y la potestad de organización administrativa. La primera constituye una competencia exclusiva en sentido propio, limitada únicamente por el diseño institucional básico del artículo 152.1 CE, mientras que la segunda queda condicionada por la competencia estatal sobre las bases del régimen jurídico de las Administraciones públicas del artículo 149.1.18 CE. De este modo, el Gobierno autonómico se concibe como institución de autogobierno, pero la Administración autonómica aparece como un instrumento jurídico-administrativo sometido a una competencia compartida. Aunque esta distinción es discutible y difícil de aplicar en la práctica, fue asumida por diversos estatutos de autonomía.
+
+Por ello, la competencia autonómica para configurar sus estructuras administrativas nunca fue plena, sino dependiente de las bases estatales. El legislador autonómico puede desarrollar esas bases, pero el alcance real de su capacidad organizativa viene determinado por la intensidad con que el Estado ejerza su competencia normativa. Además, al finalizar en 1983 el proceso de creación de las comunidades autónomas, esas bases no estaban formuladas de modo expreso, sino que debían deducirse de la legislación vigente, inicialmente preconstitucional, lo que generaba incertidumbre y hacía arriesgada cualquier opción organizativa innovadora por el riesgo de impugnación e inconstitucionalidad.
+
+Esa limitación afectó de forma especial al modelo funcionarial. La interpretación dominante entendió pronto que la Constitución optaba por la relación funcionarial estatutaria clásica, de modo que este aspecto no quedaba disponible para la libre configuración autonómica. La Ley 30/1984 impuso una ordenación uniforme de la función pública en todo el Estado, y la STC 99/1987 confirmó esa opción constitucional en favor del régimen estatutario de los servidores públicos. A partir de ello, la Ley 23/1988 consolidó la regla general de reserva de puestos a funcionarios, admitiendo solo excepcionalmente la contratación laboral para determinados puestos no permanentes, instrumentales, singulares o técnicamente especializados.
+
+A ello se añadió la propia dinámica del proceso de transferencias, que fue políticamente condicionado, ministerial, fragmentario y prolongado, dificultando un diseño administrativo coherente. Las comunidades autónomas incorporaban personal y, en ocasiones, servicios completos procedentes de la Administración del Estado, lo que favorecía la continuidad de un modelo departamental conocido. También desde el punto de vista político y social resultaba más sencillo legitimar las nuevas administraciones reproduciendo una organización similar a la estatal, con un órgano colegiado de gobierno, consejeros al frente de departamentos y una estructura jerarquizada de funcionarios.
+
+En conjunto, la falta de modelos alternativos, la incertidumbre sobre el alcance de la autonomía organizativa, la necesidad urgente de poner en marcha estructuras para ejercer competencias y prestar servicios, la dependencia de medios personales procedentes del Estado, la construcción progresiva derivada de los traspasos y la exigencia de mantener una relación simétrica con la Administración general del Estado explican que no existieran condiciones favorables para una verdadera innovación organizativa.
+
+Pese a ello, las nuevas administraciones autonómicas constituyeron la principal innovación del sistema administrativo democrático, al contribuir a colmar parte del déficit de legitimidad del aparato estatal percibido como lejano. Esa innovación se reflejó en la búsqueda de estructuras más próximas al ciudadano, orientadas a la simplificación administrativa y a la tutela de los usuarios de los servicios públicos. Sin embargo, la posibilidad de construir modelos más variados sigue limitada por el peso de las estructuras consolidadas y por dos condicionantes jurídicos básicos: la exigencia constitucional de organización jerárquica de todas las Administraciones públicas y la conexión de la organización administrativa con otros sectores densamente regulados, como la función pública, la gestión presupuestaria o el ejercicio de potestades administrativas.
+
+La crítica doctrinal a la falta de imaginación organizativa se relaciona también con el fracaso del modelo de administraciones autonómicas mínimas apoyadas en una administración indirecta mediante delegación en las entidades locales. Aunque el objetivo de evitar duplicidades estructurales era razonable, ese diseño resultaba poco realista, porque convertía a las comunidades autónomas en instancias de dirección y coordinación sin aplicación directa de políticas públicas, algo inviable en servicios como la educación, la sanidad o determinadas infraestructuras supraprovinciales. La verdadera paradoja reside así en que, pese a la descentralización y al traspaso de servicios, la Administración general del Estado apenas redujo sus estructuras centrales y mantuvo una organización equivalente a la que necesitaría si siguiera prestando íntegramente los servicios transferidos.
+
+3.2. La potestad autonómica de organización administrativa y sus límites
+
+El único ámbito verdaderamente exclusivo de las comunidades autónomas en materia organizativa es la potestad de crear, modificar y suprimir los órganos, unidades administrativas o entidades que integran sus respectivas administraciones o dependen de ellas. El Tribunal Constitucional ha afirmado que el Estado no puede imponer la inserción forzosa en la Administración autonómica de órganos jerárquicamente dependientes de la Administración del Estado, porque ello vulneraría la autonomía, cuya expresión más genuina es la capacidad de autoorganización. En principio, por tanto, la decisión sobre la estructura orgánica del aparato administrativo directivo corresponde exclusivamente a la comunidad autónoma.
+
+Fuera de ese núcleo, la competencia autonómica no es exclusiva, sino que está limitada por la legislación estatal dictada al amparo del artículo 149.1.18 CE. El Estado puede establecer principios y reglas básicas sobre organización y funcionamiento de todas las Administraciones públicas, incluyendo la composición, estructura y competencias de sus órganos. No obstante, la jurisprudencia constitucional ha precisado que la intensidad de esas bases no puede ser igual en todos los ámbitos: puede ser mayor en las materias que inciden directamente en la actividad externa de la Administración y en los derechos e intereses de los administrados, y menor en las cuestiones relativas a la organización y funcionamiento interno. Por ello, el Estado puede regular de manera uniforme determinadas figuras organizativas, pero no descender hasta concretar aspectos internos que corresponden a la potestad organizativa autonómica.
+
+Con el desarrollo paulatino de la legislación básica estatal en materia de organización, funcionamiento administrativo y prestación de servicios públicos, se ha reforzado una visión uniformista del aparato organizativo. Además, esas bases no son estáticas, sino variables en el tiempo, por lo que el margen autonómico de diferenciación ha seguido modulándose. Entre los condicionantes más relevantes figura la reserva a funcionarios públicos de las funciones que impliquen ejercicio de potestades públicas o salvaguardia de intereses generales. Esto significa que, si una comunidad autónoma crea entidades instrumentales diferenciadas, las potestades administrativas atribuidas a esas entidades no podrán ser ejercidas por personal laboral, sino por funcionarios. El Tribunal Constitucional ha entendido, además, que corresponde a las leyes autonómicas concretar qué funciones quedan reservadas y cómo pueden desempeñarse, y ha admitido que esas entidades instrumentales dispongan del personal funcionario necesario tanto mediante funcionarios propios como mediante funcionarios dependientes orgánicamente de la Administración territorial que actúan funcionalmente a su servicio.
+
+También condicionan la organización autonómica las normas estatales básicas sobre órganos administrativos, competencia, abstención y recusación, funcionamiento electrónico, convenios, consorcios y relaciones interadministrativas. En este ámbito, el Tribunal Constitucional anuló el carácter básico de algunas normas estatales sobre órganos colegiados por considerar que regulaban con un detalle excesivo cuestiones internas que impedían un desarrollo autonómico real. Del mismo modo, el legislador estatal incidió en la regulación de la iniciativa legislativa y del procedimiento de elaboración de reglamentos y otras disposiciones autonómicas, aunque parte de esa regulación fue declarada inconstitucional por razones competenciales.
+
+El peso de la inercia y el estrecho marco normativo básico ayudan a explicar la limitada ambición autonómica en materia organizativa. Aun así, se han producido intentos de reforma de gran alcance, como la reordenación del sector público andaluz de 2011, que perseguía reducir drásticamente el número de entidades instrumentales mediante la utilización de agencias públicas empresariales y afectaba a un volumen muy elevado de empleados públicos. El Tribunal Constitucional avaló esa reforma al asumir una concepción amplia de la Administración autonómica, integrada tanto por la Administración territorial como por los entes instrumentales creados por la comunidad autónoma para ejercer funciones de su competencia, y al admitir la adscripción funcional de funcionarios orgánicamente dependientes de la Administración territorial o de una agencia administrativa para prestar servicio en agencias públicas empresariales. De este modo, aceptó la compatibilidad con las bases estatales de fórmulas organizativas que combinan dependencia orgánica y funcional distinta dentro del sector público autonómico.
+
+4. LA ORGANIZACIÓN ADMINISTRATIVA
+
+4.1. La dispersión de la regulación
+
+Ante la escasez de referencias estatutarias, las claves de la organización administrativa autonómica se localizan sobre todo en la legislación autonómica, especialmente en las leyes sobre administración, régimen jurídico, gobierno o administración de cada comunidad autónoma.
+
+Sin embargo, tampoco esa legislación ofrece siempre una regulación completa o suficientemente significativa de la organización y estructura interna, en parte por la importancia de las bases estatales, por la continua modificación de las estructuras administrativas derivada de cambios políticos y por la necesidad de flexibilidad para integrar los servicios transferidos por el Estado.
+
+Además, muchos aspectos organizativos se concretan en leyes sectoriales autonómicas, que junto a la regulación sustantiva atribuyen funciones y prevén órganos específicos. Estas leyes suelen señalar también qué órganos agotan la vía administrativa y fijar los plazos de resolución y los efectos del silencio administrativo.
+
+4.2. Personalidad jurídica y potestades administrativas
+
+La falta de referencias constitucionales y estatutarias claras sobre el modelo administrativo autonómico, unida a la inercia, a la urgencia del proceso y a las limitaciones competenciales, hizo que prevaleciera el modelo estatal. En el plano jurídico-formal ese mimetismo es completo: todos los ordenamientos autonómicos proclaman la personalidad jurídica única de la Administración de la comunidad autónoma, organizada mediante órganos jerárquicamente ordenados, subordinada al Gobierno autonómico y actuando con personalidad única, sin perjuicio de la existencia de entidades instrumentales dependientes.
+
+A esa Administración se le atribuye, en el ejercicio de sus competencias, el conjunto más amplio de potestades y prerrogativas, bien por remisión a las reconocidas a la Administración del Estado, bien mediante enumeración expresa. Entre ellas figuran la ejecución forzosa, la revisión de oficio, la expropiación, incluida la declaración de urgente ocupación, las potestades de investigación, deslinde y recuperación de bienes, la potestad sancionadora, el procedimiento de apremio, la inembargabilidad de sus bienes y derechos, los privilegios de cobro propios de la Hacienda pública, la exención de prestar garantías o cauciones ante órganos administrativos y judiciales y la inadmisibilidad de acciones posesorias.
+
+4.3. Líneas comunes dentro de la diversidad
+
+Las diferencias competenciales, demográficas, geográficas, históricas y socioeconómicas entre comunidades autónomas tienen reflejo organizativo. Aunque el proceso de traspasos ha producido una importante igualación, persisten asimetrías que afectan a la organización administrativa, especialmente cuando implican cuerpos policiales propios, gestión penitenciaria, medios personales y materiales de la Administración de Justicia o competencias ligadas a la existencia de litoral. También influyen factores territoriales, como el número de provincias, factores demográficos, la condición insular de algunas comunidades y la existencia de instituciones históricas singulares, como las del País Vasco.
+
+Pese a esa diversidad, pueden apreciarse varias características comunes. La primera es la fragmentación y rigidez de las estructuras departamentales, ya que las comunidades autónomas han adoptado el modelo sectorial de la Administración estatal y han reproducido incluso las denominaciones ministeriales en sus consejerías y órganos superiores. La segunda es el peso desproporcionado de la confianza política en las estructuras directivas, por la existencia de escalones de autoridad servidos por altos cargos de libre nombramiento. La tercera es la proliferación de entes instrumentales, bien por mimetismo con fórmulas estatales, bien para disponer de estructuras más ágiles en la ejecución de proyectos o en la gestión de centros y servicios. La cuarta es la conservación o reproducción de una estructura periférica desplegada territorialmente, aunque no siempre coincidente con la provincia.
+
+A esas notas se añaden otras dos. Por un lado, el fortalecimiento de las estructuras administrativas al servicio de la presidencia, normalmente a través de un macrodepartamento que concentra funciones políticas, transversales y sectoriales clave, como la coordinación de consejerías, los recursos humanos, los servicios jurídicos, la comunicación o las relaciones institucionales. Por otro, la incidencia del régimen de doble oficialidad lingüística en varias comunidades autónomas, que no solo genera derechos para los ciudadanos y obligaciones para los poderes públicos, sino también consecuencias organizativas, al exigir adaptación de publicaciones, resoluciones, formularios, cartelería y demás servicios, así como la existencia de órganos específicos de política lingüística.
+
+4.4. Los órganos superiores
+
+En algunas comunidades autónomas se mantiene la concepción según la cual no existe separación entre gobierno y administración, de modo que el gobierno o su consejo de gobierno actúa como órgano superior de la Administración autonómica. En esos casos, es necesario distinguir dentro del mismo órgano las atribuciones que corresponden a su condición de institución de autogobierno y las que ejerce como órgano administrativo superior. Esa dualidad hace que el gobierno autonómico tenga a la vez naturaleza política y administrativa, aunque su régimen jurídico no se rige por la normativa general sobre órganos colegiados, sino por una regulación específica como institución de autogobierno.
+
+En otras comunidades autónomas, en cambio, se ha seguido el modelo estatal posterior a 1997 y se distingue orgánica y funcionalmente entre Gobierno y Administración. En ese esquema, la Administración actúa bajo la dirección política del consejo de gobierno, pero no se confunde con él. El vínculo entre ambos lo representan los consejeros, que son simultáneamente miembros del Gobierno y órganos superiores de la Administración. En consecuencia, la Administración se organiza en consejerías o departamentos encargados de la gestión de uno o varios sectores de actividad.
+
+Todas las comunidades autónomas combinan consejerías sectoriales con otras de carácter general, dedicadas a funciones como presidencia, hacienda o administraciones públicas, en las que suelen concentrarse servicios esenciales como los jurídicos, la intervención, la función pública o los presupuestos. En algunas también existe la figura del consejero sin departamento o sin cartera, que puede asumir funciones gubernamentales no ejecutivas y disponer de medios personales y materiales, aunque en los modelos que separan Gobierno y Administración queda fuera de la organización administrativa en sentido estricto.
+
+El número de consejerías y la estructura orgánica de la Administración autonómica no son estables, porque dependen de coyunturas políticas, económicas y administrativas como cambios de gobierno, crisis, coaliciones o reformas organizativas. Aunque en algunos casos los departamentos se crean o extinguen por ley, lo habitual es que corresponda al gobierno autonómico fijar su número, denominación, competencias y estructura. Por ello, la estructura orgánica no se contiene normalmente en una ley general, sino en el conjunto de decretos que regulan la organización de cada departamento y que suelen modificarse con cada cambio de gobierno.
+
+Dentro de cada consejería, la organización interna suele articularse en torno a su titular y a órganos centrales como viceconsejerías, secretarías generales técnicas y direcciones generales o regionales, a los que pueden añadirse secretarías generales o secretarías autonómicas. En la mayoría de las comunidades autónomas estos órganos directivos son puestos de confianza no profesionalizados, aunque en algunas los directores generales deben ser funcionarios de carrera.
+
+Los órganos inferiores, como servicios, secciones y negociados, se consideran no directivos y su creación o supresión corresponde al Gobierno o a los consejeros.
+
+4.5. Los órganos territoriales
+
+4.5.1. Alcance en las comunidades autónomas pluriprovinciales
+
+En las comunidades autónomas uniprovinciales no existe con carácter general una administración autonómica territorial, aunque pueden crearse órganos periféricos singulares para funciones concretas. En las comunidades pluriprovinciales, en cambio, junto a la organización administrativa central suele existir una administración periférica, diferenciándose así entre órganos con competencia para todo el territorio autonómico y órganos con competencia limitada a un ámbito territorial determinado. Estos servicios territoriales responden al principio de desconcentración y suelen organizarse atendiendo a la provincia, aunque pueden establecerse también otras demarcaciones complementarias o alternativas para la gestión de determinados servicios, incluso sin coincidir con entidades locales.
+
+La organización territorial puede adoptar distintas fórmulas. En unos casos se articula mediante delegaciones o direcciones territoriales del Gobierno o de la comunidad autónoma, encargadas de coordinar, inspeccionar y supervisar los servicios ubicados en su territorio. En otros, mediante delegaciones territoriales de la administración general en las que se integran los servicios territoriales de las distintas consejerías, mediante delegados de cada departamento o mediante combinaciones de ambos modelos. Los delegados territoriales suelen tener la condición de alto cargo y ser nombrados y cesados por el consejo de gobierno. Esta organización periférica debe distinguirse de la ordenación territorial utilizada para la prestación de servicios públicos, donde es normal que convivan distintas divisiones funcionales no coincidentes entre sí.
+
+4.5.2. Órganos territoriales versus Administración indirecta
+
+El modelo inicialmente propugnado en 1981 y en la Ley del proceso autonómico de 1983 apostaba por que las diputaciones provinciales asumieran la gestión periférica de los servicios y funciones autonómicos, de modo que las comunidades autónomas se apoyaran en una administración indirecta. Muchos estatutos incorporaron esa orientación, lo que condicionaba la creación de una estructura periférica propia. Sin embargo, esas previsiones apenas llegaron a desarrollarse y quedaron, en la mayoría de los casos, como declaraciones programáticas. Las posteriores reformas estatutarias eliminaron en general esas limitaciones y atribuyeron la gestión ordinaria de las actividades autonómicas a sus propios servicios centrales y periféricos.
+
+En la actualidad solo algunas comunidades mantienen previsiones de administración indirecta o de posible delegación en entidades locales, aunque ello no ha impedido la creación de estructuras periféricas propias ni ha dado lugar, en ciertos casos, a una aplicación efectiva de esas posibilidades. También existen fórmulas de cooperación con las diputaciones provinciales orientadas a clarificar competencias y coordinar actuaciones, sin sustituir por ello la administración periférica autonómica.
+
+4.5.3. Órganos situados fuera de la comunidad autónoma
+
+La organización desconcentrada de las comunidades autónomas no tiene por qué situarse exclusivamente dentro de su territorio. Algunas legislaciones autonómicas contemplan expresamente la posibilidad de crear órganos o unidades administrativas que actúen funcionalmente fuera de la comunidad autónoma, tanto en otros puntos de España como en el extranjero. Además, la legislación estatal admite la apertura de oficinas autonómicas para la promoción exterior, sometiendo su creación a una comunicación previa al Gobierno y a la emisión de informes ministeriales. Esa comunicación y esos informes han sido considerados por la jurisprudencia constitucional técnicas legítimas de cooperación y coordinación, sin carácter autorizatorio ni vinculante.
+
+Especial relevancia tienen las oficinas o delegaciones autonómicas en Bruselas. La jurisprudencia constitucional reconoció la competencia de las comunidades autónomas para crearlas, y todas han acabado contando con una estructura de este tipo. Su función principal no consiste en el ejercicio de potestades administrativas ordinarias, sino en el seguimiento de la política europea, la representación ante las instituciones de la Unión y la asistencia a representantes autonómicos en órganos y foros europeos. Algunas comunidades que antes actuaban mediante fórmulas privadas adaptaron esas estructuras para integrarlas en la Administración autonómica con naturaleza pública.
+
+4.5.4. Regímenes especiales
+
+Existen comunidades autónomas cuyo entramado institucional presenta una complejidad singular. En el País Vasco, la organización territorial se apoya en los territorios históricos, que ejercen no solo competencias locales, sino también competencias autonómicas. En Canarias, los cabildos insulares no son simples entidades locales, sino instituciones autonómicas que representan ordinariamente al Gobierno y a la Administración autonómica en cada isla y desempeñan funciones administrativas autonómicas previstas en el estatuto o atribuidas por ley, transferencia o delegación. En Illes Balears, los consejos insulares son también instituciones de la comunidad autónoma, con competencias propias y posibilidad de asumir otras funciones ejecutivas y de gestión.
+
+A ello se añade el caso singular de Arán, reconocido como entidad territorial especial con personalidad jurídica propia, autonomía garantizada y funciones tanto de autogobierno autonómico como de administración local. En todos estos supuestos no se trata de órganos periféricos de la administración autonómica ni de entes locales ordinarios, sino de piezas del propio sistema institucional autonómico, configuradas como fórmulas de descentralización política con distintos grados de intensidad y regulación propia. La existencia de estos entramados no excluye, además, que la Administración autonómica mantenga órganos periféricos para las competencias que ejerce de forma centralizada.
+
+4.6. Los órganos consultivos jurídicos
+
+Algunos primeros estatutos de autonomía ya previeron consejos consultivos autonómicos, inicialmente orientados sobre todo al control de adecuación estatutaria de proyectos o proposiciones de ley. En la actualidad casi todas las comunidades autónomas cuentan con órganos consultivos jurídicos propios, lo que evita acudir al Consejo de Estado en los supuestos en que la legislación exige su intervención o la del órgano autonómico equivalente. Estos órganos forman parte del sistema de garantías de la legalidad de la actuación de gobiernos y administraciones autonómicas. Solo las comunidades que no cuentan con órgano consultivo propio deben seguir recurriendo al Consejo de Estado, aunque en alguna comunidad se permite además solicitarle dictámenes facultativos aun existiendo órgano consultivo autonómico.
+
+La creación de estos órganos fue impulsada por la jurisprudencia constitucional, que consideró que la función consultiva del Consejo de Estado constituía una garantía procedimental básica, pero que esa garantía podía satisfacerse mediante órganos autonómicos equivalentes en organización y competencias. Posteriormente, la legislación estatal generalizó la posibilidad de cumplir esa función mediante órganos específicos dotados de autonomía o, en determinados casos, mediante servicios jurídicos con especiales garantías de independencia, aunque las comunidades autónomas han optado de forma general por la primera fórmula. Con el tiempo, muchos de estos órganos consultivos se han incorporado a los estatutos de autonomía y han pasado a formar parte del diseño institucional básico de la comunidad autónoma.
+
+Su denominación, composición y organización varían de una comunidad a otra, como expresión de la potestad de autoorganización. Es habitual que se presenten como órgano consultivo superior del Gobierno, de la Administración autonómica y, en ocasiones, también de las entidades locales, entes dependientes o universidades públicas. Su composición puede integrar miembros natos, electivos y, en algunas comunidades, miembros permanentes. También varían la forma de designación, el perfil profesional exigido, la duración del mandato y el régimen de incompatibilidades. Algunas comunidades cuentan además con cuerpos propios de letrados al servicio del órgano consultivo, mientras que otras prevén adscripciones temporales de juristas procedentes de distintos cuerpos y carreras.
+
+Dentro de su diversidad pueden distinguirse dos grandes modelos. Unos órganos se limitan a funciones jurídico-administrativas semejantes a las del Consejo de Estado, como el dictamen sobre reglamentos, revisión de oficio, responsabilidad patrimonial, contratos administrativos o conflictos de atribuciones. Otros añaden funciones de asesoramiento político-estatutario, como las relativas a reformas estatutarias, anteproyectos de ley, recursos de inconstitucionalidad, conflictos competenciales o convenios de cooperación. En este segundo modelo la actividad consultiva se proyecta no solo sobre el Gobierno y la Administración, sino también sobre el Parlamento autonómico. Cataluña separa ambas funciones entre dos órganos distintos, uno para el asesoramiento jurídico-administrativo y otro para el asesoramiento político-estatutario. El número de miembros de estos órganos suele ser reducido.
+
+4.7. Los órganos de participación y consulta.
+
+Las comunidades autónomas han creado numerosos órganos de participación y consulta.
+
+Algunos tienen carácter institucional por estar previstos en los estatutos, como ocurre habitualmente con los Consejos Económicos y Sociales. Otros son órganos colegiados insertos en la estructura administrativa, bien con funciones interdepartamentales de coordinación, bien con funciones participativas para incorporar a los sectores afectados por las políticas públicas.
+
+Su finalidad no es solo consultiva y asesora, sino también favorecer el consenso previo en actuaciones significativas. En ocasiones la normativa sectorial exige su intervención en la elaboración de disposiciones reglamentarias para mejorar su acierto e idoneidad.
+
+Estos órganos reciben denominaciones muy diversas y se extienden a todos los ámbitos materiales en que las comunidades autónomas ejercen competencias. Algunos pueden organizarse en varios niveles territoriales, combinando escalones autonómicos, supramunicipales y locales. Incluso existen comunidades que han establecido una regulación general de estos órganos consultivos y participativos.
+
+4.8. Los órganos administrativos con competencia resolutoria.
+
+4.8.1. Los jurados autonómicos de expropiación
+
+La potestad autonómica de autoorganización se proyecta también sobre órganos administrativos con funciones decisorias. En materia expropiatoria, la Ley de Expropiación Forzosa prevé el Jurado Provincial de Expropiación, encargado de fijar el justiprecio. Tras la Constitución, muchas comunidades autónomas crearon sus propios jurados de expropiación para intervenir en las expropiaciones realizadas por la Administración autonómica o por las entidades locales de su territorio. Inicialmente se tendió a reproducir el modelo estatal, incluida la presencia de un magistrado, aunque esa composición fue después cuestionada a la luz de la jurisprudencia constitucional que negó a las comunidades competencia para integrar jueces o magistrados en órganos administrativos autonómicos en otros ámbitos.
+
+Pese a ello, el Tribunal Constitucional no ha negado la constitucionalidad de los jurados autonómicos de expropiación ni ha exigido que su composición reproduzca la del artículo 32 de la Ley de Expropiación Forzosa. Ha entendido que su creación y regulación pertenecen a la competencia autonómica sobre organización y régimen jurídico de la Administración, y no a la competencia estatal sustantiva sobre expropiación forzosa, descartando además que la composición del jurado estatal constituya una base obligatoria. Por eso las comunidades autónomas han podido diseñar modelos organizativos distintos, ya sea con órganos provinciales, territoriales o únicos para todo su territorio, organizados en pleno y secciones o con criterios de distribución funcional. En las comunidades que no han creado jurados propios continúa actuando el Jurado Provincial de Expropiación estatal.
+
+4.8.2. Los órganos autonómicos de resolución de las reclamaciones contractuales
+
+La normativa europea sobre contratación pública exigió la existencia de recursos ágiles y eficaces frente a las infracciones en materia contractual. El legislador estatal incorporó en 2010 la posibilidad de un recurso especial no jurisdiccional ante órganos especializados e independientes, solución que pasó a formar parte de la legislación básica estatal. Desde entonces se prevé la existencia de tribunales administrativos de recursos contractuales de ámbito estatal, autonómico y local.
+
+En este marco, las comunidades autónomas disponen de dos opciones organizativas: crear un órgano independiente propio para resolver estos recursos o atribuir esa función, mediante convenio, al Tribunal Administrativo Central de Recursos Contractuales. Si optan por crear un órgano propio, este puede ser unipersonal o colegiado, pero debe garantizar independencia, inamovilidad y cualificación jurídica y profesional suficiente. La legislación estatal exige esas garantías tanto respecto del titular o del presidente como en relación con el nombramiento y la terminación del mandato. El diseño concreto de estos órganos, por tanto, se integra en el margen de autoorganización autonómica, aunque sometido a los requisitos básicos estatales de independencia y especialización.
+
+5. LA ADMINISTRACIÓN INSTITUCIONAL AUTONÓMICA
+
+En la Administración autonómica debe distinguirse entre la Administración general de la comunidad autónoma y su Administración institucional, integrada por organismos públicos vinculados o dependientes de aquella para desarrollar actividades de ejecución o gestión, administrativas o económicas, cuya naturaleza justifique su organización en régimen de descentralización funcional. Se trata, por tanto, de una administración instrumental, creada para servir de apoyo funcional a la Administración general.
+
+Aunque la jurisprudencia constitucional sostuvo inicialmente un criterio restrictivo sobre la creación por las comunidades autónomas de personificaciones instrumentales propias, ese planteamiento fue abandonado después. La jurisprudencia posterior ha entendido que la constitución de entidades de derecho privado para el cumplimiento de fines públicos forma parte de la potestad de autoorganización de las administraciones territoriales y ha avalado expresamente la creación de determinadas agencias autonómicas. Tampoco el legislador estatal ha dictado una regulación básica general sobre las personificaciones instrumentales de todas las administraciones públicas, sino que ha limitado su intervención a las entidades instrumentales de la Administración del Estado.
+
+Algunos estatutos de autonomía asumen esta misma lógica y remiten a la ley la regulación de la organización administrativa, de las modalidades de descentralización funcional, de las distintas formas de personificación pública y privada, de la gestión de los servicios públicos y de la participación del sector privado en la ejecución de políticas públicas. Esa remisión legal ha sido considerada constitucional siempre que se entienda sometida a las bases estatales dictadas al amparo del artículo 149.1.18 CE.
+
+Las modalidades concretas de personificación instrumental se regulan en normas autonómicas específicas. Por lo general, estas regulaciones son poco densas y reproducen, con ligeras variantes, las figuras ya previstas en la legislación estatal o se remiten directamente a ella, pese a que no tenga carácter básico en este ámbito. Así, la normativa estatal actúa como modelo de referencia que las comunidades autónomas adoptan voluntariamente, total o parcialmente.
+
+En varias comunidades autónomas se mantiene la distinción básica entre organismos autónomos y entidades públicas empresariales. Los primeros suelen asumir actividades administrativas de fomento, prestaciones o gestión de servicios públicos, mientras que las segundas se orientan a actividades y servicios de contenido económico o a la producción de bienes de interés público susceptibles de contraprestación. Junto a estas entidades de derecho público, el sector público autonómico incorpora también entidades de derecho privado, principalmente fundaciones constituidas mayoritaria o totalmente con aportaciones públicas y sociedades mercantiles cuyo capital pertenece íntegra o mayoritariamente, de forma directa o indirecta, a la Administración autonómica.
+
+En el pasado, la regulación de estos entes se integraba en algunos casos en la normativa de hacienda autonómica, porque esta actuaba como derecho común de la pluralidad de entes institucionales y empresas públicas. Posteriormente, varias comunidades autónomas han adoptado una concepción más amplia y moderna basada en la idea de sector público o sector público institucional, siguiendo una visión unificadora semejante a la utilizada por el legislador estatal. En ese marco es frecuente incluir también a las universidades públicas radicadas en el territorio autonómico y a los consorcios del sector público, dada su vinculación financiera o funcional con la comunidad autónoma.
+
+Pese a la existencia de regulaciones generales, su eficacia ordenadora es limitada. La reserva de ley en esta materia hace que las entidades instrumentales se creen normalmente mediante leyes singulares, a menudo vinculadas a las leyes de acompañamiento presupuestario, con una fuerte tendencia a excepcionar el marco general. Por ello, el régimen común no siempre consigue imponer una ordenación uniforme del sector público autonómico.
+
+La dimensión de este sector público institucional es relevante y ha crecido al compás de las necesidades sociales, del proceso de transferencias y de la ampliación competencial. Los ámbitos tradicionales de actuación de los entes instrumentales en el Estado también lo son en el nivel autonómico, especialmente en sectores como salud, vivienda, medio ambiente, radiotelevisión, promoción económica, transporte, cultura, evaluación universitaria o desarrollo territorial. No obstante, entre 2010 y 2014 varias comunidades autónomas llevaron a cabo procesos de reestructuración y racionalización de su Administración institucional a causa de la crisis financiera.
+
+Uno de los problemas clásicos de estas entidades, su opacidad, ha sido afrontado mediante la creación del Inventario de Entidades del Sector Público Estatal, Autonómico y Local, que constituye la única norma básica específica en este ámbito. Este registro público administrativo, gestionado por la Intervención General de la Administración del Estado, garantiza la publicidad y fiabilidad de la información sobre todas las entidades integrantes del sector público institucional, con independencia de su naturaleza jurídica y de su dependencia estatal, autonómica o local.
+
+Por último, una entidad de derecho público autonómica puede actuar fuera del territorio de la comunidad autónoma cuando interviene como operador económico y sus normas constitutivas la habilitan para ello. En tal caso puede operar al margen del ejercicio de potestades jurídicopúblicas, incluso presentándose a procedimientos de contratación pública convocados por administraciones distintas de aquella de la que depende.
+
+6. LAS AUTORIDADES INDEPENDIENTES AUTONÓMICAS
+
+Las comunidades autónomas pueden crear autoridades independientes, ya sea por previsión estatutaria o por ley. Su implantación es menos extensa que en otros ámbitos, debido al coste institucional que implica dotarlas de autonomía funcional e independencia, pero existen varios ejemplos relevantes.
+
+6.1. Organismos de Defensa de la Competencia
+
+A partir de la doctrina constitucional y de la Ley 1/2002, varias comunidades autónomas han organizado autoridades propias de defensa de la competencia para investigar y sancionar conductas anticompetitivas cuyos efectos no superan el ámbito autonómico. Esa ley estatal fijó exigencias orgánicas y funcionales tan intensas que frenó la expansión generalizada de estos órganos. En particular, impuso la separación entre la instrucción y la resolución de los expedientes, permitiendo bien un organismo único con órganos internos diferenciados para cada función, bien un órgano resolutorio separado de un servicio instructor integrado en una consejería autonómica, normalmente la competente en materia económica.
+
+La denominación de estos órganos varía entre comunidades autónomas y su configuración también ha sido desigual. Algunas han creado organismos autónomos con personalidad jurídica propia, adscritos a la consejería competente en hacienda, mientras que otras solo han asumido funciones instructoras y han dejado la resolución en manos del órgano estatal. También hay comunidades que suprimieron órganos que inicialmente habían creado y otras que nunca llegaron a establecer ni órganos ni servicios propios en esta materia. Además de las funciones de instrucción, resolución y sanción, estos órganos o servicios suelen asumir tareas consultivas y de promoción de la competencia. Cuando tienen competencia resolutoria, sus órganos se integran por tres miembros nombrados por seis años no renovables.
+
+6.2. Consejos del Audiovisual
+
+Algunas comunidades autónomas cuentan con consejos audiovisuales como entidades públicas independientes de naturaleza estatutaria. Su función principal consiste en garantizar y controlar la actividad de los medios de comunicación audiovisual, tanto públicos como privados, dentro de su ámbito territorial. Supervisan la aplicación de la normativa sobre comunicación audiovisual, publicidad y protección de la infancia y la adolescencia, y en algunos casos se les reconoce también potestad normativa en su ámbito material.
+
+La composición y el sistema de designación de sus miembros varían según la comunidad autónoma. Sus competencias también presentan diferencias. En unos casos pueden dictar instrucciones o desarrollar reglamentariamente la legislación audiovisual; en otros, además de ejercer potestades sancionadoras, participan en procesos de adjudicación de licencias y concesiones de radio y televisión. Existen también modelos con funciones más limitadas, en los que el consejo puede dictar resoluciones vinculantes, recomendaciones, requerimientos de cese, intervenir en licencias y renovaciones, pedir información e inspeccionar.
+
+6.3. Agencias de Protección de Datos
+
+Las autoridades autonómicas de protección de datos pueden ejercer, conforme a la normativa europea y autonómica, las funciones generales de supervisión y control respecto de tratamientos de datos vinculados al sector público autonómico y local, a quienes prestan servicios mediante formas de gestión directa o indirecta y a quienes tratan datos en el ejercicio de funciones públicas en materias de competencia autonómica o local. También pueden intervenir en otros tratamientos expresamente previstos en los respectivos estatutos de autonomía.
+
+Junto a esas funciones generales, estas agencias pueden dictar circulares respecto de los tratamientos sometidos a su competencia, con el alcance y los efectos previstos legalmente para la Agencia Española de Protección de Datos.
+
+6.4. Consejos de Transparencia
+
+Varias comunidades autónomas han creado órganos propios de transparencia y acceso a la información pública con autonomía funcional, siguiendo el modelo estatal del Consejo de Transparencia y Buen Gobierno. En otros casos, en lugar de crear un órgano propio, la comunidad autónoma ha suscrito convenios con el órgano estatal para que este resuelva las reclamaciones relativas a la administración autonómica.
+`.trim();
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+"1": "El derecho a la autonomía reconocido en 1978 transformó el Estado centralizado en un Estado descentralizado mediante la creación de las comunidades autónomas, cuya institucionalización se articuló sobre todo a través de los estatutos y de las comisiones mixtas de transferencias, reproduciendo en gran medida el modelo organizativo estatal y convirtiendo a la Administración autonómica en un nivel central del sistema administrativo.",
+"2": "La Constitución deja en manos de los estatutos de autonomía la organización institucional básica de cada comunidad, pero esa autonomía organizativa queda fuertemente condicionada por la competencia estatal del artículo 149.1.18 CE, de modo que la Administración autonómica se configura dentro de un marco básico común, aunque con estatutos que añaden principios, potestades, reservas de ley y reglas sobre su propia administración.",
+"3.1": "La creación de las administraciones autonómicas estuvo marcada por la reproducción del modelo estatal más que por la innovación, debido a la inercia institucional, la urgencia del proceso, la dependencia de las transferencias, la incertidumbre sobre el alcance de la autonomía organizativa y la incidencia de las bases estatales, especialmente en materia funcionarial.",
+"3.2": "La potestad autonómica de organización solo es exclusiva en la creación, modificación y supresión de sus propios órganos, unidades y entidades, mientras que el resto de la organización administrativa queda limitado por la legislación básica estatal, aunque persiste un margen autonómico para diseñar estructuras propias compatibles con esas bases.",
+"4.1": "La regulación de la organización administrativa autonómica se encuentra dispersa entre leyes generales autonómicas, normas sectoriales y decretos orgánicos, lo que responde tanto al peso de las bases estatales como a la necesidad de flexibilidad derivada de los cambios políticos y de la integración de servicios transferidos.",
+"4.2": "Las comunidades autónomas han asumido el modelo de personalidad jurídica única de su Administración general, jerárquicamente ordenada y subordinada al Gobierno autonómico, a la que se atribuyen amplias potestades y prerrogativas administrativas similares a las reconocidas a la Administración del Estado.",
+"4.3": "Pese a la diversidad territorial y competencial entre comunidades autónomas, sus administraciones comparten rasgos comunes como la rigidez departamental, el peso de la confianza política en los órganos directivos, la proliferación de entes instrumentales, la existencia de estructuras periféricas, el refuerzo de los aparatos presidenciales y, en su caso, la adaptación organizativa derivada de la doble oficialidad lingüística.",
+"4.4": "Los órganos superiores de la Administración autonómica se articulan bien desde un modelo que integra gobierno y administración, bien desde otro que los separa, pero en ambos casos la organización gira en torno a las consejerías y a una estructura directiva central cuya composición y dimensión dependen en gran medida de decisiones políticas y reglamentarias.",
+"4.5.1": "En las comunidades pluriprovinciales suele existir una administración periférica propia, organizada normalmente sobre base provincial u otras demarcaciones funcionales, mediante delegaciones o direcciones territoriales encargadas de coordinar y supervisar los servicios administrativos en ámbitos territoriales limitados.",
+"4.5.2": "El modelo de administración indirecta apoyado en las diputaciones provinciales apenas llegó a desarrollarse, de modo que las comunidades autónomas acabaron asumiendo de forma ordinaria la gestión de sus competencias mediante servicios centrales y periféricos propios, sin perjuicio de fórmulas de cooperación con entidades locales.",
+"4.5.3": "Las comunidades autónomas pueden establecer órganos o unidades fuera de su territorio, incluso en el extranjero, siempre dentro de fórmulas de cooperación y coordinación constitucionalmente admisibles, destacando especialmente las oficinas en Bruselas dedicadas al seguimiento, representación y asistencia en asuntos europeos.",
+"4.5.4": "Algunas comunidades presentan regímenes territoriales singulares en los que ciertos entes, como territorios históricos, cabildos, consejos insulares o Arán, forman parte del propio sistema institucional autonómico y ejercen funciones que no se reducen a una mera descentralización periférica administrativa.",
+"4.6": "Los órganos consultivos jurídicos autonómicos se han generalizado como garantías propias de legalidad equivalentes al Consejo de Estado, con diversidad de composición y competencias, pudiendo limitarse a funciones jurídico-administrativas o asumir también tareas de asesoramiento político-estatutario.",
+"4.7": "Las comunidades autónomas han creado numerosos órganos de participación y consulta, tanto institucionales como integrados en la estructura administrativa, destinados no solo al asesoramiento, sino también a incorporar sectores afectados y favorecer el consenso en la elaboración y ejecución de políticas públicas.",
+"4.8.1": "La autoorganización autonómica permite crear jurados propios de expropiación para fijar el justiprecio en expropiaciones autonómicas o locales, sin obligación de reproducir la composición del modelo estatal, lo que ha permitido soluciones organizativas diversas según cada comunidad.",
+"4.8.2": "En materia de contratación pública, las comunidades autónomas pueden crear órganos propios de resolución de reclamaciones contractuales o encomendar esa función al órgano estatal, pero en todo caso el diseño autonómico queda sometido a las exigencias básicas de independencia, inamovilidad y cualificación técnica.",
+"5": "La Administración institucional autonómica agrupa entidades instrumentales públicas y privadas creadas para desarrollar funciones de ejecución o gestión en régimen de descentralización funcional, dentro de un modelo ampliamente inspirado en el estatal, aunque con regulación autonómica propia, fuerte heterogeneidad práctica y relevancia creciente dentro del sector público autonómico.",
+"6": "Las comunidades autónomas pueden crear autoridades independientes con autonomía funcional, aunque su implantación ha sido limitada por su coste institucional, existiendo principalmente en ámbitos como competencia, audiovisual, protección de datos y transparencia.",
+"6.1": "Los organismos autonómicos de defensa de la competencia pueden investigar y sancionar conductas anticompetitivas de alcance autonómico dentro del marco fijado por la legislación estatal, que exige separar instrucción y resolución y ha dado lugar a modelos organizativos desiguales entre comunidades.",
+"6.2": "Los consejos del audiovisual son entidades independientes creadas en algunas comunidades para supervisar y garantizar el cumplimiento de la normativa audiovisual, con diferencias en composición, grado de autonomía y alcance de sus potestades regulatorias, inspectoras, sancionadoras o de intervención en licencias.",
+"6.3": "Las agencias autonómicas de protección de datos ejercen funciones de supervisión y control sobre tratamientos vinculados al sector público autonómico y local y, además, pueden dictar circulares dentro del ámbito competencial que les reconoce la normativa aplicable.",
+"6.4": "Los consejos autonómicos de transparencia se configuran como órganos con autonomía funcional para garantizar el acceso a la información pública, aunque algunas comunidades han optado por no crear órgano propio y encomendar esa función al órgano estatal mediante convenio."
+};
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = ` 
+#ID = 1
+
+// [1]
+Q: ¿Qué efecto institucional principal atribuye la introducción del derecho a la autonomía de nacionalidades y regiones en 1978 a la organización territorial del Estado?
+A) La supresión de los municipios y provincias como niveles administrativos ordinarios.
+B) La sustitución del Estado unitario por una confederación de territorios soberanos.
+C) La conversión de un Estado centralizado en un Estado políticamente descentralizado mediante la incorporación de un nuevo nivel de gobierno y administración.
+OK: C
+EXP: La idea central es que la autonomía constitucional añadió el nivel autonómico a la organización territorial previa y transformó la estructura política del Estado.
+
+// [2]
+Q: ¿Cómo presenta el texto el proceso de creación de las comunidades autónomas en relación con los regímenes preautonómicos?
+A) Como un proceso iniciado en 1979 y prácticamente culminado en 1983, precedido en algunos casos por fases preparatorias preautonómicas.
+B) Como una implantación inmediata y simultánea en 1978, sin fases previas de preparación institucional.
+C) Como una evolución exclusivamente administrativa producida tras la aprobación de todos los estatutos de autonomía.
+OK: A
+EXP: El texto sitúa el inicio en 1979, la culminación práctica en 1983 y reconoce que en ciertos casos hubo una etapa preautonómica durante la transición.
+
+// [3]
+Q: ¿Cuál fue la función esencial de las comisiones mixtas de transferencias en la institucionalización de las comunidades autónomas?
+A) Elaborar directamente los estatutos de autonomía de cada comunidad autónoma.
+B) Ordenar y pactar el traspaso de funciones y atribuciones entre el Estado y cada comunidad autónoma.
+C) Resolver conflictos competenciales mediante decisiones judiciales con fuerza vinculante general.
+OK: B
+EXP: El texto destaca que estas comisiones fueron clave porque organizaron y acordaron las transferencias de funciones entre el Estado y las comunidades autónomas.
+
+// [4]
+Q: Según el texto, ¿qué dato refleja mejor la posición alcanzada por la Administración autonómica tras dos décadas de desarrollo?
+A) La asunción plena del control sobre la hacienda estatal y la gestión presupuestaria general.
+B) La sustitución completa de la Administración del Estado en todos los sectores públicos.
+C) La concentración aproximada del sesenta por ciento de los empleados públicos, con especial relevancia en educación y sanidad.
+OK: C
+EXP: El protagonismo autonómico se explica por su peso en gasto y personal, especialmente por su presencia en ámbitos como educación y sanidad.
+
+// [5]
+Q: ¿Cómo caracteriza el texto el modelo organizativo seguido por las comunidades autónomas al construir sus gobiernos y administraciones?
+A) Como una reproducción en gran medida del esquema estatal, con estructura departamental, burocrática, funcionarial, concentrada y centralizadora.
+B) Como un modelo municipalizado y descentralizado internamente, sin influencia relevante de la organización estatal.
+C) Como un sistema basado principalmente en órganos colegiados independientes y sin departamentos administrativos.
+OK: A
+EXP: El texto afirma que las comunidades autónomas replicaron tanto el esquema institucional estatal como su modelo organizativo general.
+
+// [6]
+Q: ¿Qué consecuencia organizativa produjo el diseño concentrado y centralizador en las comunidades autónomas pluriprovinciales y uniprovinciales?
+A) En las pluriprovinciales eliminó toda administración periférica y en las uniprovinciales reforzó la provincia como entidad local separada.
+B) En las pluriprovinciales favoreció una administración periférica propia y en las uniprovinciales la provincia desapareció como entidad local al integrarse sus competencias en el ente autonómico.
+C) En ambas impidió cualquier incidencia sobre las relaciones con los gobiernos locales y mantuvo intacta la posición provincial.
+OK: B
+EXP: El texto distingue dos efectos: creación de administración periférica en las pluriprovinciales e integración de las competencias provinciales en las uniprovinciales.
+
+// [7]
+Q: ¿Qué delimitación material establece la lección sobre la organización administrativa de las comunidades autónomas?
+A) Que estudia de manera exhaustiva el origen del Estado autonómico, la función pública y la hacienda autonómica.
+B) Que se centra exclusivamente en los controles jurisdiccionales sobre la actividad autonómica.
+C) Que ofrece una visión panorámica de la organización administrativa propia, dejando fuera el desarrollo del Estado autonómico, el sistema competencial, los controles y materias específicas más complejas.
+OK: C
+EXP: El cierre del texto delimita expresamente el objeto de la lección como una exposición general de la organización administrativa autonómica, no un estudio completo del Estado autonómico.
+#ID = 2
+
+// [8]
+Q: ¿Qué función atribuye el artículo 147 CE al estatuto de autonomía en relación con la organización de las instituciones autónomas propias?
+A) Establecer directamente una regulación uniforme y completa de todas las administraciones autonómicas.
+B) Limitar la autonomía organizativa de las comunidades autónomas mediante una reserva reglamentaria estatal.
+C) Actuar como norma institucional básica a la que se remite la determinación de la denominación, organización y sede de las instituciones autónomas propias.
+OK: C
+EXP: La Constitución no diseña de forma cerrada la organización autonómica, sino que remite al estatuto de autonomía esas determinaciones básicas.
+
+// [9]
+Q: ¿Cómo describe el texto el resultado organizativo de las distintas vías de acceso a la autonomía?
+A) La diferenciación organizativa prevista inicialmente no se consolidó, porque todas las comunidades autónomas acabaron adoptando un modelo similar.
+B) La diversidad organizativa inicial se mantuvo de forma estable y permanente entre las comunidades autónomas.
+C) Las comunidades autónomas de la vía lenta conservaron de modo definitivo un modelo administrativo distinto del de la vía rápida.
+OK: A
+EXP: Aunque se pretendían modelos distintos, la evolución llevó a una amplia homogeneización organizativa entre comunidades autónomas.
+
+// [10]
+Q: ¿Qué significado tuvieron los Pactos Autonómicos de 1981 y la Ley Orgánica 9/1992 en la configuración de las comunidades autónomas?
+A) Impusieron una organización autonómica constitucionalmente cerrada y ajena a los estatutos de autonomía.
+B) Contribuyeron, primero de forma transitoria y después de manera más amplia, a reducir diferencias organizativas y competenciales entre comunidades autónomas.
+C) Reforzaron de forma permanente la prohibición de crear administración periférica en todas las comunidades autónomas.
+OK: B
+EXP: Los pactos introdujeron límites transitorios en algunos estatutos y la Ley Orgánica 9/1992 favoreció una amplia igualación competencial.
+
+// [11]
+Q: ¿Qué consecuencia extrae el texto del hecho de que la Constitución no regule específicamente la organización administrativa autonómica?
+A) Que la Administración autonómica queda sometida solo a sus estatutos y no a los preceptos constitucionales generales.
+B) Que la organización administrativa autonómica queda excluida del artículo 103 CE por responder al principio de autonomía.
+C) Que las disposiciones constitucionales generales sobre Administración pública y ejercicio del poder público también se aplican a la Administración de las comunidades autónomas.
+OK: C
+EXP: La ausencia de una regulación específica no excluye la aplicación de los principios constitucionales generales a la Administración autonómica.
+
+// [12]
+Q: ¿Por qué considera el texto que el artículo 149.1.18 CE es la determinación constitucional más importante sobre la Administración autonómica?
+A) Porque atribuye al Estado bases normativas decisivas sobre régimen jurídico, funcionarios, procedimiento, expropiación, contratos, concesiones y responsabilidad administrativa.
+B) Porque reserva a las comunidades autónomas la regulación exclusiva de su organización administrativa y de su función pública.
+C) Porque elimina toda intervención estatal en la configuración de la Administración autonómica.
+OK: A
+EXP: Ese título competencial estatal fija un marco básico muy amplio que condiciona de manera decisiva la autonomía organizativa autonómica.
+
+// [13]
+Q: ¿Qué relación establece el texto entre la densidad de la regulación estatal y la autonomía organizativa de las comunidades autónomas?
+A) Cuanto más detallada sea la regulación estatal, mayor será la capacidad autonómica para innovar organizativamente.
+B) Cuanto más extensa y densa sea la regulación estatal, menor será el margen de las comunidades autónomas para configurar de forma diferenciada su administración.
+C) La intensidad de la regulación estatal no afecta al diseño de la Administración autonómica.
+OK: B
+EXP: El texto formula una relación inversa entre densidad normativa estatal y capacidad autonómica de diferenciación organizativa.
+
+// [14]
+Q: ¿Cómo caracteriza el texto el tratamiento que los estatutos de autonomía dan a la Administración autonómica?
+A) Todos los estatutos contienen una regulación exhaustiva y homogénea de la organización administrativa autonómica.
+B) Ningún estatuto se ocupa de la Administración autonómica, al considerarla materia exclusivamente legal.
+C) Los estatutos presentan una regulación desigual, aunque suelen coincidir en ciertos rasgos cuando abordan directamente aspectos organizativos.
+OK: C
+EXP: El texto subraya la heterogeneidad estatutaria, pero también destaca coincidencias frecuentes en los contenidos organizativos.
+
+// [15]
+Q: ¿Qué contenido suelen incorporar las cláusulas generales de los estatutos de autonomía sobre la Administración autonómica?
+A) La reiteración de los criterios del artículo 103.1 CE y, a veces, la incorporación de principios como buena fe, confianza legítima, lealtad institucional o transparencia.
+B) La exclusión de toda referencia a principios de actuación administrativa para preservar la libertad organizativa.
+C) La sustitución de los principios constitucionales por un catálogo cerrado de potestades sancionadoras.
+OK: A
+EXP: Los estatutos suelen reproducir criterios del artículo 103.1 CE y, en ocasiones, añadir otros principios ya conocidos en la legislación estatal.
+
+// [16]
+Q: ¿Qué alcance atribuye el texto a la calificación de la Administración autonómica como administración ordinaria?
+A) Supone la desaparición de toda administración periférica del Estado dentro del territorio de la comunidad autónoma.
+B) Indica normalmente que la comunidad autónoma debe ejercer sus competencias con su propia estructura administrativa, sin excluir por ello la administración periférica estatal.
+C) Obliga a las entidades locales a gestionar ordinariamente las competencias autonómicas mediante encomiendas de gestión.
+OK: B
+EXP: Esa calificación apunta al ejercicio normal de las competencias con medios propios, pero no elimina la presencia de la administración periférica del Estado.
+
+// [17]
+Q: ¿Qué técnicas normativas y organizativas adicionales suelen prever los estatutos de autonomía respecto de la Administración autonómica?
+A) La prohibición de atribuir a la Administración autonómica potestades y prerrogativas administrativas reconocidas a la Administración del Estado.
+B) La reserva reglamentaria exclusiva para toda submateria administrativa y la obligación de localizar todos los organismos en la capital autonómica.
+C) La atribución de potestades y prerrogativas administrativas, reservas de ley para determinadas materias y, en algunos casos, la posibilidad de ubicar organismos y servicios en distintas localidades del territorio.
+OK: C
+EXP: El texto menciona expresamente esas tres líneas: prerrogativas, reservas de ley en submaterias concretas y descentralización territorial de organismos o servicios.
+    `;
+
+
+    const BANCO_2 = ` 
+#ID = 3.1
+
+// [18]
+Q: ¿Cómo valora el texto la configuración inicial de las administraciones autonómicas en relación con la autonomía organizativa de las comunidades autónomas?
+A) Como una ruptura profunda con el modelo estatal burocrático y centralizado.
+B) Como la implantación de un sistema basado prioritariamente en delegaciones locales indirectas.
+C) Como una paradoja de la autonomía, porque las comunidades autónomas reprodujeron en gran medida el modelo estatal tradicional en vez de crear estructuras propias e innovadoras.
+OK: C
+EXP: La idea central es que la autonomía no se tradujo en una verdadera innovación organizativa, sino en la reproducción del esquema estatal.
+
+// [19]
+Q: ¿Qué diferencia establece el Tribunal Constitucional entre la potestad de organización de las instituciones de autogobierno y la potestad de organización administrativa?
+A) La organización de las instituciones de autogobierno es competencia exclusiva en sentido propio, mientras que la organización administrativa queda condicionada por las bases estatales.
+B) La organización administrativa es plenamente exclusiva y la de las instituciones de autogobierno depende siempre del Estado.
+C) Ambas potestades tienen exactamente el mismo alcance y están sometidas al mismo límite competencial.
+OK: A
+EXP: El texto distingue entre un núcleo institucional más propio de la autonomía y una organización administrativa sujeta a competencia compartida.
+
+// [20]
+Q: ¿Qué consecuencia tuvo para la potestad autonómica de organización administrativa la falta inicial de formulación expresa de las bases estatales tras 1983?
+A) Permitió a las comunidades autónomas innovar con plena seguridad jurídica en su organización administrativa.
+B) Generó incertidumbre, porque las bases debían deducirse de la legislación vigente, incluso preconstitucional, y ello hacía arriesgadas las opciones innovadoras.
+C) Suprimió por completo la posibilidad de que el Estado impugnara decisiones organizativas autonómicas.
+OK: B
+EXP: La ausencia de bases claras obligaba a inferirlas del derecho existente, lo que aumentaba el riesgo de impugnación e inconstitucionalidad.
+
+// [21]
+Q: ¿Cómo afectó el modelo funcionarial a la libertad de configuración organizativa de las comunidades autónomas?
+A) Permitió a cada comunidad autónoma elegir libremente entre un régimen funcionarial o laboral general.
+B) Eliminó cualquier intervención estatal en la ordenación de la función pública autonómica.
+C) Limitó la autonomía organizativa, porque se consolidó una opción constitucional y legal por la relación funcionarial estatutaria clásica.
+OK: C
+EXP: El texto explica que la función pública quedó fuertemente condicionada por una interpretación uniformadora de base constitucional y legal.
+
+// [22]
+Q: ¿Qué papel atribuye el texto a la Ley 30/1984, a la STC 99/1987 y a la Ley 23/1988 en la configuración de la función pública autonómica?
+A) Consolidaron una ordenación uniforme basada en el régimen estatutario y en la reserva general de puestos a funcionarios, con excepciones limitadas para personal laboral.
+B) Establecieron la preferencia general por la contratación laboral en todas las administraciones autonómicas.
+C) Suprimieron la diferencia entre personal funcionario y personal laboral dentro de las comunidades autónomas.
+OK: A
+EXP: Esas normas y esa sentencia reforzaron el carácter estatutario de la función pública y la reserva general de puestos a funcionarios.
+
+// [23]
+Q: ¿Qué efecto tuvo la dinámica del proceso de transferencias sobre el diseño de las administraciones autonómicas?
+A) Facilitó desde el inicio una planificación unitaria y enteramente innovadora de cada Administración autonómica.
+B) Favoreció la continuidad de un modelo departamental conocido, porque las comunidades autónomas incorporaban personal y a veces servicios completos procedentes del Estado.
+C) Impidió toda incorporación de medios personales de la Administración del Estado a las comunidades autónomas.
+OK: B
+EXP: La forma fragmentaria y prolongada de los traspasos empujó a construir las nuevas administraciones sobre estructuras ya conocidas.
+
+// [24]
+Q: ¿Qué razones globales ofrece el texto para explicar la ausencia de condiciones favorables a una verdadera innovación organizativa autonómica?
+A) La exclusiva voluntad política de conservar intacto el modelo centralista previo.
+B) La prohibición constitucional de crear órganos jerarquizados en las comunidades autónomas.
+C) La combinación de falta de modelos alternativos, incertidumbre jurídica, urgencia funcional, dependencia de medios estatales, construcción progresiva por traspasos y necesidad de simetría con la Administración del Estado.
+OK: C
+EXP: El texto reúne varios factores jurídicos, materiales y políticos que, en conjunto, dificultaron una reorganización auténticamente innovadora.
+
+// [25]
+Q: ¿Cómo describe el texto la principal innovación aportada por las nuevas administraciones autonómicas dentro del sistema administrativo democrático?
+A) Como una innovación vinculada a la proximidad al ciudadano, la simplificación administrativa y la tutela de los usuarios de los servicios públicos.
+B) Como una innovación centrada en sustituir completamente las estructuras centrales de la Administración del Estado.
+C) Como una innovación consistente en delegar de modo general la ejecución de políticas públicas en las entidades locales.
+OK: A
+EXP: Aunque se reprodujo mucho del modelo estatal, el texto reconoce una innovación democrática ligada a la cercanía y al servicio al ciudadano.
+
+// [26]
+Q: ¿Por qué considera el texto poco realista el modelo de administraciones autonómicas mínimas apoyadas en una administración indirecta mediante delegación en las entidades locales?
+A) Porque la Constitución prohíbe cualquier colaboración entre comunidades autónomas y entidades locales.
+B) Porque ese diseño impedía a las comunidades autónomas ejercer directamente políticas públicas esenciales y las reducía a funciones de dirección y coordinación.
+C) Porque obligaba a disolver la Administración general del Estado tras cada transferencia de servicios.
+OK: B
+EXP: El texto entiende que ese esquema no servía para sectores como sanidad, educación o infraestructuras supraprovinciales, que exigen capacidad de actuación directa.
+
+#ID = 3.2
+
+// [27]
+Q: ¿Cuál es el único ámbito verdaderamente exclusivo de las comunidades autónomas en materia de organización administrativa según el texto?
+A) La regulación completa del régimen jurídico de todas las administraciones públicas.
+B) La definición estatal de los principios básicos de funcionamiento administrativo.
+C) La creación, modificación y supresión de órganos, unidades administrativas o entidades integradas en su Administración o dependientes de ella.
+OK: C
+EXP: Ese es el núcleo propio de la autoorganización autonómica que el texto presenta como verdaderamente exclusivo.
+
+// [28]
+Q: ¿Qué límite impone el Tribunal Constitucional a la actuación del Estado respecto de la estructura orgánica de la Administración autonómica?
+A) El Estado no puede imponer la inserción forzosa en la Administración autonómica de órganos jerárquicamente dependientes de la Administración del Estado.
+B) El Estado puede diseñar libremente la estructura interna de las consejerías autonómicas.
+C) El Estado puede reservarse la decisión final sobre la creación de órganos autonómicos directivos.
+OK: A
+EXP: El Tribunal Constitucional vincula la autonomía a la capacidad genuina de autoorganización y por eso rechaza esa imposición estatal.
+
+// [29]
+Q: ¿Cómo delimita el texto el alcance de la legislación estatal básica del artículo 149.1.18 CE sobre la organización autonómica?
+A) Como una competencia estatal inexistente en materia de organización y funcionamiento administrativo.
+B) Como una competencia estatal que puede fijar principios y reglas básicas, pero cuya intensidad debe ser menor en las cuestiones internas que en las que afectan a la actividad externa y a los administrados.
+C) Como una competencia estatal que permite regular exhaustivamente cualquier detalle interno de la Administración autonómica.
+OK: B
+EXP: El texto subraya que la jurisprudencia modula la intensidad de las bases según el ámbito afectado.
+
+// [30]
+Q: ¿Qué efecto ha tenido el desarrollo paulatino de la legislación básica estatal sobre organización y funcionamiento administrativo?
+A) Ha ampliado de forma constante y lineal la diferenciación organizativa de las comunidades autónomas.
+B) Ha eliminado toda reserva de funciones a funcionarios en las entidades instrumentales autonómicas.
+C) Ha reforzado una visión uniformista del aparato organizativo y ha modulado en el tiempo el margen autonómico de diferenciación.
+OK: C
+EXP: La legislación básica no es estática y su desarrollo ha tendido a reforzar la uniformidad organizativa.
+
+// [31]
+Q: ¿Qué exigencia impone el texto respecto del ejercicio de potestades públicas en las entidades instrumentales creadas por una comunidad autónoma?
+A) Las funciones que impliquen ejercicio de potestades públicas o salvaguardia de intereses generales deben quedar reservadas a funcionarios públicos.
+B) Esas funciones pueden atribuirse libremente a personal laboral sin intervención del legislador autonómico.
+C) Las entidades instrumentales no pueden ejercer en ningún caso potestades administrativas.
+OK: A
+EXP: El texto destaca esa reserva funcional como uno de los condicionantes más relevantes para la organización autonómica.
+
+// [32]
+Q: ¿Qué criterio admite el Tribunal Constitucional sobre el personal funcionario al servicio de las entidades instrumentales del sector público autonómico?
+A) Solo son posibles funcionarios propios de cada entidad instrumental, con exclusión de cualquier adscripción funcional.
+B) Es admisible que las entidades instrumentales dispongan del personal funcionario necesario mediante funcionarios propios o mediante funcionarios orgánicamente dependientes de la Administración territorial que actúan funcionalmente a su servicio.
+C) Las agencias públicas empresariales deben funcionar exclusivamente con personal laboral.
+OK: B
+EXP: El Tribunal Constitucional acepta fórmulas que combinan dependencia orgánica y funcional distinta dentro del sector público autonómico.
+    `;
+
+
+    const BANCO_3 = ` 
+#ID = 4.1
+
+// [33]
+Q: ¿Dónde sitúa el texto las claves principales de la organización administrativa autonómica ante la escasez de referencias estatutarias?
+A) En la jurisprudencia constitucional sobre derechos fundamentales.
+B) En los reglamentos internos de cada consejería exclusivamente.
+C) En la legislación autonómica, especialmente en las leyes sobre administración, régimen jurídico, gobierno o administración de cada comunidad autónoma.
+OK: C
+EXP: El texto señala que, ante la insuficiencia estatutaria, la regulación principal se encuentra en la legislación autonómica general.
+
+// [34]
+Q: ¿Qué papel atribuye el texto a las leyes sectoriales autonómicas en la organización administrativa?
+A) Complementan la regulación sustantiva atribuyendo funciones, previendo órganos específicos y precisando cuestiones como la vía administrativa y el silencio.
+B) Se limitan a distribuir competencias políticas sin efectos sobre órganos ni procedimientos.
+C) Sustituyen por completo a las leyes generales de administración y régimen jurídico.
+OK: A
+EXP: Las leyes sectoriales no solo regulan materias sustantivas, sino también funciones, órganos y aspectos procedimentales relevantes.
+
+#ID = 4.2
+
+// [35]
+Q: ¿Qué rasgo jurídico-formal común destaca el texto en todos los ordenamientos autonómicos respecto de la Administración de la comunidad autónoma?
+A) La pluralidad de personalidades jurídicas para cada consejería.
+B) La proclamación de una personalidad jurídica única, con organización jerárquica y subordinación al Gobierno autonómico.
+C) La separación total entre Administración territorial y entidades instrumentales con personalidad administrativa única para estas últimas.
+OK: B
+EXP: El texto subraya que todas las comunidades autónomas reproducen el modelo de personalidad jurídica única de su Administración.
+
+// [36]
+Q: ¿Cómo se atribuyen a la Administración de la comunidad autónoma las potestades y prerrogativas administrativas según el texto?
+A) Únicamente mediante una cláusula constitucional expresa común para todas las comunidades autónomas.
+B) Solo mediante enumeraciones cerradas excluyentes de toda remisión a la Administración del Estado.
+C) Bien por remisión a las potestades reconocidas a la Administración del Estado, bien mediante enumeración expresa de esas potestades y prerrogativas.
+OK: C
+EXP: El texto indica que ambas técnicas son habituales: remisión general o enumeración expresa de las potestades administrativas.
+
+// [37]
+Q: ¿Cuál de las siguientes figuras aparece en el texto como una prerrogativa o potestad atribuida a la Administración autonómica?
+A) La potestad sancionadora y el procedimiento de apremio.
+B) La jurisdicción contencioso-administrativa sobre sus propios actos.
+C) La potestad legislativa ordinaria sobre relaciones entre particulares.
+OK: A
+EXP: El texto enumera varias potestades administrativas, entre ellas la sancionadora y el apremio.
+
+#ID = 4.3
+
+// [38]
+Q: ¿Qué factores señala el texto como origen de la diversidad organizativa entre comunidades autónomas?
+A) Solo la diferente ideología de los gobiernos autonómicos.
+B) Exclusivamente la distinta antigüedad de los estatutos de autonomía.
+C) Diferencias competenciales, demográficas, geográficas, históricas y socioeconómicas, pese a la igualación producida por los traspasos.
+OK: C
+EXP: El texto conecta la diversidad organizativa con una pluralidad de factores estructurales y competenciales.
+
+// [39]
+Q: ¿Qué primera característica común aprecia el texto dentro de la diversidad organizativa de las comunidades autónomas?
+A) La fragmentación y rigidez de las estructuras departamentales, con reproducción del modelo sectorial estatal.
+B) La desaparición de las consejerías sectoriales en favor de órganos territoriales únicos.
+C) La sustitución general de las estructuras jerárquicas por redes horizontales de gestión.
+OK: A
+EXP: La primera nota común es la reproducción del esquema departamental sectorial de la Administración estatal.
+
+// [40]
+Q: ¿Qué dos rasgos comunes añade el texto al final de su enumeración sobre la organización administrativa autonómica?
+A) La desaparición de los servicios de presidencia y la reducción de la incidencia lingüística en la organización.
+B) El fortalecimiento de estructuras al servicio de la presidencia y la incidencia organizativa de la doble oficialidad lingüística.
+C) La unificación de todas las divisiones territoriales y la supresión de los órganos de política lingüística.
+OK: B
+EXP: El texto destaca un macrodepartamento ligado a la presidencia y los efectos organizativos derivados de la doble oficialidad.
+
+#ID = 4.4
+
+// [41]
+Q: ¿Qué significa en algunas comunidades autónomas la afirmación de que no existe separación entre gobierno y administración?
+A) Que el gobierno o consejo de gobierno actúa también como órgano superior de la Administración autonómica.
+B) Que la Administración queda jurídicamente absorbida por el parlamento autonómico.
+C) Que los consejeros dejan de ser órganos administrativos superiores.
+OK: A
+EXP: En ese modelo, el mismo órgano tiene una doble dimensión: política y administrativa.
+
+// [42]
+Q: ¿Qué modelo siguen otras comunidades autónomas respecto de la relación entre Gobierno y Administración?
+A) Mantienen su confusión orgánica, pero separan únicamente la potestad reglamentaria.
+B) Distinguen orgánica y funcionalmente entre Gobierno y Administración, aunque esta actúa bajo la dirección política del consejo de gobierno.
+C) Suprimen toda vinculación entre consejeros y departamentos administrativos.
+OK: B
+EXP: El texto explica que, en ese esquema, Gobierno y Administración se diferencian, pero siguen conectados por la dirección política.
+
+// [43]
+Q: ¿Qué función desempeñan los consejeros en los modelos que distinguen entre Gobierno y Administración?
+A) Actúan solo como titulares de órganos consultivos sin funciones ejecutivas.
+B) Representan el vínculo entre ambos, al ser simultáneamente miembros del Gobierno y órganos superiores de la Administración.
+C) Quedan fuera por completo de la organización administrativa.
+OK: B
+EXP: Los consejeros enlazan la dimensión política del Gobierno con la estructura administrativa de los departamentos.
+
+// [44]
+Q: ¿Cómo describe el texto la estabilidad del número de consejerías y de la estructura orgánica de la Administración autonómica?
+A) Como una realidad estable y fijada normalmente por ley general con escasas modificaciones.
+B) Como una realidad variable, dependiente de coyunturas políticas, económicas y administrativas, y habitualmente regulada por decretos organizativos.
+C) Como una estructura determinada exclusivamente por los estatutos de autonomía.
+OK: B
+EXP: El texto insiste en el carácter cambiante de la organización departamental y en su frecuente regulación por decretos.
+
+// [45]
+Q: ¿Qué rasgo general atribuye el texto a los órganos directivos internos de las consejerías, como viceconsejerías o direcciones generales?
+A) Son siempre órganos profesionalizados reservados en todas las comunidades a funcionarios de carrera.
+B) Son normalmente órganos no directivos creados por los jefes de servicio.
+C) Son en su mayoría puestos de confianza no profesionalizados, aunque en algunas comunidades los directores generales deben ser funcionarios de carrera.
+OK: C
+EXP: El texto resalta el predominio de la confianza política en estos escalones directivos.
+
+#ID = 4.5.1
+
+// [46]
+Q: ¿Cuál es la diferencia general que establece el texto entre comunidades autónomas uniprovinciales y pluriprovinciales en materia de órganos territoriales?
+A) En las uniprovinciales no suele existir administración territorial autonómica general, mientras que en las pluriprovinciales suele existir administración periférica junto a la central.
+B) En las pluriprovinciales la Administración autonómica carece de órganos con competencia territorial limitada.
+C) En las uniprovinciales la organización periférica es obligatoria y más intensa que en las pluriprovinciales.
+OK: A
+EXP: El texto contrapone la ausencia general de estructura territorial en las uniprovinciales con su presencia habitual en las pluriprovinciales.
+
+// [47]
+Q: ¿Qué principio organiza normalmente los servicios territoriales de la Administración autonómica en las comunidades pluriprovinciales?
+A) El principio de jerarquía parlamentaria.
+B) El principio de desconcentración, normalmente atendiendo a la provincia aunque con posibles demarcaciones alternativas.
+C) El principio de autonomía municipal como criterio exclusivo de distribución territorial.
+OK: B
+EXP: Los órganos territoriales se justifican por la desconcentración y suelen apoyarse en la provincia, sin identificarse siempre con ella.
+
+// [48]
+Q: ¿Qué fórmulas de organización territorial menciona el texto para la Administración autonómica periférica?
+A) Solo delegaciones de cada consejería sin órganos de coordinación territorial general.
+B) Delegaciones o direcciones territoriales del Gobierno o de la comunidad, delegaciones territoriales integradas y combinaciones de ambos modelos.
+C) Únicamente oficinas locales gestionadas por diputaciones provinciales.
+OK: B
+EXP: El texto presenta varias fórmulas posibles, incluidas estructuras integradas y modelos mixtos.
+
+#ID = 4.5.2
+
+// [49]
+Q: ¿Cómo valora el texto el modelo de administración indirecta apoyado en las diputaciones provinciales propugnado en 1981 y en la Ley del proceso autonómico de 1983?
+A) Como un modelo plenamente desarrollado y dominante en la práctica autonómica.
+B) Como una orientación que apenas llegó a desarrollarse y que, en la mayoría de los casos, quedó en declaraciones programáticas.
+C) Como una técnica que impidió por completo la creación de estructuras periféricas propias.
+OK: B
+EXP: Aunque inicialmente se defendió, el texto afirma que ese modelo apenas tuvo desarrollo efectivo y fue después superado.
+
+#ID = 4.5.3
+
+// [50]
+Q: ¿Qué admite el texto respecto de los órganos o unidades administrativas situados fuera del territorio de la comunidad autónoma?
+A) Que algunas legislaciones autonómicas prevén su creación para actuar funcionalmente fuera de la comunidad, incluso en el extranjero.
+B) Que su existencia está constitucionalmente prohibida por el principio de territorialidad.
+C) Que solo pueden existir mediante formas privadas ajenas a la Administración autonómica.
+OK: A
+EXP: El texto reconoce expresamente la posibilidad de órganos autonómicos con actuación funcional extraterritorial.
+
+// [51]
+Q: ¿Qué naturaleza atribuye la jurisprudencia constitucional a la comunicación previa al Gobierno y a los informes ministeriales para abrir oficinas autonómicas de promoción exterior?
+A) Técnicas legítimas de cooperación y coordinación, sin carácter autorizatorio ni vinculante.
+B) Autorizaciones estatales previas indispensables y vinculantes.
+C) Controles jurisdiccionales preventivos sobre la validez de la oficina autonómica.
+OK: A
+EXP: El texto aclara que esos instrumentos no suponen subordinación autorizatoria, sino coordinación cooperativa.
+
+// [52]
+Q: ¿Cuál es la función principal de las oficinas o delegaciones autonómicas en Bruselas según el texto?
+A) Ejercer potestades administrativas ordinarias sobre ciudadanos residentes en la Unión Europea.
+B) Sustituir a la representación diplomática del Estado ante las instituciones europeas.
+C) Hacer seguimiento de la política europea, representar a la comunidad ante instituciones de la Unión y asistir a representantes autonómicos en foros europeos.
+OK: C
+EXP: El texto subraya su función de seguimiento, representación y apoyo institucional, no de administración ordinaria.
+
+#ID = 4.5.4
+
+// [53]
+Q: ¿Qué rasgo singular presentan los cabildos insulares en Canarias y los consejos insulares en Illes Balears según el texto?
+A) Son simples órganos periféricos de la Administración autonómica sin funciones propias.
+B) Son instituciones de la comunidad autónoma con competencias propias y posibilidad de asumir otras funciones ejecutivas y de gestión.
+C) Son únicamente entidades locales ordinarias sin conexión con el sistema institucional autonómico.
+OK: B
+EXP: El texto los sitúa dentro del propio entramado institucional autonómico, no como mera periferia administrativa.
+
+// [54]
+Q: ¿Cómo caracteriza el texto el caso de Arán dentro de los regímenes especiales?
+A) Como una provincia especial integrada plenamente en la organización periférica ordinaria.
+B) Como un órgano consultivo territorial del Gobierno autonómico.
+C) Como una entidad territorial especial con personalidad jurídica propia, autonomía garantizada y funciones de autogobierno autonómico y de administración local.
+OK: C
+EXP: Arán aparece descrita como una pieza singular del sistema institucional, con régimen propio y doble dimensión funcional.
+
+#ID = 4.6
+
+// [55]
+Q: ¿Qué finalidad principal cumplen los órganos consultivos jurídicos autonómicos en el sistema de garantías de la legalidad?
+A) Sustituir al parlamento autonómico en la aprobación de reglamentos y leyes.
+B) Evitar acudir al Consejo de Estado cuando la legislación exige la intervención del órgano consultivo estatal o del autonómico equivalente.
+C) Asumir directamente la defensa procesal de la Administración autonómica ante los tribunales.
+OK: B
+EXP: El texto destaca que estos órganos equivalentes permiten satisfacer la función consultiva sin acudir al Consejo de Estado.
+
+// [56]
+Q: ¿Qué criterio impulsó la creación de órganos consultivos jurídicos autonómicos equivalentes al Consejo de Estado?
+A) La jurisprudencia constitucional, al considerar básica la garantía procedimental consultiva, pero no indispensable que se prestara por el propio Consejo de Estado.
+B) La obligación estatutaria de duplicar en todas las comunidades la composición del Consejo de Estado.
+C) La exigencia europea de crear consejos consultivos en todas las regiones con poder legislativo.
+OK: A
+EXP: La jurisprudencia permitió que la garantía procedimental se cumpliera mediante órganos autonómicos equivalentes.
+
+// [57]
+Q: ¿Qué dos grandes modelos de órganos consultivos jurídicos distingue el texto dentro de las comunidades autónomas?
+A) Un modelo judicial y otro arbitral, ambos vinculantes para el Gobierno autonómico.
+B) Un modelo de asesoramiento económico-presupuestario y otro exclusivamente universitario.
+C) Un modelo limitado a funciones jurídico-administrativas semejantes a las del Consejo de Estado y otro que añade funciones de asesoramiento político-estatutario.
+OK: C
+EXP: El texto diferencia entre órganos de consulta jurídico-administrativa y otros con competencias también político-estatutarias.
+
+#ID = 4.7
+
+// [58]
+Q: ¿Qué finalidad atribuye el texto a los órganos autonómicos de participación y consulta?
+A) Solo emitir informes internos sin incidencia en el consenso ni en la elaboración normativa.
+B) Favorecer la consulta, la participación y también el consenso previo en actuaciones significativas, pudiendo intervenir en la elaboración de disposiciones reglamentarias.
+C) Reemplazar a las consejerías en la adopción de decisiones ejecutivas sectoriales.
+OK: B
+EXP: El texto destaca que su función no es solo asesora, sino también integradora y facilitadora del consenso.
+
+#ID = 4.8.1
+
+// [59]
+Q: ¿Qué permite la potestad autonómica de autoorganización en materia expropiatoria según el texto?
+A) Crear jurados autonómicos de expropiación para intervenir en expropiaciones de la Administración autonómica o de entidades locales de su territorio.
+B) Suprimir la fijación del justiprecio en toda expropiación realizada en la comunidad autónoma.
+C) Integrar libremente jueces y magistrados en cualquier órgano administrativo autonómico expropiatorio.
+OK: A
+EXP: El texto afirma que muchas comunidades crearon jurados propios para asumir esa función decisoria en materia expropiatoria.
+
+// [60]
+Q: ¿Qué posición adopta el Tribunal Constitucional sobre la composición de los jurados autonómicos de expropiación?
+A) Exige que reproduzcan necesariamente la composición del artículo 32 de la Ley de Expropiación Forzosa.
+B) Entiende que su creación y regulación pertenecen a la competencia autonómica de organización y que la composición del jurado estatal no constituye una base obligatoria.
+C) Considera inconstitucional la existencia misma de jurados autonómicos de expropiación.
+OK: B
+EXP: El Tribunal Constitucional admite modelos autonómicos distintos y niega carácter básico obligatorio a la composición estatal.
+
+#ID = 4.8.2
+
+// [61]
+Q: ¿Qué origen tiene, según el texto, la previsión de órganos especializados para resolver reclamaciones contractuales?
+A) La potestad exclusiva autonómica sobre contratación pública sin condicionamiento alguno.
+B) La normativa europea sobre contratación pública, incorporada por el legislador estatal mediante un recurso especial no jurisdiccional ante órganos especializados e independientes.
+C) Una decisión jurisprudencial que trasladó la competencia de los juzgados contenciosos a órganos administrativos.
+OK: B
+EXP: El texto sitúa el origen en las exigencias europeas y en su posterior incorporación a la legislación básica estatal.
+
+// [62]
+Q: ¿Qué opciones organizativas tienen las comunidades autónomas para resolver las reclamaciones contractuales?
+A) Crear un órgano independiente propio o atribuir la función al Tribunal Administrativo Central de Recursos Contractuales mediante convenio, respetando las garantías básicas estatales.
+B) Remitir obligatoriamente todos los recursos a los órganos jurisdiccionales contencioso-administrativos.
+C) Encargar esa función a cualquier consejería sin exigencia de independencia ni especialización.
+OK: A
+EXP: El margen de autoorganización existe, pero queda condicionado por requisitos básicos de independencia, inamovilidad y cualificación.
+   `;
+
+
+    const BANCO_4 = ` 
+#ID = 5
+
+// [63]
+Q: ¿Qué diferencia establece el texto entre la Administración general de la comunidad autónoma y la Administración institucional autonómica?
+A) La Administración institucional autonómica sustituye íntegramente a la Administración general en el ejercicio de todas las potestades públicas.
+B) La Administración general de la comunidad autónoma se limita a funciones políticas y la Administración institucional asume toda la actividad administrativa ordinaria.
+C) La Administración institucional autonómica está integrada por organismos públicos vinculados o dependientes de la Administración general para desarrollar actividades de ejecución o gestión en régimen de descentralización funcional.
+OK: C
+EXP: El texto define la Administración institucional como una administración instrumental que apoya funcionalmente a la Administración general.
+
+// [64]
+Q: ¿Cómo evolucionó la jurisprudencia constitucional sobre la creación de personificaciones instrumentales propias por las comunidades autónomas?
+A) Pasó de un criterio inicialmente restrictivo a admitir que la creación de entidades instrumentales, incluso de derecho privado para fines públicos, forma parte de la potestad de autoorganización.
+B) Mantuvo siempre la prohibición de crear entidades instrumentales autonómicas con personalidad jurídica propia.
+C) Admitió solo organismos autónomos, pero rechazó expresamente las agencias autonómicas.
+OK: A
+EXP: El texto destaca el abandono del criterio restrictivo inicial y la aceptación posterior de una potestad autonómica más amplia en este campo.
+
+// [65]
+Q: ¿Qué alcance atribuye el texto a la intervención del legislador estatal en materia de personificaciones instrumentales?
+A) Ha establecido una regulación básica completa y uniforme para todas las entidades instrumentales de todas las administraciones públicas.
+B) No ha dictado una regulación básica general para todas las administraciones, sino que ha limitado su intervención a las entidades instrumentales de la Administración del Estado.
+C) Ha prohibido a las comunidades autónomas regular por ley sus propias formas de personificación instrumental.
+OK: B
+EXP: El texto subraya que el legislador estatal no ha impuesto aquí un marco básico general para todas las administraciones públicas.
+
+// [66]
+Q: ¿Cómo valora el texto la remisión estatutaria a la ley para regular la descentralización funcional, la personificación pública y privada y la gestión de servicios públicos?
+A) La considera inconstitucional por invadir siempre la competencia estatal sobre régimen jurídico administrativo.
+B) La considera irrelevante porque los estatutos no pueden remitir a la ley materias organizativas.
+C) La considera constitucional siempre que esa remisión legal se entienda sometida a las bases estatales dictadas al amparo del artículo 149.1.18 CE.
+OK: C
+EXP: La validez de esa remisión depende de que opere dentro del marco de las bases estatales aplicables.
+
+// [67]
+Q: ¿Qué rasgo común presenta, según el texto, la regulación autonómica de las modalidades concretas de personificación instrumental?
+A) Suele ser poco densa y reproduce con ligeras variantes figuras previstas en la legislación estatal o se remite a ella como modelo de referencia.
+B) Suele construir categorías completamente originales y desvinculadas de las fórmulas estatales.
+C) Suele excluir de manera expresa cualquier influencia de la normativa estatal aunque esta no sea básica.
+OK: A
+EXP: El texto indica que la normativa estatal actúa habitualmente como patrón que las comunidades autónomas siguen de forma voluntaria.
+
+// [68]
+Q: ¿Qué distinción básica mantiene el texto en varias comunidades autónomas respecto de las entidades instrumentales de derecho público?
+A) La distinción entre entes territoriales y entes consultivos.
+B) La distinción entre organismos autónomos y entidades públicas empresariales, según predominen actividades administrativas o actividades económicas y productivas.
+C) La distinción entre agencias estatales y organismos internacionales de cooperación.
+OK: B
+EXP: El texto asocia los organismos autónomos a actividades administrativas y las entidades públicas empresariales a actividades o servicios de contenido económico.
+
+// [69]
+Q: ¿Qué entidades de derecho privado integra también el sector público autonómico según el texto?
+A) Únicamente cooperativas privadas que contraten con la Administración autonómica.
+B) Exclusivamente asociaciones sin ánimo de lucro ajenas a la financiación pública.
+C) Principalmente fundaciones con aportaciones públicas mayoritarias o totales y sociedades mercantiles con capital íntegra o mayoritariamente público.
+OK: C
+EXP: El texto incluye expresamente fundaciones públicas y sociedades mercantiles públicas dentro del sector público autonómico.
+
+// [70]
+Q: ¿Qué cambio de enfoque organizativo describe el texto respecto de la regulación de los entes institucionales autonómicos?
+A) El paso desde una integración en la normativa de hacienda autonómica hacia una concepción más amplia de sector público o sector público institucional.
+B) El abandono completo de toda categoría general sobre sector público en favor de regulaciones puramente contractuales.
+C) La sustitución del sector público institucional por una noción exclusiva de administración periférica.
+OK: A
+EXP: El texto señala una evolución desde una visión centrada en la hacienda hacia otra más unificadora del conjunto del sector público.
+
+// [71]
+Q: ¿Por qué considera el texto limitada la eficacia ordenadora de las regulaciones generales del sector público institucional autonómico?
+A) Porque las entidades instrumentales se crean normalmente por reglamento interno de cada departamento.
+B) Porque la reserva de ley favorece la creación mediante leyes singulares, a menudo excepcionales respecto del marco general, lo que dificulta una ordenación uniforme.
+C) Porque las comunidades autónomas carecen de competencia para crear entes instrumentales mediante ley.
+OK: B
+EXP: La proliferación de leyes singulares, muchas veces ligadas al acompañamiento presupuestario, debilita la capacidad ordenadora del régimen común.
+
+// [72]
+Q: ¿Qué instrumento básico específico menciona el texto para afrontar el problema clásico de la opacidad de las entidades del sector público institucional?
+A) Un sistema de auditorías jurisdiccionales obligatorias ante el Consejo de Estado.
+B) Una base de datos interna de cada comunidad autónoma sin publicidad externa.
+C) El Inventario de Entidades del Sector Público Estatal, Autonómico y Local, gestionado por la Intervención General de la Administración del Estado.
+OK: C
+EXP: El texto presenta este inventario como la única norma básica específica y como instrumento de publicidad y fiabilidad de la información.
+
+// [73]
+Q: ¿En qué supuesto puede una entidad de derecho público autonómica actuar fuera del territorio de la comunidad autónoma según el texto?
+A) Cuando actúa como operador económico y sus normas constitutivas la habilitan para ello, al margen del ejercicio de potestades jurídico-públicas.
+B) Solo cuando recibe una delegación expresa del Gobierno del Estado para ejercer potestades administrativas fuera de su territorio.
+C) Únicamente cuando se integra en una oficina autonómica de representación en Bruselas.
+OK: A
+EXP: El texto admite esa actuación extraterritorial en clave económica o instrumental, no como ejercicio ordinario de potestades jurídico-públicas.
+    `;
+
+
+    const BANCO_5 = ` 
+#ID = 6
+
+// [74]
+Q: ¿Qué rasgo general atribuye el texto a las autoridades independientes autonómicas como categoría organizativa?
+A) Su implantación es más extensa que en la Administración del Estado por su bajo coste institucional.
+B) Solo pueden crearse por previsión estatutaria y nunca por ley autonómica.
+C) Pueden crearse por previsión estatutaria o por ley, aunque su implantación es limitada por el coste institucional de dotarlas de autonomía funcional e independencia.
+OK: C
+EXP: El texto destaca que su creación es posible por dos vías, pero su extensión práctica es menor por el coste institucional que comportan.
+
+#ID = 6.1
+
+// [75]
+Q: ¿Qué función pueden asumir las autoridades autonómicas de defensa de la competencia conforme al texto?
+A) Investigar y sancionar conductas anticompetitivas cuyos efectos no superan el ámbito autonómico.
+B) Resolver exclusivamente conflictos laborales entre empresas y trabajadores dentro de la comunidad autónoma.
+C) Controlar toda la contratación pública autonómica al margen de la normativa de competencia.
+OK: A
+EXP: El texto vincula estos organismos a la persecución de conductas anticompetitivas limitadas al ámbito autonómico.
+
+// [76]
+Q: ¿Qué exigencia organizativa impuso la Ley 1/2002 a los organismos autonómicos de defensa de la competencia?
+A) La unificación obligatoria de la instrucción y la resolución en un solo órgano sin separación funcional.
+B) La separación entre la instrucción y la resolución de los expedientes, ya sea dentro de un mismo organismo con órganos diferenciados o mediante órganos distintos.
+C) La atribución exclusiva de toda la materia al Estado sin posibilidad de estructuras autonómicas propias.
+OK: B
+EXP: La ley estatal exigió una separación intensa entre funciones instructoras y resolutorias.
+
+// [77]
+Q: ¿Qué diversidad organizativa describe el texto respecto de los organismos autonómicos de defensa de la competencia?
+A) Todas las comunidades autónomas han creado el mismo modelo de autoridad con idénticas funciones resolutorias.
+B) Algunas comunidades solo han asumido funciones instructoras, otras han creado organismos autónomos propios y otras suprimieron o no llegaron a establecer órganos propios.
+C) Ninguna comunidad autónoma ha podido asumir funciones consultivas o de promoción de la competencia.
+OK: B
+EXP: El texto subraya la heterogeneidad autonómica tanto en la creación como en el alcance funcional de estos organismos.
+
+// [78]
+Q: ¿Qué regla de composición establece el texto para los órganos autonómicos de defensa de la competencia cuando tienen competencia resolutoria?
+A) Sus órganos resolutorios se integran por tres miembros nombrados por seis años no renovables.
+B) Sus órganos resolutorios se componen necesariamente de cinco miembros designados por mandato indefinido.
+C) Sus órganos resolutorios deben estar presididos por un magistrado con mandato renovable.
+OK: A
+EXP: El texto precisa expresamente esa composición y duración del mandato para los órganos con competencia resolutoria.
+
+#ID = 6.2
+
+// [79]
+Q: ¿Cuál es la función principal de los consejos del audiovisual autonómicos según el texto?
+A) Gestionar directamente los medios de comunicación públicos de la comunidad autónoma.
+B) Garantizar y controlar la actividad de los medios de comunicación audiovisual, públicos y privados, dentro de su ámbito territorial.
+C) Resolver reclamaciones contractuales en materia de licencias televisivas.
+OK: B
+EXP: El texto presenta a estos consejos como autoridades de control y garantía sobre la actividad audiovisual.
+
+// [80]
+Q: ¿Qué tipo de competencias pueden asumir los consejos del audiovisual autonómicos según los distintos modelos descritos?
+A) Solo funciones de asesoramiento sin potestad alguna sobre licencias, sanciones o normativa.
+B) Únicamente potestades sancionadoras, con exclusión de cualquier función normativa o inspectora.
+C) Pueden dictar instrucciones, desarrollar reglamentariamente la legislación audiovisual, sancionar e intervenir en licencias o concesiones, según la comunidad autónoma.
+OK: C
+EXP: El texto destaca la variedad competencial de estos consejos, desde funciones más limitadas hasta otras más intensas.
+
+#ID = 6.3
+
+// [81]
+Q: ¿Sobre qué tratamientos de datos pueden ejercer funciones de supervisión y control las agencias autonómicas de protección de datos conforme al texto?
+A) Sobre todos los tratamientos de datos privados realizados en cualquier parte del territorio nacional.
+B) Sobre tratamientos vinculados al sector público autonómico y local, a quienes les prestan servicios y a quienes tratan datos en funciones públicas en materias de competencia autonómica o local.
+C) Solo sobre los tratamientos realizados por la Administración del Estado en el territorio de la comunidad autónoma.
+OK: B
+EXP: El texto delimita su ámbito funcional en conexión con el sector público autonómico y local y con competencias propias.
+
+// [82]
+Q: ¿Qué potestad adicional reconoce el texto a las agencias autonómicas de protección de datos junto a sus funciones generales de control?
+A) La potestad de dictar circulares respecto de los tratamientos sometidos a su competencia.
+B) La potestad de aprobar leyes autonómicas sobre protección de datos.
+C) La potestad de resolver recursos de inconstitucionalidad sobre normativa europea de datos.
+OK: A
+EXP: Además de controlar y supervisar, pueden dictar circulares con el alcance legalmente previsto.
+
+#ID = 6.4
+
+// [83]
+Q: ¿Qué dos opciones organizativas describe el texto para los consejos de transparencia en las comunidades autónomas?
+A) Crear un órgano propio con autonomía funcional o suscribir convenios con el órgano estatal para resolver reclamaciones relativas a la administración autonómica.
+B) Crear siempre una consejería específica de transparencia o atribuir la función a las diputaciones provinciales.
+C) Delegar necesariamente la transparencia en la Agencia Española de Protección de Datos.
+OK: A
+EXP: El texto contrapone la creación de un órgano autonómico propio con la opción de conveniar la resolución de reclamaciones con el órgano estatal.
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
