@@ -1,0 +1,1979 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Derecho Administrativo 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --text:#111827;
+  --muted:#6b7280;
+  --bd:rgba(17,24,39,.12);
+  --bg:#ffffff;
+  --pillbg:#f3f4f6;
+  --pillbd:#e5e7eb;
+
+  --prioBg:#eff6ff;
+  --prioBd:#60a5fa;
+
+  --ideaBg:#f5f3ff;
+  --ideaBd:#a78bfa;
+
+  --quizBg:#fff7ed;
+  --quizBd:#fb923c;
+
+  --okBg:#ecfdf5;
+  --okBd:#34d399;
+
+  --badBg:#fef2f2;
+  --badBd:#f87171;
+
+  --btnBg:#111827;
+  --btnTxt:#ffffff;
+  --btnBg2:#0b1220;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+.wrap{ max-width:1000px; margin:30px auto; padding:0 16px 60px }
+h1{ margin:0 0 10px }
+.small{ font-size:12px; opacity:.8; color:var(--muted) }
+
+details{
+  border:1px solid var(--bd);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:visible;
+}
+summary{
+  cursor:pointer;
+  padding:14px 16px;
+  font-weight:800;
+  list-style:none;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+
+.sumLeft{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  min-width:0;
+  flex:1;
+}
+
+.sumTitle{
+  min-width:0;
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  line-height:1.35;
+  word-break:break-word;
+}
+
+.pill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:var(--pillbg);
+  border:1px solid var(--pillbd);
+  font-weight:800;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
+.tag{
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:6px;
+}
+
+/* CAJAS */
+.prio{
+  background:var(--prioBg);
+  border-left:5px solid var(--prioBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+.prio p{ margin:8px 0; }
+.prio p.li{ display:flex; gap:10px; margin:6px 0; }
+.prio .liNum{ min-width:2.2em; font-weight:700; }
+
+.idea{
+  background:var(--ideaBg);
+  border-left:5px solid var(--ideaBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+  font-weight:650;
+}
+
+.quizBox{
+  background:var(--quizBg);
+  border-left:5px solid var(--quizBd);
+  padding:14px;
+  border-radius:12px;
+  margin-top:14px;
+}
+
+.rowActions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.btn{
+  appearance:none;
+  border:1px solid rgba(17,24,39,.15);
+  background:transparent;
+  padding:8px 10px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  color:var(--text);
+}
+.btn:hover{ background:rgba(17,24,39,.04) }
+
+.btnPrimary{
+  background:var(--btnBg);
+  color:var(--btnTxt);
+  border:1px solid rgba(17,24,39,.10);
+}
+.btnPrimary:hover{ background:var(--btnBg2) }
+
+.badge{
+  font-size:12px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+p{
+  margin:0 0 10px;
+  line-height:1.6;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+/* ===========================
+   MODAL QUIZ
+=========================== */
+.modalOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(17,24,39,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+.modalOverlay.show{ display:flex; }
+
+.modal{
+  width:min(860px, 100%);
+  background:#fff;
+  border-radius:16px;
+  border:1px solid rgba(17,24,39,.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.modalHeader{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid rgba(17,24,39,.10);
+  background:linear-gradient(to bottom, rgba(17,24,39,.03), rgba(17,24,39,0));
+}
+.modalHeader .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  min-width:0;
+}
+.modalHeader .title{
+  font-weight:900;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.modalHeader .right{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.timerPill{
+  font-size:12px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(17,24,39,.12);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+
+.modalBody{ padding:16px; }
+.qText{
+  font-weight:900;
+  font-size:16px;
+  margin-bottom:12px;
+}
+.opts{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.optBtn{
+  text-align:left;
+  border:1px solid rgba(17,24,39,.12);
+  background:#fff;
+  border-radius:12px;
+  padding:12px 12px;
+  cursor:pointer;
+  font-weight:750;
+}
+.optBtn:hover{ background:rgba(17,24,39,.03) }
+.optBtn .k{
+  display:inline-flex;
+  width:26px;
+  height:26px;
+  border-radius:999px;
+  align-items:center;
+  justify-content:center;
+  margin-right:10px;
+  border:1px solid rgba(17,24,39,.10);
+  background:rgba(17,24,39,.04);
+  font-weight:900;
+}
+.feedback{
+  margin-top:14px;
+  padding:12px;
+  border-radius:12px;
+  border-left:5px solid transparent;
+  display:none;
+}
+.feedback.show{ display:block; }
+.feedback.ok{ background:var(--okBg); border-left-color:var(--okBd); }
+.feedback.bad{ background:var(--badBg); border-left-color:var(--badBd); }
+
+.explicacion{
+  margin-top:8px;
+  font-size:13px;
+  opacity:.9;
+}
+
+.modalFooter{
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+  border-top:1px solid rgba(17,24,39,.10);
+  flex-wrap:wrap;
+}
+.modalFooter .left{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+kbd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size:12px;
+  padding:2px 6px;
+  border-radius:8px;
+  border:1px solid rgba(17,24,39,.15);
+  background:rgba(17,24,39,.04);
+}
+.scoreLine{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+/* Caja de error visible */
+.errBox{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  background:#fef2f2;
+  border-left:5px solid #f87171;
+  color:#111827;
+  font-weight:800;
+}
+.errBox.show{ display:block; }
+
+/* Diagnóstico */
+.diag{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid rgba(17,24,39,.12);
+  border-radius:12px;
+  background:rgba(17,24,39,.02);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.diag b{ color:#111827; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1 id="tituloTema">Tema 1. El Derecho administrativo</h1>
+  <div class="small"> by M.García</div>
+
+  <div id="errBox" class="errBox"></div>
+  <div id="diag" class="diag">Diagnóstico: <b>cargando…</b></div>
+
+  <div class="rowActions" style="margin-top:12px">
+    <button class="btn btnPrimary" id="btnTemaRandom" type="button">Realiza test por tema</button>
+
+    <label class="badge" style="display:flex; gap:8px; align-items:center;">
+      Nº preguntas
+      <select id="selTemaN" class="btn" style="padding:6px 10px;">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </label>
+
+    <button class="btn" id="btnSoloFalladas" type="button">Solo falladas</button>
+    <button class="btn" id="btnResetStats" type="button">Reiniciar stats</button>
+    <span class="badge" id="badgeTemaTotal">0 preguntas cargadas</span>
+  </div>
+
+  <div id="contenido" style="margin-top:14px"></div>
+</div>
+
+<!-- MODAL -->
+<div id="modalOverlay" class="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <div class="modalHeader">
+      <div class="left">
+        <span id="modalPill" class="pill">—</span>
+        <div class="title" id="modalTitle">Pregunta</div>
+      </div>
+      <div class="right">
+        <span class="timerPill" id="modalTimer">00:00</span>
+        <button class="btn" id="btnCloseModal" type="button">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="modalBody">
+      <div class="qText" id="modalQuestion">—</div>
+      <div class="opts" id="modalOptions"></div>
+
+      <div id="modalFeedback" class="feedback">
+        <div id="modalFeedbackTitle" style="font-weight:900"></div>
+        <div class="explicacion" id="modalExplanation"></div>
+      </div>
+    </div>
+
+    <div class="modalFooter">
+      <div class="left">
+        <button class="btn btnPrimary" id="btnNextQuestion" type="button">Siguiente</button>
+        <button class="btn" id="btnBlank" type="button">Dejar en blanco</button>
+        <span class="badge" id="modalCounter">0/0</span>
+      </div>
+      <div>
+        <div class="scoreLine" id="scoreLine">Aciertos 0 · Fallos 0 · Blancos 0 · Puntos 0.00 (de 0)</div>
+        <div class="small">Atajos: <kbd>Esc</kbd> cerrar · <kbd>Enter</kbd> siguiente</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const errBox = document.getElementById("errBox");
+  const diag = document.getElementById("diag");
+
+  function showErr(msg){
+    if(!errBox) return;
+    errBox.textContent = msg;
+    errBox.classList.add("show");
+  }
+
+  window.addEventListener("error", (e)=>{
+    showErr("Error JS: " + (e.message || "desconocido"));
+  });
+
+  try{
+    /* =========================
+       ✅ PUNTUACIÓN (UNA SOLA VEZ)
+    ========================= */
+    const SCORE_OK = 0.5;
+    const SCORE_BAD = 0.20;   // resta
+    const SCORE_BLANK = 0;    // no suma ni resta
+
+    /* =========================================================
+       1) TEXTO BASE (tu PDF pegado)
+    ========================================================= */
+const PDF_TEXTO = `
+1. CONCEPTO
+
+1.1. Introducción
+
+El concepto de Derecho administrativo presenta mayores dificultades que en otras ramas del Derecho debido a la delimitación de su objeto frente a otras disciplinas jurídicas. Estas dificultades se intensifican cuando se pretende definirlo a partir de un criterio único, ya que el Derecho administrativo puede manifestarse, según el ámbito o el momento histórico, como un Derecho exorbitante, garantista o instrumental.
+
+La determinación de un criterio definitorio único no constituye un imperativo científico y, en relación con el Derecho administrativo, resulta inalcanzable. La búsqueda de ese criterio suele apoyarse en un apriorismo, consistente en concebir previamente la Administración pública bien como sujeto, bien como forma de actividad.
+
+Estas dificultades han dado lugar a distintas posiciones doctrinales: la renuncia a definir el Derecho administrativo, la combinación de varios criterios, o el rechazo de concepciones totalizadoras. Esta última postura es considerada la más adecuada, pues la experiencia demuestra que el criterio definitorio no puede ser único ni inmutable.
+
+La Administración pública es una realidad plural, compleja y dinámica, lo que impide una definición universal válida para cualquier momento histórico y para cualquier modalidad de Administración. En consecuencia, tampoco existe una definición universal del Derecho administrativo.
+
+El Derecho administrativo no se identifica con todo el Derecho aplicable a la Administración pública. Quedan fuera de su ámbito tanto el Derecho privado y laboral, cuando la Administración actúa conforme a estos, como el Derecho constitucional, especialmente relevante para el Gobierno como órgano constitucional. Asimismo, determinadas ramas del Derecho público, como el Derecho financiero y tributario y el Derecho de la Seguridad Social, se han independizado del Derecho administrativo al adquirir autonomía funcional.
+
+1.2. La concepción estatutaria y su crisis
+
+La concepción estatutaria del Derecho administrativo parte de una perspectiva subjetiva, según la cual la Administración pública es ante todo un sujeto jurídico, y no una función o una actividad. En consecuencia, el Derecho administrativo se concibe como el conjunto de normas aplicables al sujeto denominado Administración pública, entendido como Derecho general y común a todas las Administraciones públicas.
+
+Esta concepción implica que la condición de Administración pública constituye el presupuesto necesario para la aplicación del Derecho administrativo, dando lugar a un régimen jurídico particular o estatutario, de forma similar a cómo el Derecho mercantil o laboral regulaban originariamente estatutos profesionales específicos. Esta es la concepción clásica defendida, entre otros, por García de Enterría.
+
+La principal ventaja de la concepción estatutaria reside en su simplicidad, pero esa misma simplicidad constituye su principal debilidad, ya que incurre en un círculo vicioso: para saber qué sujetos son Administración pública es necesario acudir previamente al Derecho administrativo.
+
+Además, la perspectiva subjetiva no explica qué es materialmente la Administración pública, pues se limita a un rasgo formal —la personalidad jurídica— e ignora elementos esenciales como los fines perseguidos (interés general), la actividad desarrollada, y los poderes especiales o potestades administrativas, que en la realidad aparecen inseparablemente vinculados.
+
+La concepción estatutaria también desconoce los datos del Derecho positivo, en particular las fracturas introducidas por el legislador a partir de 1992, que han provocado que el Derecho administrativo se aplique también a órganos situados fuera de la Administración pública, tanto dentro como fuera del poder ejecutivo.
+
+Estos desajustes se agravan por diversos fenómenos: – la actuación de las Administraciones públicas conforme al Derecho privado, – la huida de la Administración hacia el Derecho privado por su mayor flexibilidad y menor control, – y la transferencia de funciones públicas a sujetos privados, que quedan sometidos al Derecho administrativo cuando ejercen funciones públicas, pese a no integrarse en la Administración pública.
+
+Situaciones similares se producen respecto de las corporaciones de Derecho público (colegios profesionales, cámaras de comercio) y otras entidades de Derecho público (universidades públicas), que ejercen funciones públicas y potestades administrativas, pero no encajan en el concepto formal de Administración pública.
+
+Tras la Constitución, el legislador ha provocado fracturas decisivas en los presupuestos de la concepción estatutaria mediante dos procesos: a) Contracción del concepto de Administración pública: Se produce la diferenciación entre Gobierno y Administración, culminada con la LRJSP, de modo que el Gobierno deja de integrarse formalmente en la Administración. Los ministros actúan como bisagra entre ambos, pero el ámbito de aplicación del Derecho administrativo no se reduce, obligando a recurrir a criterios distintos del subjetivo. b) Expansión del ámbito de aplicación del Derecho administrativo fuera del poder ejecutivo: Por decisión legislativa, determinadas actividades administrativas de órganos constitucionales o de relevancia constitucional quedan sometidas al Derecho administrativo y al control contencioso-administrativo, aunque solo respecto a la gestión de su patrimonio y personal, lo que confirma la insuficiencia de la concepción estatutaria.
+
+1.3. La consolidación de los criterios materiales y funcionales
+
+Las perspectivas material y funcional del Derecho administrativo atienden a la actividad administrativa en sí misma, con independencia del sujeto que la realice. Definen el fenómeno jurídico-administrativo de forma autónoma dentro de las funciones del Estado, sin reparar en quién sea su autor. Tradicionalmente, estas perspectivas quedaron en segundo plano por la dificultad de formular una definición abstracta y satisfactoria de la actividad administrativa como materia, lo que favoreció la prevalencia de la concepción estatutaria por su simplicidad.
+
+A partir de los años noventa del siglo XX, el Derecho positivo comienza a recurrir de forma sistemática a criterios funcionales para determinar el sometimiento al Derecho administrativo.
+
+Este sometimiento deja de recaer exclusivamente sobre la Administración pública e incluye: a) corporaciones de Derecho público que ya no se consideran formalmente Administración pública; b) sujetos privados, tanto particulares como entidades de Derecho privado creadas o controladas instrumentalmente por las Administraciones públicas; c) autoridades y órganos constitucionales, situados dentro o fuera del poder ejecutivo, que nunca fueron o dejaron de ser Administración pública.
+
+El Derecho positivo define actualmente como administraciones públicas a la Administración General del Estado, las administraciones autonómicas, las entidades que integran la administración local y los organismos públicos y entidades de Derecho público vinculados o dependientes de ellas. Sin embargo, la mera condición subjetiva de Administración pública no basta para afirmar que su actividad esté sujeta al Derecho administrativo, pues la legislación recurre frecuentemente a la noción de “actos sujetos al Derecho administrativo” para delimitar su ámbito de aplicación.
+
+Fuera del ámbito de las administraciones públicas, el legislador emplea criterios funcionales adicionales. Así, la LPAC y la LRJSP incluyen en su ámbito de aplicación a las universidades públicas, pese a excluirlas del concepto formal de Administración pública. Asimismo, se someten al Derecho administrativo las entidades de Derecho privado vinculadas o dependientes de las Administraciones públicas cuando la norma se refiera expresamente a ellas y, en todo caso, cuando ejerzan potestades administrativas, criterio funcional central de adscripción.
+
+Un supuesto específico lo constituyen los concesionarios de servicios públicos, que quedan sometidos al Derecho administrativo y a la jurisdicción contencioso-administrativa cuando dictan actos que impliquen el ejercicio de potestades administrativas conferidas, utilizándose aquí un criterio funcional para delimitar la competencia jurisdiccional.
+
+En una posición distinta se sitúan las corporaciones de Derecho público, que no son Administraciones públicas ni sector público institucional. No obstante, cuando ejercen funciones públicas atribuidas por ley o delegadas, se someten a su normativa específica y supletoriamente a la LPAC, y sus actos adoptados en el ejercicio de funciones públicas quedan sujetos al control de la jurisdicción contencioso-administrativa.
+
+Las Cámaras Oficiales de Comercio, Industria, Servicios y Navegación constituyen una modalidad de corporación de Derecho público: actúan como órganos consultivos y de colaboración con las Administraciones públicas y ejercen funciones público-administrativas concretas, rigiéndose por su normativa específica, aplicándose supletoriamente la legislación administrativa general y sometiendo su contratación y régimen patrimonial al Derecho privado, con exigencias de publicidad, transparencia y no discriminación.
+
+La Ley reguladora de la jurisdicción contencioso-administrativa (LJCA) es el ámbito donde mejor se aprecia la combinación de criterios subjetivos, materiales y funcionales. Atribuye a dicho orden jurisdiccional: – las controversias relativas a la actuación de las administraciones públicas cuando esté sujeta al Derecho administrativo; – determinadas actuaciones materialmente administrativas de órganos constitucionales no integrados en la Administración pública, especialmente en materia de personal, administración y gestión patrimonial; – los actos de corporaciones de Derecho público y de concesionarios de servicios públicos cuando impliquen ejercicio de funciones o potestades administrativas.
+
+Finalmente, la delimitación entre el orden contencioso-administrativo y el orden social muestra la complejidad del criterio material. En materia de Seguridad Social, el orden social conoce de las prestaciones y materias conexas, mientras que el contencioso-administrativo conoce de sanciones, liquidaciones de cuotas y controles administrativos. En cambio, las cuestiones de asistencia y protección social públicas corresponden al orden contenciosoadministrativo, aunque el legislador puede ampliar o reducir el ámbito de cada jurisdicción mediante decisiones normativas expresas.
+
+1.4. El Derecho administrativo como objeto de regulación
+
+Dentro del Derecho administrativo se distingue entre parte general y parte especial.
+
+La parte general tiene por función fijar los principios y estructuras generales y transversales aplicables a todos o a muchos sectores de la actividad administrativa, mientras que la parte especial está integrada por las regulaciones de los sectores concretos de actuación administrativa (urbanismo, medio ambiente, educación, sanidad, telecomunicaciones, servicios sociales, etc.).
+
+La función de la parte general es limitada pero esencial. No puede regular exhaustivamente los sectores materiales, pero cumple una doble finalidad: – facilitar la aplicación del Derecho, descargando a legisladores sectoriales y operadores jurídicos de resolver problemas repetidos; – garantizar un nivel mínimo común de protección a los ciudadanos en todos los sectores de actividad administrativa, con independencia de la Administración actuante.
+
+Esta función conecta con el mandato constitucional de garantizar a los administrados un tratamiento común ante las Administraciones públicas al regularse las bases del régimen jurídico administrativo.
+
+La parte general no tiene existencia autónoma. Las Administraciones no aplican directamente categorías abstractas (acto administrativo, invalidez, contrato administrativo, infracción administrativa), sino normas sectoriales relativas a la materia o institución concreta. No obstante, la parte general enmarca, complementa y sistematiza la aplicación de esas normas, cubriendo lagunas y proporcionando soluciones a problemas recurrentes, especialmente en materia procedimental, de eficacia, ejecución, notificación o revisión de actos. Sin estos marcos generales, el Derecho administrativo se fragmentaría en regulaciones parciales y casuísticas.
+
+En el ámbito universitario, el estudio de la parte general se limita a la familiarización con sus categorías básicas, distribuidas en varias asignaturas. En la UNED, la parte general se aborda a través de las asignaturas relativas al sistema de fuentes y organización administrativa, al régimen jurídico de la actuación administrativa y a los contratos, medios y responsabilidad patrimonial, mientras que materias como urbanismo y medio ambiente corresponden a la parte especial.
+
+La elaboración de la parte general es una tarea colectiva, en la que concurren distintos actores y métodos. Desde un punto de vista científico, se construye mediante dos procesos complementarios: – la inducción, a partir de las regulaciones sectoriales; – la deducción, desde los principios generales.
+
+Ambos procesos operan mediante la abstracción, siendo característicos de la doctrina científica y de la jurisprudencia. Cuando estas reglas abstractas reciben respaldo legislativo o jurisprudencial, pasan a integrarse en el Derecho positivo o en el Derecho de creación jurisprudencial.
+
+El legislador no queda vinculado a estos procesos científicos de elaboración gradual. Puede intervenir directamente en la parte general, incorporando nuevas reglas o modificando las existentes por razones de interés general, desde una perspectiva esencialmente política, propia del procedimiento democrático. Cuando la modificación afecta a la parte general, sus efectos se proyectan sobre la totalidad de las regulaciones sectoriales.
+
+A diferencia de otras ramas del Derecho, la parte general del Derecho administrativo no se recoge en un código único. En su lugar, se articula a través de un conjunto de leyes vertebradoras, entre las que destacan, por su carácter transversal, la LPAC y la LRJSP, ambas de 2015, aplicables a la organización, funcionamiento y procedimiento administrativo de todas las Administraciones públicas y del sector público institucional. Junto a ellas, otras leyes estatales cumplen funciones vertebradoras relevantes, vinculando ampliamente a las comunidades autónomas.
+
+2. BASES
+
+Tras la Segunda Guerra Mundial se produce en Europa la superación del Estado liberal de Derecho. En la segunda mitad del siglo XX, el Derecho público europeo se ve transformado por dos fenómenos principales: la recuperación del valor de la Constitución y el proceso de integración europea.
+
+Ambos fenómenos modifican la forma de concebir y ordenar el sistema jurídico, al introducir nuevas categorías y fuentes de Derecho y obligar a reestructurar el Derecho administrativo.
+
+Como consecuencia, el centro de gravedad del Derecho administrativo deja de situarse en la ley y pasa a ubicarse en la Constitución y en el Derecho de la Unión Europea.
+
+2.1. Bases constitucionales
+
+La recuperación del valor normativo de la Constitución obliga a revisar principios clásicos del Derecho público surgidos desde 1789, como la identificación entre ley y voluntad general, la soberanía del Parlamento y la primacía absoluta de la ley.
+
+El modelo vigente deja de ser el Estado liberal de Derecho, de carácter esencialmente legalista, y pasa a ser el Estado constitucional de Derecho, caracterizado por la proclamación de valores superiores, el reconocimiento de derechos individuales inalienables, la limitación del legislador y la existencia de una jurisdicción constitucional encargada de controlar esa limitación.
+
+Como consecuencia, la Constitución reduce el protagonismo tradicional del principio de legalidad en la ordenación del Derecho público.
+
+2.1.1. La relación entre Derecho constitucional y Derecho administrativo
+
+El Derecho administrativo forma parte del Derecho público, pero ya no es el único Derecho relevante para la Administración, pues el Derecho constitucional adquiere una importancia equivalente. La relación entre ambos es tan estrecha que se ha afirmado que el Derecho administrativo es “Derecho constitucional concretizado”, subrayando su dependencia estructural de la Constitución.
+
+Esta concepción se opone a la tesis clásica según la cual el Derecho administrativo sería inmune a los cambios políticos, frente al carácter cambiante del Derecho constitucional. El modelo constitucional vigente desmiente esa separación, al proyectar la Constitución una influencia profunda sobre el Derecho administrativo.
+
+Las normas administrativas deben desarrollar y concretar principios y disposiciones constitucionales caracterizados por su alto grado de abstracción. No obstante, la Constitución no constituye un sistema normativo completo, sino una ordenación marco, que no predetermina todas las decisiones posibles ni convierte al legislador en mero ejecutor constitucional.
+
+El legislador dispone de amplios márgenes de decisión y configuración, dentro del marco constitucional, y adopta opciones políticas libres, siempre que no contradiga la Constitución.
+
+Esta ordenación marco no es solo formal, sino también material, pues incluye normas que fijan objetivos y límites sustantivos, en particular los derechos fundamentales, que restringen o excluyen determinadas opciones legislativas.
+
+La Constitución es compatible con una pluralidad de regulaciones legislativas en distintos ámbitos materiales, incluso cuando afectan a derechos fundamentales, ya que, por regla general, no impone soluciones únicas, sino el deber de no contradicción con el texto constitucional.
+
+2.1.2. La influencia de la Constitución sobre el Derecho administrativo
+
+La Constitución ocupa una posición superior y central en el ordenamiento jurídico, de modo que todo el Derecho debe interpretarse y construirse a partir de ella. En el contexto español, este proceso se inicia en 1978, con retraso respecto de otros Estados europeos donde comenzó tras 1945, lo que ha permitido apreciar directamente su impacto sobre el sistema jurídico.
+
+La influencia constitucional no es un proceso cerrado, ya que la Constitución es susceptible de nuevas interpretaciones y de nuevos desarrollos legislativos.
+
+Dicha influencia sobre el Derecho administrativo puede analizarse de dos maneras: – mediante el estudio de los valores y principios constitucionales, o – a través de los cambios y transformaciones producidos en las cuestiones centrales del Derecho administrativo.
+
+En este apartado se identifican como bases constitucionales del Derecho administrativo los siguientes principios: el principio de separación de funciones, el principio democrático, el principio de Estado de Derecho, el principio de Estado social y el principio de autonomía de las nacionalidades y regiones.
+
+2.1.2.1. El principio de separación de funciones
+
+El principio de separación de funciones es consustancial al Estado social y democrático de Derecho y constituye un principio político y jurídico estructural de los Estados democráticos.
+
+Aunque la Constitución de 1978 no lo enuncia expresamente, lo articula mediante la atribución diferenciada de funciones: la potestad legislativa a las Cortes Generales, la función ejecutiva y la potestad reglamentaria al Gobierno, y la potestad jurisdiccional a los Juzgados y Tribunales.
+
+La Constitución añade el control judicial de la potestad reglamentaria y de la legalidad de la actuación administrativa, así como del sometimiento de ésta a los fines que la justifican. Este control no habilita a los órganos judiciales para autorizar previamente el ejercicio de potestades propias del Poder Ejecutivo.
+
+La atribución legal a los órganos judiciales de funciones ajenas a su cometido constitucional, como la autorización previa de disposiciones reglamentarias, quiebra el principio de separación de poderes, al menoscabar la potestad reglamentaria, que la Constitución atribuye al Poder Ejecutivo de forma exclusiva y excluyente. No cabe convertirla en una potestad compartida con el Poder Judicial ni condicionarla a autorización judicial para su eficacia.
+
+2.1.2.2. El principio democrático
+
+El principio democrático exige la legitimación democrática de la Administración pública, en cuanto los poderes del Estado emanan del pueblo. Dicha legitimación se articula de manera diferenciada según el tipo de poder: es más intensa en los poderes de carácter político (legislativo y ejecutivo) y menor en los poderes de control jurídico, como el judicial.
+
+La legitimación democrática del poder legislativo es directa, mediante la elección de las Cortes Generales, que representan al pueblo y ejercen la potestad legislativa. La legitimación del poder ejecutivo es también directa, aunque de segundo grado, ya que la designación del presidente del Gobierno depende de los resultados electorales y de la composición del Parlamento. Además, el Parlamento controla políticamente al Gobierno, pudiendo exigirle responsabilidad y provocar su sustitución.
+
+La cadena de legitimación democrática se extiende hasta la Administración pública, que actúa bajo la dirección del Gobierno, de modo que su actuación queda vinculada a los objetivos fijados por las leyes y el ordenamiento jurídico. En el ámbito estatal, esa subordinación se garantiza a través de los ministros y secretarios de Estado, responsables de ejecutar la acción del Gobierno.
+
+El ejercicio de funciones públicas no puede atribuirse a entidades u órganos carentes de legitimidad democrática suficiente. El grado de legitimación exigible debe ser proporcional al poder de decisión atribuido. En el sector público institucional, dicha legitimación se asegura mediante poderes de control de las Administraciones de las que depende, incluida la tutela sobre sociedades mercantiles públicas.
+
+Las administraciones independientes plantean un problema específico de legitimación democrática. Su legitimidad deriva, en primer lugar, de su creación legal, y en segundo término, de los mecanismos de nombramiento de sus órganos directivos por poderes democráticos, garantizándose su independencia mediante la inamovilidad temporal.
+
+El principio democrático también permite formas de participación ciudadana directa, como el referéndum consultivo y la audiencia de los ciudadanos en los procedimientos de elaboración normativa, dentro de los límites y requisitos establecidos por la Constitución y la ley.
+
+Junto a las administraciones burocráticas, existen formas de autoadministración, en las que los propios interesados se agrupan obligatoriamente en corporaciones para gestionar intereses específicos y ejercer funciones públicas. Las corporaciones territoriales (municipios y provincias) presentan una legitimidad plenamente democrática, mientras que las corporaciones no territoriales carecen de legitimación democrática directa, aunque pueden ser constitucionalmente admisibles si responden a un interés general, mantienen una estructura democrática interna y están sometidas a tutela administrativa.
+
+2.1.2.3. El principio de autonomía
+
+El principio democrático se proyecta en varios niveles de decisión —estatal, autonómico y local— y mantiene una relación de continuidad con el principio de autonomía. La capacidad para decidir políticamente fines y orientar la regulación constituye a la vez una manifestación de la autonomía política y del principio democrático, reconociéndose al legislador autonómico un margen de configuración para adoptar opciones políticas legítimas.
+
+El principio de autonomía y el modelo de Estado autonómico tienen consecuencias directas en el Derecho administrativo. Dos poderes del Estado —el legislativo y el ejecutivo— se reparten entre el Estado y las comunidades autónomas, conforme a los Estatutos de Autonomía, con posibilidad de modulación estatal mediante los instrumentos del art. 150 CE.
+
+La distribución constitucional de competencias condiciona la configuración del Derecho administrativo, a diferencia de otras ramas con competencia estatal exclusiva. Esta diferencia se explica mediante la distinción entre parte general y parte especial del Derecho administrativo.
+
+La parte general corresponde principalmente al legislador estatal, en virtud del art. 149.1.18 CE, que le atribuye la regulación exclusiva del procedimiento administrativo común, la expropiación forzosa y la responsabilidad de las Administraciones, así como la legislación básica sobre régimen jurídico administrativo, función pública y contratos y concesiones. Las comunidades autónomas pueden desarrollar estas bases.
+
+La parte especial presenta una distribución competencial más amplia. El Estado conserva competencias exclusivas o de legislación básica en múltiples materias, mientras que las comunidades autónomas desarrollan las bases estatales y ejercen competencias exclusivas en ámbitos propios. En las materias compartidas se combinan la legislación básica estatal y la legislación autonómica de desarrollo.
+
+En la práctica, las competencias estatales predominan, debido a la escasa holgura que suele dejar la legislación básica y al uso de títulos transversales que condicionan competencias autonómicas (arts. 149.1.1 y 13 CE).
+
+Con carácter general, la ejecución de la legislación corresponde a las comunidades autónomas, incluyendo facultades reglamentarias, aplicativas y de gestión. Existen excepciones estatales, justificadas por efectos supraterritoriales o por la relevancia política de determinadas decisiones, atribuyéndose en ocasiones carácter básico a actos singulares de ejecución.
+
+Las controversias competenciales entre el Estado y las comunidades autónomas se plantean con frecuencia ante el Tribunal Constitucional.
+
+2.1.2.4. El principio de Estado de Derecho
+
+El principio de Estado de Derecho ha sido decisivo en la conformación del Derecho administrativo y no se reduce a una concepción formal o legalista. Para legitimar la actuación administrativa no basta cualquier norma o ley, aunque emane de órgano competente, pues el Estado de Derecho constitucional tiene un contenido material.
+
+Ese contenido material se concreta en la proclamación de valores superiores (libertad, justicia, igualdad y pluralismo político) y en la centralidad de la dignidad de la persona, los derechos inviolables, el libre desarrollo de la personalidad y el respeto a la ley y a los derechos de los demás.
+
+En el ámbito del Derecho administrativo, el principio de Estado de Derecho se articula en tres componentes básicos: – el principio de legalidad; – la vinculación a los derechos fundamentales; – el derecho a la tutela judicial efectiva.
+
+A ello se añaden otras consecuencias constitucionales: jerarquía normativa, publicidad de las normas, irretroactividad sancionadora desfavorable, seguridad jurídica, responsabilidad de los poderes públicos e interdicción de la arbitrariedad.
+
+La responsabilidad patrimonial de la Administración encuentra su fundamento constitucional en el derecho a la indemnización por lesiones derivadas del funcionamiento de los servicios públicos, salvo fuerza mayor.
+
+El Tribunal Constitucional ha deducido otros principios del Estado de Derecho, como el principio de proporcionalidad y el principio de non bis in idem.
+
+La Constitución ha incidido de forma relevante en la revisión de los privilegios de la Administración. La posición prevalente o supremacía jurídica de la Administración solo es constitucionalmente admisible cuando esté justificada por el interés general, sea necesaria y proporcionada, conciliándose con el principio de igualdad.
+
+Finalmente, la Constitución contiene mandatos directos sobre la Administración y su actividad, destacando el servicio objetivo al interés general, los principios de eficacia y sometimiento pleno a la ley y al Derecho, la eficiencia del gasto público, el mérito y la capacidad en la función pública, las garantías de imparcialidad, los procedimientos administrativos, el acceso a archivos y registros y el control judicial de la Administración.
+
+2.1.2.5. El principio de Estado social
+
+El principio de Estado social no se limita a la lucha contra la vulnerabilidad o a la prestación de servicios asistenciales, sino que se concreta en múltiples disposiciones constitucionales. Los derechos fundamentales de contenido económico se vinculan a funciones e intereses sociales, subordinando su ejercicio al interés general.
+
+Así, la propiedad privada y la herencia quedan sometidas a su función social; la libertad de empresa se condiciona a las exigencias de la economía general y, en su caso, a la planificación; y se reconoce la negociación y la acción colectivas. La Constitución proclama que toda la riqueza del país se subordina al interés general, cualquiera que sea su titularidad.
+
+El Estado social se manifiesta también en los principios de la política social y económica, dirigidos a todos los poderes públicos, que definen áreas de actuación, objetivos y potestades. Estos principios informan la legislación, la práctica judicial y la actuación administrativa, aunque solo pueden alegarse ante la jurisdicción ordinaria en los términos previstos por las leyes que los desarrollen. Corresponde al legislador competente su concreción normativa y a la Administración la ejecución de las leyes de desarrollo.
+
+Finalmente, los poderes públicos deben promover condiciones reales y efectivas de libertad e igualdad, remover los obstáculos que las dificulten y facilitar la participación de los ciudadanos en la vida política, económica, cultural y social, mandato que vincula especialmente a las Administraciones públicas en el ejercicio de sus competencias.
+
+2.2. Bases europeas
+
+El Estado contemporáneo deja de concebirse como plenamente soberano e introvertido y pasa a ser un Estado abierto al Derecho internacional, cooperativo con otros Estados y, en determinados casos, integrado en organizaciones supranacionales.
+
+Este modelo se manifiesta de forma singular en la Unión Europea, que se aparta de los esquemas clásicos de las organizaciones internacionales. Su finalidad no es solo la cooperación, sino la integración, entendida como un proceso de unión cada vez más estrecha entre los pueblos de Europa.
+
+La integración europea no se limita al ámbito económico ni al mercado interior y a las libertades económicas transfronterizas, sino que persigue también la creación de un espacio de libertad, seguridad y justicia sin fronteras interiores, así como la cohesión económica, social y territorial y la solidaridad entre los Estados miembros.
+
+2.2.1. La incidencia general en el ordenamiento interno
+
+El Derecho de la Unión Europea se diferencia del Derecho internacional clásico por disponer de un sistema propio de producción jurídica y por penetrar directamente en los ordenamientos de los Estados miembros. Se caracteriza por el principio de efecto directo, que permite su aplicación sin actos internos de incorporación, y por el principio de primacía, que desplaza las normas internas incompatibles.
+
+Una vez realizada la cesión de competencias a la Unión a través del art. 93 CE, los presupuestos de validez y aplicabilidad del Derecho de la Unión quedan fuera del ordenamiento español y fuera del control de las instituciones estatales, sin que el Tribunal Constitucional ni los órganos judiciales españoles puedan controlar la validez de los actos de las instituciones de la Unión.
+
+El Derecho de la Unión transforma la distribución interna de funciones y competencias. La cesión competencial reduce las competencias de todos los poderes del Estado, si bien el Gobierno resulta fortalecido por su papel decisivo en la dirección y en los procedimientos legislativos europeos, a diferencia del poder legislativo y de los poderes territoriales, que no obtienen compensaciones relevantes.
+
+En materia de control normativo, los jueces nacionales deben inaplicar cualquier norma interna incompatible con el Derecho de la Unión, incluso de rango legal, conforme a la doctrina del Tribunal de Justicia de la Unión Europea (doctrina Simmenthal). En consecuencia, una ley puede ser controlada por el Tribunal Constitucional en términos de constitucionalidad y por cualquier órgano judicial en términos de compatibilidad con el Derecho de la Unión, lo que erosiona el control concentrado de constitucionalidad y sitúa a todos los jueces en plano de igualdad para el control de europeidad.
+
+2.2.2. La influencia sobre el Derecho administrativo
+
+Desde sus inicios, el Derecho de la Unión Europea ha tenido una incidencia decisiva sobre el Derecho administrativo, al afectar directamente a regulaciones, controles y potestades administrativas mediante la realización del mercado interior, las libertades económicas fundamentales, el régimen aduanero uniforme y diversas políticas comunes. Posteriormente, se ha extendido a regulaciones materiales en ámbitos como medio ambiente, contratación pública o protección de datos, convirtiéndose en un motor de modernización e innovación.
+
+La expansión e intensificación de esta influencia es continua por varias razones concurrentes: – la integración europea carece de un final predeterminado y admite una unión cada vez más estrecha; – las competencias transferidas, aunque tasadas, se interpretan teleológicamente por el Tribunal de Justicia de la Unión Europea y se amplían con las reformas de los Tratados, junto a sus instrumentos y objetivos; – las crisis periódicas revelan debilidades y propician nuevos avances de integración.
+
+La europeización del Derecho administrativo puede analizarse desde dos perspectivas estructurales: los procesos de instrumentalización y los procesos de reorientación.
+
+2.2.2.1. Procesos de instrumentalización
+
+Los procesos de instrumentalización derivan de la incorporación del Derecho de la Unión al sistema de fuentes y de la obligación de ejecución que recae sobre las Administraciones públicas de los Estados miembros, cada una en su ámbito competencial.
+
+La ejecución del Derecho de la Unión se realiza, por regla general, a través de los instrumentos internos: normas, actos administrativos, procedimientos y vías de recurso, que se utilizan al servicio de la efectividad del Derecho de la Unión. Cuando una disposición europea fija el criterio material aplicable, corresponde a los Estados miembros ejecutarlo y sancionar sus infracciones conforme a sus procedimientos administrativos y judiciales internos, salvo que el Derecho de la Unión establezca un procedimiento específico.
+
+Esta utilización funcional del Derecho interno implica que reglas procedimentales o principios internos no pueden obstaculizar la ejecución del Derecho de la Unión, debiendo ceder cuando sea necesario para garantizar su efectividad y unidad. En este sentido, los procedimientos internos se instrumentalizan en favor del Derecho de la Unión.
+
+La regla general que rige este esquema es el principio de autonomía institucional, procedimental y procesal de los Estados miembros. No obstante, dicha autonomía está condicionada por el principio de efectividad, que se articula en dos exigencias: – el principio de equivalencia, según el cual las normas europeas deben ejecutarse con procedimientos análogos a los aplicables a las normas internas; – el principio de efectividad, que impide aplicar reglas internas que hagan imposible o excesivamente difícil la ejecución del Derecho de la Unión.
+
+Si una norma interna incumple alguna de estas condiciones, queda desplazada en el ámbito de aplicación del Derecho de la Unión. Este sistema permite asegurar la uniformidad del Derecho de la Unión respetando la diversidad de tradiciones administrativas nacionales.
+
+Desde el punto de vista cuantitativo, los procesos de instrumentalización son predominantes, pues la ejecución del Derecho de la Unión corresponde habitualmente a las autoridades internas, siendo excepcional la ejecución directa por instituciones europeas. Esta ejecución no altera el reparto constitucional de competencias, aunque en la práctica la Administración General del Estado suele centralizar determinadas obligaciones de información.
+
+Finalmente, la europeización introduce tensiones en el principio de legalidad administrativa, al imponer a las Administraciones una lealtad dual al Derecho interno y al Derecho de la Unión, complejizando la selección de la norma aplicable y su interpretación.
+
+2.2.2.2. Procesos de reorientación
+
+Los procesos de reorientación aluden a cambios sustantivos inducidos por el Derecho de la Unión en el Derecho administrativo especial, que acaban proyectándose de forma paulatina sobre las reglas y categorías de la parte general.
+
+Un ejemplo paradigmático es la contratación pública. La justificación tradicional de una normativa específica se basaba en el refuerzo de las prerrogativas administrativas para garantizar el interés público. El Derecho de la Unión impone un cambio de enfoque, priorizando la transparencia, la objetividad y la no discriminación en la preparación y adjudicación, con el fin de asegurar el mercado interior y la libre competencia.
+
+El Derecho de la Unión no pretende instaurar un Derecho público de la contratación ni resolver la dicotomía público/privado, y es compatible con la diversidad de legislaciones nacionales. No impide la existencia de prerrogativas administrativas en la fase de ejecución, pero exige que en la fase previa se garanticen la transparencia y la competencia.
+
+La influencia europea tiende a expandirse más allá de ámbitos, tipos contractuales o umbrales inicialmente delimitados. Los conceptos y categorías europeas repercuten en la sistematización del conjunto de la regulación, dificultando la coexistencia duradera de cuerpos normativos europeizados y no europeizados y promoviendo la uniformidad normativa.
+
+Procesos análogos se observan en otros ámbitos: la intervención del Estado en la economía (prohibición de discriminaciones y privilegios), el desplazamiento de controles preventivos hacia controles ex post en actividades de servicios, el fomento de instrumentos cooperativos frente a los imperativos, el refuerzo del procedimiento administrativo como institución autónoma y la reserva de funciones decisorias a autoridades administrativas independientes.
+
+3. EL DERECHO PRIVADO Y LA ADMINISTRACIÓN
+
+3.1. La dualidad Derecho administrativo
+
+La dualidad entre Derecho público y Derecho privado está profundamente arraigada en los ordenamientos de Europa continental, aunque su desarrollo histórico, su percepción (excluyente o complementaria) y su alcance actual varían según los Estados. La Constitución ha atenuado la contraposición clásica al proyectar su fuerza normativa sobre ambas ramas.
+
+El modo de someter el poder al Derecho explica el sentido de la dualidad. En el modelo inglés, el poder se somete al Derecho común, lo que explica la debilidad del Derecho administrativo.
+
+En el modelo alemán, la actividad patrimonial del poder se somete inicialmente al Derecho común mediante la teoría del fisco, y posteriormente se desarrolla un Derecho específico para el Estado, dando lugar a una dualidad pacífica de regímenes.
+
+En el modelo francés, la Revolución impulsa un Derecho administrativo autónomo y pujante. La separación de poderes se interpreta de forma que se excluye a los jueces ordinarios del control de la Administración, favoreciendo la creación de reglas propias y de una jurisdicción contencioso-administrativa específica. Este proceso culmina en la consolidación de un Derecho propio de la Administración, reforzado por teorías como la del servicio público.
+
+En España, el Derecho administrativo surge por evolución, no por ruptura, desarrollándose en el siglo XIX en paralelo a una Administración creciente y bajo influencia francesa. Como consecuencia del desarrollo histórico francés y español, el Derecho administrativo se concibe como propio de la Administración, y el Derecho privado como ajeno, lo que exige una remisión expresa para su aplicación y explica la reticencia doctrinal a su uso.
+
+En cambio, en el modelo alemán, el Derecho privado se considera complementario del Derecho público y actúa como Derecho común supletorio cuando no existe regulación administrativa específica. Esta concepción se mantiene hasta hoy, incluso en ámbitos como la contratación administrativa o las indemnizaciones expropiatorias.
+
+En la práctica, las Administraciones públicas pueden actuar conforme al Derecho privado en determinados ámbitos: por elección (contratación de personal laboral) o por necesidad (actividades logísticas o empresariales). Los contratos administrativos se limitan a modalidades típicas; para el resto de fines se celebran contratos privados.
+
+Los bienes patrimoniales de la Administración se rigen mayoritariamente por el Derecho privado y se distinguen de los bienes demaniales, sujetos a un régimen administrativo especial.
+
+Asimismo, la iniciativa pública en la actividad económica se ejerce conforme al Derecho privado, en condiciones de igualdad con los operadores privados, sin privilegios, conforme al Derecho de la Unión, con excepciones tasadas.
+
+La elección entre Derecho público o privado tiene consecuencias procesales (jurisdicción competente) y instrumentales (uso de medios de ejecución forzosa). No obstante, no afecta al régimen de responsabilidad patrimonial, que es unitario, con independencia del Derecho aplicable a la actuación administrativa.
+
+3.2. La elección del régimen jurídico de la actuación administrativa
+
+La cuestión central es si y en qué medida la Administración puede elegir entre Derecho público y Derecho privado al realizar actividades materialmente administrativas. Existen actividades necesariamente privadas (logísticas y empresariales) y actividades necesariamente públicas (recaudación de tributos, limitación de derechos, orden público, seguridad ciudadana y ordenación y supervisión de actividades privadas).
+
+La libertad de elección se plantea principalmente en las actividades de servicio público y de fomento, donde la regulación jurídico-pública puede ser incompleta. En último término, es el legislador quien reconoce, limita o condiciona esa capacidad de elección, especialmente cuando la actividad se desarrolla a través de entidades instrumentales.
+
+El legislador modula la elección en tres momentos: al regular un sector de actividad; al fijar el régimen jurídico de las entidades vinculadas o dependientes; y al crear por ley una entidad de Derecho público. La posibilidad de crear personificaciones instrumentales responde al mandato constitucional de eficacia administrativa, correspondiendo al legislador configurar las modalidades de actuación y sus combinaciones de Derecho público y privado.
+
+Las formas públicas de personificación tienden a regirse por Derecho administrativo y las formas privadas por Derecho privado, aunque el legislador introduce modulaciones. Así, ciertas entidades de Derecho público pueden regirse mayoritariamente por Derecho privado, con excepciones en aspectos clave como la formación de la voluntad, el ejercicio de potestades administrativas y los ámbitos expresamente regulados por normas administrativas.
+
+La libertad de elección administrativa está doblemente limitada: solo alcanza a personificaciones cuya creación no exige ley o acuerdo del Consejo de Ministros (u órgano autonómico equivalente), y no permite excluir completamente el Derecho administrativo ni usar libremente el Derecho privado, sino elegir entre modelos cerrados definidos por la ley.
+
+Como regla general, las entidades de Derecho público vinculadas o dependientes se rigen principalmente por Derecho administrativo, y las entidades de Derecho privado por Derecho privado, salvo cuando ejercen potestades administrativas o cuando normas administrativas resulten específicamente aplicables. Estas últimas no son Administraciones públicas, aunque integran el sector público institucional.
+
+En el ámbito local, existen fórmulas organizativas similares, pero la capacidad de elección se encuentra restringida por exigencias de sostenibilidad financiera y eficiencia, estableciéndose una preferencia por las personificaciones públicas, que debe justificarse mediante informes y memorias.
+
+3.3. Los límites materiales al uso del Derecho privado por la Administración
+
+A finales del siglo XX se calificó como “huida del Derecho administrativo” el recurso de las Administraciones públicas a fórmulas de Derecho privado para desarrollar actividades administrativas, especialmente a través de personificaciones instrumentales privadas, buscando mayor flexibilidad. Cuando esa opción se utiliza para eludir controles administrativos o garantías ciudadanas, se considera cuestionable.
+
+Frente a este fenómeno, se plantearon dos estrategias: una reserva o garantía institucional del Derecho administrativo y el refuerzo de la sujeción administrativa. La primera fue descartada por rigidizar en exceso al legislador, reducir el margen democrático y resultar incompatible con la dinámica del Derecho administrativo y del Derecho de la Unión. La segunda ha sido la opción seguida por el legislador, reforzando la sujeción al Derecho administrativo mediante normas generales, contractuales y de transparencia.
+
+El primer límite material deriva de que el régimen jurídico aplicable lo fija el legislador, no la Administración. La capacidad de elección queda ya encuadrada por la regulación legal de las formas organizativas.
+
+El segundo límite es el sometimiento pleno de las potestades administrativas al Derecho administrativo. No cabe ejercer potestades públicas conforme al Derecho privado. El ordenamiento excluye con frecuencia que determinadas entidades privadas puedan ejercer potestades administrativas, aunque existen excepciones discutidas en la legislación vigente.
+
+El tercer límite se refiere al personal: las funciones que impliquen ejercicio de potestades públicas o salvaguarda de intereses generales están reservadas a funcionarios públicos, incluso cuando se actúe a través de personificaciones instrumentales.
+
+El cuarto límite es el orden competencial. El uso del Derecho privado no amplía las competencias de la Administración: solo puede actuar dentro de su ámbito competencial y para fines propios.
+
+El quinto límite lo constituyen los derechos fundamentales, que vinculan a los poderes públicos con independencia del régimen jurídico utilizado. La actuación privada de la Administración debe respetar, entre otros, los principios de igualdad, mérito y capacidad.
+
+Un sexto límite deriva de las normas de estabilidad presupuestaria, endeudamiento y contratación pública, que atienden a la procedencia pública de los fondos, no a la forma jurídica de la entidad. Tampoco la creación de entidades privadas permite eludir estas reglas.
+
+Además, incluso las entidades privadas del sector público quedan sujetas a un núcleo mínimo de Derecho administrativo, que incluye normas presupuestarias, contables, de personal, control económico-financiero, contratación y transparencia, así como a las reglas sobre su creación, transformación y supresión.
+
+De ello se derivan dos consecuencias: a) la existencia de actos separables, sometidos al Derecho administrativo y al control contencioso-administrativo; b) la configuración de un Derecho privado singular de la Administración, distinto del Derecho privado común, modulado por la Constitución y por la posición jurídica especial de la Administración.
+`.trim();
+    /* =========================================================
+       2) IDEAS CLAVE (MANUAL)
+    ========================================================= */
+    const IDEAS_CLAVE = {
+"1.1.": "El Derecho administrativo no admite una definición única y universal porque su objeto varía históricamente y según el tipo de Administración, sin identificarse además con todo el Derecho aplicable a ésta.",
+"1.2.": "La concepción estatutaria entiende el Derecho administrativo como el Derecho propio de la Administración pública en cuanto sujeto, pero entra en crisis porque no explica materialmente la función administrativa ni encaja con la expansión del Derecho administrativo fuera de la Administración formal.",
+"1.3.": "Los criterios materiales y funcionales consolidan una concepción del Derecho administrativo centrada en la actividad y en el ejercicio de funciones o potestades administrativas, con independencia de que las realice una Administración pública en sentido estricto u otros sujetos.",
+"1.4.": "El Derecho administrativo se estructura en una parte general, que fija categorías y principios transversales, y una parte especial, referida a sectores concretos, siendo la primera una construcción doctrinal, jurisprudencial y legislativa de función sistematizadora y vertebradora.",
+"2.1.": "Las bases constitucionales del Derecho administrativo derivan del paso del Estado liberal al Estado constitucional de Derecho, que desplaza el centro del sistema desde la ley hacia la Constitución e impone una relectura de las categorías jurídico-administrativas.",
+"2.1.1.": "El Derecho administrativo depende estructuralmente del Derecho constitucional, pues debe desarrollar sus principios y límites dentro de una Constitución que actúa como marco material y no como programa cerrado de soluciones únicas.",
+"2.1.2.": "La Constitución influye de forma continua y central sobre el Derecho administrativo, cuya reconstrucción se apoya en principios estructurales como la separación de funciones, el principio democrático, el Estado de Derecho, el Estado social y la autonomía territorial.",
+"2.1.2.1.": "El principio de separación de funciones distribuye constitucionalmente las potestades legislativa, ejecutiva y jurisdiccional, impidiendo que el Poder Judicial condicione previamente el ejercicio de potestades propias del Ejecutivo, como la reglamentaria.",
+"2.1.2.2.": "El principio democrático exige que la Administración y quienes ejercen funciones públicas dispongan de legitimación suficiente, directa o mediata, proporcional al poder de decisión que ostenten y compatible con fórmulas de participación y autoadministración sometidas a control.",
+"2.1.2.3.": "El principio de autonomía proyecta el pluralismo territorial sobre el Derecho administrativo mediante un reparto competencial entre Estado y comunidades autónomas, con predominio estatal en la parte general y mayor amplitud autonómica en la parte especial y en la ejecución.",
+"2.1.2.4.": "El principio de Estado de Derecho dota al Derecho administrativo de un contenido material basado en legalidad, derechos fundamentales y tutela judicial, limitando los privilegios administrativos y sometiendo toda actuación pública a exigencias de justificación, proporcionalidad y control.",
+"2.1.2.5.": "El principio de Estado social orienta la actuación administrativa hacia la efectividad real de la libertad, la igualdad y la participación, subordinando instituciones económicas al interés general y vinculando a los poderes públicos a fines de transformación social.",
+"2.2.": "Las bases europeas del Derecho administrativo surgen de la integración en la Unión Europea, que desplaza parte del centro normativo hacia un orden supranacional orientado no solo al mercado, sino también a la cohesión, la solidaridad y un espacio común sin fronteras interiores.",
+"2.2.1.": "El Derecho de la Unión Europea incide directamente en el ordenamiento interno por su efecto directo y primacía, altera la distribución interna de poderes y habilita a todos los jueces para inaplicar normas internas incompatibles con él.",
+"2.2.2.": "La influencia del Derecho de la Unión sobre el Derecho administrativo es expansiva y permanente, actuando como factor de transformación de regulaciones, potestades y categorías mediante procesos de instrumentalización y de reorientación.",
+"2.2.2.1.": "Los procesos de instrumentalización consisten en que las Administraciones ejecutan el Derecho de la Unión a través de técnicas y procedimientos internos, cuya autonomía queda subordinada a las exigencias de equivalencia y efectividad del ordenamiento europeo.",
+"2.2.2.2.": "Los procesos de reorientación implican cambios sustantivos en sectores del Derecho administrativo, como la contratación pública, donde las categorías internas se reconfiguran bajo exigencias europeas de transparencia, competencia y no discriminación.",
+"3.1.": "La dualidad entre Derecho administrativo y Derecho privado responde a modelos históricos distintos de sometimiento del poder al Derecho, y en España ha llevado a concebir el Derecho privado como ajeno a la Administración salvo remisión, aunque en la práctica ésta puede actuar también bajo dicho régimen.",
+"3.2.": "La elección entre Derecho público y Derecho privado por la Administración depende de la naturaleza de la actividad y, sobre todo, de la configuración legal de las formas organizativas, sin que exista libertad plena para apartarse del modelo normativamente establecido.",
+"3.3.": "El uso del Derecho privado por la Administración está materialmente limitado por la ley, la inderogable sujeción de las potestades públicas al Derecho administrativo, la reserva funcionarial, el orden competencial, los derechos fundamentales y un núcleo mínimo indisponible de régimen administrativo."
+};
+
+    /* =========================================================
+       3) BANCO DE PREGUNTAS (TU BANCO ORIGINAL)
+       ✅ OJO: aquí pegamos TAL CUAL tu banco (1–100)
+    ========================================================= */
+    
+    
+    const BANCO_1 = `
+
+    #ID = 1.1
+
+// [1]
+Q: ¿Qué idea expresa mejor la dificultad de definir el Derecho administrativo mediante un único criterio?
+A) Que el Derecho administrativo adopta perfiles distintos según el ámbito y el momento histórico, por lo que no admite una definición única e inmutable.
+B) Que el Derecho administrativo carece de objeto propio y solo puede describirse como una suma de normas dispersas.
+C) Que el Derecho administrativo depende exclusivamente de la voluntad del legislador en cada sector concreto.
+OK: A
+EXP: El texto destaca que la pluralidad, complejidad y dinamismo de la Administración impiden fijar un criterio único y universal.
+
+// [2]
+Q: Según la introducción, ¿qué posición doctrinal resulta más adecuada respecto del concepto de Derecho administrativo?
+A) La renuncia total a definir el Derecho administrativo por imposibilidad metodológica.
+B) El rechazo de las concepciones totalizadoras que pretenden ofrecer un criterio único y universal.
+C) La adopción de una definición cerrada basada exclusivamente en la Administración como sujeto.
+OK: B
+EXP: El texto considera más adecuada la postura que rechaza definiciones totalizadoras, porque la experiencia muestra que no existe un criterio único e inmutable.
+
+// [3]
+Q: ¿Qué consecuencia se deriva de que el Derecho administrativo no se identifique con todo el Derecho aplicable a la Administración pública?
+A) Que el Derecho constitucional queda absorbido por el Derecho administrativo cuando interviene el Gobierno.
+B) Que toda actuación de la Administración pública queda comprendida automáticamente en el Derecho administrativo.
+C) Que quedan fuera de su ámbito tanto normas de Derecho privado o laboral aplicadas por la Administración como ramas públicas ya autonomizadas.
+OK: C
+EXP: El texto excluye del Derecho administrativo tanto el Derecho privado y laboral aplicado por la Administración como ramas públicas autonomizadas, además del Derecho constitucional.
+
+#ID = 1.2
+
+// [4]
+Q: ¿En qué consiste la concepción estatutaria del Derecho administrativo?
+A) En concebirlo como el conjunto de normas aplicables a la Administración pública considerada ante todo como sujeto jurídico.
+B) En identificarlo exclusivamente con el ejercicio de potestades administrativas por cualquier sujeto.
+C) En reducirlo a las relaciones entre ciudadanos y Administración en vía contenciosa.
+OK: A
+EXP: La concepción estatutaria parte de una perspectiva subjetiva: la Administración pública se contempla principalmente como sujeto jurídico.
+
+// [5]
+Q: ¿Cuál es la debilidad principal de la concepción estatutaria del Derecho administrativo?
+A) Que excluye toda referencia a la personalidad jurídica de la Administración pública.
+B) Que incurre en un círculo vicioso, porque para saber qué es Administración pública hay que acudir previamente al propio Derecho administrativo.
+C) Que niega por completo la existencia de un Derecho común aplicable a las Administraciones públicas.
+OK: B
+EXP: Su simplicidad se vuelve en su contra, ya que necesita identificar previamente a la Administración pública mediante el mismo Derecho administrativo que pretende definir.
+
+// [6]
+Q: ¿Qué efecto produce la expansión legislativa del Derecho administrativo fuera del poder ejecutivo sobre la concepción estatutaria?
+A) Refuerza la suficiencia del criterio subjetivo al ampliar el concepto formal de Administración pública.
+B) Demuestra que el Gobierno sigue siendo jurídicamente inseparable de la Administración pública.
+C) Evidencia la insuficiencia del criterio subjetivo, porque el Derecho administrativo se aplica también a órganos no integrados en la Administración pública.
+OK: C
+EXP: El texto explica que el legislador somete a Derecho administrativo ciertas actividades de órganos constitucionales o relevantes constitucionalmente, aunque no formen parte de la Administración pública.
+
+#ID = 1.3
+
+// [7]
+Q: ¿Qué rasgo define a las perspectivas material y funcional del Derecho administrativo?
+A) Que atienden a la actividad administrativa en sí misma, con independencia del sujeto que la realice.
+B) Que solo consideran Derecho administrativo el aplicable a las administraciones públicas en sentido formal.
+C) Que subordinan la actividad administrativa a la existencia previa de personalidad jurídica pública.
+OK: A
+EXP: Estas perspectivas definen lo jurídico-administrativo por la actividad o función ejercida, no por la identidad formal del sujeto.
+
+// [8]
+Q: ¿Qué idea refleja correctamente el uso actual de criterios funcionales en el Derecho positivo?
+A) Que la condición formal de Administración pública basta por sí sola para someter toda su actuación al Derecho administrativo.
+B) Que el legislador somete también al Derecho administrativo a ciertos sujetos privados, corporaciones y órganos constitucionales cuando realizan funciones o ejercen potestades administrativas.
+C) Que las universidades públicas se excluyen por completo del ámbito de la LPAC y de la LRJSP por no ser Administración pública en sentido formal.
+OK: B
+EXP: El texto subraya que el Derecho positivo recurre a criterios funcionales para extender el sometimiento al Derecho administrativo más allá de las administraciones públicas formales.
+
+// [9]
+Q: Según la LJCA, ¿qué criterio permite atribuir al orden contencioso-administrativo el conocimiento de ciertos actos de corporaciones de Derecho público y concesionarios de servicios públicos?
+A) La simple personalidad jurídico-pública del ente que dicta el acto.
+B) La pertenencia del sujeto al sector público institucional.
+C) El ejercicio de funciones o potestades administrativas en la actuación controvertida.
+OK: C
+EXP: La LJCA combina criterios, pero en esos supuestos atribuye relevancia al dato funcional: el ejercicio de funciones o potestades administrativas.
+
+#ID = 1.4
+
+// [10]
+Q: ¿Qué función cumple la parte general del Derecho administrativo frente a la parte especial?
+A) Fijar principios y estructuras transversales que enmarcan sectores concretos sin sustituir su regulación específica.
+B) Regular de forma exhaustiva cada sector material de actuación administrativa.
+C) Reemplazar las normas sectoriales cuando exista cualquier laguna interpretativa.
+OK: A
+EXP: La parte general no regula exhaustivamente los sectores, pero proporciona principios y categorías comunes que los enmarcan y complementan.
+
+// [11]
+Q: ¿Por qué afirma el texto que la parte general del Derecho administrativo no tiene existencia autónoma?
+A) Porque solo puede construirse por el legislador y nunca por doctrina o jurisprudencia.
+B) Porque las Administraciones aplican ante todo normas sectoriales concretas, aunque la parte general las complemente, sistematice y cubra lagunas.
+C) Porque la parte especial absorbe íntegramente las categorías generales en todos los casos.
+OK: B
+EXP: El texto indica que la actuación administrativa se apoya en normas sectoriales, pero la parte general sigue siendo esencial para ordenar, completar y dar coherencia al sistema.
+
+// [12]
+Q: ¿Cómo se articula principalmente la parte general del Derecho administrativo en el Derecho positivo?
+A) Mediante un código administrativo único que concentra toda la regulación transversal.
+B) Mediante reglamentos sectoriales dictados por cada Administración pública.
+C) Mediante leyes vertebradoras de alcance transversal, entre las que destacan la LPAC y la LRJSP.
+OK: C
+EXP: El texto señala que la parte general no está recogida en un código único, sino en un conjunto de leyes vertebradoras, especialmente la LPAC y la LRJSP.`;
+    
+    const BANCO_2 = `
+    
+    #ID = 2
+
+// [13]
+Q: ¿Qué cambio estructural describe el epígrafe “Bases” respecto del centro de gravedad del Derecho administrativo en la Europa posterior a la Segunda Guerra Mundial?
+A) Que el centro de gravedad del Derecho administrativo pasa del Gobierno a la jurisdicción ordinaria.
+B) Que el centro de gravedad del Derecho administrativo permanece situado en la ley, pero con mayor complejidad técnica.
+C) Que el centro de gravedad del Derecho administrativo deja de situarse en la ley y pasa a ubicarse en la Constitución y en el Derecho de la Unión Europea.
+OK: C
+EXP: El texto presenta la recuperación del valor de la Constitución y la integración europea como transformaciones que desplazan el eje del sistema jurídico.
+
+#ID = 2.1
+
+// [14]
+Q: ¿Qué transformación institucional caracteriza al paso del Estado liberal de Derecho al Estado constitucional de Derecho?
+A) La sustitución del predominio absoluto de la ley por un modelo con valores superiores, derechos inalienables, límites al legislador y jurisdicción constitucional.
+B) La desaparición del principio de legalidad como criterio de ordenación del Derecho público.
+C) La identificación plena entre soberanía parlamentaria y supremacía constitucional.
+OK: A
+EXP: El Estado constitucional de Derecho introduce límites materiales al legislador y sitúa la Constitución en una posición central.
+
+#ID = 2.1.1
+
+// [15]
+Q: ¿Qué expresa la fórmula según la cual el Derecho administrativo es “Derecho constitucional concretizado”?
+A) Que el Derecho administrativo sustituye al Derecho constitucional en la organización de la Administración.
+B) Que el Derecho administrativo depende estructuralmente de la Constitución y desarrolla sus principios y disposiciones.
+C) Que el Derecho administrativo queda inmune a los cambios políticos por su carácter técnico.
+OK: B
+EXP: La expresión subraya la estrecha relación entre ambos sectores y la proyección decisiva de la Constitución sobre el Derecho administrativo.
+
+// [16]
+Q: ¿Qué significa que la Constitución actúe como una “ordenación marco” respecto del legislador?
+A) Que el legislador se limita a ejecutar automáticamente decisiones constitucionales ya predeterminadas.
+B) Que la Constitución carece de contenido material y solo establece reglas competenciales formales.
+C) Que el legislador dispone de márgenes de configuración política dentro de límites y objetivos constitucionales que no puede contradecir.
+OK: C
+EXP: La Constitución no impone soluciones únicas en todos los casos, pero sí fija límites materiales, especialmente mediante los derechos fundamentales.
+
+#ID = 2.1.2.1
+
+// [17]
+Q: ¿Qué exige el principio de separación de funciones en relación con la potestad reglamentaria?
+A) Que la potestad reglamentaria corresponde de forma exclusiva al Poder Ejecutivo y no puede quedar sometida a autorización judicial previa para su eficacia.
+B) Que la potestad reglamentaria sea compartida entre Gobierno y Poder Judicial para reforzar el control de legalidad.
+C) Que toda disposición reglamentaria requiera intervención judicial constitutiva antes de su aprobación.
+OK: A
+EXP: El texto afirma que la autorización judicial previa de reglamentos quiebra la separación de funciones al menoscabar una potestad exclusiva del Ejecutivo.
+
+#ID = 2.1.2.2
+
+// [18]
+Q: ¿Cómo se proyecta el principio democrático sobre la Administración pública?
+A) Mediante una legitimación directa idéntica a la del Parlamento, basada en elección popular inmediata de todos sus órganos.
+B) Mediante una cadena de legitimación que enlaza la Administración con el Gobierno y, a través de éste, con los poderes democráticamente legitimados.
+C) Mediante la independencia plena de la Administración respecto del Gobierno para garantizar neutralidad técnica.
+OK: B
+EXP: La Administración actúa bajo la dirección del Gobierno, lo que extiende hasta ella la legitimación democrática derivada del sistema representativo.
+
+// [19]
+Q: ¿Qué criterio utiliza el texto para valorar la legitimación democrática exigible en el ejercicio de funciones públicas?
+A) La naturaleza pública o privada del patrimonio del ente que ejerce la función.
+B) La existencia de personalidad jurídica diferenciada respecto de la Administración matriz.
+C) La proporcionalidad entre el grado de legitimación y el poder de decisión atribuido.
+OK: C
+EXP: El texto vincula la legitimación democrática requerida al nivel de poder efectivo que el ente u órgano pueda ejercer.
+
+// [20]
+Q: ¿Qué diferencia establece el texto entre corporaciones territoriales y corporaciones no territoriales desde la perspectiva del principio democrático?
+A) Que las corporaciones territoriales tienen legitimidad plenamente democrática, mientras que las no territoriales pueden admitirse si sirven al interés general, tienen estructura interna democrática y están sometidas a tutela administrativa.
+B) Que ambas categorías cuentan con idéntica legitimación democrática directa por el solo ejercicio de funciones públicas.
+C) Que las corporaciones no territoriales quedan excluidas en todo caso por falta de legitimación democrática suficiente.
+OK: A
+EXP: El texto distingue claramente entre la legitimidad democrática plena de municipios y provincias y la legitimación indirecta o condicionada de otras corporaciones.
+
+#ID = 2.1.2.3
+
+// [21]
+Q: ¿Qué consecuencia general tiene el principio de autonomía sobre el Derecho administrativo?
+A) Que distribuye entre el Estado y las comunidades autónomas funciones legislativas y ejecutivas, condicionando la configuración del Derecho administrativo.
+B) Que atribuye en exclusiva a las comunidades autónomas toda la parte general del Derecho administrativo.
+C) Que elimina la posibilidad de legislación básica estatal en materias administrativas.
+OK: A
+EXP: El modelo autonómico reparte poder legislativo y ejecutivo y hace que la estructura competencial influya directamente en esta rama del Derecho.
+
+// [22]
+Q: ¿Cómo se reparte, con carácter principal, la parte general del Derecho administrativo en el sistema constitucional?
+A) Corresponde principalmente a las comunidades autónomas por su conexión con la ejecución administrativa ordinaria.
+B) Corresponde principalmente al legislador estatal, que fija bases y regula materias como procedimiento administrativo común, expropiación y responsabilidad administrativa.
+C) Corresponde de forma paritaria e indiferenciada al Estado y a las comunidades autónomas.
+OK: B
+EXP: El texto atribuye al Estado, sobre todo a través del art. 149.1.18 CE, la regulación principal de la parte general.
+
+// [23]
+Q: ¿Qué pauta general sigue la ejecución de la legislación en el Estado autonómico según el texto?
+A) Que corresponde habitualmente al Estado por ser titular de la legislación básica.
+B) Que corresponde siempre al Tribunal Constitucional cuando exista incidencia supraterritorial.
+C) Que corresponde con carácter general a las comunidades autónomas, aunque existan excepciones estatales justificadas.
+OK: C
+EXP: La regla general es la ejecución autonómica, sin perjuicio de excepciones ligadas a determinadas necesidades o efectos supraterritoriales.
+
+#ID = 2.1.2.4
+
+// [24]
+Q: ¿Qué rasgo define el principio de Estado de Derecho en su proyección sobre el Derecho administrativo?
+A) Que posee un contenido material y no se satisface con la mera existencia formal de una ley emanada de órgano competente.
+B) Que se identifica exclusivamente con el principio de legalidad entendido en sentido formal.
+C) Que excluye toda consideración de derechos fundamentales en la actuación administrativa.
+OK: A
+EXP: El texto insiste en que el Estado de Derecho constitucional incorpora valores superiores, dignidad y derechos que limitan materialmente al poder.
+
+// [25]
+Q: ¿Cuáles son los tres componentes básicos en que se articula el principio de Estado de Derecho dentro del Derecho administrativo?
+A) Eficacia administrativa, descentralización territorial y supremacía reglamentaria.
+B) Separación de funciones, autonomía política y participación ciudadana.
+C) Principio de legalidad, vinculación a los derechos fundamentales y derecho a la tutela judicial efectiva.
+OK: C
+EXP: Esos tres elementos aparecen expresamente como núcleos de la proyección administrativa del Estado de Derecho.
+
+// [26]
+Q: ¿Cuándo considera el texto constitucionalmente admisible la posición prevalente o supremacía jurídica de la Administración?
+A) Cuando esté justificada por el interés general, sea necesaria y proporcionada y pueda conciliarse con el principio de igualdad.
+B) Cuando derive automáticamente de la personalidad jurídica pública de la Administración.
+C) Cuando permita excluir en todo caso el control judicial de la actuación administrativa.
+OK: A
+EXP: La Constitución obliga a revisar los privilegios administrativos y solo tolera una posición prevalente bajo exigencias estrictas de justificación y proporcionalidad.
+
+#ID = 2.1.2.5
+
+// [27]
+Q: ¿Cómo se expresa el principio de Estado social en relación con la actividad de los poderes públicos y de las Administraciones públicas?
+A) Como una cláusula meramente programática sin relevancia para la legislación ni para la actuación administrativa.
+B) Como un mandato de promover condiciones reales y efectivas de libertad e igualdad, remover obstáculos y facilitar la participación de los ciudadanos.
+C) Como una habilitación para subordinar exclusivamente los derechos sociales, pero no los económicos, al interés general.
+OK: B
+EXP: El texto subraya que el Estado social impone a los poderes públicos, y especialmente a las Administraciones, deberes positivos de promoción de igualdad y participación.
+
+#ID = 2.2
+
+// [28]
+Q: ¿Qué rasgo diferencia a la Unión Europea del esquema clásico de las organizaciones internacionales según el texto?
+A) Que se limita a coordinar la cooperación económica sin alterar la soberanía estatal.
+B) Que persigue un proceso de integración orientado a una unión cada vez más estrecha entre los pueblos de Europa.
+C) Que carece de proyección sobre ámbitos distintos del mercado interior.
+OK: B
+EXP: El texto señala que la Unión Europea no responde solo a una lógica de cooperación, sino a una lógica de integración, entendida como una unión cada vez más estrecha entre los pueblos de Europa.
+
+#ID = 2.2.1
+
+// [29]
+Q: ¿Qué implican el efecto directo y la primacía del Derecho de la Unión Europea en el ordenamiento interno?
+A) Que el Derecho de la Unión solo opera tras su incorporación por ley estatal y cede siempre ante normas internas posteriores.
+B) Que el Derecho de la Unión requiere validación previa del Tribunal Constitucional para producir efectos internos.
+C) Que el Derecho de la Unión puede aplicarse sin actos internos de incorporación y desplaza las normas internas incompatibles.
+OK: C
+EXP: El texto presenta ambos principios como rasgos esenciales de la penetración del Derecho de la Unión en los ordenamientos estatales.
+
+// [30]
+Q: ¿Qué efecto produce el Derecho de la Unión Europea sobre el control normativo interno según la doctrina Simmenthal?
+A) Que cualquier órgano judicial debe inaplicar la norma interna incompatible con el Derecho de la Unión, incluso si tiene rango legal.
+B) Que solo el Tribunal Constitucional puede desaplicar leyes contrarias al Derecho de la Unión.
+C) Que las leyes incompatibles conservan su aplicabilidad hasta su derogación expresa por el legislador.
+OK: A
+EXP: El texto explica que el control de compatibilidad con el Derecho de la Unión corresponde a todos los jueces nacionales.
+
+#ID = 2.2.2.1
+
+// [31]
+Q: ¿Qué caracteriza a los procesos de instrumentalización en la europeización del Derecho administrativo?
+A) Que sustituyen de forma general los instrumentos internos por procedimientos ejecutivos exclusivamente europeos.
+B) Que utilizan normas, actos, procedimientos y recursos internos al servicio de la ejecución efectiva del Derecho de la Unión.
+C) Que impiden toda aplicación de la autonomía procedimental de los Estados miembros.
+OK: B
+EXP: La ejecución del Derecho de la Unión se realiza normalmente mediante instrumentos internos, puestos funcionalmente al servicio de su efectividad.
+
+// [32]
+Q: ¿Qué límites impone el Derecho de la Unión a la autonomía institucional, procedimental y procesal de los Estados miembros?
+A) Que solo pueden emplearse procedimientos internos si han sido autorizados previamente por la Comisión Europea.
+B) Que los procedimientos internos deben ser idénticos en todos los Estados miembros.
+C) Que las reglas internas no pueden hacer imposible o excesivamente difícil la ejecución del Derecho de la Unión y deben respetar también la equivalencia.
+OK: C
+EXP: El texto destaca los principios de equivalencia y efectividad como condicionantes de la autonomía estatal en la ejecución.
+
+#ID = 2.2.2.2
+
+// [33]
+Q: ¿Qué significa que el Derecho de la Unión provoque procesos de reorientación en el Derecho administrativo?
+A) Que induce cambios sustantivos en sectores del Derecho administrativo especial que terminan proyectándose sobre la parte general.
+B) Que se limita a reforzar sin cambios materiales las categorías tradicionales del Derecho administrativo interno.
+C) Que transforma únicamente la organización judicial, pero no la regulación administrativa sectorial.
+OK: A
+EXP: La reorientación alude a alteraciones de fondo en sectores concretos que acaban influyendo en las categorías generales.
+
+// [34]
+Q: ¿Qué cambio de enfoque introduce el Derecho de la Unión Europea en la contratación pública según el texto?
+A) Sustituye toda normativa nacional por un modelo europeo único de Derecho público de la contratación.
+B) Prioriza la transparencia, la objetividad y la no discriminación en la preparación y adjudicación para asegurar mercado interior y competencia.
+C) Elimina cualquier posible prerrogativa administrativa también en la fase de ejecución contractual.
+OK: B
+EXP: El texto explica que la lógica europea desplaza el centro de gravedad hacia la competencia y la transparencia, sobre todo en la fase previa a la adjudicación.
+    
+   `;
+
+
+    const BANCO_3 = `
+    
+    #ID = 3.1
+
+// [35]
+Q: ¿Qué explica, según el texto, la distinta posición del Derecho administrativo en los modelos inglés, alemán y francés?
+A) La diferente extensión de la potestad reglamentaria en cada sistema constitucional.
+B) La distinta configuración de la responsabilidad patrimonial del poder público en Europa.
+C) El modo en que cada ordenamiento somete el poder al Derecho y articula la relación entre Derecho común y Derecho específico de la Administración.
+OK: C
+EXP: El texto vincula la dualidad entre Derecho público y privado al modo en que cada sistema histórico somete el poder al Derecho.
+
+// [36]
+Q: ¿Qué rasgo caracteriza al modelo francés en la formación del Derecho administrativo?
+A) La creación de un Derecho administrativo autónomo, reforzado por una jurisdicción contencioso-administrativa propia y por la exclusión de los jueces ordinarios del control de la Administración.
+B) La consideración del Derecho privado como supletorio general del Derecho administrativo en toda actuación pública.
+C) La subordinación completa de la Administración al Derecho común sin reglas específicas de control.
+OK: A
+EXP: En el modelo francés, la separación de poderes favorece un Derecho propio de la Administración y una jurisdicción especializada.
+
+// [37]
+Q: ¿Qué diferencia principal señala el texto entre la concepción franco-española y la alemana sobre la relación entre Derecho privado y Administración?
+A) Que en la concepción franco-española el Derecho privado desplaza ordinariamente al Derecho administrativo en la actividad pública patrimonial.
+B) Que en la concepción alemana el Derecho privado se entiende como complementario y supletorio del Derecho público, mientras que en la tradición franco-española se percibe como ajeno y requiere remisión expresa.
+C) Que en ambas concepciones el Derecho privado opera siempre como Derecho común de la Administración sin especialidades.
+OK: B
+EXP: El texto contrapone la idea franco-española de ajenidad del Derecho privado con la visión alemana de complementariedad supletoria.
+
+// [38]
+Q: ¿Qué efecto produce la elección entre Derecho público y Derecho privado en la actuación de la Administración, según el texto?
+A) Determina automáticamente un régimen distinto de responsabilidad patrimonial.
+B) Carece de toda incidencia práctica, porque ambos regímenes producen idénticos efectos jurídicos.
+C) Tiene consecuencias procesales e instrumentales, aunque no altera el carácter unitario de la responsabilidad patrimonial.
+OK: C
+EXP: El texto distingue entre efectos sobre jurisdicción competente y medios de ejecución, pero mantiene la unidad del régimen de responsabilidad patrimonial.
+
+#ID = 3.2
+
+// [39]
+Q: ¿En qué tipo de actividades materialmente administrativas se plantea principalmente la libertad de elección entre Derecho público y Derecho privado?
+A) En las actividades de servicio público y de fomento, cuando la regulación jurídico-pública no agota por completo su disciplina.
+B) En las actividades de recaudación de tributos y limitación de derechos, por su flexibilidad funcional.
+C) En las actuaciones de orden público y seguridad ciudadana, por su conexión con la iniciativa económica pública.
+OK: A
+EXP: El texto sitúa la cuestión de la elección sobre todo en los ámbitos de servicio público y fomento, no en las actividades necesariamente públicas.
+
+// [40]
+Q: ¿Quién determina en último término la medida en que la Administración puede optar entre Derecho público y Derecho privado?
+A) La propia Administración mediante decisiones de autoorganización no sujetas a marco previo.
+B) El legislador, al configurar sectores, entidades instrumentales y formas de personificación.
+C) La jurisdicción contencioso-administrativa mediante una potestad general de sustitución normativa.
+OK: B
+EXP: El texto afirma expresamente que es el legislador quien reconoce, limita o condiciona esa capacidad de elección.
+
+// [41]
+Q: ¿Cómo describe el texto la libertad de elección administrativa respecto del régimen jurídico de las personificaciones instrumentales?
+A) Como una potestad discrecional plena para combinar libremente elementos públicos y privados en cualquier entidad.
+B) Como una facultad residual solo admisible en el ámbito local y previa autorización judicial.
+C) Como una libertad doblemente limitada, que opera dentro de modelos cerrados definidos por la ley y sin excluir completamente el Derecho administrativo.
+OK: C
+EXP: La Administración no puede diseñar libremente el régimen aplicable, sino moverse dentro de opciones legales predeterminadas.
+
+// [42]
+Q: ¿Qué regla general establece el texto sobre el régimen jurídico de las entidades vinculadas o dependientes del sector público institucional?
+A) Las entidades de Derecho público se rigen principalmente por Derecho administrativo, y las de Derecho privado por Derecho privado, con excepciones cuando ejercen potestades administrativas o la norma disponga otra cosa.
+B) Todas las entidades del sector público institucional se rigen íntegramente por el mismo régimen administrativo sin matices.
+C) Las entidades de Derecho privado quedan excluidas de toda incidencia del Derecho administrativo por no ser Administraciones públicas.
+OK: A
+EXP: El texto combina una regla general de adscripción por forma jurídica con modulaciones materiales y normativas.
+
+#ID = 3.3
+
+// [43]
+Q: ¿Qué entiende el texto por “huida del Derecho administrativo”?
+A) La sustitución total del Derecho administrativo por el Derecho de la Unión Europea en la actividad pública.
+B) El recurso a fórmulas privadas por las Administraciones para desarrollar actividades administrativas con mayor flexibilidad, especialmente cuando sirve para eludir controles o garantías.
+C) La ampliación del control contencioso-administrativo sobre actividades privadas de los particulares.
+OK: B
+EXP: El concepto se refiere al uso de fórmulas privadas para escapar de controles administrativos y de garantías ciudadanas.
+
+// [44]
+Q: ¿Qué opción siguió el legislador frente a la “huida del Derecho administrativo”?
+A) Establecer una reserva o garantía institucional rígida del Derecho administrativo frente a toda opción privada.
+B) Eliminar toda personificación instrumental privada del sector público.
+C) Reforzar la sujeción al Derecho administrativo mediante normas generales, contractuales y de transparencia.
+OK: C
+EXP: El texto indica que se descartó la reserva institucional y se optó por intensificar la sujeción administrativa.
+
+// [45]
+Q: ¿Qué límite material impide que la Administración utilice el Derecho privado para ejercer potestades públicas?
+A) El sometimiento pleno de las potestades administrativas al Derecho administrativo, de modo que no cabe su ejercicio conforme al Derecho privado.
+B) La prohibición constitucional de crear entidades instrumentales de Derecho privado.
+C) La obligación de que toda actividad administrativa sea gestionada exclusivamente por órganos constitucionales.
+OK: A
+EXP: El texto establece como límite central que las potestades administrativas no pueden ejercerse bajo régimen privado.
+   `;
+
+
+    const BANCO_4 = ` 
+pega texto aqui
+    `;
+
+
+    const BANCO_5 = ` 
+pega texto aqui
+    `;
+    
+    
+
+    const BANCO_TEXTO = [BANCO_1, BANCO_2, BANCO_3, BANCO_4, BANCO_5]
+      .map(s => String(s || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+    
+    function quitarTituloRepetidoSeguro(texto, titulo){
+  const t0 = String(texto || "");
+  const h0 = String(titulo || "");
+  if(!t0.trim() || !h0.trim()) return t0.trim();
+
+  // Normaliza: minúsculas + espacios raros (NBSP) + BOM
+  const clean = s => String(s)
+    .replace(/^\uFEFF/, "")          // BOM
+    .replace(/\u00A0/g, " ")         // NBSP -> espacio normal
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  const t = clean(t0);
+  const h = clean(h0);
+
+  if(!t.startsWith(h)) return t0.trim();
+
+  // Corta del texto ORIGINAL, pero usando la longitud del título ORIGINAL
+  // (buscamos el match real al principio ignorando mayúsculas y espacios raros)
+  const re = new RegExp(
+    "^\\s*" + h0.trim()
+      .replace(/[.*+?^${}()|[\]\\]/g, "\\$&")   // escape regex
+      .replace(/\s+/g, "[\\s\\u00A0]+")         // admite NBSP
+    + "[\\s\\u00A0]+",
+    "i"
+  );
+
+  return t0.replace(re, "").trim();
+}
+
+
+
+
+function formatearParrafos(t){
+  const BUL = "[-\\u2010\\u2011\\u2012\\u2013\\u2014\\u2212\\u2022]"; // -, ‐, -, ‒, –, —, −, •
+  const WS  = "[\\s\\u00A0\\u2000-\\u200A\\u202F\\u205F\\u3000]+";   // espacios raros PDF incluidos
+
+  // 1) Normaliza espacios “raros” y saltos
+  let raw = String(t ?? "")
+    .replace(/\r/g,"")
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000]/g, " "); // NBSP/EMSP/etc -> espacio normal
+
+  // 2) ✅ Inserta saltos antes de enumeraciones internas "1) 2) 3)"
+  // Caso típico: "puede ser: 1) ... 2) ... 3) ..."
+  raw = raw
+    // después de : ; . ! ? -> salto + "n)"
+    .replace(/([:;.!?])\s*(\d+\)\s+)/g, "$1\n$2")
+    // si vienen encadenadas sin puntuación clara pero con mucho espacio: " ...  2) ..."
+    .replace(/(\s{2,})(\d+\)\s+)/g, "\n$2");
+
+  const lines = raw
+    .split("\n")
+    .map(l => l.replace(/\s+$/,"")); // trimEnd
+
+  const connectors = /^(Además|En consecuencia|No obstante|Sin embargo|Asimismo|Por tanto|Por ello|Finalmente|En cambio|De hecho|Ahora bien|Por otro lado|En efecto|Así,?|En primer lugar|En segundo lugar)\b/i;
+
+  const isNumParenItem = (s) => /^\d+\)\s+/.test(s.trimStart());
+  const isLetterItem   = (s) => /^[a-z]\)\s+/i.test(s.trimStart());
+  const isBullet       = (s) => new RegExp("^" + BUL + WS).test(s.trimStart());
+
+  const isListOrHeading = (s) =>
+    new RegExp("^(\\d+(?:\\.\\d+)*\\.|\\d+\\)|" + BUL + "|[a-z]\\))" + WS).test(s.trimStart());
+
+  const splitBulletAtFirstSentence = (s) => {
+    if(!isBullet(s)) return null;
+    const m = s.match(new RegExp("([.!?])" + WS));
+    if(!m) return null;
+    const idx = s.search(new RegExp("([.!?])" + WS));
+    const cut = idx + 1;
+    const left  = s.slice(0, cut).trim();
+    const right = s.slice(cut).replace(new RegExp("^" + WS), "").trim();
+    if(!right) return null;
+    return { left, right };
+  };
+
+  const paras = [];
+  let current = "";
+
+  const flush = () => {
+    if(current.trim()) paras.push(current.trim());
+    current = "";
+  };
+
+  for (let i=0; i<lines.length; i++){
+    const line = lines[i].trimStart();
+
+    if(!line.trim()){
+      flush();
+      continue;
+    }
+
+    if(isListOrHeading(line)){
+      flush();
+
+      // a) b) c)
+      if(isLetterItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // 1) 2) 3) -> línea propia
+      if(isNumParenItem(line)){
+        paras.push(line.trim());
+        current = "";
+        continue;
+      }
+
+      // viñeta
+      if(isBullet(line)){
+        const sp = splitBulletAtFirstSentence(line);
+        if(sp){
+          paras.push(sp.left);
+          current = sp.right;
+        }else{
+          paras.push(line.trim());
+          current = "";
+        }
+        continue;
+      }
+
+      current = line.trim();
+      continue;
+    }
+
+    if(current && /[.!?]$/.test(current) && connectors.test(line.trim())){
+      flush();
+      current = line.trim();
+      continue;
+    }
+
+    current += (current ? " " : "") + line.trim();
+  }
+
+  flush();
+
+  // Render: si es "1) ..." lo pintamos como bloque tipo lista (sangría real)
+  return paras.map(p => {
+    const s = String(p);
+    const m = s.match(/^(\d+)\)\s+([\s\S]+)$/);
+    if(m){
+      return `<p class="li"><span class="liNum">${escapeHtml(m[1])})</span>${escapeHtml(m[2])}</p>`;
+    }
+    return `<p>${escapeHtml(s)}</p>`;
+  }).join("");
+}
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+
+    // Jerarquía epígrafes
+    function esDescendiente(idHijo, idPadre){
+      return String(idHijo).startsWith(String(idPadre) + ".");
+    }
+    function parentId(id){
+      const parts = String(id || "").split(".");
+      if(parts.length <= 1) return null;
+      parts.pop();
+      return parts.join(".");
+    }
+
+    /* =========================
+       PDF -> epígrafes
+    ========================= */
+    function extraerEncabezados(){
+      // Soporta: "1. TÍTULO" y "1.1. TÍTULO"
+      const re = /^\s*(\d+(?:\.\d+)*)\.\s+(.+?)\s*$/;
+      const lines = String(PDF_TEXTO).replace(/\r/g,"").split("\n");
+      const out = [];
+      for(const l of lines){
+        const m = l.match(re);
+        if(!m) continue;
+        out.push({ id:m[1], titulo:`${m[1]}. ${m[2].trim()}` });
+      }
+      return out;
+    }
+
+    function textoPorId(id){
+      if(!id) return "";
+      const safe = id.replace(/\./g,"\\.");
+      const reStart = new RegExp(`(^|\\n)${safe}\\.\\s+`, "m");
+      const full = String(PDF_TEXTO);
+      const m = full.match(reStart);
+      if(!m) return "";
+      const startIdx = full.indexOf(m[0]) + m[0].length;
+      const rest = full.slice(startIdx);
+      const nextIdx = rest.search(/\n\s*\d+(?:\.\d+)*\.\s+/);
+      const chunk = (nextIdx === -1 ? rest : rest.slice(0, nextIdx)).trim();
+      return chunk;
+    }
+    
+    
+       
+    function normalizeKey(s){
+  return String(s || "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")  // quita tildes
+    .replace(/\s+/g," ")
+    .replace(/[^\p{L}\p{N} ]/gu,"")                   // quita signos raros
+    .trim();
+}
+
+    /* =========================
+       PARSER banco
+    ========================= */
+    function parseBanco(texto){
+      const t = String(texto || "").replace(/\r/g, "");
+      const bloques = t.split(/\n(?=#ID\s*=\s*)/g).map(x=>x.trim()).filter(Boolean);
+      const QUIZ = {};
+      for(const bloque of bloques){
+        const mId = bloque.match(/^#ID\s*=\s*([0-9]+(?:\.[0-9]+)*)\s*$/m);
+        if(!mId) continue;
+        const id = mId[1];
+
+        const sinHeader = bloque.replace(/^#ID\s*=\s*[0-9]+(?:\.[0-9]+)*\s*$/m, "").trim();
+        const partesQ = sinHeader.split(/\n(?=Q:\s*)/g).map(x=>x.trim()).filter(Boolean);
+
+        const preguntas = [];
+        for(const pq of partesQ){
+          // ✅ acepta: // [1]  o  // N: 1
+          const nMatch = pq.match(/^\/\/\s*(?:N:|\[)\s*([0-9]{1,3})\s*\]?\s*$/m);
+          const qMatch = pq.match(/^Q:\s*(.+)$/m);
+          if(!qMatch) continue;
+
+          const aMatch = pq.match(/^A\)\s*(.+)$/m);
+          const bMatch = pq.match(/^B\)\s*(.+)$/m);
+          const cMatch = pq.match(/^C\)\s*(.+)$/m);
+          const okMatch = pq.match(/^OK:\s*([ABC])\s*$/m);
+          const expMatch = pq.match(/^EXP:\s*([\s\S]+)$/m);
+
+          if(!aMatch || !bMatch || !cMatch || !okMatch) continue;
+
+          const preguntaTxt = qMatch[1].trim();
+          const uid = `${id}::${normalizeKey(preguntaTxt)}`;
+
+          preguntas.push({
+            __id: id,
+            __uid: uid,
+            __n: nMatch ? Number(nMatch[1]) : null,
+            pregunta: preguntaTxt,
+            a: aMatch[1].trim(),
+            b: bMatch[1].trim(),
+            c: cMatch[1].trim(),
+            correcta: okMatch[1].toLowerCase(),
+            explicacion: expMatch ? expMatch[1].trim() : ""
+          });
+        }
+
+        if(!QUIZ[id]) QUIZ[id] = [];
+        QUIZ[id].push(...preguntas);
+      }
+      return QUIZ;
+    }
+
+    const QUIZ = parseBanco(BANCO_TEXTO);
+
+    function buildTemaPool(QUIZ){
+      const pool = [];
+      for(const id of Object.keys(QUIZ || {})){
+        const list = QUIZ[id];
+        if(Array.isArray(list)) pool.push(...list);
+      }
+      return pool;
+    }
+    let TEMA_POOL = buildTemaPool(QUIZ);
+
+    /* =========================
+       STORAGE
+    ========================= */
+    const STORAGE_KEY = "DA_TEMA2_STATS_V1";
+    function loadStore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+        const parsed = JSON.parse(raw);
+        return {
+          wrongUids: parsed.wrongUids || {},
+          stats: parsed.stats || { ok:0, bad:0, blank:0 }
+        };
+      }catch{
+        return { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      }
+    }
+    function saveStore(){
+      try{
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(STORE));
+      }catch{}
+    }
+    let STORE = loadStore();
+
+    function markWrong(uid){ STORE.wrongUids[uid] = true; saveStore(); }
+    function clearWrong(uid){ delete STORE.wrongUids[uid]; saveStore(); }
+    function isWrong(uid){ return !!STORE.wrongUids[uid]; }
+
+    /* =========================
+       DOM refs
+    ========================= */
+    const modalOverlay = document.getElementById("modalOverlay");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnNextQuestion = document.getElementById("btnNextQuestion");
+    const btnBlank = document.getElementById("btnBlank");
+
+    const modalPill = document.getElementById("modalPill");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalQuestion = document.getElementById("modalQuestion");
+    const modalOptions = document.getElementById("modalOptions");
+    const modalFeedback = document.getElementById("modalFeedback");
+    const modalFeedbackTitle = document.getElementById("modalFeedbackTitle");
+    const modalExplanation = document.getElementById("modalExplanation");
+    const modalCounter = document.getElementById("modalCounter");
+    const scoreLine = document.getElementById("scoreLine");
+    const modalTimer = document.getElementById("modalTimer");
+
+    const btnTemaRandom = document.getElementById("btnTemaRandom");
+    const selTemaN = document.getElementById("selTemaN");
+    const btnSoloFalladas = document.getElementById("btnSoloFalladas");
+    const btnResetStats = document.getElementById("btnResetStats");
+    const badgeTemaTotal = document.getElementById("badgeTemaTotal");
+
+    /* =========================
+       ESTADO QUIZ
+    ========================= */
+    let currentMode = "epigrafe";
+    let currentId = null;
+    let deck = [];
+    let idx = 0;
+    let currentQ = null;
+    let answered = false;
+
+    let ses_ok = 0, ses_bad = 0, ses_blank = 0;
+
+    function computeUNEDGrade(){
+      const total = ses_ok + ses_bad + ses_blank;
+      const puntos =
+        (ses_ok * SCORE_OK) -
+        (ses_bad * SCORE_BAD) +
+        (ses_blank * SCORE_BLANK);
+      return { puntos, total };
+    }
+    function renderScoreLine(){
+      const { puntos, total } = computeUNEDGrade();
+      scoreLine.textContent =
+        `Aciertos ${ses_ok} · Fallos ${ses_bad} · Blancos ${ses_blank} · Puntos ${puntos.toFixed(2)} (de ${total})`;
+    }
+
+    /* =========================
+       TIMER
+    ========================= */
+    let timerStart = 0;
+    let timerHandle = null;
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i],a[j]] = [a[j],a[i]];
+      }
+      return a;
+    }
+    function fmtTime(ms){
+      const s = Math.floor(ms/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,"0");
+      const ss = String(s%60).padStart(2,"0");
+      return `${mm}:${ss}`;
+    }
+    function stopTimer(){
+      if(timerHandle){
+        clearInterval(timerHandle);
+        timerHandle = null;
+      }
+    }
+    function startTimer(){
+      stopTimer();
+      timerStart = Date.now();
+      timerHandle = setInterval(()=>{
+        modalTimer.textContent = fmtTime(Date.now() - timerStart);
+      }, 250);
+    }
+    function openModal(){
+      modalOverlay.classList.add("show");
+      modalOverlay.setAttribute("aria-hidden","false");
+      startTimer();
+    }
+    function closeModal(){
+      modalOverlay.classList.remove("show");
+      modalOverlay.setAttribute("aria-hidden","true");
+      stopTimer();
+
+      currentMode = "epigrafe";
+      currentId = null;
+      deck = [];
+      idx = 0;
+      currentQ = null;
+      answered = false;
+
+      modalOptions.innerHTML = "";
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+      modalQuestion.textContent = "—";
+      modalCounter.textContent = "0/0";
+      modalTimer.textContent = "00:00";
+    }
+
+    function setFeedback(kind, title, explanation){
+      modalFeedback.classList.remove("ok","bad");
+      modalFeedback.classList.add(kind);
+      modalFeedbackTitle.textContent = title;
+      modalExplanation.textContent = explanation ? explanation : "";
+      modalFeedback.classList.add("show");
+    }
+
+    /* =========================
+       DECK BUILDERS
+    ========================= */
+    function buildDeckForEpigrafe(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      return shuffle(list);
+    }
+    function buildDeckForTema(n){
+      const pool = TEMA_POOL.slice();
+      const barajado = shuffle(pool);
+      const wanted = Math.max(1, Math.min(Number(n || 20), barajado.length));
+      return barajado.slice(0, wanted);
+    }
+    function buildDeckForFalladas(){
+      const pool = TEMA_POOL.filter(q => isWrong(q.__uid));
+      return shuffle(pool);
+    }
+
+    function getNextFromDeck(){
+      if(!deck.length) return null;
+      if(idx >= deck.length){
+        if(currentMode === "tema") return null;
+        deck = shuffle(deck);
+        idx = 0;
+      }
+      const q = deck[idx];
+      idx += 1;
+      return q;
+    }
+
+    /* =========================
+       RENDER PREGUNTA
+    ========================= */
+    function renderQuestion(){
+      const q = getNextFromDeck();
+      if(!q){
+        alert("Fin del test.");
+        closeModal();
+        return;
+      }
+
+      currentQ = q;
+      answered = false;
+      modalFeedback.className = "feedback";
+      modalFeedback.classList.remove("show");
+
+      modalPill.textContent = q.__id || currentId || "—";
+      modalTitle.textContent =
+        currentMode === "tema" ? "Modo tema (aleatorio)" :
+        currentMode === "falladas" ? "Solo falladas" :
+        "Por epígrafe";
+
+      modalQuestion.textContent = q.pregunta;
+      modalCounter.textContent = `${Math.min(idx, deck.length)}/${deck.length}`;
+
+      let opts = [
+        { label:"A", text:q.a, isCorrect: q.correcta === "a" },
+        { label:"B", text:q.b, isCorrect: q.correcta === "b" },
+        { label:"C", text:q.c, isCorrect: q.correcta === "c" },
+      ];
+      opts = shuffle(opts);
+
+      modalOptions.innerHTML = opts.map(o=>`
+        <button class="optBtn" type="button" data-correct="${o.isCorrect ? "1" : "0"}">
+          <span class="k">${o.label}</span>${escapeHtml(o.text)}
+        </button>
+      `).join("");
+
+      [...modalOptions.querySelectorAll(".optBtn")].forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          if(answered) return;
+          answered = true;
+
+          const chosenCorrect = btn.getAttribute("data-correct") === "1";
+
+          if(chosenCorrect){
+            ses_ok += 1;
+            clearWrong(q.__uid);
+            setFeedback("ok", "Correcto ✅", q.explicacion);
+          }else{
+            ses_bad += 1;
+            markWrong(q.__uid);
+            const correctLabel = (q.correcta || "").toUpperCase();
+            setFeedback("bad", `Incorrecto ❌ (Correcta: ${correctLabel})`, q.explicacion);
+          }
+
+          renderScoreLine();
+          refreshTemaStats();
+        });
+      });
+    }
+
+    /* =========================
+       START MODOS
+    ========================= */
+    function startQuizForId(id){
+      const list = Array.isArray(QUIZ[id]) ? QUIZ[id] : [];
+      if(!list.length){
+        alert(`No hay preguntas cargadas para el epígrafe ${id}.`);
+        return;
+      }
+      currentMode = "epigrafe";
+      currentId = id;
+      deck = buildDeckForEpigrafe(id);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizTema(){
+      if(!TEMA_POOL.length){
+        alert("No hay preguntas cargadas en el tema todavía.");
+        return;
+      }
+      const n = selTemaN ? Number(selTemaN.value) : 20;
+      currentMode = "tema";
+      currentId = "TEMA";
+      deck = buildDeckForTema(n);
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function startQuizFalladas(){
+      const d = buildDeckForFalladas();
+      if(!d.length){
+        alert("No tienes falladas guardadas aún.");
+        return;
+      }
+      currentMode = "falladas";
+      currentId = "FALLADAS";
+      deck = d;
+      idx = 0;
+      ses_ok = 0; ses_bad = 0; ses_blank = 0;
+      renderScoreLine();
+      openModal();
+      renderQuestion();
+    }
+
+    function blankQuestion(){
+      if(answered) return;
+      answered = true;
+      ses_blank += 1;
+      setFeedback("bad", "En blanco ⚪", currentQ ? currentQ.explicacion : "");
+      renderScoreLine();
+      refreshTemaStats();
+    }
+
+    function refreshTemaStats(){
+      const total = TEMA_POOL.length;
+      const wrongCount = Object.keys(STORE.wrongUids || {}).length;
+      if(badgeTemaTotal){
+        badgeTemaTotal.textContent = `${total} cargadas · ${wrongCount} falladas guardadas`;
+      }
+      if(diag){
+        diag.innerHTML = `Diagnóstico: <b>OK</b> · Epígrafes detectados: <b>${extraerEncabezados().length}</b> · Preguntas cargadas: <b>${TEMA_POOL.length}</b>`;
+      }
+    }
+
+    /* =========================
+       ✅ RENDER ACORDEÓN EN CASCADA (ÁRBOL)
+    ========================= */
+    const cont = document.getElementById("contenido");
+    cont.innerHTML = "";
+
+    const heads = extraerEncabezados();
+
+    // Construye nodos
+    const nodesById = new Map();
+    heads.forEach(h=>{
+      nodesById.set(h.id, { ...h, children: [] });
+    });
+
+    // Enlaza padre-hijo
+    const roots = [];
+    heads.forEach(h=>{
+      const node = nodesById.get(h.id);
+      const pid = parentId(h.id);
+      if(pid && nodesById.has(pid)){
+        nodesById.get(pid).children.push(node);
+      }else{
+        roots.push(node);
+      }
+    });
+
+    // Ordena hijos numéricamente (1.10 después de 1.2, etc.)
+    function cmpIds(a,b){
+      const pa = a.id.split(".").map(Number);
+      const pb = b.id.split(".").map(Number);
+      const len = Math.max(pa.length, pb.length);
+      for(let i=0;i<len;i++){
+        const xa = pa[i] ?? -1;
+        const xb = pb[i] ?? -1;
+        if(xa !== xb) return xa - xb;
+      }
+      return 0;
+    }
+    function sortTree(list){
+      list.sort(cmpIds);
+      list.forEach(n=>sortTree(n.children));
+    }
+    sortTree(roots);
+
+    // Render recursivo
+function renderNode(node){
+  let txt = textoPorId(node.id);
+  const idea = (IDEAS_CLAVE[node.id] ?? "").toString().trim();
+  const quizCount = Array.isArray(QUIZ[node.id]) ? QUIZ[node.id].length : 0;
+
+  const titleNoId = node.titulo.replace(
+    new RegExp("^" + node.id.replace(/\./g,"\\.") + "\\.\\s*"),
+    ""
+  );
+
+  // ✅ QUITA el título repetido al inicio del texto
+  txt = quitarTituloRepetidoSeguro(txt, titleNoId);
+
+  const d = document.createElement("details");
+  d.open = false;
+  d.dataset.id = node.id;
+
+      d.innerHTML = `
+        <summary>
+          <div class="sumLeft">
+            <span class="pill">${escapeHtml(node.id)}</span>
+            <span class="sumTitle">${escapeHtml(titleNoId)}</span>
+          </div>
+          <div class="sumRight" style="display:flex; gap:10px; align-items:center;">
+            ${quizCount ? `<span class="badge"></span>` : `<span class="badge"></span>`}
+          </div>
+        </summary>
+
+        <div class="inner">
+          ${txt ? `<div class="prio"><div class="tag">Texto prioritario</div>${formatearParrafos(txt)}</div>` : ""}
+          ${idea ? `<div class="idea"><div class="tag">Idea clave</div>${escapeHtml(idea)}</div>` : ""}
+
+          <div class="rowActions">
+            ${quizCount ? `<button class="btn btnPrimary" type="button" data-quiz="${escapeHtml(node.id)}">Pregúntame</button>` : ""}
+            <span class="badge">Epígrafe ${escapeHtml(node.id)}</span>
+          </div>
+
+          ${quizCount ? `
+            <div class="quizBox">
+              <div class="tag">Banco (cargado)</div>
+              <div style="opacity:.85; font-size:13px">
+                Tienes ${quizCount} preguntas en este epígrafe.
+              </div>
+            </div>
+          ` : ""}
+
+          <div class="children" style="margin-top:10px; padding-left:14px; border-left:2px solid rgba(17,24,39,.08)"></div>
+        </div>
+      `;
+
+      // ✅ Cierre inteligente: deja abierto ancestros + descendientes; cierra lo demás
+      d.addEventListener("toggle", () => {
+        if(!d.open) return;
+
+        const idActual = d.dataset.id;
+
+        cont.querySelectorAll("details").forEach(other=>{
+          if(other === d) return;
+          const otherId = other.dataset.id;
+          if(!otherId) return;
+
+          const esDescDeActual = esDescendiente(otherId, idActual);
+          const esAncestroDeActual = esDescendiente(idActual, otherId);
+
+          if(!esDescDeActual && !esAncestroDeActual){
+            other.open = false;
+          }
+        });
+      });
+
+      // Render hijos dentro del padre (cascada real)
+      const childrenBox = d.querySelector(".children");
+      node.children.forEach(ch=>{
+        childrenBox.appendChild(renderNode(ch));
+      });
+
+      return d;
+    }
+
+    if(!heads.length){
+      cont.innerHTML = `
+        <div class="prio">
+          <div class="tag">No se detectaron epígrafes</div>
+          <div style="opacity:.85">
+            El detector busca líneas tipo <b>“1. TÍTULO”</b> o <b>“1.1. TÍTULO”</b> (con punto y espacio).<br><br>
+            Primeros 300 caracteres del texto:<br><br>
+            <code style="white-space:pre-wrap">${escapeHtml(PDF_TEXTO.slice(0,300))}</code>
+          </div>
+        </div>
+      `;
+    }else{
+      roots.forEach(r=>cont.appendChild(renderNode(r)));
+    }
+
+    // Click de botones “Pregúntame”
+    cont.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-quiz]");
+      if(!btn) return;
+      const id = btn.getAttribute("data-quiz");
+      if(!id) return;
+      startQuizForId(id);
+    });
+
+    /* =========================
+       EVENTOS UI
+    ========================= */
+    btnCloseModal.addEventListener("click", closeModal);
+    modalOverlay.addEventListener("click", (e)=>{
+      if(e.target === modalOverlay) closeModal();
+    });
+    btnNextQuestion.addEventListener("click", renderQuestion);
+    btnBlank.addEventListener("click", blankQuestion);
+
+    document.addEventListener("keydown", (e)=>{
+      if(!modalOverlay.classList.contains("show")) return;
+      if(e.key === "Escape") closeModal();
+      if(e.key === "Enter") renderQuestion();
+    });
+
+    btnTemaRandom.addEventListener("click", startQuizTema);
+    btnSoloFalladas.addEventListener("click", startQuizFalladas);
+
+    btnResetStats.addEventListener("click", ()=>{
+      if(!confirm("¿Seguro que quieres borrar falladas y stats guardadas?")) return;
+      STORE = { wrongUids: {}, stats: { ok:0, bad:0, blank:0 } };
+      saveStore();
+      refreshTemaStats();
+      alert("Listo: reiniciado.");
+    });
+
+    // ✅ Arranque
+    refreshTemaStats();
+    renderScoreLine();
+
+  } catch (err) {
+    showErr("Error fatal: " + (err && err.message ? err.message : String(err)));
+    if(diag){
+      diag.innerHTML = `Diagnóstico: <b>ERROR</b>`;
+    }
+  }
+});
+</script>
+</body>
+</html>
